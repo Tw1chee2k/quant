@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Личный кабинет{% endblock %}
+{% block content %}
+  
+<div class = "account_cont">
+    <div class = "privetstvie_cont">
+        <a>Добро пожаловать, {{user.email}}</a>
+    </div>
+    <div class = "buttons_acount_cont">
+        <div class = "first_column_cont">
+            <button class = "account_buttons" onclick="window.location.href=''" type="" class = "">
+                <img src="{{ url_for('static', filename='img/icon_reports.png')}}"  alt="">
+                <span>Отчеты</span>
+            </button>
+            <button class = "buttons_account_add_report" onclick="window.location.href='/report_area'" type="" class = "">
+                <span style = "font-size: 20px;">+</span>
+                <span>Добавить отчет</span>
+            </button>
+            
+            <button class = "account_buttons" onclick="window.location.href='/profile/common'" type="" class = "">
+                <img src="{{ url_for('static', filename='img/icon_profile.png')}}"  alt="">
+                <span>Мой профиль</span>
+            </button>
+            <button class = "account_buttons" onclick="window.location.href=''" type="" class = "">               
+                <img src="{{ url_for('static', filename='img/icon_notification.png')}}"  alt="">
+                <span>Уведомления</span>
+            </button>
+        </div>
+        <div class = "second_column_cont">
+            <button class = "account_buttons" onclick="window.location.href=''" type="" class = "">
+                <img src="{{ url_for('static', filename='img/icon_message.png')}}"  alt="">
+                <span>Сообщения</span>
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,405 @@
+{% extends "base.html" %}
+{% block title %}Fuel {{curent_report}} {{current_version_report}}{% endblock %}
+
+{% block content %}
+<div class = "cont_ReportArea">
+    <div class = "menu_ReportArea">
+        <div class="tab_srpav">
+            <label for="tab4" class="tab_srpav-title">Разделы</label> 
+            <section class="tab-content_srpav">
+                <nav>
+                    <ul>
+                        <section>
+                            <div class = "functions_menu">
+                                <li id = "myAFP">
+                                    <img src="{{ url_for('static', filename='img/icon_new_file.png')}}" alt="">
+                                    <a>Добавить</a>
+                                </li>
+                                <li>
+                                    <img src="{{ url_for('static', filename='img/icon_delete_file.png')}}" alt="">
+                                    <a>Удалить</a>
+                                </li>
+                                <li>                     
+                                    <img src="{{ url_for('static', filename='img/.png')}}" alt="">
+                                    <a>Изменить</a>
+                                </li>
+                            </div>
+                            <div style = "font-weight: 600;">
+                                Действия
+                            </div>
+                        </section>
+    
+                        <section>
+                            <div class = "functions_menu">
+                                <li class = "active">         
+                                    <img src="{{ url_for('static', filename='img/Toplivo.png')}}" alt="">
+                                    <a>Топливо</a>   
+                                </li>
+                                <li >                      
+                                    <img src="{{ url_for('static', filename='img/Teplo.png')}}" alt="">
+                                    <a>Тепло</a>
+                                </li>
+
+                                <li>           
+                                    <img src="{{ url_for('static', filename='img/Electro.png')}}" alt="">
+                                    <a>Электро</a>   
+                                </li>  
+                            </div>
+                            <div style = "font-weight: 600;">
+                                Выбрать раздел
+                            </div> 
+                        </section>
+        
+                        <section>
+                            <div class = "functions_menu">                         
+                                <li>           
+                                    <img src="{{ url_for('static', filename='img/icon_excel.png')}}" alt="">
+                                    <a>Экспорт</a>   
+                                </li>  
+                            </div>
+                            <div style = "font-weight: 600;">
+                                Экспорт
+                            </div>   
+                        </section>
+        
+        
+                        <section>
+                            <div class = "functions_menu">
+                                <li>           
+                                    <img src="{{ url_for('static', filename='img/.png')}}" alt="">
+                                    <a>Вверх</a>   
+                                </li> 
+                                <li>           
+                                    <img src="{{ url_for('static', filename='img/.png')}}" alt="">
+                                    <a>Вниз</a>   
+                                </li> 
+                            </div>
+                            <div style = "font-weight: 600;">
+                                Сортировка 
+                            </div>   
+                        </section>
+
+                        <section>
+                            <div class = "functions_menu">
+                                <li>           
+                                    <img src="{{ url_for('static', filename='img/icon_control.png')}}" alt="">
+                                    <a>Контроль</a>   
+                                </li>  
+                            </div>
+                            <div style = "font-weight: 600;">
+                                Контроль 
+                            </div>   
+                        </section>
+                    </ul>
+                </nav>
+            </section>
+        </div> 
+    </div>
+    <div class = "ReportArea" style = "margin-top: 10px;">
+        <table class = "table_ReportArea">
+            <thead>
+                <tr>
+                    <th rowspan="2"></th>
+                    <th rowspan="2" style = "white-space: nowrap;">Наименование вида продукции(работ услуг)</th>
+                    <th rowspan="2" style = "white-space: nowrap;">Код строки</th>
+                    <th rowspan="2" style = "white-space: nowrap;">Код по ОКЭД</th>
+                    <th rowspan="2">Единица измерения</th>
+                    <th rowspan="2">Произведено продукции (работ, услуг) за отчетный период</th>
+                    <th colspan="2">Израсходовано на единицу продукции (работы, услуги) за отчетный период, кг у.т.</th>
+                    <th colspan="3">Израсходовано на всю произведенную продукцию (работу, услугу) за отчетный период, т у.т.</th>
+                    <th rowspan="2">Примечание</th>
+                    <th rowspan="3"></th>
+                </tr>
+                <tr>
+                    <th>по утвержденной норме (предельному уровню)</th>
+                    <th>фактически</th>
+                    <th>по утвержденной норме (предельному уровню)</th>
+                    <th>фактически</th>
+                    <th>Экономия(-), перерасход(+)</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>A</th>
+                    <th>Б</th>
+                    <th>В</th>
+                    <th>Г</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in section %}
+                <form action = "/change_fuel" method="POST">
+                    <tr data-id="{{ row.id }}">
+                        <td>
+                            <button type = "submit" class="submit_fuel_button">✓</button>
+                            <input type = "hidden" name = "id_fuel" value = "{{row.id}}">
+                            <input type = "hidden" name = "id_version_fuel" value = "{{row.id_version}}">
+                        </td>
+                        <td style = "text-align: left;">
+                            <input class = "name_prod_width" type = "text" value = "{{ row.product.NameProduct }}" readonly>
+                        </td>
+                        <td>{{ row.code_product }}</td>
+                        <td>
+                            {% if row.Oked %}
+                                <input name = "Oked_fuel" onkeypress="return isNumberKey(event)" value = "{{ row.Oked }}">
+                            {% else %}
+                                <input name = "Oked_fuel" onkeypress="return isNumberKey(event)" value = "">
+                            {% endif %}
+                        </td>
+                        <td>{{ row.product.unit.NameUnit }}</td> 
+                        <td>
+                            {% if row.produced %}
+                                <input name = "produced_fuel" onkeypress="return isNumberKey(event)" value = "{{ row.produced }}">
+                            {% else %}
+                                <input name = "produced_fuel" onkeypress="return isNumberKey(event)"value = "0.00">
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if row.Consumed_Quota %}
+                                <input name = "Consumed_Quota_fuel" onkeypress="return isNumberKey(event)" value = "{{ row.Consumed_Quota }}">
+                            {% else %}
+                                <input name = "Consumed_Quota_fuel" onkeypress="return isNumberKey(event)"value = "0.00">
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if row.Consumed_Fact %}
+                                <input name = "Consumed_Fact_fuel" value = "{{ row.Consumed_Fact }}" readonly>
+                            {% else %}
+                                <input name = "Consumed_Fact_fuel" value = "0.00" readonly>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if row.Consumed_Total_Quota %}
+                                <input name = "Consumed_Total_Quota_fuel" value = "{{ row.Consumed_Total_Quota }}" readonly>
+                            {% else %}
+                                <input name = "Consumed_Total_Quota_fuel" value = "0.00" readonly>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if row.Consumed_Total_Fact %}
+                                <input name = "Consumed_Total_Fact_fuel" onkeypress="return isNumberKey(event)" value = "{{ row.Consumed_Total_Fact }}">
+                            {% else %}
+                                <input name = "Consumed_Total_Fact_fuel" onkeypress="return isNumberKey(event)" value = "0.00">
+                            {% endif %}
+                        </td>
+                        <td></td>
+                        <td> 
+                            {% if row.note %}
+                                <input name = "note_fuel" value = "{{ row.note }}">
+                            {% else %}
+                                <input name = "note_fuel" value = "">
+                            {% endif %}
+                        </td>
+                        <td> </td>
+                    </tr>   
+                </form>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div id="myModalAFP" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+            <div class="tab_srpav">
+                <label class="tab_srpav-title">Добавить продукцию</label> 
+                <form method="POST" action="/add_fuel_param">
+                    <table class = "profile_table_set">
+                        <tr>
+                            <td class = "">[A] Наименование вида продукции (работ, услуг)</td>
+                            <td>
+                                <input type="text" name="name_of_prduct" style = "width: 400px; text-align: left;">
+                            
+                                <div class="choose_pr_by_name">
+                                    <table class = "choose_prod_table">
+                                        <thead>
+                                            <tr>
+                                               
+                                                <th>Код продукта</th>
+                                                <th>Наименование продукта</th>
+                                                <th>Единица измерения</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="chooseProdTableBody"> 
+                                        {% for row in dirProduct %}
+                                            <tr data-id="{{ row.id }}">
+                                                <td>{{row.CodeProduct}}</td>
+                                                <td style = "width: 100%; text-align: left;">{{row.NameProduct}}</td>
+                                                <td>{{row.unit.NameUnit}}</td>
+                                            </tr>
+                                            <tr id="noResultsRow" colspan="5" style="display: none;">
+                                                <td style = "width: 100%; text-align: left;" >Нет результатов</td>
+                                            </tr>
+                                        {% endfor %}
+                                        <tbody>  
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class = "">[B] ОКЭД</td>
+                            <td>
+                                <input                 
+                                    type="text"
+                                    name="oked"
+                                    maxlength="5" 
+                                    onkeypress="return isNumberKey(event)"
+                                    required
+                                >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class = "">[1] Произведено продукции (выполнено работ, услуг) за отчетный период</td>
+                            <td>
+                                <input                 
+                                    type="text"
+                                    name="produced"
+                                    value = "0.00"
+                                    oninput="return isNumberKeyfloat(event)"
+                                   
+                                    
+                                >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class = "">[2] Утвержденная норма на единицу продукции</td>
+                            <td>
+                                <input                 
+                                    type="text"
+                                    name="Consumed_Quota"
+                                    value = "0.00"
+                                >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class = "">[3] Израсходовано на единицу продукции фактически</td>
+                            <td>
+                                <input                 
+                                    type="text"
+                                    name="Consumed_Fact"
+                                    value = "0.00"
+                                    style = "color: rgb(132, 132, 132);"
+                               
+                                    readonly
+
+
+                                >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class = "">[4] Израсходовано на всю производственную продукцию по действующей норме</td>
+                            <td>
+                                <input                 
+                                    type="text"
+                                    name="Consumed_Total_Quota"
+                                    value = "0.00"
+                                    style = "color: rgb(132, 132, 132);"
+                                    readonly
+                                >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class = "">[5] Израсходовано на всю производственную продукцию фактически</td>
+                            <td>
+                                <input                 
+                                    type="text"
+                                    name="Consumed_Total_Fact"
+                                    value = "0.00"
+                                >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class = "">Примечание</td>
+                            <td>
+                                <input       
+                                    style = "width: 400px; text-align: left;"          
+                                    type="text"
+                                    name="note"
+                                >
+                                <input                 
+                                    type="hidden"
+                                    value = "{{current_version_report}}"
+                                    name="current_version_report"
+                                >
+                            </td>
+                        </tr>
+                    </table>    
+                    <button type = "submit" class = "blue_button" style = "margin: 10px 0; width: 100%;">Добавить продукцию</button>              
+                </form>
+            </div>
+        </div>    
+    </div>
+</div>
+
+<script>  
+/*панель для добавление нового продукта в отчет*/
+    var myAFP = document.getElementById('myAFP');
+    var modalAFP = document.getElementById('myModalAFP');
+    var spanmyModalAFP = document.getElementsByClassName('close')[0];
+    myAFP.addEventListener('click', function() {
+        modalAFP.style.display = 'block';
+    });
+
+    spanmyModalAFP.addEventListener('click', function() {
+        modalAFP.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target == modalAFP) {
+            modalAFP.style.display = 'none';
+        }
+    });
+/*end*/ 
+
+/*всплывающая панель для выбора продукта при формировании отчета*/
+$(document).ready(function(){
+    $('input[name="name_of_prduct"]').on('focus', function(){
+        $('.choose_pr_by_name').show();
+    });
+
+    $('#chooseProdTableBody').on('click', 'tr', function(){
+        var productName = $(this).find('td:nth-child(2)').text();
+        $('input[name="name_of_prduct"]').val(productName);
+        $('.choose_pr_by_name').hide();
+    });
+
+    $('input[name="name_of_prduct"]').on('input', function(){
+        var filterText = $(this).val().trim().toLowerCase();
+        var noResultsRow = $('#noResultsRow');
+
+        if (filterText.length > 0) {
+            $('.choose_pr_by_name').show();
+        } else {
+            $('.choose_pr_by_name').hide();
+        }
+
+        var hasResults = false;
+        $('#chooseProdTableBody tr').each(function(){
+            var productName = $(this).find('td:nth-child(2)').text().toLowerCase();
+            if(productName.includes(filterText)){
+                $(this).show();
+                hasResults = true;
+            } else {
+                $(this).hide();
+            }
+        });
+
+        if (!hasResults && filterText.length > 0) {
+            noResultsRow.show();
+        } else {
+            noResultsRow.hide();
+        }
+    });
+});
+/*end*/ 
+</script>
+{% endblock %}

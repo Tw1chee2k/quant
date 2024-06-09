@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <title>{% block title %}Base{% endblock %}</title>
+  </head>
+  <body>  
+    <header>
+      <div class="left-content">
+        
+      </div>
+      <div class="center-content">
+        <nav>
+          <ul>
+              <li onclick="window.location.href='/'">Главная</li>
+              <li onclick="window.location.href='/'">Новости</li>
+              <li onclick="window.location.href='/'" >Контакты</li>
+              <li onclick="window.location.href='/'" >Помощь</li>
+          </ul>
+        </nav>
+      </div>
+      <div class="right-content">
+        <nav>
+          <ul>
+            <li>
+              {% if user.is_authenticated %}
+              <div class="user-container">
+                  <img id="user-img" width="22" src="{{ url_for('static', filename='img/user.png')}}" alt="">
+                  <div id="hoverPanel" class="hoverPanel">
+                      <button id="button1" onclick="window.location.href='/account'">Личный кабинет</button>
+                      <button id="button2" onclick="window.location.href='/logout'">Выйти</button>
+                  </div>
+              </div>
+              {% else %}
+
+              {% endif %}
+          </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main> 
+      {% with messages = get_flashed_messages(with_categories=true) %} 
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert {% if category == 'error' %}alert-danger{% else %}alert-success{% endif %} alert-dismissable fade show custom-alert" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+
+    {% block content %} 
+    {% endblock %}
+
+
+
+    {% block javascript %}
+    <script>
+      
+    </script>
+      <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    {% endblock %}
+
+
+    </main>
+    <footer>
+      <div class = "footer_cont">
+        <div class = "left_col_footer">
+          <nav>
+            <ul>
+                <li onclick="window.location.href=''">Система проверки отчетов</li>
+            </ul>
+          </nav>
+        </div>      
+        <div class = "center_col_footer">
+            <nav>
+                <ul>
+                  <li onclick="window.location.href=''">Новости</li>
+                  <li onclick="window.location.href=''" >Контакты</li>
+                  <li onclick="window.location.href=''" >Помощь</li>
+                </ul>
+            </nav>
+        </div>
+        <div class = "right_col_footer">
+          <nav>
+              <ul>
+                <li onclick="window.location.href=''">kvat.as@mail.ru</li>
+              </ul>
+          </nav>
+          <div class = "telephone_info">
+
+            <p>145</p>
+            <span>Бесплатно для абонентов Белтелеком</span>
+            <span>Для абонентов мобильных операторов по тарифам мобильных операторов
+                  Время работы: пн-чт 9:00-18:00 обед 13:00-13:45
+                  пт 9:00-16:20 обед 13:00-13:20</span>
+            <p>сб-вс – выходные дни.</p>
+            <span> г. Минск, ул.Старовилинская, 54 </span>
+
+          </div>
+
+
+        </div>
+      </div>
+
+
+      
+    </footer>
+  </body> 
+</html>

@@ -1,0 +1,44 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<div class="container" style = "padding-top: 30px;">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>number of users</td>
+                <td>{{ user_data }}</td>
+            </tr>
+            <tr>
+                <td>number of organizations</td>
+                <td>{{ organization_data }}</td>
+            </tr>
+            <tr>
+                <td>number of peports</td>
+                <td>{{ report_data }}</td>
+            </tr>
+            <tr>
+                <td>number of report versions</td>
+                <td>{{ version_report_data }}</td>
+            </tr>
+            <tr>
+                <td>the number of sections</td>
+                <td>{{ sections_data }}</td>
+            </tr>
+            <tr>
+                <td>number of tickets</td>
+                <td>{{ ticket_data }}</td>
+            </tr>
+            <tr>
+                <td>number of dirUnit</td>
+                <td>{{ dirUnit_data }}</td>
+            </tr>
+            <tr>
+                <td>number of dirProduct</td>
+                <td>{{ dirProduct_data }}</td>
+            </tr>
+            <tr>
+                <td>number of img files</td>
+                <td>{{ num_images }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>{% endblock %}

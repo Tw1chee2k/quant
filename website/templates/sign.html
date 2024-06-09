@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+<div class = "page_log_reg">
+    <form class = "log_reg_form" method="POST">
+        <div class = "link_cont">
+            <a onclick="window.location.href='/login'" style = "margin-right: 19px;">Вход</a>
+            <a onclick="window.location.href='/sign'" class = "active">Регистрация</a>
+        </div>
+        <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="E-mail"
+            />
+            <input
+                type="fio"
+                id="fio"
+                name="fio"
+                placeholder="ФИО"
+            />
+            <input
+                type="telephone"
+                id="telephone"
+                name="telephone"
+                placeholder="Номер телефона"
+            />
+            <input
+                type="password"
+                id="password1"
+                name="password1"
+                placeholder="Введите пароль"
+            />
+            <input
+                type="password"
+                id="password2"
+                name="password2"
+                placeholder="Подтвердите пароль"
+            />
+        <div class = "remember_cont">
+            <input type="checkbox" name= "remember">
+            <span>Запомнить меня</span>
+        </div>
+        <button type="submit" class = "blue_button">Зарегистрироваться</button>
+        
+        <div class = "forgot_cont">
+            <a onclick="window.location.href='/relod_password'">Забыли пароль?</a>
+        </div>
+        <hr>
+
+        <div class = "google_cont">
+            <button type="">Продолжить с Google</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,1431 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat';
+}
+
+html{
+    margin: 0;
+    color:white;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: white;
+    color: rgb(0, 0, 0);
+
+}
+
+input:-webkit-autofill{
+    -webkit-text-fill-color: rgb(0, 0, 0);
+    caret-color: rgb(0, 0, 0);
+    -webkit-box-shadow: 0 0 0 1000px rgb(255, 255, 255) inset;
+}
+
+input:focus{
+    outline: none ;
+}
+
+button:focus{
+    outline: none;
+}
+
+select:focus{
+    outline: none;
+}
+
+.blue_button{
+    font-size: 14px;
+    align-items: center;
+    border:none;
+    background-color: #61b8ff;
+    color: white;
+    width: 270px;
+    height: 40px;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.blue_button:hover{
+    background-color: #028dff;
+}
+  
+.blue_button:focus {
+    outline: none;
+}
+
+/*--------------------------------*/
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;  
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    color: rgb(0, 0, 0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+    font-family: 'Montserrat';
+    font-weight: 500;
+}
+
+header .center-content{
+    
+}
+
+header .center-content nav {
+    cursor: pointer;
+    font-size: 17px;
+    margin: 15px auto; 
+    max-width: 600px;
+}
+
+header nav ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    text-align: center;
+    margin: 0;
+}
+
+header .center-content nav ul {
+    margin: 0 20px;
+}
+
+header .left-content nav ul li {
+
+}
+
+header .center-content nav ul li {
+    margin: 0 20px; 
+    transition: color 0.3s ease;
+}
+
+header .center-content nav ul li:hover {
+    color: #61b8ff; 
+    
+}
+
+header .right-content nav ul li {
+    margin: 0 50px 0 20px; 
+}
+
+main {
+    width: 100%;
+    min-height: 100vb;
+}
+
+
+.hoverPanel {
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    border-radius: 5px; 
+    right: 0; 
+}
+
+.hoverPanel button {
+    border: none;
+    background-color: white;
+    color: black;
+    width: 200px;
+    font-size: 14px;
+    padding: 10px 30px;
+    text-align: start;
+    align-items: start;
+}
+
+.hoverPanel button:focus {
+    outline: none;   
+}
+
+.user-container {
+    position: relative;
+    display: inline-block;
+}
+
+.user-container:hover .hoverPanel,
+.hoverPanel:hover {
+    display: block;
+    
+}
+
+footer {
+    margin-top: 500px;
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: #61b8ff;
+    width: 100%;
+    font-weight: 500;
+}
+  
+.footer_cont{
+    display: flex; 
+    margin: 10px;
+}
+
+.footer_cont .left_col_footer,.center_col_footer,.right_col_footer{
+    display: flex;
+    margin: 15px;
+    min-width: 400px;
+    max-width: 500px;
+}
+
+.footer_cont nav ul li{
+    list-style-type:  none;
+    cursor: pointer;
+}
+
+.footer_cont .left_col_footer{
+    justify-content: center;
+}
+
+.footer_cont .left_col_footer nav ul li:hover{
+    color:black;
+    transition: color 0.3s ease;
+}
+
+.footer_cont .center_col_footer{
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.footer_cont .center_col_footer nav ul li{
+    margin-bottom: 15px;
+}
+
+.footer_cont .right_col_footer{
+    display:flex;
+    flex-direction: column;
+}
+
+.footer_cont .right_col_footer nav{
+
+    height: auto;
+}
+
+.footer_cont .right_col_footer .telephone_info{
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.footer_cont .right_col_footer nav ul li:hover{
+    color: black;
+    transition: color 0.3s ease;
+}
+
+/*-----------------------mes*/
+.custom-alert {  
+    position: fixed;
+    bottom: 40px;
+    right: 40px; 
+    max-width: 400px; 
+    font-size: 16px;
+    padding: 20px 30px;
+    z-index: 100;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    border: none;
+    border-radius: 10px;
+    font-family: Poppins, sans-serif;
+}
+  
+.custom-alert.hidden {
+    opacity: 0;
+}
+
+.alert-danger {
+    color: #000000;
+    border: none;
+    background-color: aliceblue; 
+    font-family: 'Montserrat';
+    font-weight: 500;
+}
+  
+.alert-success {
+    color: #000000;
+    background-color: aliceblue; 
+    border: none;
+    font-family: 'Montserrat';
+    font-weight: 500;
+}
+/*-----------------------mes end*/
+
+
+/*log and reg begin */
+.page_log_reg{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+.log_reg_form {
+    background-color: white;
+    display: flex; 
+    flex-direction: column;
+    text-align: left;
+    width: 300px;
+}
+
+.link_cont{
+    display: flex;
+    flex-direction: row;
+    text-transform: uppercase;
+    padding: 20px 0 50px 0;
+    cursor: pointer;
+}
+
+.link_cont a{
+    margin: 0;   
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.link_cont a:hover{
+    color: #028dff;
+    transition: color 0.3s ease;
+}
+
+.link_cont .active{
+    color: #61b8ff;
+}
+
+.log_reg_form input{
+    margin: 10px 0;
+    border: none; 
+    border-bottom: 1px solid rgb(202, 202, 202);
+    background-color: white;
+    color: black;
+    padding: 5px 20px;
+    outline: none;
+    z-index: 2;
+    font-family: 'Montserrat';
+    font-size: 14px;
+}
+
+.log_reg_form .remember_cont {
+    border: none;
+    text-align: left; 
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.log_reg_form .remember_cont input[type = 'checkbox']{
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.log_reg_form button{
+    border-radius: 0; 
+    width: 100%; 
+    height: 40px;
+    cursor: pointer;
+}
+
+.log_reg_form .forgot_cont{
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.log_reg_form .forgot_cont a{
+    color: rgb(131, 131, 131);
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-bottom: 22px;
+}
+
+.log_reg_form hr{
+    background-color: rgb(202, 202, 202);
+    height: 1px;
+    border: none;
+}
+
+.google_cont button{
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #000000;
+    color: black;
+    margin: 30px 0 0  0;
+    height: 40px;
+    width: 100%;
+    cursor: pointer;
+}
+
+/**/
+
+/**/
+
+/**/
+
+/**/
+
+/*log_reg_fp.css end*/
+
+
+
+
+
+/*beginPage.css begin*/
+.hello_cont{
+    padding: 60px 30px ;
+    height: 100vh;
+}
+
+.hello_cont .main_cont{
+    display:flex;
+    justify-content: space-between;
+}
+
+.hello_cont .main_cont .text_main_cont{
+    display:flex;
+    flex-direction: column;
+    font-size: 50px;
+    text-transform: uppercase;
+    text-align: left;
+    font-weight: 500;
+    padding: 40px 0 0 0;
+    color: transparent;
+    animation: fadeInText 1s ease forwards;
+}
+
+@keyframes fadeInText {
+    0% {
+        opacity: 0; 
+    }
+    100% {
+        opacity: 1;
+        color:black;
+    }
+}
+
+.hello_cont .main_cont .gif_cont{
+    padding-right: 15%;
+}
+
+.hello_cont .main_cont .gif_cont img{
+    
+}
+
+.hello_cont button{
+    margin: 300px 0 0 0;
+    height: 50px;
+    width: 260px;
+    color: rgb(255, 255, 255);
+    background-color: #61b8ff;
+    z-index: 1;
+    border: none;
+    border-radius: 5px;
+    padding: 0 30px;
+    font-size: 16px;
+    font-family: 'Montserrat';
+}
+
+.hello_cont button:hover{
+    background-color: #028dff;
+    transition: background-color 0.3s ease;
+}
+
+.hello_cont button:focus{
+    outline: none;
+}
+
+/* Контейнер с количеством пользователей, организац...*/
+
+.statistic_cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+    background-color: white;  
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1); 
+}
+
+.statistic_cont .item_stat {
+    display: inline-block;
+    text-align: center;
+    margin: 25px;
+}
+
+.statistic_cont .item_stat div{
+    font-size: 19px;    
+    color: #40a9ff;    
+    font-weight: 600;
+}
+
+.statistic_cont .item_stat .stat_count{
+    color: rgb(0, 0, 0);
+    font-size: 32px;
+    font-weight: 400;
+
+}
+.statistic_cont .item_stat img{
+    width: 44px; 
+    height: 44px;
+    margin: 5px;
+}
+
+/* Контейнер с количеством пользователей, организац... eeeeennddd*/
+
+/* Новости */
+
+.cont_news_main_page{
+    min-height: 60vb;
+    background-color :#61b8ff;
+    display:flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.cont_news_main_page .white_news_cont{
+    background-color: white;
+    color:black;
+    min-width: 1400px;
+    max-width: 1400px;
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+}
+
+.name_news_text{
+    color:black;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.heading_news_text{
+    color:black;
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.news_text{
+    color:black;
+    font-weight: 400;
+    font-size: 23px;
+}
+
+.cont_news_main_page .white_news_cont .left_news_cont{
+    min-width: 700px;
+}
+
+.cont_news_main_page .white_news_cont .right_news_cont{
+    min-width: 700px;
+}
+
+.cont_news_main_page .white_news_cont .right_news_cont img{
+    
+}
+
+/* Новости end*/
+
+/* какой-то конт*/
+
+.cont_admin_main_page{
+    min-height: 60vb;
+    background-color :#ffffff;
+    display:flex;
+    justify-content: center;
+    text-align: center;    
+}
+
+
+/* какой-то конт end */
+/* map */
+
+.cont_map{
+    background-color :#ffffff;
+    display:flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.cont_map iframe{
+    width: 100%; 
+    border: none;
+}
+
+/* map end*/
+
+/**/
+/**/
+
+/**/
+/**/
+/*beginPage.css end*/
+
+
+
+
+
+
+/*account.css begin*/
+.account_cont{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
+  
+.account_cont .privetstvie_cont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
+    height: 110px;
+    width: 1024px;
+    background-image: url('../img/begin_name1.png');
+    text-shadow: 1px 1px 2px black;
+    font-weight: 600;
+}
+  
+.account_cont .buttons_acount_cont{
+    display: flex;
+    flex-direction: row;
+    padding-top: 100px;
+}
+  
+.account_buttons{
+    display: flex;
+    flex-direction: row;
+    align-items:  center;
+    border: none;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    width: 474px;
+    height: 82px;
+    font-weight: 600;
+    border-radius: 10px;
+    margin: 7px;
+    padding: 0 20px;
+}
+  
+.account_buttons:hover{
+    background-color: #f0f9ff;
+    transition: background-color 0.3s ease;
+}
+  
+.account_buttons:focus {
+    outline: none;
+}
+  
+.account_buttons img{
+    width: 36px;
+    margin: 0 40px 0 0;
+}
+  
+.account_buttons span{
+    text-align: center;
+}
+  
+
+.account_cont .buttons_acount_cont{
+    width: 100%;
+    justify-content: center;
+
+}
+
+.account_cont .buttons_acount_cont .first_column_cont{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding-right: 10%;
+}
+  
+  
+.account_cont .buttons_acount_cont .second_column_cont{
+    display: flex;
+    flex-direction: column;
+}
+  
+.buttons_account_add_report{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14px;
+    border:none;
+    background-color: #61b8ff;
+    color: white;
+    width: 270px;
+    height: 50px;
+    border-radius: 10px;
+    font-weight: 600;
+    margin: 10px 0 10px 20px;
+}
+  
+.buttons_account_add_report:hover{
+    background-color: #028dff;
+    transition: background-color 0.3s ease;
+}
+  
+.buttons_account_add_report:focus {
+    outline: none;
+}
+  
+.buttons_account_add_report span{
+    margin: 0 30px;
+}
+
+/*account.css end*/
+
+
+
+
+
+
+/*profile_common.css begin*/
+.profile_cont{
+    display: flex;
+    flex-direction: row;
+    padding-top: 200px;
+    color: rgb(0, 0, 0);
+    width: 100%;
+    align-items: flex-start;
+}
+
+/*profil_header*/
+.profile_cont nav {
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    background-image: linear-gradient(to bottom, rgb(243, 243, 243),rgb(255, 255, 255));
+    padding: 20px 0 600px 0;
+}
+
+.profile_cont nav li {
+    list-style-type: none;
+    cursor: pointer;
+    padding: 7px 60px;
+    margin: 10px 0;
+
+    height: 100%;
+    font-weight: 500;  
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+}
+
+.profile_cont nav li:hover {
+    background-color: rgb(236, 236, 236);
+}
+
+.profile_cont nav li.active_li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15%; 
+    transform: translateX(-50%); 
+    width: 3px;
+    border: none;
+    height: 100%; 
+    background-color: #028dff; 
+}
+
+/*profil_header end*/
+
+/*panel begin*/
+.profile_cont .panel{
+    height: 100%;
+    width: auto;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+}
+
+.profile_cont .panel table, 
+.profile_cont .panel tr, 
+.profile_cont .panel td{
+    border: none;
+}
+
+.profile_cont .panel table tr td{
+    width: 100%;
+}  
+
+.profile_cont .panel table tr td{
+    height: 100%;
+    text-align: left;
+    padding: 0;
+    padding-bottom: 16px;
+    font-size: 14px;
+    font-weight: 500;
+}  
+
+.profile_cont .panel td input{
+    width: 500px;
+    font-size: 14px;
+    margin-left: 50px;
+    padding: 0 10px;
+    height: 40px;    
+    border-radius: 3px;
+    border: 1px solid rgb(131, 131, 131);
+    background-color: rgb(255, 255, 255);
+}
+
+.profile_cont .panel form button{
+    width: 100%;
+}
+/*panel end*/
+/*profile.css end*/
+
+
+
+
+
+
+
+
+/*report_area.css begin*/
+.cont_ReportArea{
+    margin-top: 60px;
+    height: 100vh;
+}
+
+.menu_ReportArea{
+    display: flex;
+    color: rgb(0, 0, 0);
+
+    top: 0;
+    left: 0;
+    font-family: 'Montserrat';
+}
+
+.tab, .tab-title {
+    display: inline-block;
+}
+
+.tab input[type="radio"] { 
+    display: none; 
+}
+
+.tab-title {
+    padding: 5px 10px;
+    margin: 0;
+}
+
+.tab-content {
+    position: absolute;
+    padding: 0 10px;
+    display: none;
+    left: 0;
+    right: 0;
+}
+
+.tab :checked + .tab-title {
+    position: relative; 
+    background-color:rgb(241, 241, 241);
+    top: 1px; 
+    border-radius: 5px 5px 0 0;
+    z-index: 1;
+}
+
+.tab :checked ~ .tab-content {
+    display: block;
+}
+
+.tab-content nav ul{
+    display: flex;
+    list-style: none;
+    margin: 0;
+}
+
+.tab-content nav ul section{
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    font-size: 13px;
+    padding: 5px;
+}
+
+.functions_menu{
+    display: flex; 
+    flex-direction: row;
+}
+
+.tab-content nav ul li{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 7px;
+    align-items: center;
+    text-align: center;
+    max-width: 65px;    
+    padding: 11px;
+}
+
+.functions_menu .active{
+    background-color: rgb(227, 242, 255); 
+    border-radius: 5px;
+    border: none;
+}
+
+.tab-content nav ul li:hover{
+    background-color: aliceblue;    
+    transition: background-color 0.2s ease;
+    border-radius: 5px;
+}
+
+.tab-content nav ul li img{
+    height: 40px;
+    width: auto;
+}
+
+.tab-content nav ul li a{
+    font-size: 12px;
+}
+/*---------------menu_report_area end*/
+
+/*active_stroka*/
+
+.active_stroka {
+    background-color: aliceblue;
+    color: rgb(0, 0, 0);
+}
+
+.active_stroka_version {
+    background-color: aliceblue;
+    color: rgb(0, 0, 0);
+}
+/*active_stroka end*/
+
+
+.ReportArea {
+    margin-top: 170px;
+    margin-bottom: 5px;    
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+}
+
+.ReportArea::-webkit-scrollbar {
+    height: 3px;
+    
+}
+
+.ReportArea::-webkit-scrollbar-thumb {
+    background-color:rgb(221, 221, 221); 
+    border-radius: 5px;
+}
+
+.ReportArea::-webkit-scrollbar-track {
+    background-color: #ffffff;
+}
+
+
+
+
+.table_ReportArea {
+    border: none;
+    font-size: 12px;
+    table-layout: fixed;  
+    flex-grow: 1;
+    border-spacing: 0px;
+    border-collapse: collapse;
+}     
+
+.table_ReportArea .nams_repor th:last-child {
+    width: 100%;
+}
+
+.table_ReportArea thead{
+    text-align: center;
+    color: rgb(14, 0, 71);
+    font-weight: 600;
+    background-color: aliceblue;
+}
+
+.table_ReportArea tr th,
+.table_ReportArea tr td{
+    border: 1px solid #dddddd;
+    padding: 5px 10px;
+    text-align: center;             
+    font-size: 12px;
+}
+
+/*-----------------vers*/
+.versions_row{
+    display: none;
+}
+
+.versions_row .vers_cont {
+    padding: 10px 40px; 
+    background-color: rgb(255, 255, 255);
+}
+
+.text_vers{
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    padding-bottom: 5px;
+    text-align: left;
+}
+
+.table_vers{
+    border: none;
+    font-size: 12px;
+    table-layout: fixed;  
+    flex-grow: 1;
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+
+.table_vers thead{
+    text-align: center;
+    color: rgb(14, 0, 71);
+    font-weight: 600;
+    background-color: aliceblue;
+}
+
+.table_vers tr th,
+.table_vers tr td{
+    border: 1px solid #dddddd;
+    padding: 5px 10px;
+    text-align: center;             
+    font-size: 12px;
+}
+
+.show_versins_button{
+    border: 1px solid white;
+    color: white;
+    background-color: #61b8ff;
+    padding:  1px 6px;
+    margin: 5px;
+}
+
+.show_versins_button:focus{
+    outline: none;
+}
+
+/*-----------------vers end*/
+/*-----------------ticket begin*/
+.check_row{
+    display: none;
+    border: none;
+    padding: 0 20px;
+}
+
+.check_row .check_row_aa{
+    border: none;
+}
+
+.text_cheks{
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    padding-bottom: 5px;
+    text-align: left;
+}
+
+.cheks_table{
+    border: none;
+    font-size: 12px;
+    table-layout: fixed;  
+    flex-grow: 1;
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+
+.cheks_table thead{
+    text-align: center;
+    color: rgb(14, 0, 71);
+    font-weight: 600;
+    background-color: aliceblue;
+}
+
+.cheks_table tr th,
+.cheks_table tr td{
+    border: 1px solid #dddddd;
+    padding: 5px 10px;
+    text-align: center;             
+    font-size: 12px;
+}
+
+
+.show_cheks_button{
+    z-index: 2;
+    border: 1px solid white;
+    color: white;
+    background-color: #61b8ff;
+    padding:  1px 6px;
+    margin: 5px;
+}
+
+.show_cheks_button:focus{
+    outline: none;
+}
+
+/*-----------------ticket end*/
+/*-----------------change input*/
+
+.change_input_row {
+    display: none;
+}
+
+.change_input_row td {
+    padding: 0; 
+    background-color: rgb(255, 255, 255); 
+}
+
+.change_input_row td form{
+    border: 0px solid rgb(255, 255, 255);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.change_input{
+    display: flex; 
+    flex-direction: row;
+    text-align: left;
+}
+
+.change_input .placehold_of_left {
+    min-width: 110px;
+    width: auto;
+    text-align: left;
+    vertical-align: middle;
+    line-height: 35px;
+}
+
+.change_input input{
+    padding: 5px; 
+    margin: 5px 0;
+    width: 15%;
+    text-align: left;
+    font-size: 12px; 
+}
+
+.change_input select{
+    padding: 5px; 
+    margin: 5px 10px;
+    width: 15%;
+    text-align: left;
+    font-size: 12px; 
+}
+
+.change_input_row td form button{
+    width: 200px;
+    height: 27px;
+    border: none;
+    color: white;
+    background-color: #61b8ff;
+    margin: 5px 110px;
+}
+/*-----------------change input end*/
+
+
+/* spravoch*/
+.tab_srpav, .tab_srpav-title {
+    display: inline-block;
+}
+
+.tab_srpav-title {
+    padding: 5px 10px;
+    margin: 0;
+    background-color:#eeeeee;
+    border-radius: 5%;
+}
+
+.tab-content_srpav {
+    padding: 0 10px;
+    left: 0;
+    right: 0;
+}
+
+.tab-content_srpav nav ul{
+    display: flex;
+    list-style: none;
+    margin: 0;
+}
+
+.tab-content_srpav nav ul section{
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    font-size: 13px;
+    padding: 5px;
+}
+
+.tab-content_srpav nav ul li{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 7px;
+    align-items: center;
+    text-align: center;
+    max-width: 65px;    
+    padding: 11px;
+}
+
+.tab-content_srpav nav ul li:hover{
+    transition: background-color 0.3s ease;
+    background-color: aliceblue;    
+    border-radius: 5px; 
+}
+
+.tab-content_srpav nav ul li img{
+    height: 40px;
+    width: auto;
+}
+
+.tab-content_srpav nav ul li a{
+    font-size: 12px;
+}
+
+.table_spravoch_area{
+    border: 1px solid #dddddd;
+    font-size: 12px;
+    table-layout: fixed;  
+    flex-grow: 1;
+}
+
+.table_spravoch_area .nams_repor th:last-child {
+    width: 100%;
+}
+
+
+.table_spravoch_area{
+    border: none;
+    font-size: 12px;
+    table-layout: fixed;  
+    flex-grow: 1;
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+
+.table_spravoch_area thead{
+    text-align: center;
+    color: rgb(14, 0, 71);
+    font-weight: 400;
+    background-color: aliceblue;
+}
+
+.table_spravoch_area tr th,
+.table_spravoch_area tr td{
+    border: 1px solid #dddddd;
+    padding: 5px 10px;
+    text-align: center;             
+    font-size: 12px;
+}
+
+/* spravoch end*/
+
+
+/* ----------------------modal_window begin */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #ffffff;
+    margin: 10% auto;    
+    border: 1px solid white;
+    padding: 20px;
+    width: 50%;
+    height: 70%;
+}
+
+.table_container_sprav {
+    height: 90%;
+    overflow: auto;
+    margin-top: 20px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    text-align: end;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+/*end */
+
+
+
+/**/
+/**/
+/*report_area.css end*/
+
+
+
+
+
+/*report.css begin*/
+.panel_dop_report{
+    width: 100%;
+}
+
+.name_prod_width{
+    color: black;
+    background-color: white;
+    border: none;
+    width: 100%;
+    font-size: 12px;
+}
+
+/*всплывающая панель begin*/
+.profile_table_set, 
+.profile_table_set tr, 
+.profile_table_set td{
+    border: none;
+    text-align: left;
+}
+
+.profile_table_set{
+    width: 100%; 
+    margin-top: 20px;
+}
+
+.profile_table_set td{
+    height: 40px;
+    font-size: 12px;    
+}
+
+.profile_table_set tr td input{
+    height: 30px;  
+    width: 100px;
+    padding: 0 10px;
+    margin-right: 20px;
+    text-align: right;
+    font-size: 12px; 
+}
+
+.choose_pr_by_name {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    width: 50%;
+    max-height: 300px; 
+    overflow-y: auto; 
+    background-color: white;
+    border: none; 
+    z-index: 2; 
+    display: none;
+    color: black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    
+}
+
+.choose_prod_table{
+    border: none;
+    font-size: 10px;
+    table-layout: fixed;  
+    flex-grow: 1;
+    border-spacing: 0px;
+    border-collapse: collapse;    
+    text-align: center;
+    align-items: center;
+}
+
+.choose_prod_table thead{
+    text-align: center;
+    align-items: center;
+    color: rgb(14, 0, 71);
+    font-weight: 600;
+    background-color: aliceblue;
+}
+
+.choose_prod_table tr th,
+.choose_prod_table tr td{
+    border: 1px solid #dddddd;
+    padding: 2px 10px;
+    text-align: center;             
+    font-size: 12px;
+}
+
+.submit_fuel_button{
+    z-index: 2;
+    border: 1px solid white;
+    color: white;
+    background-color: #61b8ff;
+    padding:  1px 6px;
+}
+
+.choose_prod_table tr:hover{
+    background-color: #f0f0f0;
+}
+
+.cont_show_products{
+    display: flex;
+    flex-direction: row;
+}
+
+.cont_show_products button{
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    color: black;
+    border: none;
+}ч
+
+.table_ReportArea tr td:hover{
+
+}
+
+
+.table_ReportArea tr td input{
+    border: none;
+}
+
+
+
+
+
+
+
+
+
+/*report.css end*/

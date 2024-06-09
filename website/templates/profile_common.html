@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<div class="profile_cont">
+    <nav>
+        <li class="active_li" onclick="window.location.href='/profile/common'">
+            Общее
+        </li>
+        <li onclick="window.location.href='/profile/password'">Конфиденциальность</li>
+        {% if user.is_authenticated and user.type == 'Admin'%}
+        {% endif %}
+        <li onclick="window.location.href='/logout'">Выйти</li>
+    </nav>
+    <div class="panel">
+        <table>
+            <tr>
+                <td>Тип пользователя</div></td>
+                <td><input type="text" placeholder="{{user.type}}" disabled></td>
+            </tr>
+            <tr >
+                <td style = "padding-bottom: 94px;" ><span >E-mail</span></td>
+                <td><input style = "margin-bottom: 80px;"  type="text" placeholder="{{user.email}}" disabled></td>
+            </tr>
+            <tr>
+                <td>ФИО</td>
+                <td><input type="text" placeholder="{{user.fio}}" disabled></td>
+            </tr>
+            <tr>
+                <td>Номер телефона</td>
+                <td><input type="text" placeholder="{{user.telephone}}" disabled></td>
+            </tr>
+            <tr>
+                <td>Организация</td>
+                <td><input type="text" value="{{user.organization_name}}" disabled></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<script> 
+
+
+</script>
+{% endblock %}
+

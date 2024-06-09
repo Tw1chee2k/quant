@@ -1,0 +1,350 @@
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
+from .models import User, Organization, Report, Version_report, DirUnit, DirProduct, Sections, Ticket
+from . import db
+from flask_login import login_user, logout_user, current_user, LoginManager, login_required
+from sqlalchemy import func
+from werkzeug.security import check_password_hash, generate_password_hash
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from datetime import datetime
+import re
+import random
+import string
+
+auth = Blueprint('auth', __name__)
+login_manager = LoginManager()
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
+@auth.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = str(request.form.get('password'))
+        remember = True if request.form.get('remember') else False 
+
+        user = User.query.filter(func.lower(User.email) == func.lower(email)).first()
+        if user:    
+            if check_password_hash(user.password, password):
+                flash('Авторизация прошла успешно', category='success')
+                login_user(user, remember=remember) 
+                return redirect(url_for('views.account'))
+            else:
+                flash('Не правильный пароль ', category='error')
+                return redirect(url_for('auth.login'))
+        else:
+            flash('Нет пользователя с таким email', category='error')
+            return redirect(url_for('auth.login')) 
+    return render_template("login.html", user=current_user)
+
+@auth.route('/logout')
+def logout():
+    logout_user()
+    flash('Выполнен выход из аккаунта', category='success')
+    return redirect(url_for('auth.login'))
+    
+@auth.route('/sign', methods=['GET', 'POST'])
+def sign():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        fio = request.form.get('fio')
+        telephone = request.form.get('telephone')
+        password1 = request.form.get('password1')
+        password2 = request.form.get('password2')
+
+        user = User.query.filter_by(email=email).first()
+        
+        if user:
+            flash('Пользователь с таким email уже существует', category='error')
+        elif not re.match(r'[\w\.-]+@[\w\.-]+', email):
+            flash('Некорректный адрес электронной почты', category='error')
+        elif password1!=password2:
+            flash('В подтверждении пароля произошла ошибка', category='error')
+        elif len(fio) == 0:
+            flash('Необходимо заполнить поле с ФИО', category='error')   
+        elif len(telephone) == 0:
+            flash('Необходимо заполнить поле с телефоном', category='error')      
+        else:
+            
+            new_user = User(email=email, fio=fio, telephone=telephone, password=generate_password_hash(password2))
+            new_user = User(email=email, fio=fio, telephone=telephone, password=generate_password_hash(password1))
+            db.session.add(new_user)
+            db.session.commit()
+            login_user(new_user, remember=True)
+            flash('Аккаунт создан!', category='success')
+            return redirect(url_for('views.account'))
+    return render_template("sign.html", user=current_user)
+
+@auth.route('/profile/password', methods=['GET', 'POST'])
+def profile_password():
+    if request.method == 'POST':
+        old_password = request.form.get('old_password')
+        new_password = request.form.get('new_password')
+        conf_new_password = request.form.get('conf_new_password')
+        
+        user = User.query.filter_by(email=current_user.email).first()
+        if not check_password_hash(current_user.password, old_password):
+            flash('Не правильный старый пароль', category='error')
+            return redirect(url_for('views.my_profile'))
+        elif new_password != conf_new_password:
+            flash('При подтверждении пароля произошла ошибка', category='error')
+            return redirect(url_for('views.my_profile'))
+        else:
+            user.password = generate_password_hash(conf_new_password)
+            db.session.commit()
+            flash('Изменение пароля произошло успешно!', category='success')
+          
+            send_email(f'Ваш пароль был изменен на {conf_new_password}', current_user.email)
+            return redirect(url_for('views.login'))
+    return render_template("views.profile_password", user=current_user)
+
+
+@auth.route('/relod_password', methods=['GET', 'POST'])
+def relod_password():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        user = User.query.filter_by(email=email).first()
+        
+        if user:
+            send_email(f'Ваш новый пароль: {gener_password()}, при желании его можно изменить в настройках профиля', email)
+            flash('Новый пароль был отправлен вам на email', category='success')
+            
+            user.password = generate_password_hash(gener_password())
+            db.session.commit()
+            return redirect(url_for('views.login'))
+        else:   
+            flash('Пользователя с таким email не существует', category='error')
+            return redirect(url_for('views.relod_password'))
+    return render_template("relod_password.html")
+
+
+def send_email(message_body, recipient_email):
+    smtp_server = 'smtp.mail.ru'
+    smtp_port = 587 
+    email_address = 'tw1.ofcompay@mail.ru'  
+    email_password = '6McTMF3uX2chGcFchUmZ'
+    message = MIMEMultipart()
+    message['From'] = email_address
+    message['To'] = recipient_email
+    message['Subject'] = 'Оповещение пользователя'
+    message.attach(MIMEText(message_body, 'plain'))
+    server = smtplib.SMTP(smtp_server, smtp_port)
+    server.starttls() 
+    server.login(email_address, email_password)
+    server.send_message(message)
+    server.quit()
+
+def gener_password():
+    # symbols = string.digits
+    # password = ''.join(random.choice(symbols) for _ in range(8))
+    password = '1111'
+    return password
+
+
+
+
+
+@auth.route('/create_new_organization', methods=['POST'])
+def create_new_organization():
+    if request.method == 'POST':
+        new_organization = Organization(
+            full_name = None,
+            short_name = None,
+            okpo = None,
+            ynp = None
+        )
+        db.session.add(new_organization)
+        db.session.commit()
+        flash('Добавлена новая организация', category='success')
+    return redirect(url_for('views.report_area'))
+    
+@auth.route('/update_organization', methods=['POST'])
+def update_organization():
+    id = request.form.get('id')
+    full_name = request.form.get('full_name')
+    short_name = request.form.get('short_name')
+    okpo = request.form.get('okpo')
+    ynp = request.form.get('ynp') 
+    
+    organization = Organization.query.filter_by(id=id).first()
+    if request.method == 'POST':
+        organization.full_name = full_name
+        organization.short_name = short_name
+        organization.okpo = okpo
+        organization.ynp = ynp    
+        current_user.organization_name = short_name
+        db.session.commit()  
+    return redirect(url_for('views.report_area'))
+    
+@auth.route('/delete_organization/<organization_id>', methods=['POST'])
+def delete_organization(organization_id):
+    if request.method == 'POST':
+        current_organization = Organization.query.filter_by(id = organization_id).first()
+        if current_organization: 
+            db.session.delete(current_organization)
+            db.session.commit() 
+            flash("Организация была удалена")
+        return redirect(url_for('views.report_area'))
+
+@auth.route('/create_new_report', methods=['POST'])
+def create_new_report():
+    organization = Organization.query.filter_by().first()
+    if request.method == 'POST':
+        new_report = Report(
+            okpo=organization.okpo,
+            organization_name= organization.full_name,
+            year=2024,
+            quarter=0,
+            user_id = current_user.id,
+            organization_id = organization.id
+        )
+        db.session.add(new_report)
+        db.session.commit()
+        flash('Добавлен новый отчет', category='success')
+        
+        new_version_report = Version_report(
+            begin_time = datetime.now(),
+            # change_time = 
+            # control = 
+            # agreed = 
+            # agreed_time = 
+            fio = current_user.fio,
+            telephone = current_user.telephone,
+            email = current_user.email,
+            report_id = new_report.id
+        )
+        db.session.add(new_version_report)
+        db.session.commit() 
+    return redirect(url_for('views.report_area'))
+    
+@auth.route('/update_report', methods=['POST'])
+def update_report():
+    id = request.form.get('id')
+    okpo = request.form.get('okpo')
+    year = request.form.get('year')
+    quarter = request.form.get('quarter')
+        
+    current_report = Report.query.filter_by(id = id).first()
+    organization_okpo = Organization.query.filter_by(okpo = okpo).first()
+    
+    if request.method == 'POST':
+        current_report.okpo = okpo
+        current_report.year = year
+        current_report.quarter = quarter
+        current_report.organization_name = organization_okpo.full_name
+        current_report.organization_id = organization_okpo.id
+
+        db.session.commit()
+        return redirect(url_for('views.report_area'))
+    
+@auth.route('/delete_report/<report_id>', methods=['POST'])
+def delete_report(report_id):
+    if request.method == 'POST':
+        current_report = Report.query.filter_by(id = report_id).first()
+        versions = Version_report.query.filter_by(report_id = report_id).all()
+        tickets = Ticket.query.filter_by(version_report_id = report_id).all()
+          
+        if current_report:     
+            for ticket in tickets:
+                db.session.delete(ticket)
+                
+            for version in versions:
+                sections = Sections.query.filter_by(id_version = version.id).all()
+                for section in sections:
+                    db.session.delete(section)
+                    
+                db.session.delete(version)
+            db.session.delete(current_report)
+            db.session.commit()
+            
+            
+            flash("Отчет был удален")
+        return redirect(url_for('views.report_area'))
+    
+@auth.route('/create_new_report_version/<int:id>', methods=['POST'])
+def create_new_report_version(id):
+    if request.method == 'POST':
+        new_version_report = Version_report(
+            fio = current_user.fio,
+            telephone = current_user.telephone,
+            email = current_user.email,
+            report_id = id 
+        )
+        db.session.add(new_version_report)
+        db.session.commit()
+        flash('Добавлена новая версия отчета', category='success')
+    return redirect(url_for('views.report_area'))
+
+@auth.route('/delete_version/<id>', methods=['POST'])
+def delete_version(id):
+    if request.method == 'POST':
+        current_version = Version_report.query.filter_by(id = id).first()
+        sections = Sections.query.filter_by(id_version = id).all()
+        tickets = Ticket.query.filter_by(version_report_id = id).all()
+        if current_version:
+            for section in sections:
+                db.session.delete(section)
+            for ticket in tickets:
+                db.session.delete(ticket)
+            db.session.delete(current_version)
+            db.session.commit()
+            flash("Версия была удалена")
+        return redirect(url_for('views.report_area'))
+    
+@auth.route('/add_fuel_param', methods=['POST'])
+def add_fuel_param():
+    if request.method == 'POST':
+        current_version_report = request.form.get('current_version_report')
+        name = request.form.get('name_of_prduct')
+        oked = request.form.get('oked')
+        produced = request.form.get('produced')
+        Consumed_Quota = request.form.get('Consumed_Quota')
+        Consumed_Fact = request.form.get('Consumed_Fact')
+        Consumed_Total_Quota = request.form.get('Consumed_Total_Quota')
+        Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
+        note = request.form.get('note')
+
+        current_product = DirProduct.query.filter_by(NameProduct=name).first()
+
+        new_section = Sections(
+            id_version=current_version_report,
+            id_product=current_product.IdProduct,
+            code_product=current_product.CodeProduct,
+            section_number=1,
+            Oked=oked,
+            produced=produced,
+            Consumed_Quota=Consumed_Quota,
+            Consumed_Fact=Consumed_Fact,
+            Consumed_Total_Quota=Consumed_Total_Quota,
+            Consumed_Total_Fact=Consumed_Total_Fact,
+            note=note
+        )
+        db.session.add(new_section)
+        db.session.commit()
+    return redirect(url_for('views.report_fuel', id = current_version_report))
+
+
+@auth.route('/change_fuel', methods=['POST'])
+def change_fuel():
+    if request.method == 'POST':
+        id = request.form.get('id_fuel')
+        id_version = request.form.get('id_version_fuel')
+        produced = request.form.get('produced_fuel')
+        Consumed_Quota = request.form.get('Consumed_Quota_fuel')
+        Consumed_Total_Fact = request.form.get('Consumed_Total_Fact_fuel')
+        note = request.form.get('note_fuel')
+        current_section = Sections.query.filter_by(id = id).first() 
+        if current_section:
+            current_section.produced = produced
+            current_section.Consumed_Quota = Consumed_Quota
+            current_section.Consumed_Total_Fact = Consumed_Total_Fact
+            current_section.note = note
+            
+            flash("Изменения произошли успешно")
+            current_version = Version_report.query.filter_by(id=id_version).first()
+            current_version.change_time = datetime.now()
+            db.session.commit()
+        return redirect(url_for('views.report_fuel', id = id_version))
