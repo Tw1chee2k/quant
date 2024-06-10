@@ -48,24 +48,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 /*end*/
     
-/*создание новой организации в справочнике*/
-    var new_Organization = document.getElementById('new_Organization');
-    new_Organization.addEventListener('click', function() {
-        fetch('/create_new_organization', {
-            method: 'POST'
-        })
-        .then(function(response) {
-            if (response.ok) {
-                window.location.reload();
-            } else {
-                console.error('Ошибка при добавлении организации');
-            }
-        })
-        .catch(function(error) {
-            console.error('Ошибка при отправке запроса:', error);
-        });
-    });
-/*end*/
     
 /*при клике на строку - активный отчет*/
     var report_row = document.querySelectorAll('.report_row');
@@ -252,59 +234,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 /*end*/
     
-    
-/*удаление активной реализации*/
-    var DeleteOrgButton = document.getElementById('del_this_org');
-    DeleteOrgButton.addEventListener('click', function() {
-        var activeRow = document.querySelector('.report_row.active_stroka');
-        if (activeRow !== null) {
-            var orgId = activeRow.dataset.id;
-            deleteOrg(orgId);
-        } else {
-            alert('Выберите строку для удаления');
-        }
-    });
-
-    function deleteOrg(orgId) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/delete_organization/' + orgId, true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    window.location.reload();
-                } else {
-                    console.error(xhr.statusText);
-                }
-            }
-        };
-        xhr.send();
-    }
-/*end*/
-
-/*всплывающее окно с предприятиями*/
-    var myLi = document.getElementById('myLi');
-    var modal = document.getElementById('myModal');
-    var spanmyModal = document.getElementsByClassName('close')[0];
-    myLi.addEventListener('click', function() {
-        modal.style.display = 'block';
-    });
-
-    spanmyModal.addEventListener('click', function() {
-        modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    });
-/*end*/
-    
 /*всплывающее окно с единицами измерения*/
     var myUOM = document.getElementById('myUOM');
     var modalUOM = document.getElementById('myModalUOM');
-    var spanmyModalUOM = document.getElementsByClassName('close')[1];
+    var spanmyModalUOM = document.getElementsByClassName('close')[0];
     myUOM.addEventListener('click', function() {
         modalUOM.style.display = 'block';
     });
@@ -323,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*всплывающее окно с продуктами*/
     var myTOP = document.getElementById('myTOP');
     var modalTOP = document.getElementById('myModalTOP');
-    var spanmyModalTOP = document.getElementsByClassName('close')[2];
+    var spanmyModalTOP = document.getElementsByClassName('close')[1];
     myTOP.addEventListener('click', function() {
         modalTOP.style.display = 'block';
     });
@@ -336,23 +269,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (event.target == modalTOP) {
             modalTOP.style.display = 'none';
         }
-    });
-/*end*/
-
-/*подставка окпо организации при выборе оргниазации в select*/   
-    function setOkpo(event) {
-        var selectElement = event.target;
-        var inputElement = selectElement.parentElement.parentElement.querySelector('input[name="okpo"]');
-        var selectedOption = selectElement.options[selectElement.selectedIndex];
-        if (selectedOption.value !== "") { 
-            inputElement.value = parseInt(selectedOption.value, 10);
-        } else {
-            inputElement.value = "";
-        }
-    }
-    var selectElements = document.querySelectorAll('select[name="okpo_select"]');
-    selectElements.forEach(function(selectElement) {
-        selectElement.addEventListener('change', setOkpo);
     });
 /*end*/
     

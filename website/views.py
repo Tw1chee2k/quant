@@ -9,10 +9,20 @@ views = Blueprint('views', __name__)
 @views.route('/')
 def beginPage():
     if User.query.count() == 0:
-        new_user = User(type = "Администратор", email='tw1che.2k@gmail.com', fio = 'Сидоров Максим Андреевич', telephone = '+375445531847', password=generate_password_hash('1234'))
-        new_org = Organization(full_name = "Квант-АС", short_name='Квант', okpo = '12345678', ynp = '4532345')
-        db.session.add(new_user)
+        new_org = Organization(full_name = "Руп Квант-АС", 
+                               short_name='Квант', 
+                               okpo = '12345678', 
+                               ynp = '4532345')
         db.session.add(new_org)
+
+        new_user = User(type = "Администратор",
+                        email='tw1che.2k@gmail.com', 
+                        fio = 'Сидоров Максим Андреевич', 
+                        telephone = '+375445531847', 
+                        password=generate_password_hash('1234'), 
+                        organization_id = 1)
+        db.session.add(new_user)
+        
         db.session.commit()
         
     if DirUnit.query.count() == 0:   

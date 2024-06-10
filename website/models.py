@@ -5,23 +5,31 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Numeric
 
 class User(db.Model, UserMixin):
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(13), default='Респондент')
     email = db.Column(db.String(50), unique=True)
     fio = db.Column(db.String(30))
     telephone = db.Column(db.String(20))
     password = db.Column(db.String(50))
-    reports = relationship('Report', backref='user')
+    organization_id = db.Column(db.Integer(), db.ForeignKey('organization.id'), nullable=False)
+
+    
+    reports = db.relationship('Report', backref='user', lazy = True, cascade = "all, delete-orphan")
+
+
 
 class Organization(db.Model):
+    __tablename__ = 'organization'
     id = db.Column(db.Integer, primary_key=True)
     full_name = db.Column(db.String(50))
     short_name = db.Column(db.String(20))
     okpo = db.Column(db.Integer)
     ynp = db.Column(db.Integer)
-    reports = relationship('Report', backref='organization')
+    users = db.relationship('User', backref = 'organization', lazy = True, cascade = "all, delete-orphan")
     
 class Report(db.Model):
+    __tablename__ = 'report'
     id = db.Column(db.Integer, primary_key=True)
     okpo = db.Column(db.Integer)
     organization_name = db.Column(db.String(50))
@@ -32,6 +40,7 @@ class Report(db.Model):
     versions = relationship('Version_report', backref='report')
 
 class Version_report(db.Model):
+    __tablename__ = 'version_report'
     id = db.Column(db.Integer, primary_key=True)
     begin_time = db.Column(db.Date, default=datetime.now())
     change_time = db.Column(db.Date)
@@ -44,6 +53,7 @@ class Version_report(db.Model):
     report_id = db.Column(db.Integer, db.ForeignKey('report.id'))
 
 class Ticket(db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
     begin_time = db.Column(db.Date, default=datetime.now())
     luck = db.Column(db.Boolean, default=False)
@@ -71,6 +81,7 @@ class DirProduct(db.Model):
     unit = relationship("DirUnit", foreign_keys=[IdUnit], backref="products")
     
 class Sections(db.Model):
+    __tablename__ = 'sections'
     id = db.Column(db.Integer, primary_key=True) 
     id_version = db.Column(db.Integer, db.ForeignKey('version_report.id'))
     id_product = db.Column(db.Integer, db.ForeignKey('DirProduct.IdProduct'))

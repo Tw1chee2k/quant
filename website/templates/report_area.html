@@ -96,10 +96,6 @@
                     <ul>  
                         <section>
                             <div class = "functions_menu">
-                                <li id = "myLi">           
-                                    <img src="{{ url_for('static', filename='img/icon_predpr.png')}}" alt="">
-                                    <a>Пред приятия</a>   
-                                </li>
                                 <li id = "myUOM">                     
                                     <img src="{{ url_for('static', filename='img/icon_UOM.png')}}" alt="">
                                     <a>Еденицы измерения</a>
@@ -117,28 +113,7 @@
                 </nav>
             </section>
         </div>
-        <div class="tab">
-            <input type="radio" id="tab3" name="tab-group">
-            <label for="tab3" class="tab-title">Настройки</label> 
-            <section class="tab-content">
-                <nav>
-                    <ul>  
-                        <section>
-                            <div class = "functions_menu">
-                                <li onclick="window.location.href=''">            
-                                    <img src="{{ url_for('static', filename='img/icon_settings.png')}}" alt="">
-                                    <a>Редак
-                                        тирование настроек</a>
-                                </li>
-                            </div>
-                            <div>
-                    
-                            </div>
-                        </section>
-                    </ul>
-                </nav>
-            </section>
-        </div>
+
     </div>
     <div class = "ReportArea">
         <table class = "table_ReportArea">
@@ -285,94 +260,6 @@
 </div>
 
 
-{# ---------------- #}
-{# всплывающее окно #}
-{# ---------------- #}
-<div id="myModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-            <div class="tab_srpav">
-                <label class="tab_srpav-title">Предприятия</label> 
-                <section class="tab-content_srpav">
-                    <nav>
-                        <ul>  
-                            <section>
-                                <div class = "functions_menu">
-                                    <li id="new_Organization">            
-                                        <img src="{{ url_for('static', filename='img/icon_new_file.png')}}" alt="">
-                                        <a>Добавить</a>
-                                    </li>
-                                    <li id="del_this_org">           
-                                        <img src="{{ url_for('static', filename='img/icon_delete_file.png')}}" alt="">
-                                        <a>Удалить</a>   
-                                    </li>  
-                                </div>
-                                <div>
-
-                                </div>
-                            </section>
-                        </ul>
-                    </nav>
-                </section>
-            </div>
-        <div class="table_container_sprav">
-            <table class = "table_spravoch_area">
-                <thead>
-                    <tr class = "nams_repor">
-                        <th></th>
-                        <th>Название предприятия</th>
-                        <th>Сокр. наим. предприятия</th>
-                        <th>ОКПО</th>
-                        <th>УНП</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in organization %}
-                    <tr class="report_row" data-id="{{ row.id }}">
-                        <th></th>
-                        <td>{{ row.full_name }}</td>
-                        <td>{{ row.short_name }}</td>
-                        <td>{{ row.okpo }}</td>
-                        <td>{{ row.ynp }}</td>
-                    
-                    </tr>
-                    <tr class="change_input_row">
-                        <td colspan="10">
-                            <form action = "/update_organization" method="POST">
-                                <div class = "change_input"> 
-                                    <div class = "placehold_of_left">Полн. назв.</div>
-                                    <input type="text" name = "full_name"  value = "{{ row.full_name }}" placeholder = "Полное название предприятия">
-                                </div>
-                                
-                                <div class = "change_input"> 
-                                    <div class = "placehold_of_left">Крат. назв.</div>
-                                    <input type="text" name = "short_name"  value = "{{ row.short_name }}" placeholder = "Краткое название предприятия">
-                                </div>
-                                
-                                <div class = "change_input"> 
-                                    <div class = "placehold_of_left">ОКПО</div>
-                                    <input type="text" name = "okpo" value = "{{ row.okpo }}" placeholder = "ОКПО">
-                                </div>
-    
-
-                                
-                                <div class = "change_input"> 
-                                    <div class = "placehold_of_left">УНП</div>
-                                    <input type="text" name = "ynp" value = "{{ row.ynp }}" placeholder = "УНП">
-                                </div>
-                        
-                                <input type="hidden" name = "id"  value = "{{ row.id }}" placeholder = "id">
-                                <button type = "submit">Обновить</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>    
-    </div>
-</div>
 
 
 <div id="myModalUOM" class="modal">

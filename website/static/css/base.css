@@ -8,7 +8,6 @@
 
 html{
     margin: 0;
-    color:white;
     width: 100%;
     height: 100%;
 }
@@ -17,9 +16,8 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: white;
+    background-color:aliceblue;
     color: rgb(0, 0, 0);
-
 }
 
 input:-webkit-autofill{
@@ -39,6 +37,11 @@ button:focus{
 select:focus{
     outline: none;
 }
+
+
+
+
+
 
 .blue_button{
     font-size: 14px;
@@ -66,7 +69,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: white;  
+    background-color:aliceblue;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     color: rgb(0, 0, 0);
     position: fixed;
@@ -75,12 +78,7 @@ header {
     width: 100%;
     text-align: center;
     z-index: 2;
-    font-family: 'Montserrat';
     font-weight: 500;
-}
-
-header .center-content{
-    
 }
 
 header .center-content nav {
@@ -103,10 +101,6 @@ header .center-content nav ul {
     margin: 0 20px;
 }
 
-header .left-content nav ul li {
-
-}
-
 header .center-content nav ul li {
     margin: 0 20px; 
     transition: color 0.3s ease;
@@ -125,7 +119,6 @@ main {
     width: 100%;
     min-height: 100vb;
 }
-
 
 .hoverPanel {
     display: none;
@@ -244,7 +237,12 @@ footer {
     transition: opacity 0.5s ease;
     border: none;
     border-radius: 10px;
-    font-family: Poppins, sans-serif;
+    font-weight: 500;    
+    color: #000000;
+    border: none;
+    background-color: rgb(255, 255, 255); 
+    font-family: 'Montserrat';
+    border: 1px solid rgb(132,132,132);
 }
   
 .custom-alert.hidden {
@@ -252,19 +250,12 @@ footer {
 }
 
 .alert-danger {
-    color: #000000;
-    border: none;
-    background-color: aliceblue; 
-    font-family: 'Montserrat';
-    font-weight: 500;
+
+    
 }
   
 .alert-success {
-    color: #000000;
-    background-color: aliceblue; 
-    border: none;
-    font-family: 'Montserrat';
-    font-weight: 500;
+
 }
 /*-----------------------mes end*/
 
@@ -278,18 +269,23 @@ footer {
 }
 
 .log_reg_form {
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     display: flex; 
     flex-direction: column;
     text-align: left;
-    width: 300px;
+    width: 670px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    padding: 25px;
+    border-radius: 10px;
+
+
 }
 
 .link_cont{
     display: flex;
     flex-direction: row;
     text-transform: uppercase;
-    padding: 20px 0 50px 0;
+    padding: 20px 0 50px 50px ;
     cursor: pointer;
 }
 
@@ -308,16 +304,32 @@ footer {
     color: #61b8ff;
 }
 
-.log_reg_form input{
+.aftorization_data{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.registration_data{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    
+}
+
+.aftorization_data input,
+.persone_data input,
+.organization_data input{
+    width: 280px;
+    height: 20px;
     margin: 10px 0;
     border: none; 
     border-bottom: 1px solid rgb(202, 202, 202);
-    background-color: white;
     color: black;
     padding: 5px 20px;
     outline: none;
     z-index: 2;
-    font-family: 'Montserrat';
     font-size: 14px;
 }
 
@@ -328,7 +340,7 @@ footer {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-bottom: 10px;
+    margin: 20px 0 10px 0;
 }
 
 .log_reg_form .remember_cont input[type = 'checkbox']{
@@ -337,10 +349,12 @@ footer {
 }
 
 .log_reg_form button{
-    border-radius: 0; 
-    width: 100%; 
+    margin-top: 10px;
+    padding: 5px 20px;
+    width: 100%;
     height: 40px;
     cursor: pointer;
+
 }
 
 .log_reg_form .forgot_cont{
@@ -352,25 +366,30 @@ footer {
 
 .log_reg_form .forgot_cont a{
     color: rgb(131, 131, 131);
-    font-size: 14px;
+    font-size: 13px;
     cursor: pointer;
     margin-top: 5px;
-    margin-bottom: 22px;
+   
+    transition: 0.3ms ;
+    transition: color 0.3s ease;
 }
 
-.log_reg_form hr{
-    background-color: rgb(202, 202, 202);
-    height: 1px;
-    border: none;
+.log_reg_form .forgot_cont a:hover{
+    color: black;
+
+
 }
+
+
 
 .google_cont button{
     background-color: rgb(255, 255, 255);
-    border: 1px solid #000000;
+    border: 1px solid rgb(202, 202, 202);
     color: black;
     margin: 30px 0 0  0;
     height: 40px;
     width: 100%;
+    font-weight: 500;
     cursor: pointer;
 }
 
@@ -440,7 +459,6 @@ footer {
     border-radius: 5px;
     padding: 0 30px;
     font-size: 16px;
-    font-family: 'Montserrat';
 }
 
 .hello_cont button:hover{
@@ -627,6 +645,7 @@ footer {
     border-radius: 10px;
     margin: 7px;
     padding: 0 20px;
+    font-size: 15px;
 }
   
 .account_buttons:hover{
@@ -814,23 +833,30 @@ footer {
 .menu_ReportArea{
     display: flex;
     color: rgb(0, 0, 0);
-
+    font-weight: 500;
     top: 0;
     left: 0;
-    font-family: 'Montserrat';
+}
+
+.tab-title {
+    padding: 5px 10px;
+    margin: 0;
 }
 
 .tab, .tab-title {
-    display: inline-block;
+    display: inline-block;    
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
 }
 
 .tab input[type="radio"] { 
     display: none; 
 }
 
-.tab-title {
-    padding: 5px 10px;
-    margin: 0;
+input[type="radio"]:checked + .tab-title {
+    background-color: rgb(255, 255, 255);
+    font-size: 16px;
+    padding: 7px 15px;
 }
 
 .tab-content {
@@ -860,7 +886,10 @@ footer {
 }
 
 .tab-content nav ul section{
-    display: flex; 
+    display: flex;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 10px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -887,13 +916,13 @@ footer {
 }
 
 .functions_menu .active{
-    background-color: rgb(227, 242, 255); 
+    
     border-radius: 5px;
     border: none;
 }
 
 .tab-content nav ul li:hover{
-    background-color: aliceblue;    
+    background-color:aliceblue;
     transition: background-color 0.2s ease;
     border-radius: 5px;
 }
@@ -906,6 +935,7 @@ footer {
 .tab-content nav ul li a{
     font-size: 12px;
 }
+
 /*---------------menu_report_area end*/
 
 /*active_stroka*/
@@ -921,7 +951,6 @@ footer {
 }
 /*active_stroka end*/
 
-
 .ReportArea {
     margin-top: 170px;
     margin-bottom: 5px;    
@@ -933,7 +962,6 @@ footer {
 
 .ReportArea::-webkit-scrollbar {
     height: 3px;
-    
 }
 
 .ReportArea::-webkit-scrollbar-thumb {
@@ -944,9 +972,6 @@ footer {
 .ReportArea::-webkit-scrollbar-track {
     background-color: #ffffff;
 }
-
-
-
 
 .table_ReportArea {
     border: none;
@@ -965,16 +990,20 @@ footer {
     text-align: center;
     color: rgb(14, 0, 71);
     font-weight: 600;
-    background-color: aliceblue;
+
 }
 
 .table_ReportArea tr th,
 .table_ReportArea tr td{
     border: 1px solid #dddddd;
+    background-color: white;
     padding: 5px 10px;
     text-align: center;             
     font-size: 12px;
 }
+
+
+
 
 /*-----------------vers*/
 .versions_row{
@@ -983,7 +1012,8 @@ footer {
 
 .versions_row .vers_cont {
     padding: 10px 40px; 
-    background-color: rgb(255, 255, 255);
+    background-color: aliceblue;
+    border: none;
 }
 
 .text_vers{
@@ -1007,7 +1037,7 @@ footer {
     text-align: center;
     color: rgb(14, 0, 71);
     font-weight: 600;
-    background-color: aliceblue;
+    background-color: white;
 }
 
 .table_vers tr th,
@@ -1032,13 +1062,17 @@ footer {
 
 /*-----------------vers end*/
 /*-----------------ticket begin*/
+
 .check_row{
     display: none;
-    border: none;
+
     padding: 0 20px;
+    background-color: aliceblue;
+    border: none;
 }
 
 .check_row .check_row_aa{
+    background-color: aliceblue;
     border: none;
 }
 
@@ -1073,7 +1107,6 @@ footer {
     text-align: center;             
     font-size: 12px;
 }
-
 
 .show_cheks_button{
     z-index: 2;

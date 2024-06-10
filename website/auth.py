@@ -52,27 +52,37 @@ def sign():
         email = request.form.get('email')
         fio = request.form.get('fio')
         telephone = request.form.get('telephone')
-        password1 = request.form.get('password1')
-        password2 = request.form.get('password2')
+        password = request.form.get('password')
+        full_name =  request.form.get('full_name')
+        short_name =  request.form.get('short_name')
+        okpo = request.form.get('okpo')
+        ynp = request.form.get('ynp')
 
-        user = User.query.filter_by(email=email).first()
+
         
-        if user:
+
+        if User.query.filter_by(email=email).first() or Organization.query.filter_by(full_name=full_name).first() or Organization.query.filter_by(okpo=okpo).first() or Organization.query.filter_by(ynp=ynp).first():
             flash('Пользователь с таким email уже существует', category='error')
         elif not re.match(r'[\w\.-]+@[\w\.-]+', email):
-            flash('Некорректный адрес электронной почты', category='error')
-        elif password1!=password2:
-            flash('В подтверждении пароля произошла ошибка', category='error')
-        elif len(fio) == 0:
-            flash('Необходимо заполнить поле с ФИО', category='error')   
-        elif len(telephone) == 0:
-            flash('Необходимо заполнить поле с телефоном', category='error')      
+            flash('Некорректный адрес электронной почты', category='error')  
         else:
-            
-            new_user = User(email=email, fio=fio, telephone=telephone, password=generate_password_hash(password2))
-            new_user = User(email=email, fio=fio, telephone=telephone, password=generate_password_hash(password1))
+            new_user = User(email=email, 
+                            fio=fio, 
+                            telephone=telephone, 
+                            password=generate_password_hash(password))
             db.session.add(new_user)
+            new_organization = Organization(
+                okpo=okpo,
+                full_name=full_name,
+                short_name=short_name,
+                ynp=ynp
+            )
+            db.session.add(new_organization)
+
+
             db.session.commit()
+
+
             login_user(new_user, remember=True)
             flash('Аккаунт создан!', category='success')
             return redirect(url_for('views.account'))

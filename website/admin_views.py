@@ -6,10 +6,6 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for,
 class MyMainView(AdminIndexView):
     @expose('/')
     def admin_stats(self):
-        base_path = os.path.abspath(os.path.join(os.path.dirname(__name__), 'website'))
-        image_folder = os.path.join(base_path, 'static', 'img')
-        images = [url_for('static', filename=f'img/{image}') for image in os.listdir(image_folder)]
-        num_images = len(images)
         user_data = User.query.count()
         dirUnit_data = DirUnit.query.count()
         organization_data = Organization.query.count()
@@ -30,6 +26,4 @@ class MyMainView(AdminIndexView):
                            dirProduct_data=dirProduct_data,
                            sections_data=sections_data,
                            ticket_data=ticket_data,
-                           images=images, 
-                           num_images=num_images
                            )

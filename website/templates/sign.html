@@ -7,46 +7,63 @@
             <a onclick="window.location.href='/login'" style = "margin-right: 19px;">Вход</a>
             <a onclick="window.location.href='/sign'" class = "active">Регистрация</a>
         </div>
-        <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="E-mail"
-            />
-            <input
-                type="fio"
-                id="fio"
-                name="fio"
-                placeholder="ФИО"
-            />
-            <input
-                type="telephone"
-                id="telephone"
-                name="telephone"
-                placeholder="Номер телефона"
-            />
-            <input
-                type="password"
-                id="password1"
-                name="password1"
-                placeholder="Введите пароль"
-            />
-            <input
-                type="password"
-                id="password2"
-                name="password2"
-                placeholder="Подтвердите пароль"
-            />
-        <div class = "remember_cont">
-            <input type="checkbox" name= "remember">
-            <span>Запомнить меня</span>
+
+        <div class = "registration_data">
+            <div class = "persone_data">
+                <input
+                    id="email"
+                    name="email"
+                    placeholder="E-mail"
+                    />
+                <input
+                    id="fio"
+                    name="fio"
+                    placeholder="ФИО"
+                />
+                <input
+                    id="telephone"
+                    name="telephone"
+                    placeholder="Номер телефона"
+                />
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Пароль"
+                />
+            </div>
+            <div class = "organization_data">
+                <input
+                    id="full_name"
+                    name="full_name"
+                    placeholder="Предприятие"
+                />
+                <input
+                    id="short_name"
+                    name="short_name"
+                    placeholder="Предприятие сокращ."
+                />
+                <input
+                    id="okpo"
+                    name="okpo"
+                    placeholder="ОКПО"
+                />
+                <input
+                    id="ynp"
+                    name="ynp"
+                    placeholder="УНП"
+                />
+            </div>
         </div>
+
+
+
+        
+
         <button type="submit" class = "blue_button">Зарегистрироваться</button>
         
-        <div class = "forgot_cont">
-            <a onclick="window.location.href='/relod_password'">Забыли пароль?</a>
-        </div>
-        <hr>
+
+  
 
         <div class = "google_cont">
             <button type="">Продолжить с Google</button>

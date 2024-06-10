@@ -4,7 +4,7 @@
   
 <div class = "account_cont">
     <div class = "privetstvie_cont">
-        <a>Добро пожаловатьd, {{user.email}}</a>
+        <a>Добро пожаловать, {{user.email}}</a>
     </div>
     <div class = "buttons_acount_cont">
         <div class = "first_column_cont">
@@ -20,10 +20,6 @@
             <button class = "account_buttons" onclick="window.location.href='/profile/common'" type="" class = "">
                 <img src="{{ url_for('static', filename='img/icon_profile.png')}}"  alt="">
                 <span>Мой профиль</span>
-            </button>
-            <button class = "account_buttons" onclick="window.location.href=''" type="" class = "">               
-                <img src="{{ url_for('static', filename='img/icon_notification.png')}}"  alt="">
-                <span>Уведомления</span>
             </button>
         </div>
         <div class = "second_column_cont">
