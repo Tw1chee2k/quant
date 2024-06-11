@@ -13,17 +13,12 @@ class User(db.Model, UserMixin):
     telephone = db.Column(db.String(20))
     password = db.Column(db.String(50))
     organization_id = db.Column(db.Integer(), db.ForeignKey('organization.id'), nullable=False)
-
-    
     reports = db.relationship('Report', backref='user', lazy = True, cascade = "all, delete-orphan")
-
-
 
 class Organization(db.Model):
     __tablename__ = 'organization'
     id = db.Column(db.Integer, primary_key=True)
     full_name = db.Column(db.String(50))
-    short_name = db.Column(db.String(20))
     okpo = db.Column(db.Integer)
     ynp = db.Column(db.Integer)
     users = db.relationship('User', backref = 'organization', lazy = True, cascade = "all, delete-orphan")

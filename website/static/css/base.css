@@ -51,7 +51,7 @@ select:focus{
     color: white;
     width: 270px;
     height: 40px;
-    border-radius: 5px;
+    border-radius: 10px;
     font-weight: 600;
     transition: background-color 0.3s ease;
 }
@@ -722,7 +722,7 @@ footer {
 
 
 /*profile_common.css begin*/
-.profile_cont{
+.profile_page{
     display: flex;
     flex-direction: row;
     padding-top: 200px;
@@ -732,16 +732,20 @@ footer {
 }
 
 /*profil_header*/
-.profile_cont nav {
-    width: 15%;
+.profile_page nav {
+    position: fixed;
+    width: 300px;
     display: flex;
     flex-direction: column;
     text-align: left;
-    background-image: linear-gradient(to bottom, rgb(243, 243, 243),rgb(255, 255, 255));
-    padding: 20px 0 600px 0;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    padding: 20px 0;
+    border-radius: 10px;
+    margin-left: 20px;
 }
 
-.profile_cont nav li {
+.profile_page nav li {
     list-style-type: none;
     cursor: pointer;
     padding: 7px 60px;
@@ -753,11 +757,11 @@ footer {
     position: relative;
 }
 
-.profile_cont nav li:hover {
+.profile_page nav li:hover {
     background-color: rgb(236, 236, 236);
 }
 
-.profile_cont nav li.active_li::before {
+.profile_page nav li.active_li::before {
     content: '';
     position: absolute;
     top: 0;
@@ -772,7 +776,7 @@ footer {
 /*profil_header end*/
 
 /*panel begin*/
-.profile_cont .panel{
+.profile_page .personal-info_area{
     height: 100%;
     width: auto;
     margin: 0 auto;
@@ -781,17 +785,17 @@ footer {
     top: 0;
 }
 
-.profile_cont .panel table, 
-.profile_cont .panel tr, 
-.profile_cont .panel td{
+.profile_page .personal-info_area table, 
+.profile_page .personal-info_area tr, 
+.profile_page .personal-info_area td{
     border: none;
 }
 
-.profile_cont .panel table tr td{
+.profile_page .personal-info_area table tr td{
     width: 100%;
 }  
 
-.profile_cont .panel table tr td{
+.profile_page .personal-info_area table tr td{
     height: 100%;
     text-align: left;
     padding: 0;
@@ -800,18 +804,20 @@ footer {
     font-weight: 500;
 }  
 
-.profile_cont .panel td input{
+.profile_page .personal-info_area td input{
     width: 500px;
     font-size: 14px;
     margin-left: 50px;
     padding: 0 10px;
     height: 40px;    
-    border-radius: 3px;
-    border: 1px solid rgb(131, 131, 131);
-    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    border: none;
+    border: 1px solid rgb(132,132,132);
+    color: black;
+    background-color:rgb(255, 255, 255);
 }
 
-.profile_cont .panel form button{
+.profile_page .personal-info_area form button{
     width: 100%;
 }
 /*panel end*/
@@ -825,12 +831,12 @@ footer {
 
 
 /*report_area.css begin*/
-.cont_ReportArea{
+.report-area_page{
     margin-top: 60px;
     height: 100vh;
 }
 
-.menu_ReportArea{
+.report-area_menu{
     display: flex;
     color: rgb(0, 0, 0);
     font-weight: 500;
@@ -838,28 +844,25 @@ footer {
     left: 0;
 }
 
-.tab-title {
+.report-area_menu-name {
     padding: 5px 10px;
-    margin: 0;
-}
-
-.tab, .tab-title {
+    margin: 0;    
     display: inline-block;    
     transition: background-color 0.3s ease, color 0.3s ease;
     cursor: pointer;
 }
 
-.tab input[type="radio"] { 
+.report-area_podmenu input[type="radio"] { 
     display: none; 
 }
 
-input[type="radio"]:checked + .tab-title {
+input[type="radio"]:checked + .report-area_menu-name {
     background-color: rgb(255, 255, 255);
     font-size: 16px;
     padding: 7px 15px;
 }
 
-.tab-content {
+.content-podmenu {
     position: absolute;
     padding: 0 10px;
     display: none;
@@ -867,7 +870,7 @@ input[type="radio"]:checked + .tab-title {
     right: 0;
 }
 
-.tab :checked + .tab-title {
+.report-area_podmenu :checked + .report-area_menu-name {
     position: relative; 
     background-color:rgb(241, 241, 241);
     top: 1px; 
@@ -875,17 +878,17 @@ input[type="radio"]:checked + .tab-title {
     z-index: 1;
 }
 
-.tab :checked ~ .tab-content {
+.report-area_podmenu :checked ~ .content-podmenu {
     display: block;
 }
 
-.tab-content nav ul{
+.content-podmenu nav ul{
     display: flex;
     list-style: none;
     margin: 0;
 }
 
-.tab-content nav ul section{
+.content-podmenu nav ul section{
     display: flex;
     background-color: #ffffff;
     border: none;
@@ -904,7 +907,7 @@ input[type="radio"]:checked + .tab-title {
     flex-direction: row;
 }
 
-.tab-content nav ul li{
+.content-podmenu nav ul li{
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -916,42 +919,68 @@ input[type="radio"]:checked + .tab-title {
 }
 
 .functions_menu .active{
-    
     border-radius: 5px;
     border: none;
 }
 
-.tab-content nav ul li:hover{
+.content-podmenu nav ul li:hover{
     background-color:aliceblue;
     transition: background-color 0.2s ease;
     border-radius: 5px;
 }
 
-.tab-content nav ul li img{
+.content-podmenu nav ul li img{
     height: 40px;
     width: auto;
 }
 
-.tab-content nav ul li a{
+.content-podmenu nav ul li a{
     font-size: 12px;
 }
 
 /*---------------menu_report_area end*/
+/*active-report*/
 
-/*active_stroka*/
-
-.active_stroka {
-    background-color: aliceblue;
-    color: rgb(0, 0, 0);
+.active-report {
+    background-color: #50cfc9 !important;
+    color: rgb(153, 153, 153) !important;
 }
 
-.active_stroka_version {
-    background-color: aliceblue;
-    color: rgb(0, 0, 0);
+.active-report_version {
+    background-color: #50cfc9;
+    color: rgb(153, 153, 153) !important;
 }
-/*active_stroka end*/
 
-.ReportArea {
+/*active-report end*/
+/*---------------report-area*/
+.white-panel {
+    padding: 5px;
+    background-color: white;
+    border: 1px solid #3333;
+    border-radius: 5px;
+    z-index: 999; 
+    display: none; 
+    position: absolute;
+    flex-direction: column;
+
+}
+
+.white-panel button {
+    display: flex;   font-size: 13px;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 20px;
+    text-align: left;
+    border: none;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.white-panel button:hover {
+    background-color: #e0e0e0;
+}
+
+.report-area {
     margin-top: 170px;
     margin-bottom: 5px;    
     width: 100%;
@@ -960,41 +989,44 @@ input[type="radio"]:checked + .tab-title {
     overflow-x: auto;
 }
 
-.ReportArea::-webkit-scrollbar {
+.report-area::-webkit-scrollbar {
     height: 3px;
 }
 
-.ReportArea::-webkit-scrollbar-thumb {
+.report-area::-webkit-scrollbar-thumb {
     background-color:rgb(221, 221, 221); 
     border-radius: 5px;
 }
 
-.ReportArea::-webkit-scrollbar-track {
+.report-area::-webkit-scrollbar-track {
     background-color: #ffffff;
 }
 
-.table_ReportArea {
+.table_report-area {
     border: none;
     font-size: 12px;
     table-layout: fixed;  
     flex-grow: 1;
     border-spacing: 0px;
     border-collapse: collapse;
+    
 }     
 
-.table_ReportArea .nams_repor th:last-child {
+.table_report-area .order-table_titels tr th:last-child {
     width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
-.table_ReportArea thead{
+.table_report-area thead{
     text-align: center;
     color: rgb(14, 0, 71);
     font-weight: 600;
 
 }
 
-.table_ReportArea tr th,
-.table_ReportArea tr td{
+.table_report-area tr th,
+.table_report-area tr td{
     border: 1px solid #dddddd;
     background-color: white;
     padding: 5px 10px;
@@ -1004,11 +1036,48 @@ input[type="radio"]:checked + .tab-title {
 
 
 
-
 /*-----------------vers*/
-.versions_row{
-    display: none;
+@keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Анимация для скрытия версий */
+  @keyframes slideOut {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  }
+  
+.slideIn {
+    animation-name: slideIn;
 }
+  
+.slideOut {
+    animation-name: slideOut;
+}
+
+.versions_row {
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+}
+  
+
+
+
+
+
 
 .versions_row .vers_cont {
     padding: 10px 40px; 
@@ -1024,7 +1093,7 @@ input[type="radio"]:checked + .tab-title {
     text-align: left;
 }
 
-.table_vers{
+.table-versions{
     border: none;
     font-size: 12px;
     table-layout: fixed;  
@@ -1033,22 +1102,22 @@ input[type="radio"]:checked + .tab-title {
     border-collapse: collapse;
 }
 
-.table_vers thead{
+.table-versions thead{
     text-align: center;
     color: rgb(14, 0, 71);
     font-weight: 600;
     background-color: white;
 }
 
-.table_vers tr th,
-.table_vers tr td{
+.table-versions tr th,
+.table-versions tr td{
     border: 1px solid #dddddd;
     padding: 5px 10px;
     text-align: center;             
     font-size: 12px;
 }
 
-.show_versins_button{
+.show-versins_button{
     border: 1px solid white;
     color: white;
     background-color: #61b8ff;
@@ -1056,22 +1125,16 @@ input[type="radio"]:checked + .tab-title {
     margin: 5px;
 }
 
-.show_versins_button:focus{
+.show-versins_button:focus{
     outline: none;
 }
 
 /*-----------------vers end*/
 /*-----------------ticket begin*/
 
-.check_row{
+.check-row{
     display: none;
-
     padding: 0 20px;
-    background-color: aliceblue;
-    border: none;
-}
-
-.check_row .check_row_aa{
     background-color: aliceblue;
     border: none;
 }
@@ -1108,7 +1171,7 @@ input[type="radio"]:checked + .tab-title {
     font-size: 12px;
 }
 
-.show_cheks_button{
+.show-cheks_button{
     z-index: 2;
     border: 1px solid white;
     color: white;
@@ -1117,7 +1180,7 @@ input[type="radio"]:checked + .tab-title {
     margin: 5px;
 }
 
-.show_cheks_button:focus{
+.show-cheks_button:focus{
     outline: none;
 }
 
@@ -1190,7 +1253,6 @@ input[type="radio"]:checked + .tab-title {
 .tab_srpav-title {
     padding: 5px 10px;
     margin: 0;
-    background-color:#eeeeee;
     border-radius: 5%;
 }
 
@@ -1200,75 +1262,24 @@ input[type="radio"]:checked + .tab-title {
     right: 0;
 }
 
-.tab-content_srpav nav ul{
-    display: flex;
-    list-style: none;
-    margin: 0;
-}
-
-.tab-content_srpav nav ul section{
-    display: flex; 
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-    font-size: 13px;
-    padding: 5px;
-}
-
-.tab-content_srpav nav ul li{
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    margin: 7px;
-    align-items: center;
-    text-align: center;
-    max-width: 65px;    
-    padding: 11px;
-}
-
-.tab-content_srpav nav ul li:hover{
-    transition: background-color 0.3s ease;
-    background-color: aliceblue;    
-    border-radius: 5px; 
-}
-
-.tab-content_srpav nav ul li img{
-    height: 40px;
-    width: auto;
-}
-
-.tab-content_srpav nav ul li a{
-    font-size: 12px;
-}
-
-.table_spravoch_area{
-    border: 1px solid #dddddd;
-    font-size: 12px;
-    table-layout: fixed;  
-    flex-grow: 1;
-}
-
-.table_spravoch_area .nams_repor th:last-child {
-    width: 100%;
-}
-
-
-.table_spravoch_area{
-    border: none;
+.table_spravoch_area{   
     font-size: 12px;
     table-layout: fixed;  
     flex-grow: 1;
     border-spacing: 0px;
     border-collapse: collapse;
+    border: 1px solid #dddddd;
+    table-layout: fixed;  
+    flex-grow: 1;
 }
+
+
 
 .table_spravoch_area thead{
     text-align: center;
     color: rgb(14, 0, 71);
     font-weight: 400;
-    background-color: aliceblue;
+ 
 }
 
 .table_spravoch_area tr th,
@@ -1376,7 +1387,7 @@ input[type="radio"]:checked + .tab-title {
     font-size: 12px; 
 }
 
-.choose_pr_by_name {
+.choose_product_byname {
     position: absolute;
     top: 50%;
     right: 5%;
@@ -1442,14 +1453,14 @@ input[type="radio"]:checked + .tab-title {
     background-color: white;
     color: black;
     border: none;
-}ч
+}
 
-.table_ReportArea tr td:hover{
+.table_report-area tr td:hover{
 
 }
 
 
-.table_ReportArea tr td input{
+.table_report-area tr td input{
     border: none;
 }
 

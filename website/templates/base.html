@@ -28,7 +28,7 @@
             <li>
               {% if user.is_authenticated %}
               <div class="user-container">
-                  <img id="user-img" width="22" src="{{ url_for('static', filename='img/user.png')}}" alt="">
+                  <img onclick="window.location.href='/account'" id="user-img" width="22" src="{{ url_for('static', filename='img/user.png')}}" alt="">
                   <div id="hoverPanel" class="hoverPanel">
                       <button id="button1" onclick="window.location.href='/account'">Личный кабинет</button>
                       <button id="button2" onclick="window.location.href='/logout'">Выйти</button>

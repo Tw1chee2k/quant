@@ -10,21 +10,20 @@ views = Blueprint('views', __name__)
 def beginPage():
     if User.query.count() == 0:
         new_org = Organization(full_name = "Руп Квант-АС", 
-                               short_name='Квант', 
                                okpo = '12345678', 
                                ynp = '4532345')
+        
         db.session.add(new_org)
-
+        db.session.commit()
+        
         new_user = User(type = "Администратор",
                         email='tw1che.2k@gmail.com', 
                         fio = 'Сидоров Максим Андреевич', 
                         telephone = '+375445531847', 
                         password=generate_password_hash('1234'), 
-                        organization_id = 1)
+                        organization_id = new_org.id)
         db.session.add(new_user)
-        
         db.session.commit()
-        
     if DirUnit.query.count() == 0:   
         units_data = [
             (1, 'тыс. кВт. ч', 'тыс. кВт. ч'),
@@ -481,7 +480,9 @@ def account():
 
 @views.route('/profile/common')
 def profile_common():
-    return render_template('profile_common.html', user=current_user)
+    organization = Organization.query.filter_by(id = current_user.organization_id).first()
+
+    return render_template('profile_common.html', user=current_user, organization=organization)
 
 @views.route('/profile/password')
 def profile_password():

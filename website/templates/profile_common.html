@@ -3,7 +3,10 @@
 {% block title %}Профиль{% endblock %}
 
 {% block content %}
-<div class="profile_cont">
+
+
+
+<div class="profile_page">
     <nav>
         <li class="active_li" onclick="window.location.href='/profile/common'">
             Общее
@@ -13,27 +16,35 @@
         {% endif %}
         <li onclick="window.location.href='/logout'">Выйти</li>
     </nav>
-    <div class="panel">
+    <div class="personal-info_area">
         <table>
             <tr>
-                <td>Тип пользователя</div></td>
-                <td><input type="text" placeholder="{{user.type}}" disabled></td>
+                <td style = "padding-bottom: 94px;">Тип пользователя</div></td>
+                <td><input style = "margin-bottom: 80px;" type="text" placeholder="{{user.type}}" disabled></td>
             </tr>
             <tr >
-                <td style = "padding-bottom: 94px;" ><span >E-mail</span></td>
-                <td><input style = "margin-bottom: 80px;"  type="text" placeholder="{{user.email}}" disabled></td>
+                <td  ><span >E-mail</span></td>
+                <td><input   type="text" placeholder="{{user.email}}" disabled></td>
             </tr>
             <tr>
                 <td>ФИО</td>
                 <td><input type="text" placeholder="{{user.fio}}" disabled></td>
             </tr>
-            <tr>
-                <td>Номер телефона</td>
-                <td><input type="text" placeholder="{{user.telephone}}" disabled></td>
+            <tr >
+                <td style = "padding-bottom: 94px;">Номер телефона</td>
+                <td><input style = "margin-bottom: 80px;" type="text" placeholder="{{user.telephone}}" disabled></td>
             </tr>
             <tr>
                 <td>Организация</td>
-                <td><input type="text" value="{{user.organization_id.full_name}}" disabled></td>
+                <td><input type="text" value="{{organization.full_name}}" disabled></td>
+            </tr>
+            <tr>
+                <td>ОКПО</td>
+                <td><input type="text" value="{{organization.okpo}}" disabled></td>
+            </tr>
+            <tr>
+                <td>УНП</td>
+                <td><input type="text" value="{{organization.ynp}}" disabled></td>
             </tr>
         </table>
     </div>

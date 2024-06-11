@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Fuel {{curent_report}} {{current_version_report}}{% endblock %}
-
 {% block content %}
-<div class = "cont_ReportArea">
-    <div class = "menu_ReportArea">
-        <div class="tab_srpav">
-            <label for="tab4" class="tab_srpav-title">Разделы</label> 
-            <section class="tab-content_srpav">
+
+<div class = "report-area_page">
+    <div class = "report-area_menu">
+        <div class="report-area_podmenu">
+            <input type="radio" id="tab1" name="tab-group" checked>
+            <label for="tab1" class="report-area_menu-name">Панель управления</label> 
+            <div class="content-podmenu">
                 <nav>
                     <ul>
                         <section>
@@ -28,7 +29,7 @@
                                 Действия
                             </div>
                         </section>
-    
+        
                         <section>
                             <div class = "functions_menu">
                                 <li class = "active">         
@@ -92,11 +93,36 @@
                         </section>
                     </ul>
                 </nav>
-            </section>
+            </div>
         </div> 
+        <div class="report-area_podmenu">
+            <input type="radio" id="tab2" name="tab-group">
+            <label for="tab2" class="report-area_menu-name">Справка</label> 
+            <div class="content-podmenu">
+                <nav>
+                    <ul>  
+                        <section>
+                            <div class = "functions_menu">
+                                <li id = "myUOM">                     
+                                    <img src="{{ url_for('static', filename='img/icon_UOM.png')}}" alt="">
+                                    <a>Еденицы измерения</a>
+                                </li>
+                                <li id = "myTOP">            
+                                    <img src="{{ url_for('static', filename='img/icons_TOP.png')}}" alt="">
+                                    <a>Виды продукции</a>
+                                </li>
+                            </div>
+                            <div>
+                    
+                            </div>
+                        </section>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
-    <div class = "ReportArea" style = "margin-top: 10px;">
-        <table class = "table_ReportArea">
+    <div class = "report-area">
+        <table class = "table_report-area">
             <thead>
                 <tr>
                     <th rowspan="2"></th>
@@ -137,9 +163,7 @@
                 <form action = "/change_fuel" method="POST">
                     <tr data-id="{{ row.id }}">
                         <td>
-                            <button type = "submit" class="submit_fuel_button">✓</button>
-                            <input type = "hidden" name = "id_fuel" value = "{{row.id}}">
-                            <input type = "hidden" name = "id_version_fuel" value = "{{row.id_version}}">
+                 
                         </td>
                         <td style = "text-align: left;">
                             <input class = "name_prod_width" type = "text" value = "{{ row.product.NameProduct }}" readonly>
@@ -157,35 +181,35 @@
                             {% if row.produced %}
                                 <input name = "produced_fuel" onkeypress="return isNumberKey(event)" value = "{{ row.produced }}">
                             {% else %}
-                                <input name = "produced_fuel" onkeypress="return isNumberKey(event)"value = "0.00">
+                                <input name = "produced_fuel" onkeypress="return isNumberKey(event)"value = "0,00">
                             {% endif %}
                         </td>
                         <td>
                             {% if row.Consumed_Quota %}
                                 <input name = "Consumed_Quota_fuel" onkeypress="return isNumberKey(event)" value = "{{ row.Consumed_Quota }}">
                             {% else %}
-                                <input name = "Consumed_Quota_fuel" onkeypress="return isNumberKey(event)"value = "0.00">
+                                <input name = "Consumed_Quota_fuel" onkeypress="return isNumberKey(event)"value = "0,00">
                             {% endif %}
                         </td>
                         <td>
                             {% if row.Consumed_Fact %}
                                 <input name = "Consumed_Fact_fuel" value = "{{ row.Consumed_Fact }}" readonly>
                             {% else %}
-                                <input name = "Consumed_Fact_fuel" value = "0.00" readonly>
+                                <input name = "Consumed_Fact_fuel" value = "0,00" readonly>
                             {% endif %}
                         </td>
                         <td>
                             {% if row.Consumed_Total_Quota %}
                                 <input name = "Consumed_Total_Quota_fuel" value = "{{ row.Consumed_Total_Quota }}" readonly>
                             {% else %}
-                                <input name = "Consumed_Total_Quota_fuel" value = "0.00" readonly>
+                                <input name = "Consumed_Total_Quota_fuel" value = "0,00" readonly>
                             {% endif %}
                         </td>
                         <td>
                             {% if row.Consumed_Total_Fact %}
                                 <input name = "Consumed_Total_Fact_fuel" onkeypress="return isNumberKey(event)" value = "{{ row.Consumed_Total_Fact }}">
                             {% else %}
-                                <input name = "Consumed_Total_Fact_fuel" onkeypress="return isNumberKey(event)" value = "0.00">
+                                <input name = "Consumed_Total_Fact_fuel" onkeypress="return isNumberKey(event)" value = "0,00">
                             {% endif %}
                         </td>
                         <td></td>
@@ -219,7 +243,7 @@
                             <td>
                                 <input type="text" name="name_of_prduct" style = "width: 400px; text-align: left;">
                             
-                                <div class="choose_pr_by_name">
+                                <div class="choose_product_byname">
                                     <table class = "choose_prod_table">
                                         <thead>
                                             <tr>
@@ -363,13 +387,13 @@
 /*всплывающая панель для выбора продукта при формировании отчета*/
 $(document).ready(function(){
     $('input[name="name_of_prduct"]').on('focus', function(){
-        $('.choose_pr_by_name').show();
+        $('.choose_product_byname').show();
     });
 
     $('#chooseProdTableBody').on('click', 'tr', function(){
         var productName = $(this).find('td:nth-child(2)').text();
         $('input[name="name_of_prduct"]').val(productName);
-        $('.choose_pr_by_name').hide();
+        $('.choose_product_byname').hide();
     });
 
     $('input[name="name_of_prduct"]').on('input', function(){
@@ -377,9 +401,9 @@ $(document).ready(function(){
         var noResultsRow = $('#noResultsRow');
 
         if (filterText.length > 0) {
-            $('.choose_pr_by_name').show();
+            $('.choose_product_byname').show();
         } else {
-            $('.choose_pr_by_name').hide();
+            $('.choose_product_byname').hide();
         }
 
         var hasResults = false;

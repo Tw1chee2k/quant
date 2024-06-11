@@ -54,7 +54,7 @@ def sign():
         telephone = request.form.get('telephone')
         password = request.form.get('password')
         full_name =  request.form.get('full_name')
-        short_name =  request.form.get('short_name')
+
         okpo = request.form.get('okpo')
         ynp = request.form.get('ynp')
 
@@ -66,20 +66,21 @@ def sign():
         elif not re.match(r'[\w\.-]+@[\w\.-]+', email):
             flash('Некорректный адрес электронной почты', category='error')  
         else:
-            new_user = User(email=email, 
-                            fio=fio, 
-                            telephone=telephone, 
-                            password=generate_password_hash(password))
-            db.session.add(new_user)
+
             new_organization = Organization(
                 okpo=okpo,
                 full_name=full_name,
-                short_name=short_name,
-                ynp=ynp
+                ynp=ynp, 
+
             )
             db.session.add(new_organization)
-
-
+            db.session.commit()
+            new_user = User(email=email, 
+                            fio=fio, 
+                            telephone=telephone, 
+                            password=generate_password_hash(password),
+                            organization_id = new_organization.id)
+            db.session.add(new_user)
             db.session.commit()
 
 
@@ -153,55 +154,9 @@ def gener_password():
     password = '1111'
     return password
 
-
-
-
-
-@auth.route('/create_new_organization', methods=['POST'])
-def create_new_organization():
-    if request.method == 'POST':
-        new_organization = Organization(
-            full_name = None,
-            short_name = None,
-            okpo = None,
-            ynp = None
-        )
-        db.session.add(new_organization)
-        db.session.commit()
-        flash('Добавлена новая организация', category='success')
-    return redirect(url_for('views.report_area'))
-    
-@auth.route('/update_organization', methods=['POST'])
-def update_organization():
-    id = request.form.get('id')
-    full_name = request.form.get('full_name')
-    short_name = request.form.get('short_name')
-    okpo = request.form.get('okpo')
-    ynp = request.form.get('ynp') 
-    
-    organization = Organization.query.filter_by(id=id).first()
-    if request.method == 'POST':
-        organization.full_name = full_name
-        organization.short_name = short_name
-        organization.okpo = okpo
-        organization.ynp = ynp    
-        current_user.organization_name = short_name
-        db.session.commit()  
-    return redirect(url_for('views.report_area'))
-    
-@auth.route('/delete_organization/<organization_id>', methods=['POST'])
-def delete_organization(organization_id):
-    if request.method == 'POST':
-        current_organization = Organization.query.filter_by(id = organization_id).first()
-        if current_organization: 
-            db.session.delete(current_organization)
-            db.session.commit() 
-            flash("Организация была удалена")
-        return redirect(url_for('views.report_area'))
-
 @auth.route('/create_new_report', methods=['POST'])
 def create_new_report():
-    organization = Organization.query.filter_by().first()
+    organization = Organization.query.filter_by(id = current_user.organization_id).first()
     if request.method == 'POST':
         new_report = Report(
             okpo=organization.okpo,
@@ -246,7 +201,6 @@ def update_report():
         current_report.quarter = quarter
         current_report.organization_name = organization_okpo.full_name
         current_report.organization_id = organization_okpo.id
-
         db.session.commit()
         return redirect(url_for('views.report_area'))
     
@@ -265,12 +219,10 @@ def delete_report(report_id):
                 sections = Sections.query.filter_by(id_version = version.id).all()
                 for section in sections:
                     db.session.delete(section)
-                    
+                
                 db.session.delete(version)
             db.session.delete(current_report)
             db.session.commit()
-            
-            
             flash("Отчет был удален")
         return redirect(url_for('views.report_area'))
     

@@ -1,22 +1,22 @@
 {% extends "base.html" %}
 {% block title %}Подать отчет{% endblock %}
-
 {% block content %}
-<div class = "cont_ReportArea">
-    <div class = "menu_ReportArea">
-        <div class="tab">
+
+<div class = "report-area_page">
+    <div class = "report-area_menu">
+        <div class="report-area_podmenu">
             <input type="radio" id="tab1" name="tab-group" checked>
-            <label for="tab1" class="tab-title">Сведения о нормах</label> 
-            <section class="tab-content">
+            <label for="tab1" class="report-area_menu-name">Панель управления</label> 
+            <div class="content-podmenu">
                 <nav>
                     <ul>
                         <section>
                             <div class = "functions_menu">
-                                <li id="newReportItem">           
+                                <li data-action="createReport">           
                                     <img src="{{ url_for('static', filename='img/icon_new_file.png')}}" alt="">
                                     <a>Новый</a>   
                                 </li>
-                                <li id="del_this_report">                     
+                                <li data-action="deleteReport">                     
                                     <img src="{{ url_for('static', filename='img/icon_delete_file.png')}}" alt="">
                                     <a>Удалить</a>
                                 </li>
@@ -24,8 +24,7 @@
                             <div style = "font-weight: 600;">
                                 Отчет
                             </div>
-                        </section>
-        
+                        </section>  
                         <section>
                             <div class = "functions_menu">
                                 <li id = "new_version">           
@@ -36,7 +35,6 @@
                                     <img src="{{ url_for('static', filename='img/icon_delete_file.png')}}" alt="">
                                     <a>Удалить</a>
                                 </li>
-
                                 <li onclick="window.location.href=''">           
                                     <img src="{{ url_for('static', filename='img/icon_excel.png')}}" alt="">
                                     <a>Экспорт</a>   
@@ -58,10 +56,9 @@
                                 Версия отчета
                             </div> 
                         </section>
-        
                         <section>
                             <div class = "functions_menu">
-                                <li onclick="window.location.href=''">           
+                                <li onclick="openNewWindow('/report')">           
                                     <img src="{{ url_for('static', filename='img/icon_print_file.png')}}" alt="">
                                     <a>Печать документа</a>   
                                 </li> 
@@ -70,11 +67,9 @@
                                 Квитанция
                             </div>   
                         </section>
-        
-        
                         <section>
                             <div class = "functions_menu">
-                                <li onclick="openNewWindow('/report')">           
+                                <li >           
                                     <img src="{{ url_for('static', filename='img/icon_change.png')}}" alt="">
                                     <a>Изменить данные</a>   
                                 </li>
@@ -86,12 +81,12 @@
                         </section>
                     </ul>
                 </nav>
-            </section>
+            </div>
         </div> 
-        <div class="tab">
+        <div class="report-area_podmenu">
             <input type="radio" id="tab2" name="tab-group">
-            <label for="tab2" class="tab-title">Справочники</label> 
-            <section class="tab-content">
+            <label for="tab2" class="report-area_menu-name">Справка</label> 
+            <div class="content-podmenu">
                 <nav>
                     <ul>  
                         <section>
@@ -106,23 +101,22 @@
                                 </li>
                             </div>
                             <div>
-                    
                             </div>
                         </section>
                     </ul>
                 </nav>
-            </section>
+            </div>
         </div>
-
     </div>
-    <div class = "ReportArea">
-        <table class = "table_ReportArea">
-            <thead>
-                <tr class = "nams_repor">
+    <div class = "report-area">
+        <table class = "table_report-area">
+            <thead class = "order-table_titels">
+                <tr>
                     <th></th>
                     <th></th>
+                    <th>id</th>
                     <th>ОКПО</th>
-                    <th style = "white-space: nowrap;">Название организации</th>
+                    <th style = "white-space: nowrap;">Наименование предприятия</th>
                     <th>Год</th>
                     <th>Квартал</th>
                     <th></th>
@@ -133,12 +127,14 @@
                 <tr class="report_row" data-id="{{ row.id }}">
                     <td> </td>
                     <td>
-                        <button class="show_versins_button">+</button>
+                        <button class="show-versins_button">+</button>
                     </td>
+                    <td>{{ row.id }}</td>
                     <td>{{ row.okpo }}</td>
                     <td>{{ row.organization_name }}</td>
                     <td>{{ row.year }}</td>
                     <td>{{ row.quarter }}</td> 
+                    <td ></td> 
                 </tr>
                 <tr class="change_input_row">
                     <td colspan="10">
@@ -156,33 +152,28 @@
                                         </option>
                                     {% endfor %}
                                 </select>
-
                             </div>
-                            
                             <div class = "change_input"> 
                                 <div class = "placehold_of_left">Год</div>
                                 <input type="text" name = "year" value = "{{ row.year }}" style = "border: 1px solid #3333;" placeholder = "Год">
                             </div>
-
                             <div class = "change_input"> 
                                 <div class = "placehold_of_left">Квартал</div>
                                 <input type="text" name = "quarter" value = "{{ row.quarter }}" style = "border: 1px solid #3333;" placeholder = "Квартал">
                             </div>
-
                             <input type="hidden" name = "id"  value = "{{ row.id }}" placeholder = "id">      
                             <button type = "submit">Обновить</button>
-
                         </form>
                         
                     </td>
+                   
                 </tr>
-                <tr class="versions_row">
+                <tr class="versions_row" style="display: none;">
                     <td colspan="10" class = "vers_cont">
                         <div class = "text_vers">--Версии--</div>
-                        <table class = "table_vers">
+                        <table class = "table-versions">
                             <thead>
                                 <tr>
-                                    <th></th>
                                     <th></th>
                                     <th>Дата начала</th>
                                     <th>Дата изменения</th>
@@ -196,9 +187,9 @@
                             </thead>
                             <tbody>
                             {% for rows in row.versions %}
-                            <tr class = "row_with_versions" data-id="{{ rows.id }}">
-                                <td></td>
-                                <td><button class="show_cheks_button">+</button></td>
+                            <tr class = "version-row" data-id="{{ rows.id }}">
+                              
+                                <td><button class="show-cheks_button">+</button></td>
                                 <td>{{ rows.begin_time }}</td>
                                 <td>
                                     {% if rows.change_time %}
@@ -224,8 +215,8 @@
                                 <td>{{ rows.telephone }}</td>
                                 <td>{{ rows.email }}</td>
                             </tr>
-                            <tr class = "check_row">
-                                <td colspan="10" class = "check_row_aa">
+                            <tr class = "check-row">
+                                <td colspan="10" style = "border: none; background-color: aliceblue; padding: 10px 40px;">
                                     <div class = "text_cheks">--Квитанции--</div>
                                     <table class = "cheks_table">
                                         <thead>
@@ -245,7 +236,6 @@
                                             {% endfor %}
                                         </tbody>
                                     </table>
-                            
                                 </td>
                             </tr>
                             {% endfor %}
@@ -268,25 +258,22 @@
             <div class="tab_srpav">
                 <label class="tab_srpav-title">Единицы измерения</label> 
                 <section class="tab-content_srpav">
-                   
+            
                 </section>
             </div>
         <div class="table_container_sprav">
             <table class = "table_spravoch_area">
                 <thead>
                     <tr class = "nams_repor">
-                        <th></th>
                         <th>Код единицы измерения</th>
                         <th>Название единицы измерения</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for row in dirUnit %}
                     <tr>
-                        <th></th>
-                        <td>{{ row.CodeUnit }}</td>
-                        <td>{{ row.NameUnit }}</td>
+                        <td style = "text-align: left;">{{ row.CodeUnit }}</td>
+                        <td style = "text-align: left;">{{ row.NameUnit }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -309,7 +296,7 @@
             <table class = "table_spravoch_area">
                 <thead>
                     <tr>
-                        <th></th>
+                  
                         <th>Код продукции</th>
                         <th>Наименование продукции</th>
                         <th>Топливо</th>
@@ -318,15 +305,15 @@
                         <th>Код единицы измерения</th>
                         <th>Дата начала</th>
                         <th>Дата окончания</th>
-                        <th></th>
+                  
                     </tr>
                 </thead>
                 <tbody>
                     {% for row in dirProduct %}
                     <tr>
-                        <th></th>   
+                 
                         <td>{{row.CodeProduct}}</td>
-                        <td>{{row.NameProduct}}</td>
+                        <td style = "text-align: left;">{{row.NameProduct}}</td>
                         <td>
                             <input type="checkbox" name="control" {% if row.IsFuel %} checked {% endif %} disabled>
                         </td>
@@ -358,7 +345,20 @@
         </div>    
     </div>
 </div>
-{#end#}
+
+<div id="contextMenu" class="white-panel">
+    <button data-action="createReport">
+        <span>Создать новый</span>
+    </button> 
+    <button>
+        <span>Редактировать</span>
+    </button>    
+    <hr style = "border: 1px solid #3333;">
+    <button data-action="deleteReport">
+        <span>Удалить</span>
+    </button>   
+</div>
+
 
 <script>
 
