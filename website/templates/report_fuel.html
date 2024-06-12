@@ -134,7 +134,7 @@
                     <th colspan="2">Израсходовано на единицу продукции (работы, услуги) за отчетный период, кг у.т.</th>
                     <th colspan="3">Израсходовано на всю произведенную продукцию (работу, услугу) за отчетный период, т у.т.</th>
                     <th rowspan="2">Примечание</th>
-                   
+                    <th colspan="2"></th>
                 </tr>
                 <tr>
                     <th>по утвержденной норме (предельному уровню)</th>
@@ -142,6 +142,7 @@
                     <th>по утвержденной норме (предельному уровню)</th>
                     <th>фактически</th>
                     <th>Экономия(-), перерасход(+)</th>
+                    <th colspan="2"></th>
                 </tr>
                 <tr>
                     <th></th>
@@ -156,6 +157,7 @@
                     <th>5</th>
                     <th>6</th>
                     <th>7</th>
+                    <th colspan="2"></th>
                 </tr>
             </thead>
             <tbody>
@@ -190,6 +192,12 @@
                                 <input name = "Consumed_Quota_fuel" value = "0.00">
                             {% endif %}
                         </td>
+
+
+
+
+
+
                         <td>
                             {% if row.Consumed_Fact %}
                                 <input name = "Consumed_Fact_fuel" value = "{{ row.Consumed_Fact }}" readonly>
@@ -197,6 +205,12 @@
                                 <input name = "Consumed_Fact_fuel" value = "0.00" readonly>
                             {% endif %}
                         </td>
+
+
+
+
+
+
                         <td>
                             {% if row.Consumed_Total_Quota %}
                                 <input name = "Consumed_Total_Quota_fuel" value = "{{ row.Consumed_Total_Quota }}" readonly>
@@ -211,9 +225,15 @@
                                 <input name = "Consumed_Total_Fact_fuel" value = "0.00">
                             {% endif %}
                         </td>
-                        <td>
-                            <input name = "" value = "0.00">
-                        </td>
+                        {% if row.Consumed_Total_Fact - row.Consumed_Total_Quota < 0%}
+                            <td style="background-color: #a2ff77;">
+                                <input style="background-color: #a2ff77;" name="" value="{{ row.Consumed_Total_Fact - row.Consumed_Total_Quota }}" readonly>
+                            </td>
+                        {%else%}
+                            <td style="background-color: #ff7676;">
+                                <input style="background-color: #ff7676;" name="" value="{{ row.Consumed_Total_Fact - row.Consumed_Total_Quota }}" readonly>
+                            </td>
+                        {%endif%}
                         <td> 
                             {% if row.note %}
                                 <input name = "note_fuel" value = "{{ row.note }}">
@@ -233,12 +253,24 @@
                     <td>9001</td>
                     <td></td>
                     <td>т. у. т.</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                        <input type = "text" value = "0.00" readonly>
+                    </td>
+                    <td>
+                        <input type = "text" value = "0.00" readonly>
+                    </td>
+                    <td>
+                        <input type = "text" value = "0.00" readonly>
+                    </td>
+                    <td>
+                        <input type = "text" value = "0.00" readonly>
+                    </td>
+                    <td>
+                        <input type = "text" value = "0.00" readonly>
+                    </td>
+                    <td style = "background-color: #a2ff77;">
+                        <input style = "background-color: #a2ff77;" name = "" value = "{{economia_pererashod}}">
+                    </td>
                     <td></td>
                 </tr>
                 <tr class = "fuel-main_parapetrs">
@@ -249,12 +281,24 @@
                     <td>9010</td>
                     <td></td>
                     <td>т. у. т.</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                        <input type = "text" value = "0.00" readonly>
+                    </td>
+                    <td>
+                        <input type = "text" value = "0.00" readonly>
+                    </td>
+                    <td>
+                        <input type = "text" value = "0.00" readonly>
+                    </td>
+                    <td>
+                        <input type = "text" value = "0.00" readonly>
+                    </td>
+                    <td>
+                        <input type = "text" value = "0.00" readonly>
+                    </td>
+                    <td style = "background-color: #a2ff77;">
+                        <input style = "background-color: #a2ff77;" name = "" value = "0.00">
+                    </td>
                     <td></td>
                 </tr>
                 <tr class = "fuel-main_parapetrs">
@@ -265,12 +309,24 @@
                     <td>9100</td>
                     <td></td>
                     <td>т. у. т.</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                        <input type = "text" value = "0.00" readonly>
+                    </td>
+                    <td>
+                        <input type = "text" value = "0.00" readonly>
+                    </td>
+                    <td>
+                        <input type = "text" value = "0.00" readonly>
+                    </td>
+                    <td>
+                        <input type = "text" value = "0.00" readonly>
+                    </td>
+                    <td>
+                        <input type = "text" value = "0.00" readonly>
+                    </td>
+                    <td style = "background-color: #a2ff77;">
+                        <input style = "background-color: #a2ff77;" name = "" value = "0.00">
+                    </td>
                     <td></td>
                 </tr>
             </tbody>

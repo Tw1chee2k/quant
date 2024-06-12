@@ -522,15 +522,20 @@ def report_fuel(id):
     current_version_report = Version_report.query.filter_by(id=id).first()
     curent_report = current_version_report.id
     current_version_report = id
-  
     section = Sections.query.filter_by(id_version=curent_report, section_number = 1).all() 
+
+    economia_pererashod = 0
+    for i in section:
+        economia_pererashod += (i.produced + i.Consumed_Quota)
+
     return render_template('report_fuel.html', 
         dirUnit=dirUnit,
         dirProduct=dirProduct,
         section=section,
         user=current_user, 
         current_version_report=current_version_report, 
-        curent_report=curent_report
+        curent_report=curent_report,
+        economia_pererashod=economia_pererashod
         )
 
         

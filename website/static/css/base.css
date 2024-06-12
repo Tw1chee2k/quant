@@ -922,7 +922,7 @@ input[type="radio"]:checked + .report-area_menu-name {
 .functions_menu .active{
     border-radius: 5px;
     border: none;
-    background-color:#50cfc9;
+    background-color: #95f8f3;
 }
 
 .content-podmenu nav ul li:hover{
@@ -944,11 +944,11 @@ input[type="radio"]:checked + .report-area_menu-name {
 /*active-report*/
 
 .active-report {
-    background-color: #50cfc9;
+    background-color: #95f8f3;
 }
 
 .active-report_version {
-    background-color: #50cfc9;
+    background-color:  #95f8f3;
 }
 
 /*active-report end*/
@@ -1025,27 +1025,36 @@ input[type="radio"]:checked + .report-area_menu-name {
     font-weight: 600;
 }
 
-.fuel-main_parapetrs td{
-    text-align: left;
-}
+
 
 .fuel-main_parapetrs td input{
-    width: 100%;
+    width: 100%;    
+  
 }
 
 
 
-.table_report-area tr th,
-.table_report-area tr td{
+.table_report-area tr th{
     border: 1px solid #dddddd;
-
     padding: 5px 10px;
     text-align: center;             
     font-size: 12px;
 }
 
-.table_report-area  input{            
+
+.table_report-area tr td{
+    border: 1px solid #dddddd;
+    padding: 5px 10px;
+    text-align: left;             
     font-size: 12px;
+    font-weight: 500;
+}
+
+
+
+.table_report-area  input{            
+    font-size: 12px;  
+    font-weight: 500;
 }
 
 
@@ -1096,7 +1105,7 @@ input[type="radio"]:checked + .report-area_menu-name {
 }
 
 .show-versins_button{
-    border: 1px solid white;
+    border: none;
     color: white;
     background-color: #61b8ff;
     padding:  1px 6px;

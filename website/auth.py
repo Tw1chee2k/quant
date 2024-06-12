@@ -270,7 +270,6 @@ def add_fuel_param():
         note = request.form.get('note')
 
         current_product = DirProduct.query.filter_by(NameProduct=name).first()
-
         new_section = Sections(
             id_version=current_version_report,
             id_product=current_product.IdProduct,
@@ -286,6 +285,18 @@ def add_fuel_param():
         )
         db.session.add(new_section)
         db.session.commit()
+
+        current_section = Sections.query.filter_by(id=new_section.id).first()
+        current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 1000, 2)
+        current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 1000, 2)
+        db.session.commit()
+
+        all_user_sections = Sections.query.filter_by(id=current_version_report).all()
+        economia_pererashod = 0
+        for i in all_user_sections:
+            economia_pererashod = i.produced + i.Consumed_Quota
+
+
     return redirect(url_for('views.report_fuel', id = current_version_report))
 
 
