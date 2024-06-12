@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 /*появляющиеся сообщения*/
     var alertBox = document.querySelector('.custom-alert');
-
     setTimeout(function() {
         alertBox.classList.add('hidden');
     }, 2000);
@@ -13,23 +12,17 @@ document.addEventListener('DOMContentLoaded', function () {
     userImg.addEventListener('mouseenter', function() {
         hoverPanel.style.display = 'block';
     });
-
     userImg.addEventListener('mouseleave', function() {
         hoverPanel.style.display = 'none';
     });
-
     hoverPanel.addEventListener('mouseenter', function() {
         hoverPanel.style.display = 'block';
     });
-
     hoverPanel.addEventListener('mouseleave', function() {
         hoverPanel.style.display = 'none';
     });
-
     });  
  /*end*/   
-      
-
 
 /*создание нового отчета*/
     function createNewReport() {
@@ -47,49 +40,50 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Ошибка при отправке запроса:', error);
         });
     }
-    // Применяем функцию для всех кнопок с классом createReport
     var createReport = document.querySelectorAll('[data-action="createReport"]');
     createReport.forEach(function(button) {
         button.addEventListener('click', createNewReport);
     });
 /*end*/
-/*удаления активного отчета*/
-var deleteReportButtons = document.querySelectorAll('[data-action="deleteReport"]');
-deleteReportButtons.forEach(function(button) {
-    button.addEventListener('click', function() {
-        // Находим активную строку отчета
-        var activeRow = document.querySelector('.report_row.active-report');
-        if (activeRow !== null) {
-            var reportId = activeRow.dataset.id;
-            deleteReport(reportId);
-        } else {
-            alert('Выберите отчет для удаления');
-        }
-    });
-});
 
-function deleteReport(reportId) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/delete_report/' + reportId, true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                window.location.reload();
+
+
+/*удаления активного отчета*/
+    var deleteReportButtons = document.querySelectorAll('[data-action="deleteReport"]');
+    deleteReportButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            // Находим активную строку отчета
+            var activeRow = document.querySelector('.report_row.active-report');
+            if (activeRow !== null) {
+                var reportId = activeRow.dataset.id;
+                deleteReport(reportId);
             } else {
-                console.error(xhr.statusText);
+                alert('Выберите отчет для удаления');
             }
-        }
-    };
-    xhr.send();
-}
+        });
+    });
+
+    function deleteReport(reportId) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/delete_report/' + reportId, true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    window.location.reload();
+                } else {
+                    console.error(xhr.statusText);
+                }
+            }
+        };
+        xhr.send();
+    }
 /*end*/
 
 /*активный отчет*/
     var reportRows = document.querySelectorAll('.report_row');
     var previousRow = null;
     var selectedReportId = null;
-
     reportRows.forEach(function(row) {
         row.addEventListener('click', function() {
             if (this.dataset.id) {
@@ -107,7 +101,6 @@ function deleteReport(reportId) {
                 }
             }
         });
-
         row.addEventListener('contextmenu', function(event) {
             event.preventDefault();
 
@@ -141,6 +134,14 @@ function deleteReport(reportId) {
             }
         });
     });
+
+
+
+
+
+
+
+
 /*end*/
     
 /*кнопка для отображения версий отчета*/
@@ -172,9 +173,12 @@ function deleteReport(reportId) {
             }
         });
     });
+
+
 /*создание новой версии*/
-    var new_version = document.getElementById('new_version');
-    new_version.addEventListener('click', function() {
+    var newVersionButton = document.querySelector('[data-action="new-version"]');
+    newVersionButton.addEventListener('click', function() {
+        var selectedReportId = document.querySelector('.report_row.active-report').dataset.id;
         if (selectedReportId) {
             fetch('/create_new_report_version/' + selectedReportId, {
                 method: 'POST'
@@ -200,31 +204,30 @@ function deleteReport(reportId) {
 
 
 
-// /*активная версия*/
-//     var rowsWithVersions = document.querySelectorAll(".version-row");
-//     var previousRow = null;
-//     rowsWithVersions.forEach(function(row) {
-//         row.addEventListener('click', function() {
-//             selectedversionId = this.dataset.id;
-//             console.log(selectedversionId);
-            
-//             if (this.classList.contains('active-report_version')) {
-//                 this.classList.remove('active-report_version');
-//                 this.style.backgroundColor = '';
-//             } else {
-//                 if (previousRow !== null) {
-//                     previousRow.classList.remove('active-report_version');
-//                     previousRow.style.backgroundColor = '';
-//                 }
-//                 this.classList.add('active-report_version');
-//                 previousRow = this;
-//             }
-//         }); 
-//     });
+ /*активная версия*/
+    var rowsWithVersions = document.querySelectorAll(".version-row");
+    var previousRow = null;
+    rowsWithVersions.forEach(function(row) {
+        row.addEventListener('click', function() {
+            selectedversionId = this.dataset.id;
+            console.log(selectedversionId);
+        
+            if (this.classList.contains('active-report_version')) {
+                this.classList.remove('active-report_version');
+                this.style.backgroundColor = '';
+            } else {
+                if (previousRow !== null) {
+                    previousRow.classList.remove('active-report_version');
+                    previousRow.style.backgroundColor = '';
+                }
+                this.classList.add('active-report_version');
+                previousRow = this;
+            }
+        }); 
+    });
 
 /*end*/
     
-
     document.querySelectorAll('.version-row').forEach(function(row) {
         row.addEventListener('dblclick', function() {
             var id = this.dataset.id;
@@ -233,38 +236,33 @@ function deleteReport(reportId) {
         });
     });
 
-
-
-// /* реализация удаления версии, *активной строки*/
-//     var del_version = document.getElementById('del_version');
-//     del_version.addEventListener('click', function() {
-//         var activeRow = document.querySelector('.version-row.active-report_version');
-//         if (activeRow !== null) {
-//             var varsionId = activeRow.dataset.id;
-//             Delete_version(varsionId);
-//         } else {
-//             alert('Выберите версию для удаления');
-//         }
-//     });
-//     function Delete_version(varsionId) {
-//         var xhr = new XMLHttpRequest();
-//         xhr.open('POST', '/delete_version/' + varsionId, true);
-//         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-//         xhr.onreadystatechange = function() {
-//             if (xhr.readyState === 4) {
-//                 if (xhr.status === 200) {
-//                     window.location.reload();
-//                 } else {
-//                     console.error(xhr.statusText);
-//                 }
-//             }
-//         };
-//         xhr.send();
-//     }
-// /*end*/
-    
-
-
+/* реализация удаления версии, *активной строки*/
+    var del_version = document.getElementById('del_version');
+    del_version.addEventListener('click', function() {
+        var activeRow = document.querySelector('.version-row.active-report_version');
+        if (activeRow !== null) {
+            var varsionId = activeRow.dataset.id;
+            Delete_version(varsionId);
+        } else {
+            alert('Выберите версию для удаления');
+        }
+    });
+    function Delete_version(varsionId) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/delete_version/' + varsionId, true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    window.location.reload();
+                } else {
+                    console.error(xhr.statusText);
+                }
+            }
+        };
+        xhr.send();
+    }
+/*end*/
     
 /*всплывающее окно с единицами измерения*/
     var myUOM = document.getElementById('myUOM');

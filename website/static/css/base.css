@@ -907,6 +907,7 @@ input[type="radio"]:checked + .report-area_menu-name {
     flex-direction: row;
 }
 
+
 .content-podmenu nav ul li{
     margin: 0;
     display: flex;
@@ -921,6 +922,7 @@ input[type="radio"]:checked + .report-area_menu-name {
 .functions_menu .active{
     border-radius: 5px;
     border: none;
+    background-color:#50cfc9;
 }
 
 .content-podmenu nav ul li:hover{
@@ -942,13 +944,11 @@ input[type="radio"]:checked + .report-area_menu-name {
 /*active-report*/
 
 .active-report {
-    background-color: #50cfc9 !important;
-    color: rgb(153, 153, 153) !important;
+    background-color: #50cfc9;
 }
 
 .active-report_version {
     background-color: #50cfc9;
-    color: rgb(153, 153, 153) !important;
 }
 
 /*active-report end*/
@@ -1004,12 +1004,13 @@ input[type="radio"]:checked + .report-area_menu-name {
 
 .table_report-area {
     border: none;
+    background-color: #ffffff;
     font-size: 12px;
     table-layout: fixed;  
     flex-grow: 1;
     border-spacing: 0px;
     border-collapse: collapse;
-    
+
 }     
 
 .table_report-area .order-table_titels tr th:last-child {
@@ -1022,61 +1023,37 @@ input[type="radio"]:checked + .report-area_menu-name {
     text-align: center;
     color: rgb(14, 0, 71);
     font-weight: 600;
-
 }
+
+.fuel-main_parapetrs td{
+    text-align: left;
+}
+
+.fuel-main_parapetrs td input{
+    width: 100%;
+}
+
+
 
 .table_report-area tr th,
 .table_report-area tr td{
     border: 1px solid #dddddd;
-    background-color: white;
+
     padding: 5px 10px;
     text-align: center;             
     font-size: 12px;
 }
 
+.table_report-area  input{            
+    font-size: 12px;
+}
 
 
 /*-----------------vers*/
-@keyframes slideIn {
-    0% {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /* Анимация для скрытия версий */
-  @keyframes slideOut {
-    0% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-  }
-  
-.slideIn {
-    animation-name: slideIn;
-}
-  
-.slideOut {
-    animation-name: slideOut;
-}
-
 .versions_row {
-    animation-duration: 0.5s;
-    animation-timing-function: ease;
+
+    
 }
-  
-
-
-
-
 
 
 .versions_row .vers_cont {
@@ -1099,6 +1076,7 @@ input[type="radio"]:checked + .report-area_menu-name {
     table-layout: fixed;  
     flex-grow: 1;
     border-spacing: 0px;
+    background-color: #ffffff;
     border-collapse: collapse;
 }
 
@@ -1154,13 +1132,13 @@ input[type="radio"]:checked + .report-area_menu-name {
     flex-grow: 1;
     border-spacing: 0px;
     border-collapse: collapse;
+    background-color: white;
 }
 
 .cheks_table thead{
     text-align: center;
     color: rgb(14, 0, 71);
     font-weight: 600;
-    background-color: aliceblue;
 }
 
 .cheks_table tr th,
@@ -1221,7 +1199,7 @@ input[type="radio"]:checked + .report-area_menu-name {
 .change_input input{
     padding: 5px; 
     margin: 5px 0;
-    width: 15%;
+
     text-align: left;
     font-size: 12px; 
 }
@@ -1352,7 +1330,7 @@ input[type="radio"]:checked + .report-area_menu-name {
     width: 100%;
 }
 
-.name_prod_width{
+.product-name_fuel{
     color: black;
     background-color: white;
     border: none;

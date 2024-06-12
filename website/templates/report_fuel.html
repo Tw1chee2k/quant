@@ -134,7 +134,7 @@
                     <th colspan="2">Израсходовано на единицу продукции (работы, услуги) за отчетный период, кг у.т.</th>
                     <th colspan="3">Израсходовано на всю произведенную продукцию (работу, услугу) за отчетный период, т у.т.</th>
                     <th rowspan="2">Примечание</th>
-                    <th rowspan="3"></th>
+                   
                 </tr>
                 <tr>
                     <th>по утвержденной норме (предельному уровню)</th>
@@ -163,56 +163,57 @@
                 <form action = "/change_fuel" method="POST">
                     <tr data-id="{{ row.id }}">
                         <td>
-                 
                         </td>
                         <td style = "text-align: left;">
-                            <input class = "name_prod_width" type = "text" value = "{{ row.product.NameProduct }}" readonly>
-                        </td>
+                            <input class = "product-name_fuel" type = "text" value = "{{ row.product.NameProduct }}" readonly>
+                        </td>   
                         <td>{{ row.code_product }}</td>
                         <td>
                             {% if row.Oked %}
-                                <input name = "Oked_fuel" onkeypress="return isNumberKey(event)" value = "{{ row.Oked }}">
+                                <input name = "Oked_fuel" value = "{{ row.Oked }}">
                             {% else %}
-                                <input name = "Oked_fuel" onkeypress="return isNumberKey(event)" value = "">
+                                <input name = "Oked_fuel" value = "">
                             {% endif %}
                         </td>
                         <td>{{ row.product.unit.NameUnit }}</td> 
                         <td>
                             {% if row.produced %}
-                                <input name = "produced_fuel" onkeypress="return isNumberKey(event)" value = "{{ row.produced }}">
+                                <input name = "produced_fuel" value = "{{ row.produced }}">
                             {% else %}
-                                <input name = "produced_fuel" onkeypress="return isNumberKey(event)"value = "0,00">
+                                <input name = "produced_fuel" value = "0.00">
                             {% endif %}
                         </td>
                         <td>
                             {% if row.Consumed_Quota %}
-                                <input name = "Consumed_Quota_fuel" onkeypress="return isNumberKey(event)" value = "{{ row.Consumed_Quota }}">
+                                <input name = "Consumed_Quota_fuel" value = "{{ row.Consumed_Quota }}">
                             {% else %}
-                                <input name = "Consumed_Quota_fuel" onkeypress="return isNumberKey(event)"value = "0,00">
+                                <input name = "Consumed_Quota_fuel" value = "0.00">
                             {% endif %}
                         </td>
                         <td>
                             {% if row.Consumed_Fact %}
                                 <input name = "Consumed_Fact_fuel" value = "{{ row.Consumed_Fact }}" readonly>
                             {% else %}
-                                <input name = "Consumed_Fact_fuel" value = "0,00" readonly>
+                                <input name = "Consumed_Fact_fuel" value = "0.00" readonly>
                             {% endif %}
                         </td>
                         <td>
                             {% if row.Consumed_Total_Quota %}
                                 <input name = "Consumed_Total_Quota_fuel" value = "{{ row.Consumed_Total_Quota }}" readonly>
                             {% else %}
-                                <input name = "Consumed_Total_Quota_fuel" value = "0,00" readonly>
+                                <input name = "Consumed_Total_Quota_fuel" value = "0.00" readonly>
                             {% endif %}
                         </td>
                         <td>
                             {% if row.Consumed_Total_Fact %}
-                                <input name = "Consumed_Total_Fact_fuel" onkeypress="return isNumberKey(event)" value = "{{ row.Consumed_Total_Fact }}">
+                                <input name = "Consumed_Total_Fact_fuel" value = "{{ row.Consumed_Total_Fact }}">
                             {% else %}
-                                <input name = "Consumed_Total_Fact_fuel" onkeypress="return isNumberKey(event)" value = "0,00">
+                                <input name = "Consumed_Total_Fact_fuel" value = "0.00">
                             {% endif %}
                         </td>
-                        <td></td>
+                        <td>
+                            <input name = "" value = "0.00">
+                        </td>
                         <td> 
                             {% if row.note %}
                                 <input name = "note_fuel" value = "{{ row.note }}">
@@ -220,11 +221,58 @@
                                 <input name = "note_fuel" value = "">
                             {% endif %}
                         </td>
-                        <td> </td>
+                   
                     </tr>   
                 </form>
                 {% endfor %}
-
+                <tr class = "fuel-main_parapetrs">
+                    <td></td>
+                    <td >
+                        <input type = "text" value = "Всего по нормированному потреблению">
+                    </td>
+                    <td>9001</td>
+                    <td></td>
+                    <td>т. у. т.</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class = "fuel-main_parapetrs">
+                    <td></td>
+                    <td>
+                        <input type = "text" value = "Прочее потребление">
+                    </td>
+                    <td>9010</td>
+                    <td></td>
+                    <td>т. у. т.</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class = "fuel-main_parapetrs">
+                    <td></td>
+                    <td >
+                        <input type = "text" value = "Всего потребление (сумма строк 9001, 9010)">
+                    </td>
+                    <td>9100</td>
+                    <td></td>
+                    <td>т. у. т.</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
             </tbody>
         </table>
     </div>

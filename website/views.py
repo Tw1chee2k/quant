@@ -522,50 +522,15 @@ def report_fuel(id):
     current_version_report = Version_report.query.filter_by(id=id).first()
     curent_report = current_version_report.id
     current_version_report = id
-    
-    section = Sections.query.filter_by(id_version=curent_report, section_number = 1).all()
+  
+    section = Sections.query.filter_by(id_version=curent_report, section_number = 1).all() 
+    return render_template('report_fuel.html', 
+        dirUnit=dirUnit,
+        dirProduct=dirProduct,
+        section=section,
+        user=current_user, 
+        current_version_report=current_version_report, 
+        curent_report=curent_report
+        )
 
-    if not section:
-        flash('3 for this ')
-        sections_data = [
-            (id, 282, 9001, 1, None, None, None, None, None, None, None),
-            (id, 285, 9010, 1, None, None, None, None, None, None, None),
-            (id, 288, 9100, 1, None, None, None, None, None, None, None),
-        ]
-        
-        for data in sections_data:
-            section = Sections(
-                id_version=data[0],
-                id_product=data[1],
-                code_product=data[2],
-                section_number=data[3],
-                Oked=data[4],
-                produced=data[5],
-                Consumed_Quota=data[6],
-                Consumed_Fact=data[7],
-                Consumed_Total_Quota=data[8],
-                Consumed_Total_Fact=data[9],
-                note=data[10]
-            )
-            db.session.add(section)
-        db.session.commit()  
-        section = Sections.query.filter_by(id_version=curent_report, section_number = 1).all() 
-        return render_template('report_fuel.html', 
-            dirUnit=dirUnit,
-            dirProduct=dirProduct,
-            section=section,
-            user=current_user, 
-            current_version_report=current_version_report, 
-            curent_report=curent_report
-            )
-    else:
-        section = Sections.query.filter_by(id_version=curent_report, section_number = 1).all()    
-        return render_template('report_fuel.html', 
-            dirUnit=dirUnit,
-            dirProduct=dirProduct,
-            section=section,
-            user=current_user, 
-            current_version_report=current_version_report, 
-            curent_report=curent_report
-            )
         
