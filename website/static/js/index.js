@@ -232,6 +232,7 @@ document.addEventListener('DOMContentLoaded', function () {
         row.addEventListener('dblclick', function() {
             var id = this.dataset.id;
             var url = "/report/fuel/" + id;
+            console.log(id);
             window.open(url, '_blank');
         });
     });
@@ -309,15 +310,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*end*/
     
 /*отображение панели по кнопке*/
-    function showPanel(panelId) {
-        const panels = document.querySelectorAll('.panel_dop_report');
-        panels.forEach(panel => panel.style.display = 'none');
-        const selectedPanel = document.getElementById(panelId);
-        selectedPanel.style.display = 'block';
-    }
-    window.onload = function() {
-        showPanel('Toplivo');
-    };
+
 /*end*/
 
 /*заперт на ввод всего кроме чисел в input*/

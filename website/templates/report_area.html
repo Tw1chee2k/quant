@@ -108,6 +108,7 @@
         </div>
     </div>
     <div class="report-area">
+        {%if report%}
         <table class="table_report-area">
             <thead class="order-table_titels">
                 <tr>
@@ -122,116 +123,124 @@
                 </tr>
             </thead>
             <tbody>
-                {% for row in report %}
-                <tr class="report_row" data-id="{{ row.id }}">
-                    <td></td>
-                    <td>
-                        <button class="show-versins_button">+</button>
-                    </td>
-                    <td>{{ row.id }}</td>
-                    <td>{{ row.okpo }}</td>
-                    <td>{{ row.organization_name }}</td>
-                    <td>{{ row.year }}</td>
-                    <td>{{ row.quarter }}</td>
-                    <td></td>
-                </tr>
-                <tr class="change_input_row">
-                    <td colspan="10">
-                        <form action="/update_report" method="POST">
-                            <div class="change_input">
-                                <div class="placehold_of_left">ОКПО</div>
-                                <input type="text" name="okpo" value="{{ row.okpo }}" style="border: 1px solid #3333;" readonly>
-                            </div>
-                            <div class="change_input">
-                                <div class="placehold_of_left">Год</div>
-                                <input type="text" name="year" value="{{ row.year }}" style="border: 1px solid #3333;" placeholder="Год">
-                            </div>
-                            <div class="change_input">
-                                <div class="placehold_of_left">Квартал</div>
-                                <input type="text" name="quarter" value="{{ row.quarter }}" style="border: 1px solid #3333;" placeholder="Квартал">
-                            </div>
-                            <input type="hidden" name="id" value="{{ row.id }}" placeholder="id">
-                            <button type="submit">Обновить</button>
-                        </form>
-                    </td>
-                </tr>
-                <tr class="versions_row" style="display: none;">
-                    <td colspan="10" class="vers_cont">
-                        <div class="text_vers">--Версии--</div>
-                        <table class="table-versions">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Дата начала</th>
-                                    <th>Дата изменения</th>
-                                    <th>Контроль</th>
-                                    <th>Согласовано</th>
-                                    <th>Дата согласования</th>
-                                    <th>ФИО</th>
-                                    <th>Телефон</th>
-                                    <th>Email</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for rows in row.versions %}
-                                <tr class="version-row" data-id="{{ rows.id }}">
-                                    <td><button class="show-cheks_button">+</button></td>
-                                    <td>{{ rows.begin_time }}</td>
-                                    <td>
-                                        {% if rows.change_time %}
-                                        {{ rows.change_time }}
-                                        {% else %}
-                                        &nbsp;
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="control" {% if rows.control %} checked {% endif %} disabled>
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" name="control" {% if rows.agreed %} checked {% endif %} disabled>
-                                    </td>
-                                    <td>
-                                        {% if rows.agreed_time %}
-                                        {{ rows.agreed_time }}
-                                        {% else %}
-                                        &nbsp;
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ rows.fio }}</td>
-                                    <td>{{ rows.telephone }}</td>
-                                    <td>{{ rows.email }}</td>
-                                </tr>
-                                <tr class="check-row">
-                                    <td colspan="10" style="border: none; background-color: aliceblue; padding: 10px 40px;">
-                                        <div class="text_cheks">--Квитанции--</div>
-                                        <table class="cheks_table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Дата выдачи</th>
-                                                    <th>Успех</th>
-                                                    <th>Описание</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for tickets in ticket %}
-                                                <tr class="row_with_cheks">
-                                                    <td>{{ tickets.begin_time }}</td>
-                                                    <td>{{ tickets.luck }}</td>
-                                                    <td>{{ tickets.note }}</td>
-                                                </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                {% endfor %}
+                    {% for row in report %}
+                    <tr class="report_row" data-id="{{ row.id }}">
+                        <td></td>
+                        <td>
+                            <button class="show-versins_button">+</button>
+                        </td>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.okpo }}</td>
+                        <td>{{ row.organization_name }}</td>
+                        <td>{{ row.year }}</td>
+                        <td>{{ row.quarter }}</td>
+                        <td></td>
+                    </tr>
+                    <tr class="change_input_row">
+                        <td colspan="10">
+                            <form action="/update_report" method="POST">
+                                <div class="change_input">
+                                    <div class="placehold_of_left">ОКПО</div>
+                                    <input type="text" name="okpo" value="{{ row.okpo }}" style="border: 1px solid #3333;" readonly>
+                                </div>
+                                <div class="change_input">
+                                    <div class="placehold_of_left">Год</div>
+                                    <input type="text" name="year" value="{{ row.year }}" style="border: 1px solid #3333;" placeholder="Год">
+                                </div>
+                                <div class="change_input">
+                                    <div class="placehold_of_left">Квартал</div>
+                                    <input type="text" name="quarter" value="{{ row.quarter }}" style="border: 1px solid #3333;" placeholder="Квартал">
+                                </div>
+                                <input type="hidden" name="id" value="{{ row.id }}" placeholder="id">
+                                <button type="submit">Обновить</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr class="versions_row" style="display: none;">
+                        <td colspan="10" class="vers_cont">
+                            <div class="text_vers">--Версии--</div>
+                            <table class="table-versions">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Дата начала</th>
+                                        <th>Дата изменения</th>
+                                        <th>Контроль</th>
+                                        <th>Согласовано</th>
+                                        <th>Дата согласования</th>
+                                        <th>ФИО</th>
+                                        <th>Телефон</th>
+                                        <th>Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for rows in row.versions %}
+                                    <tr class="version-row" data-id="{{ rows.id }}">
+                                        <td><button class="show-cheks_button">+</button></td>
+                                        <td>{{ rows.begin_time }}</td>
+                                        <td>
+                                            {% if rows.change_time %}
+                                            {{ rows.change_time }}
+                                            {% else %}
+                                            &nbsp;
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="control" {% if rows.control %} checked {% endif %} disabled>
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" name="control" {% if rows.agreed %} checked {% endif %} disabled>
+                                        </td>
+                                        <td>
+                                            {% if rows.agreed_time %}
+                                            {{ rows.agreed_time }}
+                                            {% else %}
+                                            &nbsp;
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ rows.fio }}</td>
+                                        <td>{{ rows.telephone }}</td>
+                                        <td>{{ rows.email }}</td>
+                                    </tr>
+                                    <tr class="check-row">
+                                        <td colspan="10" style="border: none; background-color: aliceblue; padding: 10px 40px;">
+                                            <div class="text_cheks">--Квитанции--</div>
+                                            <table class="cheks_table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Дата выдачи</th>
+                                                        <th>Успех</th>
+                                                        <th>Описание</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for tickets in ticket %}
+                                                    <tr class="row_with_cheks">
+                                                        <td>{{ tickets.begin_time }}</td>
+                                                        <td>{{ tickets.luck }}</td>
+                                                        <td>{{ tickets.note }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
             </tbody>
         </table>
+    {%else%}
+ 
+            <h3>
+                Для начала работы создайте новый отчет
+            </h3>
+   
+    {%endif%}
     </div>
 </div>
 

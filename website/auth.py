@@ -54,19 +54,13 @@ def sign():
         telephone = request.form.get('telephone')
         password = request.form.get('password')
         full_name =  request.form.get('full_name')
-
         okpo = request.form.get('okpo')
         ynp = request.form.get('ynp')
-
-
-        
-
         if User.query.filter_by(email=email).first() or Organization.query.filter_by(full_name=full_name).first() or Organization.query.filter_by(okpo=okpo).first() or Organization.query.filter_by(ynp=ynp).first():
             flash('Пользователь с таким email уже существует', category='error')
         elif not re.match(r'[\w\.-]+@[\w\.-]+', email):
             flash('Некорректный адрес электронной почты', category='error')  
         else:
-
             new_organization = Organization(
                 okpo=okpo,
                 full_name=full_name,
@@ -82,8 +76,6 @@ def sign():
                             organization_id = new_organization.id)
             db.session.add(new_user)
             db.session.commit()
-
-
             login_user(new_user, remember=True)
             flash('Аккаунт создан!', category='success')
             return redirect(url_for('views.account'))
@@ -95,7 +87,6 @@ def profile_password():
         old_password = request.form.get('old_password')
         new_password = request.form.get('new_password')
         conf_new_password = request.form.get('conf_new_password')
-        
         user = User.query.filter_by(email=current_user.email).first()
         if not check_password_hash(current_user.password, old_password):
             flash('Не правильный старый пароль', category='error')
@@ -112,17 +103,14 @@ def profile_password():
             return redirect(url_for('views.login'))
     return render_template("views.profile_password", user=current_user)
 
-
 @auth.route('/relod_password', methods=['GET', 'POST'])
 def relod_password():
     if request.method == 'POST':
         email = request.form.get('email')
         user = User.query.filter_by(email=email).first()
-        
         if user:
             send_email(f'Ваш новый пароль: {gener_password()}, при желании его можно изменить в настройках профиля', email)
-            flash('Новый пароль был отправлен вам на email', category='success')
-            
+            flash('Новый пароль был отправлен вам на email', category='success')  
             user.password = generate_password_hash(gener_password())
             db.session.commit()
             return redirect(url_for('views.login'))
@@ -130,7 +118,6 @@ def relod_password():
             flash('Пользователя с таким email не существует', category='error')
             return redirect(url_for('views.relod_password'))
     return render_template("relod_password.html")
-
 
 def send_email(message_body, recipient_email):
     smtp_server = 'smtp.mail.ru'
@@ -190,11 +177,9 @@ def update_report():
     id = request.form.get('id')
     okpo = request.form.get('okpo')
     year = request.form.get('year')
-    quarter = request.form.get('quarter')
-        
+    quarter = request.form.get('quarter')    
     current_report = Report.query.filter_by(id = id).first()
     organization_okpo = Organization.query.filter_by(okpo = okpo).first()
-    
     if request.method == 'POST':
         current_report.okpo = okpo
         current_report.year = year
@@ -209,12 +194,10 @@ def delete_report(report_id):
     if request.method == 'POST':
         current_report = Report.query.filter_by(id = report_id).first()
         versions = Version_report.query.filter_by(report_id = report_id).all()
-        tickets = Ticket.query.filter_by(version_report_id = report_id).all()
-          
+        tickets = Ticket.query.filter_by(version_report_id = report_id).all()  
         if current_report:     
             for ticket in tickets:
-                db.session.delete(ticket)
-                
+                db.session.delete(ticket)        
             for version in versions:
                 sections = Sections.query.filter_by(id_version = version.id).all()
                 for section in sections:
@@ -259,7 +242,7 @@ def delete_version(id):
 @auth.route('/add_fuel_param', methods=['POST'])
 def add_fuel_param():
     if request.method == 'POST':
-        current_version_report = request.form.get('current_version_report')
+        current_version = request.form.get('current_version')
         name = request.form.get('name_of_prduct')
         oked = request.form.get('oked')
         produced = request.form.get('produced')
@@ -268,37 +251,34 @@ def add_fuel_param():
         Consumed_Total_Quota = request.form.get('Consumed_Total_Quota')
         Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
         note = request.form.get('note')
-
         current_product = DirProduct.query.filter_by(NameProduct=name).first()
-        new_section = Sections(
-            id_version=current_version_report,
-            id_product=current_product.IdProduct,
-            code_product=current_product.CodeProduct,
-            section_number=1,
-            Oked=oked,
-            produced=produced,
-            Consumed_Quota=Consumed_Quota,
-            Consumed_Fact=Consumed_Fact,
-            Consumed_Total_Quota=Consumed_Total_Quota,
-            Consumed_Total_Fact=Consumed_Total_Fact,
-            note=note
-        )
-        db.session.add(new_section)
-        db.session.commit()
 
-        current_section = Sections.query.filter_by(id=new_section.id).first()
-        current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 1000, 2)
-        current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 1000, 2)
-        db.session.commit()
+        proverka_section = Sections.query.filter_by(id_product = current_product.IdProduct)
+        if proverka_section:
+            flash('Такой вид продукции уже существует')
+        else:
+            new_section = Sections(
+                id_version=current_version,
+                id_product=current_product.IdProduct,
+                code_product=current_product.CodeProduct,
+                section_number=1,
+                Oked=oked,
+                produced=produced,
+                Consumed_Quota=Consumed_Quota,
+                Consumed_Fact=Consumed_Fact,
+                Consumed_Total_Quota=Consumed_Total_Quota,
+                Consumed_Total_Fact=Consumed_Total_Fact,
+                note=note
+            )
+            db.session.add(new_section)
+            db.session.commit()
 
-        all_user_sections = Sections.query.filter_by(id=current_version_report).all()
-        economia_pererashod = 0
-        for i in all_user_sections:
-            economia_pererashod = i.produced + i.Consumed_Quota
+            current_section = Sections.query.filter_by(id=new_section.id).first()
+            current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 1000, 2)
+            current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 1000, 2)
+            db.session.commit()
 
-
-    return redirect(url_for('views.report_fuel', id = current_version_report))
-
+        return redirect(url_for('views.report_fuel', id = current_version))
 
 @auth.route('/change_fuel', methods=['POST'])
 def change_fuel():
@@ -314,8 +294,7 @@ def change_fuel():
             current_section.produced = produced
             current_section.Consumed_Quota = Consumed_Quota
             current_section.Consumed_Total_Fact = Consumed_Total_Fact
-            current_section.note = note
-            
+            current_section.note = note 
             flash("Изменения произошли успешно")
             current_version = Version_report.query.filter_by(id=id_version).first()
             current_version.change_time = datetime.now()

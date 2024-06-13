@@ -987,6 +987,7 @@ input[type="radio"]:checked + .report-area_menu-name {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
+    justify-content: center;
 }
 
 .report-area::-webkit-scrollbar {
@@ -1010,7 +1011,6 @@ input[type="radio"]:checked + .report-area_menu-name {
     flex-grow: 1;
     border-spacing: 0px;
     border-collapse: collapse;
-
 }     
 
 .table_report-area .order-table_titels tr th:last-child {
@@ -1025,14 +1025,10 @@ input[type="radio"]:checked + .report-area_menu-name {
     font-weight: 600;
 }
 
-
-
 .fuel-main_parapetrs td input{
     width: 100%;    
   
 }
-
-
 
 .table_report-area tr th{
     border: 1px solid #dddddd;
@@ -1040,7 +1036,6 @@ input[type="radio"]:checked + .report-area_menu-name {
     text-align: center;             
     font-size: 12px;
 }
-
 
 .table_report-area tr td{
     border: 1px solid #dddddd;
@@ -1050,11 +1045,10 @@ input[type="radio"]:checked + .report-area_menu-name {
     font-weight: 500;
 }
 
-
-
-.table_report-area  input{            
+.table_report-area input{            
     font-size: 12px;  
     font-weight: 500;
+    border: none;
 }
 
 
@@ -1232,52 +1226,6 @@ input[type="radio"]:checked + .report-area_menu-name {
 /*-----------------change input end*/
 
 
-/* spravoch*/
-.tab_srpav, .tab_srpav-title {
-    display: inline-block;
-}
-
-.tab_srpav-title {
-    padding: 5px 10px;
-    margin: 0;
-    border-radius: 5%;
-}
-
-.tab-content_srpav {
-    padding: 0 10px;
-    left: 0;
-    right: 0;
-}
-
-.table_spravoch_area{   
-    font-size: 12px;
-    table-layout: fixed;  
-    flex-grow: 1;
-    border-spacing: 0px;
-    border-collapse: collapse;
-    border: 1px solid #dddddd;
-    table-layout: fixed;  
-    flex-grow: 1;
-}
-
-
-
-.table_spravoch_area thead{
-    text-align: center;
-    color: rgb(14, 0, 71);
-    font-weight: 400;
- 
-}
-
-.table_spravoch_area tr th,
-.table_spravoch_area tr td{
-    border: 1px solid #dddddd;
-    padding: 5px 10px;
-    text-align: center;             
-    font-size: 12px;
-}
-
-/* spravoch end*/
 
 
 /* ----------------------modal_window begin */
@@ -1287,25 +1235,28 @@ input[type="radio"]:checked + .report-area_menu-name {
     z-index: 1;
     left: 0;
     top: 0;
-    width: 100%;
+    width: 100%;  
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
 }
 
 .modal-content {
-    background-color: #ffffff;
+    border-radius: 5px;
+    background-color: aliceblue;
     margin: 10% auto;    
-    border: 1px solid white;
+    border: 1px solid aliceblue;
     padding: 20px;
     width: 50%;
     height: 70%;
 }
 
-.table_container_sprav {
-    height: 90%;
-    overflow: auto;
-    margin-top: 20px;
+.modal-header{
+    display: flex;
+    justify-content: space-between;
+    vertical-align: middle;
+    text-align: center;
+    align-items: center;
 }
 
 .close {
@@ -1326,53 +1277,43 @@ input[type="radio"]:checked + .report-area_menu-name {
 
 
 
-/**/
-/**/
-/*report_area.css end*/
 
+/*fuel page begin*/
+/*add fuel modal*/
 
-
-
-
-/*report.css begin*/
-.panel_dop_report{
-    width: 100%;
+.modal-content form{
+    text-align: right;
 }
 
-.product-name_fuel{
-    color: black;
-    background-color: white;
-    border: none;
-    width: 100%;
-    font-size: 12px;
-}
-
-/*всплывающая панель begin*/
-.profile_table_set, 
-.profile_table_set tr, 
-.profile_table_set td{
-    border: none;
-    text-align: left;
-}
-
-.profile_table_set{
+.fuel-table_add{
     width: 100%; 
     margin-top: 20px;
 }
 
-.profile_table_set td{
-    height: 40px;
-    font-size: 12px;    
+.fuel-table_add td{
+    height: 34px;
+    font-size: 12px; 
+    font-weight: 500;   
+    text-align: left;
 }
 
-.profile_table_set tr td input{
-    height: 30px;  
+.fuel-table_add input{
+    height: 26px;  
     width: 100px;
     padding: 0 10px;
     margin-right: 20px;
     text-align: right;
     font-size: 12px; 
+    border-radius: 5px;
+    border: 1px solid rgb(220, 238, 255);
+    font-weight: 500; 
 }
+
+.fuel-table_add span{
+    font-weight: 600;
+}
+
+
 
 .choose_product_byname {
     position: absolute;
@@ -1417,39 +1358,24 @@ input[type="radio"]:checked + .report-area_menu-name {
     font-size: 12px;
 }
 
-.submit_fuel_button{
-    z-index: 2;
-    border: 1px solid white;
-    color: white;
-    background-color: #61b8ff;
-    padding:  1px 6px;
-}
-
 .choose_prod_table tr:hover{
     background-color: #f0f0f0;
 }
 
-.cont_show_products{
-    display: flex;
-    flex-direction: row;
-}
 
-.cont_show_products button{
-    width: 30px;
-    height: 30px;
-    background-color: white;
-    color: black;
-    border: none;
-}
-
-.table_report-area tr td:hover{
-
+.fuel-submit{
+    border: 1px solid white;
+    color: white;
+    border-radius: 5px;
+    font-size: 12px;
+    margin: 3px 20px 0 0;
+    width: 180px;
+    height: 35px;
 }
 
 
-.table_report-area tr td input{
-    border: none;
-}
+
+
 
 
 

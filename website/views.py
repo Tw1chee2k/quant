@@ -4,6 +4,8 @@ from .models import User, Organization, Report, Version_report, Ticket, DirUnit,
 from . import db
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy import asc
+from sqlalchemy import Numeric
+
 views = Blueprint('views', __name__)
 
 @views.route('/')
@@ -518,24 +520,26 @@ def report_area():
 def report_fuel(id):
     dirUnit = DirUnit.query.filter_by().all()
     dirProduct = DirProduct.query.filter(DirProduct.IsFuel == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
-        
     current_version_report = Version_report.query.filter_by(id=id).first()
-    curent_report = current_version_report.id
-    current_version_report = id
-    section = Sections.query.filter_by(id_version=curent_report, section_number = 1).all() 
+    curent_report = current_version_report.report_id
+
+    current_version = id
+    sections = Sections.query.filter_by(id_version=current_version, section_number=1).all()
 
     economia_pererashod = 0
-    for i in section:
-        economia_pererashod += (i.produced + i.Consumed_Quota)
+    economia_pererashod_obsh = 0
+    for section in sections:
+        economia_pererashod = section.Consumed_Total_Fact - section.Consumed_Total_Quota
+        economia_pererashod_obsh += economia_pererashod
 
     return render_template('report_fuel.html', 
         dirUnit=dirUnit,
         dirProduct=dirProduct,
-        section=section,
+        sections=sections,
         user=current_user, 
-        current_version_report=current_version_report, 
         curent_report=curent_report,
-        economia_pererashod=economia_pererashod
+        current_version=current_version,
+        economia_pererashod_obsh=economia_pererashod_obsh
         )
 
         
