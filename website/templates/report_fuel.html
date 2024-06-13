@@ -179,7 +179,7 @@
                             {% endif %}
                         </td>
                         <td> 
-                            <input style = "white-space: nowrap; text-align: left;" name = "" value = " {{ row.product.unit.NameUnit }}" readonly>
+                            <input style = "white-space: nowrap; text-align: left;" name = "" value = "{{ row.product.unit.NameUnit }}" readonly>
                         </td> 
                         <td>
                             {% if row.produced %}
@@ -238,7 +238,7 @@
 
                 <tr class = "fuel-main_parapetrs">
                     <td></td>
-                    <td >
+                    <td style >
                         <input type = "text" value = "Всего по нормированному потреблению" readonly>
                     </td>
                     <td>
@@ -282,11 +282,6 @@
                     {%endif%}
                     <td></td>
 
-
-       
-
-
-
                 </tr>
                 <tr class = "fuel-main_parapetrs">
                     <td></td>
@@ -322,7 +317,7 @@
                     </td>
                     <td></td>
                 </tr>
-                <tr class = "fuel-main_parapetrs">
+                <tr class = "fuel-main_parapetrs" >
                     <td></td>
                     <td >
                         <input type = "text" value = "Всего потребление (сумма строк 9001, 9010)" readonly>
@@ -386,8 +381,8 @@
                     <td class = ""><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
                     <td>
                         <input type="text" name="name_of_prduct" style = "width: 400px; text-align: left;">
-                        <div class="choose_product_byname">
-                            <table class = "choose_prod_table">
+                        <div class="choose-product_area">
+                            <table class = "choose-product_table">
                                 <thead>
                                     <tr> 
                                         <th>Код продукта</th>
@@ -507,11 +502,11 @@
     </div>
 </div>
 
+
 <script>  
-/*панель для добавление нового продукта в отчет*/
     var myAFP = document.getElementById('myAFP');
     var modalAFP = document.getElementById('myModalAFP');
-    var spanmyModalAFP = document.getElementsByClassName('close')[0];
+    var spanmyModalAFP = document.getElementsByClassName('close')[2];
     myAFP.addEventListener('click', function() {
         modalAFP.style.display = 'block';
     });
@@ -525,18 +520,16 @@
             modalAFP.style.display = 'none';
         }
     });
-/*end*/ 
 
-/*всплывающая панель для выбора продукта при формировании отчета*/
 $(document).ready(function(){
     $('input[name="name_of_prduct"]').on('focus', function(){
-        $('.choose_product_byname').show();
+        $('.choose-product_area').show();
     });
 
     $('#chooseProdTableBody').on('click', 'tr', function(){
         var productName = $(this).find('td:nth-child(2)').text();
         $('input[name="name_of_prduct"]').val(productName);
-        $('.choose_product_byname').hide();
+        $('.choose-product_area').hide();
     });
 
     $('input[name="name_of_prduct"]').on('input', function(){
@@ -544,9 +537,9 @@ $(document).ready(function(){
         var noResultsRow = $('#noResultsRow');
 
         if (filterText.length > 0) {
-            $('.choose_product_byname').show();
+            $('.choose-product_area').show();
         } else {
-            $('.choose_product_byname').hide();
+            $('.choose-product_area').hide();
         }
 
         var hasResults = false;
@@ -565,8 +558,13 @@ $(document).ready(function(){
         } else {
             noResultsRow.hide();
         }
+        $(document).on('click', function(event){
+            if (!$(event.target).closest('.choose-product_area').length && !$(event.target).is('input[name="name_of_prduct"]')) {
+                $('.choose-product_area').hide();
+            }
+        });
     });
 });
-/*end*/ 
 </script>
+
 {% endblock %}

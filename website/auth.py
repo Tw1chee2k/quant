@@ -253,7 +253,7 @@ def add_fuel_param():
         note = request.form.get('note')
         current_product = DirProduct.query.filter_by(NameProduct=name).first()
 
-        proverka_section = Sections.query.filter_by(id_product = current_product.IdProduct)
+        proverka_section = Sections.query.filter_by(id_version = current_version, id_product = current_product.IdProduct).first()
         if proverka_section:
             flash('Такой вид продукции уже существует')
         else:

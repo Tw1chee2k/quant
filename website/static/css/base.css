@@ -987,7 +987,6 @@ input[type="radio"]:checked + .report-area_menu-name {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
-    justify-content: center;
 }
 
 .report-area::-webkit-scrollbar {
@@ -1005,6 +1004,7 @@ input[type="radio"]:checked + .report-area_menu-name {
 
 .table_report-area {
     border: none;
+    width: auto;
     background-color: #ffffff;
     font-size: 12px;
     table-layout: fixed;  
@@ -1012,6 +1012,10 @@ input[type="radio"]:checked + .report-area_menu-name {
     border-spacing: 0px;
     border-collapse: collapse;
 }     
+
+.report_row:hover{
+    background-color: #f0f0f0;
+}
 
 .table_report-area .order-table_titels tr th:last-child {
     width: 100%;
@@ -1023,6 +1027,17 @@ input[type="radio"]:checked + .report-area_menu-name {
     text-align: center;
     color: rgb(14, 0, 71);
     font-weight: 600;
+}
+
+.fuel-main_parapetrs td,
+.fuel-main_parapetrs td input{
+    background-color: #ddfdfb;
+}
+
+
+
+.fuel-main_parapetrs td:first-child{
+    background-color: #ffffff;
 }
 
 .fuel-main_parapetrs td input{
@@ -1047,7 +1062,8 @@ input[type="radio"]:checked + .report-area_menu-name {
 
 .table_report-area input{            
     font-size: 12px;  
-    font-weight: 500;
+    font-weight: 500;   
+    width: 100%;
     border: none;
 }
 
@@ -1226,8 +1242,6 @@ input[type="radio"]:checked + .report-area_menu-name {
 /*-----------------change input end*/
 
 
-
-
 /* ----------------------modal_window begin */
 .modal {
     display: none;
@@ -1247,8 +1261,10 @@ input[type="radio"]:checked + .report-area_menu-name {
     margin: 10% auto;    
     border: 1px solid aliceblue;
     padding: 20px;
-    width: 50%;
-    height: 70%;
+    width: fit-content;
+    height:fit-content;
+    max-height: 500px;
+    max-width: 900px;
 }
 
 .modal-header{
@@ -1274,6 +1290,48 @@ input[type="radio"]:checked + .report-area_menu-name {
     cursor: pointer;
 }
 /*end */
+
+
+
+/*spravochniki begin*/
+
+.modal-content .spravochniki_area {
+    margin-top: 10px;
+    max-height: 400px;
+    max-width: 100%;
+    overflow-y: auto; 
+    border: none;
+    font-size: 12px;
+    table-layout: fixed;  
+    flex-grow: 1;
+    border-spacing: 0px;
+    border-collapse: collapse;
+    background-color: white;
+    border: none;
+}
+
+.spravochniki_area::-webkit-scrollbar {
+    width: 7px;
+}
+
+.spravochniki_area::-webkit-scrollbar-thumb {
+    background-color:rgb(221, 221, 221); 
+    border-radius: 5px;
+}
+
+.spravochniki_area::-webkit-scrollbar-track {
+    background-color:aliceblue;
+}
+
+/* .modal-content .spravochniki_area thead{
+    position: fixed;
+    background-color: white;
+    width: fit-content;
+
+} */
+
+/*end */
+
 
 
 
@@ -1313,14 +1371,10 @@ input[type="radio"]:checked + .report-area_menu-name {
     font-weight: 600;
 }
 
-
-
-.choose_product_byname {
+.choose-product_area {
     position: absolute;
-    top: 50%;
-    right: 5%;
-    width: 50%;
-    max-height: 300px; 
+    max-width: 422px;
+    max-height: 250px; 
     overflow-y: auto; 
     background-color: white;
     border: none; 
@@ -1328,10 +1382,9 @@ input[type="radio"]:checked + .report-area_menu-name {
     display: none;
     color: black;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    
 }
 
-.choose_prod_table{
+.choose-product_table{
     border: none;
     font-size: 10px;
     table-layout: fixed;  
@@ -1342,7 +1395,7 @@ input[type="radio"]:checked + .report-area_menu-name {
     align-items: center;
 }
 
-.choose_prod_table thead{
+.choose-product_table thead{
     text-align: center;
     align-items: center;
     color: rgb(14, 0, 71);
@@ -1350,18 +1403,17 @@ input[type="radio"]:checked + .report-area_menu-name {
     background-color: aliceblue;
 }
 
-.choose_prod_table tr th,
-.choose_prod_table tr td{
+.choose-product_table tr th,
+.choose-product_table tr td{
     border: 1px solid #dddddd;
     padding: 2px 10px;
     text-align: center;             
     font-size: 12px;
 }
 
-.choose_prod_table tr:hover{
+.choose-product_table tr:hover{
     background-color: #f0f0f0;
 }
-
 
 .fuel-submit{
     border: 1px solid white;
