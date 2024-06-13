@@ -812,13 +812,19 @@ footer {
     height: 40px;    
     border-radius: 10px;
     border: none;
-    border: 1px solid rgb(132,132,132);
+    /* border: 1px solid rgb(220, 238, 255); */
+    box-shadow: 0 0 5px rgb(0, 0, 0, 0.1);
+
     color: black;
     background-color:rgb(255, 255, 255);
 }
 
+.profile_page .personal-info_area form {
+    text-align: right;
+}
+
 .profile_page .personal-info_area form button{
-    width: 100%;
+    width: 200px;
 }
 /*panel end*/
 /*profile.css end*/
@@ -1013,9 +1019,9 @@ input[type="radio"]:checked + .report-area_menu-name {
     border-collapse: collapse;
 }     
 
-.report_row:hover{
+/* .report_row:hover{
     background-color: #f0f0f0;
-}
+} */
 
 .table_report-area .order-table_titels tr th:last-child {
     width: 100%;

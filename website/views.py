@@ -528,9 +528,15 @@ def report_fuel(id):
 
     economia_pererashod = 0
     economia_pererashod_obsh = 0
+
+    all_Consumed_Total_Quota = 0
+    all_Consumed_Total_Fact = 0
     for section in sections:
         economia_pererashod = section.Consumed_Total_Fact - section.Consumed_Total_Quota
         economia_pererashod_obsh += economia_pererashod
+
+        all_Consumed_Total_Quota += section.Consumed_Total_Quota
+        all_Consumed_Total_Fact += section.Consumed_Total_Fact
 
     return render_template('report_fuel.html', 
         dirUnit=dirUnit,
@@ -539,7 +545,10 @@ def report_fuel(id):
         user=current_user, 
         curent_report=curent_report,
         current_version=current_version,
-        economia_pererashod_obsh=economia_pererashod_obsh
+        economia_pererashod_obsh=economia_pererashod_obsh,
+        all_Consumed_Total_Quota=all_Consumed_Total_Quota,
+        all_Consumed_Total_Fact=all_Consumed_Total_Fact
+
         )
 
         

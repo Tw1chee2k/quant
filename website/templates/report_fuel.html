@@ -259,12 +259,25 @@
                     <td>
                         <input type = "text" value = "0.00" readonly>
                     </td>
+                    {% if economia_pererashod_obsh == 0%}
                     <td>
                         <input type = "text" value = "0.00" readonly>
                     </td>
+                    {%else%}
+                    <td>
+                        <input type = "text" value = "{{all_Consumed_Total_Quota}}" readonly>
+                    </td>
+                    {%endif%}
+                    {% if all_Consumed_Total_Fact == 0%}
                     <td>
                         <input type = "text" value = "0.00" readonly>
                     </td>
+                    {%else%}
+                    <td>
+                        <input type = "text" value = "{{all_Consumed_Total_Fact}}" readonly>
+                    </td>
+                    {%endif%}
+        
                     {% if economia_pererashod_obsh == 0%}
                     <td style = "background-color: #a2ff77;">
                         <input style = "background-color: #a2ff77;" name = "" value = "0.00" readonly>
@@ -506,7 +519,7 @@
 <script>  
     var myAFP = document.getElementById('myAFP');
     var modalAFP = document.getElementById('myModalAFP');
-    var spanmyModalAFP = document.getElementsByClassName('close')[2];
+    var spanmyModalAFP = document.getElementsByClassName('close')[0];
     myAFP.addEventListener('click', function() {
         modalAFP.style.display = 'block';
     });
