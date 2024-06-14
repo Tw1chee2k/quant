@@ -252,7 +252,6 @@ def add_fuel_param():
         Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
         note = request.form.get('note')
         current_product = DirProduct.query.filter_by(NameProduct=name).first()
-
         proverka_section = Sections.query.filter_by(id_version = current_version, id_product = current_product.IdProduct).first()
         if proverka_section:
             flash('Такой вид продукции уже существует')
@@ -268,6 +267,7 @@ def add_fuel_param():
                 Consumed_Fact=Consumed_Fact,
                 Consumed_Total_Quota=Consumed_Total_Quota,
                 Consumed_Total_Fact=Consumed_Total_Fact,
+                total_differents=None,
                 note=note
             )
             db.session.add(new_section)
@@ -277,7 +277,29 @@ def add_fuel_param():
             current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 1000, 2)
             current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 1000, 2)
             db.session.commit()
+            current_section.total_differents=current_section.Consumed_Total_Fact-current_section.Consumed_Total_Quota
+            db.session.commit()
 
+            specific_codes = ['9001', '9010', '9100']
+
+            section9001 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product = 9001).first()
+            section9001.Consumed_Total_Quota = db.session.query(func.sum(Sections.Consumed_Total_Quota)).filter(
+                Sections.id_version == current_version,
+                Sections.section_number == 1,
+                ~Sections.code_product.in_(specific_codes)
+            ).scalar()
+            section9001.Consumed_Total_Fact = db.session.query(func.sum(Sections.Consumed_Total_Fact)).filter(
+                Sections.id_version == current_version,
+                Sections.section_number == 1,
+                ~Sections.code_product.in_(specific_codes)
+            ).scalar()
+            section9001.total_differents = db.session.query(func.sum(Sections.total_differents)).filter(
+                Sections.id_version == current_version,
+                Sections.section_number == 1,
+                ~Sections.code_product.in_(specific_codes)
+            ).scalar()
+
+            db.session.commit() 
         return redirect(url_for('views.report_fuel', id = current_version))
 
 @auth.route('/change_fuel', methods=['POST'])

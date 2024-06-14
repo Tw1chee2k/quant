@@ -5,6 +5,7 @@ from . import db
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy import asc
 from sqlalchemy import Numeric
+from sqlalchemy import or_
 
 views = Blueprint('views', __name__)
 
@@ -516,39 +517,66 @@ def report_area():
                            organization=organization, 
                            version=version)
 
+
 @views.route('/report/fuel/<int:id>')
 def report_fuel(id):
     dirUnit = DirUnit.query.filter_by().all()
     dirProduct = DirProduct.query.filter(DirProduct.IsFuel == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
     current_version_report = Version_report.query.filter_by(id=id).first()
     curent_report = current_version_report.report_id
-
     current_version = id
     sections = Sections.query.filter_by(id_version=current_version, section_number=1).all()
+    specific_codes = ['9001', '9010', '9100']
 
-    economia_pererashod = 0
-    economia_pererashod_obsh = 0
+    section9001_differents = 0
 
-    all_Consumed_Total_Quota = 0
-    all_Consumed_Total_Fact = 0
-    for section in sections:
-        economia_pererashod = section.Consumed_Total_Fact - section.Consumed_Total_Quota
-        economia_pererashod_obsh += economia_pererashod
+    if not sections:
+        sections_data = [
+            (id, 282, 9001, 1, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 285, 9010, 1, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 288, 9100, 1, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+        ]
+        for data in sections_data:
+            section = Sections(
+                id_version=data[0],
+                id_product=data[1],
+                code_product=data[2],
+                section_number=data[3],
+                Oked=data[4],
+                produced=data[5],
+                Consumed_Quota=data[6],
+                Consumed_Fact=data[7],
+                Consumed_Total_Quota=data[8],
+                Consumed_Total_Fact=data[9],
+                total_differents = data[10],
+                note=data[11]
+            )
+            db.session.add(section)
+        db.session.commit()
 
-        all_Consumed_Total_Quota += section.Consumed_Total_Quota
-        all_Consumed_Total_Fact += section.Consumed_Total_Fact
+
+
+    specific_sections = Sections.query.filter(
+        Sections.id_version == current_version,
+        Sections.section_number == 1,
+        Sections.code_product.in_(specific_codes)
+    ).all()
+
+    other_sections = Sections.query.filter(
+        Sections.id_version == current_version,
+        Sections.section_number == 1,
+        ~Sections.code_product.in_(specific_codes)
+    ).all()
 
     return render_template('report_fuel.html', 
         dirUnit=dirUnit,
         dirProduct=dirProduct,
-        sections=sections,
+        specific_sections=specific_sections,
+        other_sections=other_sections,
         user=current_user, 
         curent_report=curent_report,
-        current_version=current_version,
-        economia_pererashod_obsh=economia_pererashod_obsh,
-        all_Consumed_Total_Quota=all_Consumed_Total_Quota,
-        all_Consumed_Total_Fact=all_Consumed_Total_Fact
+        current_version=current_version
+    )
 
-        )
 
         

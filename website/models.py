@@ -81,7 +81,6 @@ class Sections(db.Model):
     id_version = db.Column(db.Integer, db.ForeignKey('version_report.id'))
     id_product = db.Column(db.Integer, db.ForeignKey('DirProduct.IdProduct'))
     code_product = db.Column(db.Integer, db.ForeignKey('DirProduct.CodeProduct'))
-    
     section_number = db.Column(db.Integer)
     Oked = db.Column(db.Integer)
     produced = db.Column(Numeric(precision=10, scale=2))
@@ -89,6 +88,7 @@ class Sections(db.Model):
     Consumed_Fact = db.Column(Numeric(precision=10, scale=2))
     Consumed_Total_Quota = db.Column(Numeric(precision=10, scale=2))
     Consumed_Total_Fact = db.Column(Numeric(precision=10, scale=2))
+    total_differents = db.Column(Numeric(precision=10, scale=2))
     note = db.Column(db.String(200))
     product = relationship("DirProduct", foreign_keys=[id_product], backref="section")
     

@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var id = this.dataset.id;
             var url = "/report/fuel/" + id;
             console.log(id);
-            window.open(url, '_blank');
+            window.location.href = url;
         });
     });
 

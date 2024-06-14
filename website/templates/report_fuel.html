@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Fuel rep:{{curent_report}}; vers:{{current_version}} {% endblock %}
 {% block content %}
-
 <div class = "report-area_page">
     <div class = "report-area_menu">
         <div class="report-area_podmenu">
@@ -29,7 +28,6 @@
                                 Действия
                             </div>
                         </section>
-        
                         <section>
                             <div class = "functions_menu">
                                 <li class = "active">         
@@ -50,7 +48,6 @@
                                 Выбрать раздел
                             </div> 
                         </section>
-        
                         <section>
                             <div class = "functions_menu">                         
                                 <li>           
@@ -62,8 +59,6 @@
                                 Экспорт
                             </div>   
                         </section>
-        
-        
                         <section>
                             <div class = "functions_menu">
                                 <li>           
@@ -161,227 +156,93 @@
                 </tr>
             </thead>
             <tbody>
-        
-                {% for row in sections %}
-                <form action = "/change_fuel" method="POST">
-                    <tr data-id="{{ row.id }}">
-                        <td>
-                        </td>
-                        <td style = "text-align: left;">
-                            <input class = "product-name_fuel" type = "text" value = "{{ row.product.NameProduct }}" readonly>
-                        </td>   
-                        <td>{{ row.code_product }}</td>
-                        <td>
-                            {% if row.Oked %}
-                                <input name = "Oked_fuel" value = "{{ row.Oked }}" readonly>
-                            {% else %}
-                                <input name = "Oked_fuel" value = "" readonly>
-                            {% endif %}
-                        </td>
-                        <td> 
-                            <input style = "white-space: nowrap; text-align: left;" name = "" value = "{{ row.product.unit.NameUnit }}" readonly>
-                        </td> 
-                        <td>
-                            {% if row.produced %}
-                                <input name = "produced_fuel" value = "{{ row.produced }}" readonly>
-                            {% else %}
-                                <input name = "produced_fuel" value = "0.00" readonly>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if row.Consumed_Quota %}
-                                <input name = "Consumed_Quota_fuel" value = "{{ row.Consumed_Quota }}" readonly>
-                            {% else %}
-                                <input name = "Consumed_Quota_fuel" value = "0.00" readonly>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if row.Consumed_Fact %}
-                                <input name = "Consumed_Fact_fuel" value = "{{ row.Consumed_Fact }}" readonly>
-                            {% else %}
-                                <input name = "Consumed_Fact_fuel" value = "0.00" readonly>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if row.Consumed_Total_Quota %}
-                                <input name = "Consumed_Total_Quota_fuel" value = "{{ row.Consumed_Total_Quota }}" readonly>
-                            {% else %}
-                                <input name = "Consumed_Total_Quota_fuel" value = "0.00" readonly>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if row.Consumed_Total_Fact %}
-                                <input name = "Consumed_Total_Fact_fuel" value = "{{ row.Consumed_Total_Fact }}" readonly>
-                            {% else %}
-                                <input name = "Consumed_Total_Fact_fuel" value = "0.00" readonly>
-                            {% endif %}
-                        </td>
-                        {% if row.Consumed_Total_Fact - row.Consumed_Total_Quota < 0%}
-                            <td style="background-color: #a2ff77;">
-                                <input style="background-color: #a2ff77;" name="" value="{{ row.Consumed_Total_Fact - row.Consumed_Total_Quota }}" readonly>
-                            </td>
-                        {%else%}
-                            <td style="background-color: #ff7676;">
-                                <input style="background-color: #ff7676;" name="" value="{{ row.Consumed_Total_Fact - row.Consumed_Total_Quota }}" readonly>
-                            </td>
-                        {%endif%}
-                        <td> 
-                            {% if row.note %}
-                                <input name = "note_fuel" value = "{{ row.note }}">
-                            {% else %}
-                                <input name = "note_fuel" value = "">
-                            {% endif %}
-                        </td>
-                    </tr>   
-                </form>
-                {%endfor%}
-
-                <tr class = "fuel-main_parapetrs">
+                {% for row in other_sections %}
+                <tr data-id="{{ row.id }}" >
                     <td></td>
-                    <td style >
-                        <input type = "text" value = "Всего по нормированному потреблению" readonly>
+                    <td>
+                        <input class = "product-name_fuel" type = "text" value = "{{ row.product.NameProduct }}" readonly>
+                    </td>   
+                    <td>
+                        <input name = "Oked_fuel" value = "{{ row.code_product }}" readonly>
                     </td>
                     <td>
-                        <input type = "text" value = "9001" readonly>
+                        <input name = "Oked_fuel" value = "{{ row.Oked }}" readonly>
                     </td>
                     <td> 
-                        <input type = "text" value = "" readonly>
+                        <input style = "white-space: nowrap; text-align: left;" name = "" value = "{{ row.product.unit.NameUnit }}" readonly>
+                    </td> 
+                    <td>
+                        <input name = "produced_fuel" value = "{{ row.produced }}" readonly>
                     </td>
                     <td>
-                        <input type = "text" value = "т. у. т." readonly>
+                        <input name = "Consumed_Quota_fuel" value = "{{ row.Consumed_Quota }}" readonly>
                     </td>
                     <td>
-                        <input type = "text" value = "0.00" readonly>
+                        <input name = "Consumed_Fact_fuel" value = "{{ row.Consumed_Fact }}" readonly>
                     </td>
                     <td>
-                        <input type = "text" value = "0.00" readonly>
+                        <input name = "Consumed_Total_Quota_fuel" value = "{{ row.Consumed_Total_Quota }}" readonly>
                     </td>
-                    <td>
-                        <input type = "text" value = "0.00" readonly>
+                    <td>     
+                        <input name = "Consumed_Total_Fact_fuel" value = "{{ row.Consumed_Total_Fact }}" readonly>
                     </td>
-                    {% if economia_pererashod_obsh == 0%}
-                    <td>
-                        <input type = "text" value = "0.00" readonly>
+                    {% if row.total_differents < 0%}
+                    <td style="background-color: #a2ff77;">
+                        <input style="background-color: #a2ff77;" name="" value="{{ row.total_differents }}" readonly>
                     </td>
                     {%else%}
-                    <td>
-                        <input type = "text" value = "{{all_Consumed_Total_Quota}}" readonly>
+                    <td style="background-color: #ff7676;">
+                        <input style="background-color: #ff7676;" name="" value="{{ row.total_differents }}" readonly>
                     </td>
                     {%endif%}
-                    {% if all_Consumed_Total_Fact == 0%}
-                    <td>
-                        <input type = "text" value = "0.00" readonly>
-                    </td>
-                    {%else%}
-                    <td>
-                        <input type = "text" value = "{{all_Consumed_Total_Fact}}" readonly>
-                    </td>
-                    {%endif%}
-        
-                    {% if economia_pererashod_obsh == 0%}
-                    <td style = "background-color: #a2ff77;">
-                        <input style = "background-color: #a2ff77;" name = "" value = "0.00" readonly>
-                    </td>
-                    {%else%}
-                        {%if economia_pererashod_obsh < 0%}
-                        <td style = "background-color: #a2ff77;">
-                            <input style = "background-color: #a2ff77;" name = "" value = "{{economia_pererashod_obsh}}" readonly>
-                        </td>
-                        {%else%}
-                        <td style = "background-color: #ff7676;">
-                            <input style = "background-color: #ff7676;" name = "" value = "{{economia_pererashod_obsh}}" readonly>
-                        </td>
-                        {%endif%}
-                    {%endif%}
-                    <td></td>
 
-                </tr>
-                <tr class = "fuel-main_parapetrs">
+                    <td> 
+                        <input name = "note_fuel" value = "{{ row.note }}" readonly>
+                    </td>
+                </tr>   
+                {%endfor%}
+                {% for row in specific_sections %}
+                <tr data-id="{{ row.id }}" class = "specific_sections" style = "">
                     <td></td>
                     <td>
-                        <input type = "text" value = "Прочее потребление" readonly>
+                        <input class = "product-name_fuel" type = "text" value = "{{ row.product.NameProduct }}" readonly>
+                    </td>   
+                    <td>
+                        <input name = "Oked_fuel" value = "{{ row.code_product }}" readonly>
                     </td>
                     <td>
-                        <input type = "text" value = "9010" readonly>
+                        <input name = "Oked_fuel" value = "{{ row.Oked }}" readonly>
+                    </td>
+                    <td> 
+                        <input style = "white-space: nowrap; text-align: left;" name = "" value = "{{ row.product.unit.NameUnit }}" readonly>
+                    </td> 
+                    <td>
+                        <input name = "produced_fuel" value = "{{ row.produced }}" readonly>
                     </td>
                     <td>
-                        <input type = "text" value = "" readonly>
+                        <input name = "Consumed_Quota_fuel" value = "{{ row.Consumed_Quota }}" readonly>
                     </td>
                     <td>
-                        <input type = "text" value = "т. у. т." readonly>
+                        <input name = "Consumed_Fact_fuel" value = "{{ row.Consumed_Fact }}" readonly>
                     </td>
                     <td>
-                        <input type = "text" value = "0.00" readonly>
+                        <input name = "Consumed_Total_Quota_fuel" value = "{{ row.Consumed_Total_Quota }}" readonly>
                     </td>
-                    <td>
-                        <input type = "text" value = "0.00" readonly>
+                    <td>     
+                        <input name = "Consumed_Total_Fact_fuel" value = "{{ row.Consumed_Total_Fact }}" readonly>
                     </td>
-                    <td>
-                        <input type = "text" value = "0.00" readonly>
+                    <td style="background-color: #a2ff77;">
+                        <input style="background-color: #a2ff77;" name="" value="{{row.total_differents}}" readonly>
                     </td>
-                    <td>
-                        <input type = "text" value = "0.00" readonly>
+                    <td> 
+                        <input name = "note_fuel" value = "{{ row.note }}" readonly>
                     </td>
-                    <td>
-                        <input type = "text" value = "0.00" readonly>
-                    </td>
-                    <td style = "background-color: #a2ff77;">
-                        <input style = "background-color: #a2ff77;" name = "" value = "0.00" readonly>
-                    </td>
-                    <td></td>
-                </tr>
-                <tr class = "fuel-main_parapetrs" >
-                    <td></td>
-                    <td >
-                        <input type = "text" value = "Всего потребление (сумма строк 9001, 9010)" readonly>
-                    </td>
-                    <td>
-                        <input type = "text" value = "9100" readonly>
-                    </td>
-                    <td>
-                        <input type = "text" value = "" readonly>
-                    </td>
-                    <td>
-                        <input type = "text" value = "т. у. т." readonly>
-                    </td>
-                    <td>
-                        <input type = "text" value = "0.00" readonly>
-                    </td>
-                    <td>
-                        <input type = "text" value = "0.00" readonly>
-                    </td>
-                    <td>
-                        <input type = "text" value = "0.00" readonly>
-                    </td>
-                    <td>
-                        <input type = "text" value = "0.00" readonly>
-                    </td>
-                    <td>
-                        <input type = "text" value = "0.00" readonly>
-                    </td>
-                    {% if economia_pererashod_obsh == 0%}
-                    <td style = "background-color: #a2ff77;">
-                        <input style = "background-color: #a2ff77;" name = "" value = "0.00" readonly>
-                    </td>
-                    {%else%}
-                        {%if economia_pererashod_obsh < 0%}
-                        <td style = "background-color: #a2ff77;">
-                            <input style = "background-color: #a2ff77;" name = "" value = "{{economia_pererashod_obsh}}" readonly>
-                        </td>
-                        {%else%}
-                        <td style = "background-color: #ff7676;">
-                            <input style = "background-color: #ff7676;" name = "" value = "{{economia_pererashod_obsh}}" readonly>
-                        </td>
-                        {%endif%}
-                    {%endif%}
-                    <td></td>
-                </tr>
+                </tr>   
+                {%endfor%}
             </tbody>
         </table>
     </div>
 </div>
-
-
 <div id="myModalAFP" class="modal">
     <div class="modal-content">
         <div class = "modal-header">
@@ -391,9 +252,9 @@
         <form method="POST" action="/add_fuel_param">
             <table class = "fuel-table_add">
                 <tr>
-                    <td class = ""><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
+                    <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
                     <td>
-                        <input type="text" name="name_of_prduct" style = "width: 400px; text-align: left;">
+                        <input type="text" name="name_of_prduct" style = "width: 400px; text-align: left;" autocomplete="off">
                         <div class="choose-product_area">
                             <table class = "choose-product_table">
                                 <thead>
@@ -411,8 +272,7 @@
                                         <td>{{row.unit.NameUnit}}</td>
                                     </tr>
                                     <tr id="noResultsRow" style="display: none;">
-                                        <td>Нет результатов</td>
-                                        
+                                        <td>Нет результатов</td>        
                                     </tr>
                                 {% endfor %}
                                 <tbody>  
@@ -427,24 +287,23 @@
                             type="text"
                             name="oked"
                             maxlength="5" 
-                            onkeypress="return isNumberKey(event)"
+              
+                            autocomplete="off"
                             required
                         >
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <span>[1]</span>
-                        Произведено продукции (выполнено работ, услуг) за отчетный период
+                        <span>[1]</span> Произведено продукции (выполнено работ, услуг) за отчетный период
                     </td>
                     <td>
                         <input                 
                             type="text"
                             name="produced"
                             value = "0.00"
-                            oninput="return isNumberKeyfloat(event)"
-                            
-                            
+                            autocomplete="off"
+    
                         >
                     </td>
                 </tr>
@@ -457,6 +316,7 @@
                             type="text"
                             name="Consumed_Quota"
                             value = "0.00"
+                            autocomplete="off"
                         >
                     </td>
                 </tr>
@@ -480,27 +340,30 @@
                             name="Consumed_Total_Quota"
                             value = "0.00"
                             style = "color: rgb(132, 132, 132);"
+                            
                             readonly
                         >
                     </td>
                 </tr>
                 <tr>
-                    <td class = ""><span>[5]</span> Израсходовано на всю производственную продукцию фактически</td>
+                    <td><span>[5]</span> Израсходовано на всю производственную продукцию фактически</td>
                     <td>
                         <input                 
                             type="text"
                             name="Consumed_Total_Fact"
                             value = "0.00"
+                            autocomplete="off"
                         >
                     </td>
                 </tr>
                 <tr>
-                    <td class = "">Примечание</td>
+                    <td>Примечание</td>
                     <td>
-                        <input       
+                        <input
                             style = "width: 400px; text-align: left;"          
                             type="text"
                             name="note"
+                            autocomplete="off"
                         >
                         <input                 
                             type="hidden"
@@ -514,8 +377,6 @@
         </form>   
     </div>
 </div>
-
-
 <script>  
     var myAFP = document.getElementById('myAFP');
     var modalAFP = document.getElementById('myModalAFP');
@@ -523,38 +384,31 @@
     myAFP.addEventListener('click', function() {
         modalAFP.style.display = 'block';
     });
-
     spanmyModalAFP.addEventListener('click', function() {
         modalAFP.style.display = 'none';
     });
-
     window.addEventListener('click', function(event) {
         if (event.target == modalAFP) {
             modalAFP.style.display = 'none';
         }
     });
-
 $(document).ready(function(){
     $('input[name="name_of_prduct"]').on('focus', function(){
         $('.choose-product_area').show();
     });
-
     $('#chooseProdTableBody').on('click', 'tr', function(){
         var productName = $(this).find('td:nth-child(2)').text();
         $('input[name="name_of_prduct"]').val(productName);
         $('.choose-product_area').hide();
     });
-
     $('input[name="name_of_prduct"]').on('input', function(){
         var filterText = $(this).val().trim().toLowerCase();
         var noResultsRow = $('#noResultsRow');
-
         if (filterText.length > 0) {
             $('.choose-product_area').show();
         } else {
             $('.choose-product_area').hide();
         }
-
         var hasResults = false;
         $('#chooseProdTableBody tr').each(function(){
             var productName = $(this).find('td:nth-child(2)').text().toLowerCase();
@@ -565,7 +419,6 @@ $(document).ready(function(){
                 $(this).hide();
             }
         });
-
         if (!hasResults && filterText.length > 0) {
             noResultsRow.show();
         } else {
@@ -579,5 +432,4 @@ $(document).ready(function(){
     });
 });
 </script>
-
 {% endblock %}

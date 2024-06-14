@@ -1247,6 +1247,16 @@ input[type="radio"]:checked + .report-area_menu-name {
 }
 /*-----------------change input end*/
 
+/*-----------------specific_sections*/
+.specific_sections,
+.specific_sections input{
+    background-color: rgb(205, 252, 255);
+}
+
+/*-----------------specific_sections*/
+
+/*----------------- end*/
+
 
 /* ----------------------modal_window begin */
 .modal {
