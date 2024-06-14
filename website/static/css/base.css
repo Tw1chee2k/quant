@@ -949,12 +949,9 @@ input[type="radio"]:checked + .report-area_menu-name {
 /*---------------menu_report_area end*/
 /*active-report*/
 
-.active-report {
+.active-report,
+.active-report_version{
     background-color: #95f8f3;
-}
-
-.active-report_version {
-    background-color:  #95f8f3;
 }
 
 /*active-report end*/
@@ -1250,7 +1247,7 @@ input[type="radio"]:checked + .report-area_menu-name {
 /*-----------------specific_sections*/
 .specific_sections,
 .specific_sections input{
-    background-color: rgb(205, 252, 255);
+    background-color: #e6fffe;
 }
 
 /*-----------------specific_sections*/

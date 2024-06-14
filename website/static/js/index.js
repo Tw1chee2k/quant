@@ -134,14 +134,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-
-
-
-
-
-
-
-
 /*end*/
     
 /*кнопка для отображения версий отчета*/
@@ -318,5 +310,17 @@ document.addEventListener('DOMContentLoaded', function () {
 /*end*/
 
 
+
+
+/*активный fuel*/
+
+
+
+
+
+
+/*end*/
+
+/*end*/
 
 

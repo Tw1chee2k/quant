@@ -157,7 +157,7 @@
             </thead>
             <tbody>
                 {% for row in other_sections %}
-                <tr data-id="{{ row.id }}" >
+                <tr class = "fuel_row" data-id="{{ row.id }}" >
                     <td></td>
                     <td>
                         <input class = "product-name_fuel" type = "text" value = "{{ row.product.NameProduct }}" readonly>
@@ -377,6 +377,24 @@
         </form>   
     </div>
 </div>
+<div id="contextmenufuel" class="white-panel">
+    <button data-action="">
+        <span>Создать новый отчет</span>
+    </button>
+    
+    <button data-action = "">
+        <span>Редактировать</span>
+    </button>
+    <hr style="border: 1px solid #3333;">
+    <button data-action="">
+        <span>Добавить версию</span>
+    </button>
+
+    <hr style="border: 1px solid #3333;">
+    <button data-action="">
+        <span>Удалить</span>
+    </button>
+</div>
 <script>  
     var myAFP = document.getElementById('myAFP');
     var modalAFP = document.getElementById('myModalAFP');
@@ -392,6 +410,45 @@
             modalAFP.style.display = 'none';
         }
     });
+
+
+
+    var fuelRows = document.querySelectorAll('.fuel_row');
+    var previousRow = null;
+    var contextMenu = document.getElementById('contextMenu');
+    fuelRows.forEach(function(row) {
+        row.addEventListener('click', function(event) {
+            event.preventDefault(); 
+            if (this.classList.contains('active-report')) {
+                this.classList.remove('active-report');
+                previousRow = null;
+            } else {
+                if (previousRow !== null) {
+                    previousRow.classList.remove('active-report');
+                }
+                this.classList.add('active-report');
+                previousRow = this;
+            }
+        });
+        row.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            if (previousRow !== null) {
+                previousRow.classList.remove('active-report');
+            }
+            this.classList.add('active-report');
+            previousRow = this;
+            contextMenu.style.top = event.clientY + 'px';
+            contextMenu.style.left = event.clientX + 'px';
+            contextMenu.style.display = 'flex';
+        });
+    });
+    document.addEventListener('click', function(event) {
+        if (!contextMenu.contains(event.target)) {
+            contextMenu.style.display = 'none';
+        }
+    });
+
+
 $(document).ready(function(){
     $('input[name="name_of_prduct"]').on('focus', function(){
         $('.choose-product_area').show();
@@ -431,5 +488,7 @@ $(document).ready(function(){
         });
     });
 });
+
+
 </script>
 {% endblock %}
