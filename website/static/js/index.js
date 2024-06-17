@@ -84,6 +84,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var reportRows = document.querySelectorAll('.report_row');
     var previousRow = null;
     var selectedReportId = null;
+    var reportContextMenu = document.getElementById('contextMenu');
+
     reportRows.forEach(function(row) {
         row.addEventListener('click', function() {
             if (this.dataset.id) {
@@ -101,26 +103,104 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
+
         row.addEventListener('contextmenu', function(event) {
             event.preventDefault();
 
-            if (previousRow !== null) {
-                previousRow.classList.remove('active-report');
+            if (this.dataset.id) {
+                selectedReportId = this.dataset.id;
+
+                if (previousRow !== null) {
+                    previousRow.classList.remove('active-report');
+                }
+                this.classList.add('active-report');
+                previousRow = this;
+
+                // Показать контекстное меню
+                reportContextMenu.style.top = event.clientY + 'px';
+                reportContextMenu.style.left = event.clientX + 'px';
+                reportContextMenu.style.display = 'flex';
             }
-            this.classList.add('active-report');
-            previousRow = this;
-            contextMenu.style.top = event.clientY + 'px';
-            contextMenu.style.left = event.clientX + 'px';
-            contextMenu.style.display = 'flex';
         });
     });
-    var contextMenu = document.getElementById('contextMenu');
+
     document.addEventListener('click', function(event) {
-        if (!contextMenu.contains(event.target)) {
-            contextMenu.style.display = 'none';
+        if (!reportContextMenu.contains(event.target)) {
+            reportContextMenu.style.display = 'none';
         }
     });
 /*end*/
+
+/*активный fuel*/
+var fuelRows = document.querySelectorAll('.fuel_row');
+var previousfuelRow = null;
+var selectedfuelId = null;
+var contextMenu = document.getElementById('contextmenufuel');
+var changefuel_modal = document.getElementById('changefuel_modal'); // Модальное окно для редактирования
+
+fuelRows.forEach(function(row) {
+    row.addEventListener('click', function(event) {
+        if (event.button === 0 && this.dataset.id) { // Левая кнопка мыши
+            selectedfuelId = this.dataset.id;
+
+            // Убрать активный класс с предыдущей строки
+            if (previousfuelRow !== null) {
+                previousfuelRow.classList.remove('active-report');
+                previousfuelRow.querySelectorAll('input').forEach(function(input) {
+                    input.classList.remove('active-input');
+                });
+            }
+
+            // Добавить активный класс на текущую строку
+            this.classList.add('active-report');
+            this.querySelectorAll('input').forEach(function(input) {
+                input.classList.add('active-input');
+            });
+            previousfuelRow = this;
+
+
+        }
+    });
+
+    row.addEventListener('contextmenu', function(event) { // Правая кнопка мыши
+        event.preventDefault();
+
+        if (this.dataset.id) {
+            selectedfuelId = this.dataset.id;
+
+            // Убрать активный класс с предыдущей строки
+            if (previousfuelRow !== null) {
+                previousfuelRow.classList.remove('active-report');
+                previousfuelRow.querySelectorAll('input').forEach(function(input) {
+                    input.classList.remove('active-input');
+                });
+            }
+
+            // Добавить активный класс на текущую строку
+            this.classList.add('active-report');
+            this.querySelectorAll('input').forEach(function(input) {
+                input.classList.add('active-input');
+            });
+            previousfuelRow = this;
+            contextMenu.style.top = event.pageY + 'px';
+            contextMenu.style.left = event.pageX + 'px';
+            contextMenu.style.display = 'block';
+        }
+    });
+});
+
+document.addEventListener('click', function(event) {
+    if (!contextMenu.contains(event.target)) {
+        contextMenu.style.display = 'none';
+    }
+});
+
+
+
+/*end*/
+
+
+
 
 /*показ панели для редактирования параметров отчета при двойном клике на строку в таблице*/
     var report_row = document.querySelectorAll('.report_row');
@@ -312,7 +392,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-/*активный fuel*/
+/*fuel*/
 
 
 

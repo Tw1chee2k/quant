@@ -6,6 +6,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy import asc
 from sqlalchemy import Numeric
 from sqlalchemy import or_
+from sqlalchemy import desc
 
 views = Blueprint('views', __name__)
 
@@ -554,7 +555,7 @@ def report_fuel(id):
             db.session.add(section)
         db.session.commit()
 
-
+    sections = Sections.query.filter_by(id_version=current_version, section_number=1).all()
 
     specific_sections = Sections.query.filter(
         Sections.id_version == current_version,
@@ -568,7 +569,9 @@ def report_fuel(id):
         ~Sections.code_product.in_(specific_codes)
     ).all()
 
+    sections = Sections.query.filter_by(id_version=current_version, section_number=1).order_by(desc(Sections.id)).all()
     return render_template('report_fuel.html', 
+        sections=sections,              
         dirUnit=dirUnit,
         dirProduct=dirProduct,
         specific_sections=specific_sections,

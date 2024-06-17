@@ -444,10 +444,6 @@ footer {
     padding-right: 15%;
 }
 
-.hello_cont .main_cont .gif_cont img{
-    
-}
-
 .hello_cont button{
     margin: 300px 0 0 0;
     height: 50px;
@@ -555,10 +551,6 @@ footer {
 
 .cont_news_main_page .white_news_cont .right_news_cont{
     min-width: 700px;
-}
-
-.cont_news_main_page .white_news_cont .right_news_cont img{
-    
 }
 
 /* Новости end*/
@@ -950,6 +942,7 @@ input[type="radio"]:checked + .report-area_menu-name {
 /*active-report*/
 
 .active-report,
+.active-input,
 .active-report_version{
     background-color: #95f8f3;
 }
@@ -1244,15 +1237,35 @@ input[type="radio"]:checked + .report-area_menu-name {
 }
 /*-----------------change input end*/
 
-/*-----------------specific_sections*/
-.specific_sections,
-.specific_sections input{
-    background-color: #e6fffe;
+
+.fuel_row,
+.fuel_row td,
+.fuel_row td input {
+    cursor: pointer;
+    user-select: none; /* Отключает выделение текста */
+    -webkit-user-select: none; /* Для браузеров на основе WebKit */
+    -moz-user-select: none; /* Для Firefox */
+    -ms-user-select: none; /* Для IE10+ */
 }
 
+.report_row,
+.report_row td,
+.report_row td input {
+    cursor: pointer;
+    user-select: none; /* Отключает выделение текста */
+    -webkit-user-select: none; /* Для браузеров на основе WebKit */
+    -moz-user-select: none; /* Для Firefox */
+    -ms-user-select: none; /* Для IE10+ */
+}
+
+
+
+
+
 /*-----------------specific_sections*/
 
-/*----------------- end*/
+
+
 
 
 /* ----------------------modal_window begin */

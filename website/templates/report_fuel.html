@@ -11,7 +11,7 @@
                     <ul>
                         <section>
                             <div class = "functions_menu">
-                                <li id = "myAFP">
+                                <li id = "">
                                     <img src="{{ url_for('static', filename='img/icon_new_file.png')}}" alt="">
                                     <a>Добавить</a>
                                 </li>
@@ -156,9 +156,10 @@
                 </tr>
             </thead>
             <tbody>
-                {% for row in other_sections %}
+                {% for row in sections %}
                 <tr class = "fuel_row" data-id="{{ row.id }}" >
-                    <td></td>
+                    <td>
+                        <input type = "hidden" name = "id_fuel" value = "{{ row.id }}" readonly></td>
                     <td>
                         <input class = "product-name_fuel" type = "text" value = "{{ row.product.NameProduct }}" readonly>
                     </td>   
@@ -186,64 +187,101 @@
                     <td>     
                         <input name = "Consumed_Total_Fact_fuel" value = "{{ row.Consumed_Total_Fact }}" readonly>
                     </td>
-                    {% if row.total_differents < 0%}
-                    <td style="background-color: #a2ff77;">
-                        <input style="background-color: #a2ff77;" name="" value="{{ row.total_differents }}" readonly>
-                    </td>
+                    {% if row.total_differents < 0 or row.total_differents == 0.00%}
+                        <td style="background-color: #a2ff77;">
+                            <input style="background-color: #a2ff77;" name="" value="{{ row.total_differents }}" readonly>
+                        </td>
                     {%else%}
-                    <td style="background-color: #ff7676;">
-                        <input style="background-color: #ff7676;" name="" value="{{ row.total_differents }}" readonly>
-                    </td>
+                        <td style="background-color: #ff7676;">
+                            <input style="background-color: #ff7676;" name="" value="{{ row.total_differents }}" readonly>
+                        </td>
                     {%endif%}
-
                     <td> 
                         <input name = "note_fuel" value = "{{ row.note }}" readonly>
-                    </td>
-                </tr>   
-                {%endfor%}
-                {% for row in specific_sections %}
-                <tr data-id="{{ row.id }}" class = "specific_sections" style = "">
-                    <td></td>
-                    <td>
-                        <input class = "product-name_fuel" type = "text" value = "{{ row.product.NameProduct }}" readonly>
-                    </td>   
-                    <td>
-                        <input name = "Oked_fuel" value = "{{ row.code_product }}" readonly>
-                    </td>
-                    <td>
-                        <input name = "Oked_fuel" value = "{{ row.Oked }}" readonly>
-                    </td>
-                    <td> 
-                        <input style = "white-space: nowrap; text-align: left;" name = "" value = "{{ row.product.unit.NameUnit }}" readonly>
-                    </td> 
-                    <td>
-                        <input name = "produced_fuel" value = "{{ row.produced }}" readonly>
-                    </td>
-                    <td>
-                        <input name = "Consumed_Quota_fuel" value = "{{ row.Consumed_Quota }}" readonly>
-                    </td>
-                    <td>
-                        <input name = "Consumed_Fact_fuel" value = "{{ row.Consumed_Fact }}" readonly>
-                    </td>
-                    <td>
-                        <input name = "Consumed_Total_Quota_fuel" value = "{{ row.Consumed_Total_Quota }}" readonly>
-                    </td>
-                    <td>     
-                        <input name = "Consumed_Total_Fact_fuel" value = "{{ row.Consumed_Total_Fact }}" readonly>
-                    </td>
-                    <td style="background-color: #a2ff77;">
-                        <input style="background-color: #a2ff77;" name="" value="{{row.total_differents}}" readonly>
-                    </td>
-                    <td> 
-                        <input name = "note_fuel" value = "{{ row.note }}" readonly>
-                    </td>
+                    </td>           
                 </tr>   
                 {%endfor%}
             </tbody>
-        </table>
+        </table>        
+    </div>
+</div>  
+<div id="contextmenufuel" class="white-panel">
+    <button id = "link_addfuel_modal">
+        <span>Добавить</span>
+    </button>
+    <button id = "link_changefuel_modal">
+        <span>Редактировать</span>
+    </button>
+    <button data-action="">
+        <span>Удалить</span>
+    </button>
+</div>
+
+<div id="changefuel_modal" class="modal">
+    <div class="modal-content">
+        <div class = "modal-header">
+            <h3>Редактирование продукции</h3>
+            <a class="close">&times;</a>
+        </div>
+        <form method="POST" action="/change_fuel">
+            <table class="fuel-table_add">
+                <tr>
+                    <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
+                    <td>
+                        <input type="text" name="product_name" style="width: 400px; text-align: left; color: rgb(132, 132, 132);" autocomplete="off" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>[B]</span> ОКЭД</td>
+                    <td>
+                        <input type="text" name="oked" maxlength="5" autocomplete="off" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>[1]</span> Произведено продукции (выполнено работ, услуг) за отчетный период</td>
+                    <td>
+                        <input type="text" name="produced" autocomplete="off">
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>[2]</span> Утвержденная норма на единицу продукции</td>
+                    <td>
+                        <input type="text" name="Consumed_Quota" autocomplete="off">
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>[3]</span> Израсходовано на единицу продукции фактически</td>
+                    <td>
+                        <input type="text" name="Consumed_Fact" style="color: rgb(132, 132, 132);" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>[4]</span> Израсходовано на всю производственную продукцию по действующей норме</td>
+                    <td>
+                        <input type="text" name="Consumed_Total_Quota" style="color: rgb(132, 132, 132);" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>[5]</span> Израсходовано на всю производственную продукцию фактически</td>
+                    <td>
+                        <input type="text" name="Consumed_Total_Fact" autocomplete="off">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Примечание</td>
+                    <td>
+                        <input style="width: 400px; text-align: left;" type="text" name="note" autocomplete="off">
+                        <input type="hidden" id="if_fuel" name="id">
+                        <input type="hidden" value="{{ current_version }}" name="current_version">
+                    </td>
+                </tr>
+            </table>
+            <button type="submit" class="blue_button fuel-submit">Изменить</button>
+        </form> 
     </div>
 </div>
-<div id="myModalAFP" class="modal">
+
+<div id="addfuel_modal" class="modal">
     <div class="modal-content">
         <div class = "modal-header">
             <h3>Добавить продукцию</h3>
@@ -254,7 +292,7 @@
                 <tr>
                     <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
                     <td>
-                        <input type="text" name="name_of_prduct" style = "width: 400px; text-align: left;" autocomplete="off">
+                        <input type="text" name="name_of_product" style = "width: 400px; text-align: left;" autocomplete="off">
                         <div class="choose-product_area">
                             <table class = "choose-product_table">
                                 <thead>
@@ -377,118 +415,85 @@
         </form>   
     </div>
 </div>
-<div id="contextmenufuel" class="white-panel">
-    <button data-action="">
-        <span>Создать новый отчет</span>
-    </button>
-    
-    <button data-action = "">
-        <span>Редактировать</span>
-    </button>
-    <hr style="border: 1px solid #3333;">
-    <button data-action="">
-        <span>Добавить версию</span>
-    </button>
 
-    <hr style="border: 1px solid #3333;">
-    <button data-action="">
-        <span>Удалить</span>
-    </button>
-</div>
+
+
 <script>  
-    var myAFP = document.getElementById('myAFP');
-    var modalAFP = document.getElementById('myModalAFP');
-    var spanmyModalAFP = document.getElementsByClassName('close')[0];
-    myAFP.addEventListener('click', function() {
-        modalAFP.style.display = 'block';
+    var link_addfuel_modal = document.getElementById('link_addfuel_modal');
+    var addfuel_modal = document.getElementById('addfuel_modal'); 
+    var close_addfuel_modal = addfuel_modal.querySelector('.close'); 
+    link_addfuel_modal.addEventListener('click', function() {
+        addfuel_modal.style.display = 'block';
+        contextMenu.style.display = 'none';
     });
-    spanmyModalAFP.addEventListener('click', function() {
-        modalAFP.style.display = 'none';
+    close_addfuel_modal.addEventListener('click', function() {
+        addfuel_modal.style.display = 'none';
     });
     window.addEventListener('click', function(event) {
-        if (event.target == modalAFP) {
-            modalAFP.style.display = 'none';
+        if (event.target == addfuel_modal) {
+            addfuel_modal.style.display = 'none';
         }
     });
 
 
-
-    var fuelRows = document.querySelectorAll('.fuel_row');
-    var previousRow = null;
-    var contextMenu = document.getElementById('contextMenu');
-    fuelRows.forEach(function(row) {
-        row.addEventListener('click', function(event) {
-            event.preventDefault(); 
-            if (this.classList.contains('active-report')) {
-                this.classList.remove('active-report');
-                previousRow = null;
-            } else {
-                if (previousRow !== null) {
-                    previousRow.classList.remove('active-report');
-                }
-                this.classList.add('active-report');
-                previousRow = this;
-            }
-        });
-        row.addEventListener('contextmenu', function(event) {
-            event.preventDefault();
-            if (previousRow !== null) {
-                previousRow.classList.remove('active-report');
-            }
-            this.classList.add('active-report');
-            previousRow = this;
-            contextMenu.style.top = event.clientY + 'px';
-            contextMenu.style.left = event.clientX + 'px';
-            contextMenu.style.display = 'flex';
-        });
+    var link_changefuel_modal = document.getElementById('link_changefuel_modal');
+    var changefuel_modal = document.getElementById('changefuel_modal'); 
+    var close_changefuel_modal = changefuel_modal.querySelector('.close'); 
+    link_changefuel_modal.addEventListener('click', function() {
+        changefuel_modal.style.display = 'block';
+        contextMenu.style.display = 'none';
     });
-    document.addEventListener('click', function(event) {
-        if (!contextMenu.contains(event.target)) {
-            contextMenu.style.display = 'none';
+    close_changefuel_modal.addEventListener('click', function() {
+        changefuel_modal.style.display = 'none';
+    });
+    window.addEventListener('click', function(event) {
+        if (event.target == changefuel_modal) {
+            changefuel_modal.style.display = 'none';
         }
     });
 
 
-$(document).ready(function(){
-    $('input[name="name_of_prduct"]').on('focus', function(){
-        $('.choose-product_area').show();
+    var nameOfProductInput = document.querySelector('input[name="name_of_product"]');
+    var chooseProductArea = document.querySelector('.choose-product_area');
+    var chooseProdTableBody = document.getElementById('chooseProdTableBody');
+    var noResultsRow = document.getElementById('noResultsRow');
+    nameOfProductInput.addEventListener('focus', function() {
+        chooseProductArea.style.display = 'block';
     });
-    $('#chooseProdTableBody').on('click', 'tr', function(){
-        var productName = $(this).find('td:nth-child(2)').text();
-        $('input[name="name_of_prduct"]').val(productName);
-        $('.choose-product_area').hide();
+    chooseProdTableBody.addEventListener('click', function(event) {
+        if (event.target.tagName === 'TD') {
+            var productName = event.target.parentNode.querySelector('td:nth-child(2)').textContent;
+            nameOfProductInput.value = productName;
+            chooseProductArea.style.display = 'none';
+        }
     });
-    $('input[name="name_of_prduct"]').on('input', function(){
-        var filterText = $(this).val().trim().toLowerCase();
-        var noResultsRow = $('#noResultsRow');
+    nameOfProductInput.addEventListener('input', function() {
+        var filterText = this.value.trim().toLowerCase();
         if (filterText.length > 0) {
-            $('.choose-product_area').show();
+            chooseProductArea.style.display = 'block';
         } else {
-            $('.choose-product_area').hide();
+            chooseProductArea.style.display = 'none';
         }
         var hasResults = false;
-        $('#chooseProdTableBody tr').each(function(){
-            var productName = $(this).find('td:nth-child(2)').text().toLowerCase();
-            if(productName.includes(filterText)){
-                $(this).show();
+        Array.from(chooseProdTableBody.querySelectorAll('tr')).forEach(function(row) {
+            var productName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            if (productName.includes(filterText)) {
+                row.style.display = '';
                 hasResults = true;
             } else {
-                $(this).hide();
+                row.style.display = 'none';
             }
         });
         if (!hasResults && filterText.length > 0) {
-            noResultsRow.show();
+            noResultsRow.style.display = 'block';
         } else {
-            noResultsRow.hide();
+            noResultsRow.style.display = 'none';
         }
-        $(document).on('click', function(event){
-            if (!$(event.target).closest('.choose-product_area').length && !$(event.target).is('input[name="name_of_prduct"]')) {
-                $('.choose-product_area').hide();
+        document.addEventListener('click', function(event) {
+            if (!chooseProductArea.contains(event.target) && event.target !== nameOfProductInput) {
+                chooseProductArea.style.display = 'none';
             }
         });
     });
-});
-
-
 </script>
 {% endblock %}

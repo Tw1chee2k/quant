@@ -243,7 +243,7 @@ def delete_version(id):
 def add_fuel_param():
     if request.method == 'POST':
         current_version = request.form.get('current_version')
-        name = request.form.get('name_of_prduct')
+        name = request.form.get('name_of_product')
         oked = request.form.get('oked')
         produced = request.form.get('produced')
         Consumed_Quota = request.form.get('Consumed_Quota')
@@ -305,20 +305,30 @@ def add_fuel_param():
 @auth.route('/change_fuel', methods=['POST'])
 def change_fuel():
     if request.method == 'POST':
-        id = request.form.get('id_fuel')
-        id_version = request.form.get('id_version_fuel')
+        id_version = request.form.get('current_version')
+        id_fuel = request.form.get('id')
         produced = request.form.get('produced_fuel')
         Consumed_Quota = request.form.get('Consumed_Quota_fuel')
         Consumed_Total_Fact = request.form.get('Consumed_Total_Fact_fuel')
         note = request.form.get('note_fuel')
-        current_section = Sections.query.filter_by(id = id).first() 
+        print(f'------------------------------------{id_fuel}')
+        print(f'------------------------------------{produced}')
+        print(f'------------------------------------{id_version}')
+        current_section = Sections.query.filter_by(id=id_fuel).first() 
         if current_section:
             current_section.produced = produced
             current_section.Consumed_Quota = Consumed_Quota
             current_section.Consumed_Total_Fact = Consumed_Total_Fact
             current_section.note = note 
-            flash("Изменения произошли успешно")
-            current_version = Version_report.query.filter_by(id=id_version).first()
-            current_version.change_time = datetime.now()
             db.session.commit()
-        return redirect(url_for('views.report_fuel', id = id_version))
+      
+            current_version = Version_report.query.filter_by(id=id_version).first()
+            if current_version:
+                current_version.change_time = datetime.now()
+                db.session.commit()
+            
+            flash("Изменения произошли успешно")
+        else:
+            flash("фатал")
+
+        return redirect(url_for('views.report_fuel', id=id_version))
