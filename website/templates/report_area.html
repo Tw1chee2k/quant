@@ -27,14 +27,6 @@
                         </section>
                         <section>
                             <div class="functions_menu">
-                                <li data-action = "new-version">
-                                    <img src="{{ url_for('static', filename='img/icon_new_file.png') }}" alt="">
-                                    <a>Новый</a>
-                                </li>
-                                <li id="del_version">
-                                    <img src="{{ url_for('static', filename='img/icon_delete_file.png') }}" alt="">
-                                    <a>Удалить</a>
-                                </li>
                                 <li>
                                     <img src="{{ url_for('static', filename='img/icon_excel.png') }}" alt="">
                                     <a>Экспорт</a>
@@ -53,7 +45,7 @@
                                 </li>
                             </div>
                             <div style="font-weight: 600;">
-                                Версия отчета
+                                Действия с версией
                             </div>
                         </section>
                         <section>
@@ -69,7 +61,7 @@
                         </section>
                         <section>
                             <div class="functions_menu">
-                                <li>
+                                <li data-action="checkVersionButton">
                                     <img src="{{ url_for('static', filename='img/icon_change.png') }}" alt="">
                                     <a>Изменить данные</a>
                                 </li>
@@ -326,16 +318,16 @@
     </div>
 </div>
 
-<div id="contextMenu" class="white-panel">
+<div id="contextMenu_report" class="white-panel">
     <button data-action="createReport">
         <span>Создать новый отчет</span>
     </button>
-    
+    <hr style="border: 1px solid #3333;">
     <button data-action = "">
         <span>Редактировать</span>
     </button>
-    <hr style="border: 1px solid #3333;">
-    <button data-action="new-version">
+
+    <button data-action = "new-version">
         <span>Добавить версию</span>
     </button>
 
@@ -344,6 +336,20 @@
         <span>Удалить</span>
     </button>
 </div>
+
+
+<div id="contextMenu_version" class="white-panel">
+    <button data-action="checkVersionButton">
+        <span>Перейти</span>
+    </button>
+
+    <hr style="border: 1px solid #3333;">
+    <button id="del_version">
+        <span>Удалить</span>
+    </button>
+</div>
+
+
 
 <script>
     

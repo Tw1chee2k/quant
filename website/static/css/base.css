@@ -939,15 +939,7 @@ input[type="radio"]:checked + .report-area_menu-name {
 }
 
 /*---------------menu_report_area end*/
-/*active-report*/
 
-.active-report,
-.active-input,
-.active-report_version{
-    background-color: #95f8f3;
-}
-
-/*active-report end*/
 /*---------------report-area*/
 .white-panel {
     padding: 5px;
@@ -1065,11 +1057,6 @@ input[type="radio"]:checked + .report-area_menu-name {
 
 
 /*-----------------vers*/
-.versions_row {
-
-    
-}
-
 
 .versions_row .vers_cont {
     padding: 10px 40px; 
@@ -1242,28 +1229,41 @@ input[type="radio"]:checked + .report-area_menu-name {
 .fuel_row td,
 .fuel_row td input {
     cursor: pointer;
-    user-select: none; /* Отключает выделение текста */
-    -webkit-user-select: none; /* Для браузеров на основе WebKit */
-    -moz-user-select: none; /* Для Firefox */
-    -ms-user-select: none; /* Для IE10+ */
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
 }
 
 .report_row,
 .report_row td,
 .report_row td input {
     cursor: pointer;
-    user-select: none; /* Отключает выделение текста */
-    -webkit-user-select: none; /* Для браузеров на основе WebKit */
-    -moz-user-select: none; /* Для Firefox */
-    -ms-user-select: none; /* Для IE10+ */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none; 
+    -ms-user-select: none;
+}
+
+.report_row:hover{
+    background-color: rgb(247, 247, 247);
 }
 
 
+.version-row:hover{
+    background-color: rgb(247, 247, 247);
+}
 
 
+/*active-report*/
 
-/*-----------------specific_sections*/
+.active-report,
+.active-input,
+.active-report_version{
+    background-color:rgb(218, 255, 250);
+}
 
+/*active-report end*/
 
 
 

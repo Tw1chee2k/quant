@@ -149,7 +149,7 @@ def create_new_report():
             okpo=organization.okpo,
             organization_name= organization.full_name,
             year=2024,
-            quarter=0,
+            quarter=1,
             user_id = current_user.id,
             organization_id = organization.id
         )
@@ -306,28 +306,54 @@ def add_fuel_param():
 def change_fuel():
     if request.method == 'POST':
         id_version = request.form.get('current_version')
-        id_fuel = request.form.get('id')
-        produced = request.form.get('produced_fuel')
-        Consumed_Quota = request.form.get('Consumed_Quota_fuel')
-        Consumed_Total_Fact = request.form.get('Consumed_Total_Fact_fuel')
-        note = request.form.get('note_fuel')
-        print(f'------------------------------------{id_fuel}')
-        print(f'------------------------------------{produced}')
-        print(f'------------------------------------{id_version}')
+        id_fuel = request.form.get('id'
+                                   )
+        produced = request.form.get('produced')
+        Consumed_Quota = request.form.get('Consumed_Quota')
+        Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
+        note = request.form.get('note')
+
         current_section = Sections.query.filter_by(id=id_fuel).first() 
         if current_section:
+
             current_section.produced = produced
             current_section.Consumed_Quota = Consumed_Quota
             current_section.Consumed_Total_Fact = Consumed_Total_Fact
             current_section.note = note 
+            db.session.commit()
+            current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 1000, 2)
+            current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 1000, 2)
+            db.session.commit()
+            current_section.total_differents=current_section.Consumed_Total_Fact-current_section.Consumed_Total_Quota
             db.session.commit()
       
             current_version = Version_report.query.filter_by(id=id_version).first()
             if current_version:
                 current_version.change_time = datetime.now()
                 db.session.commit()
-            
-            flash("Изменения произошли успешно")
+
+            specific_codes = ['9001', '9010', '9100']
+
+            section9001 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product = 9001).first()
+            section9001.Consumed_Total_Quota = db.session.query(func.sum(Sections.Consumed_Total_Quota)).filter(
+                Sections.id_version == current_version,
+                Sections.section_number == 1,
+                ~Sections.code_product.in_(specific_codes)
+            ).scalar()
+            section9001.Consumed_Total_Fact = db.session.query(func.sum(Sections.Consumed_Total_Fact)).filter(
+                Sections.id_version == current_version,
+                Sections.section_number == 1,
+                ~Sections.code_product.in_(specific_codes)
+            ).scalar()
+            section9001.total_differents = db.session.query(func.sum(Sections.total_differents)).filter(
+                Sections.id_version == current_version,
+                Sections.section_number == 1,
+                ~Sections.code_product.in_(specific_codes)
+            ).scalar()
+
+            db.session.commit() 
+
+            flash("Параметры обновлены")
         else:
             flash("фатал")
 

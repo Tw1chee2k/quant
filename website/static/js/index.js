@@ -1,30 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-/*появляющиеся сообщения*/
-    var alertBox = document.querySelector('.custom-alert');
-    setTimeout(function() {
-        alertBox.classList.add('hidden');
-    }, 2000);
-/*end*/
-    
-/*появляющаяся панель при навидении на иконку пользователя*/
-    var userImg = document.getElementById('user-img');
-    var hoverPanel = document.getElementById('hoverPanel');
-    userImg.addEventListener('mouseenter', function() {
-        hoverPanel.style.display = 'block';
-    });
-    userImg.addEventListener('mouseleave', function() {
-        hoverPanel.style.display = 'none';
-    });
-    hoverPanel.addEventListener('mouseenter', function() {
-        hoverPanel.style.display = 'block';
-    });
-    hoverPanel.addEventListener('mouseleave', function() {
-        hoverPanel.style.display = 'none';
-    });
-    });  
- /*end*/   
 
-/*создание нового отчета*/
     function createNewReport() {
         fetch('/create_new_report', {
             method: 'POST'
@@ -44,15 +19,12 @@ document.addEventListener('DOMContentLoaded', function () {
     createReport.forEach(function(button) {
         button.addEventListener('click', createNewReport);
     });
-/*end*/
+    /*end*/
 
-
-
-/*удаления активного отчета*/
+    /*удаления активного отчета*/
     var deleteReportButtons = document.querySelectorAll('[data-action="deleteReport"]');
     deleteReportButtons.forEach(function(button) {
         button.addEventListener('click', function() {
-            // Находим активную строку отчета
             var activeRow = document.querySelector('.report_row.active-report');
             if (activeRow !== null) {
                 var reportId = activeRow.dataset.id;
@@ -62,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-
     function deleteReport(reportId) {
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/delete_report/' + reportId, true);
@@ -78,238 +49,148 @@ document.addEventListener('DOMContentLoaded', function () {
         };
         xhr.send();
     }
-/*end*/
+    /*end*/
 
-/*активный отчет*/
+    /*активный отчет и активная версия + модальные окна соответственно*/
     var reportRows = document.querySelectorAll('.report_row');
-    var previousRow = null;
+    var versionRows = document.querySelectorAll('.version-row');
+    var previousReportRow = null;
+    var previousVersionRow = null;
     var selectedReportId = null;
-    var reportContextMenu = document.getElementById('contextMenu');
+    var selectedVersionId = null;
+    var contextMenuReport = document.getElementById('contextMenu_report');
+    var contextMenuVersion = document.getElementById('contextMenu_version');
 
     reportRows.forEach(function(row) {
-        row.addEventListener('click', function() {
-            if (this.dataset.id) {
-                selectedReportId = this.dataset.id;
-
-                if (this.classList.contains('active-report')) {
-                    this.classList.remove('active-report');
-                    previousRow = null;
-                } else {
-                    if (previousRow !== null) {
-                        previousRow.classList.remove('active-report');
-                    }
-                    this.classList.add('active-report');
-                    previousRow = this;
-                }
-            }
+    row.addEventListener('click', function() {
+        contextMenuVersion.style.display = 'none';
+        versionRows.forEach(function(versionRow) {
+            versionRow.classList.remove('active-report_version');
         });
 
-        row.addEventListener('contextmenu', function(event) {
-            event.preventDefault();
+        if (this.dataset.id) {
+            selectedReportId = this.dataset.id;
 
-            if (this.dataset.id) {
-                selectedReportId = this.dataset.id;
-
-                if (previousRow !== null) {
-                    previousRow.classList.remove('active-report');
+            if (this.classList.contains('active-report')) {
+                this.classList.remove('active-report');
+                previousReportRow = null;
+            } else {
+                if (previousReportRow !== null) {
+                    previousReportRow.classList.remove('active-report');
                 }
                 this.classList.add('active-report');
-                previousRow = this;
-
-                // Показать контекстное меню
-                reportContextMenu.style.top = event.clientY + 'px';
-                reportContextMenu.style.left = event.clientX + 'px';
-                reportContextMenu.style.display = 'flex';
+                previousReportRow = this;
             }
+        }
+    });
+
+    row.addEventListener('contextmenu', function(event) {
+        contextMenuVersion.style.display = 'none';
+        event.preventDefault();
+        versionRows.forEach(function(versionRow) {
+            versionRow.classList.remove('active-report_version');
         });
+
+        if (this.dataset.id) {
+            selectedReportId = this.dataset.id;
+
+            if (previousReportRow !== null) {
+                previousReportRow.classList.remove('active-report');
+            }
+            this.classList.add('active-report');
+            previousReportRow = this;
+
+            contextMenuReport.style.top = event.clientY + 'px';
+            contextMenuReport.style.left = event.clientX + 'px';
+            contextMenuReport.style.display = 'flex';
+        }
+    });
+    });
+
+    versionRows.forEach(function(row) {
+    row.addEventListener('click', function() {
+        contextMenuReport.style.display = 'none';
+
+        reportRows.forEach(function(reportRow) {
+            reportRow.classList.remove('active-report');
+        });
+
+        if (this.dataset.id) {
+            selectedVersionId = this.dataset.id;
+
+            if (this.classList.contains('active-report_version')) {
+                this.classList.remove('active-report_version');
+                previousVersionRow = null;
+            } else {
+                if (previousVersionRow !== null) {
+                    previousVersionRow.classList.remove('active-report_version');
+                }
+                this.classList.add('active-report_version');
+                previousVersionRow = this;
+            }
+        }
+    });
+
+    row.addEventListener('contextmenu', function(event) {
+        contextMenuReport.style.display = 'none';
+        event.preventDefault();
+
+        reportRows.forEach(function(reportRow) {
+            reportRow.classList.remove('active-report');
+        });
+
+        if (this.dataset.id) {
+            selectedVersionId = this.dataset.id;
+
+            if (previousVersionRow !== null) {
+                previousVersionRow.classList.remove('active-report_version');
+            }
+            this.classList.add('active-report_version');
+            previousVersionRow = this;
+
+            contextMenuVersion.style.top = event.clientY + 'px';
+            contextMenuVersion.style.left = event.clientX + 'px';
+            contextMenuVersion.style.display = 'flex';
+        }
+    });
     });
 
     document.addEventListener('click', function(event) {
-        if (!reportContextMenu.contains(event.target)) {
-            reportContextMenu.style.display = 'none';
-        }
-    });
-/*end*/
-
-/*активный fuel*/
-var fuelRows = document.querySelectorAll('.fuel_row');
-var previousfuelRow = null;
-var selectedfuelId = null;
-var contextMenu = document.getElementById('contextmenufuel');
-var changefuel_modal = document.getElementById('changefuel_modal'); // Модальное окно для редактирования
-
-fuelRows.forEach(function(row) {
-    row.addEventListener('click', function(event) {
-        if (event.button === 0 && this.dataset.id) { // Левая кнопка мыши
-            selectedfuelId = this.dataset.id;
-
-            // Убрать активный класс с предыдущей строки
-            if (previousfuelRow !== null) {
-                previousfuelRow.classList.remove('active-report');
-                previousfuelRow.querySelectorAll('input').forEach(function(input) {
-                    input.classList.remove('active-input');
-                });
-            }
-
-            // Добавить активный класс на текущую строку
-            this.classList.add('active-report');
-            this.querySelectorAll('input').forEach(function(input) {
-                input.classList.add('active-input');
-            });
-            previousfuelRow = this;
-
-
-        }
-    });
-
-    row.addEventListener('contextmenu', function(event) { // Правая кнопка мыши
-        event.preventDefault();
-
-        if (this.dataset.id) {
-            selectedfuelId = this.dataset.id;
-
-            // Убрать активный класс с предыдущей строки
-            if (previousfuelRow !== null) {
-                previousfuelRow.classList.remove('active-report');
-                previousfuelRow.querySelectorAll('input').forEach(function(input) {
-                    input.classList.remove('active-input');
-                });
-            }
-
-            // Добавить активный класс на текущую строку
-            this.classList.add('active-report');
-            this.querySelectorAll('input').forEach(function(input) {
-                input.classList.add('active-input');
-            });
-            previousfuelRow = this;
-            contextMenu.style.top = event.pageY + 'px';
-            contextMenu.style.left = event.pageX + 'px';
-            contextMenu.style.display = 'block';
-        }
-    });
-});
-
-document.addEventListener('click', function(event) {
-    if (!contextMenu.contains(event.target)) {
-        contextMenu.style.display = 'none';
+    if (!contextMenuReport.contains(event.target)) {
+        contextMenuReport.style.display = 'none';
     }
-});
-
-
-
-/*end*/
-
-
-
-
-/*показ панели для редактирования параметров отчета при двойном клике на строку в таблице*/
-    var report_row = document.querySelectorAll('.report_row');
-    report_row.forEach(function(row) {
-        row.addEventListener('dblclick', function() {
-            var change_input_row = this.nextElementSibling;
-            if (change_input_row.style.display === 'none' || change_input_row.style.display === '') {
-                change_input_row.style.display = 'table-row';
-            } else {
-                change_input_row.style.display = 'none';
-            }
-        });
+    if (!contextMenuVersion.contains(event.target)) {
+        contextMenuVersion.style.display = 'none';
+    }
     });
-/*end*/
-    
-/*кнопка для отображения версий отчета*/
-    var toggleButtons = document.querySelectorAll('.show-versins_button');
-    toggleButtons.forEach(function(button) {
-        button.addEventListener('click', function(event) {
-            event.stopPropagation();
-            var versionsRow = this.closest('.report_row').nextElementSibling.nextElementSibling;
-            if (versionsRow.style.display === 'none' || versionsRow.style.display === '') {
-                versionsRow.style.display = 'table-row';
-            } else {
-                versionsRow.style.display = 'none';
-            }
-        });
-    });
+    /*end*/
 
 
-
-/*end*/
-    const showCheksButtons = document.querySelectorAll('.show-cheks_button');
-            
-    showCheksButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const checkRow = this.closest('.version-row').nextElementSibling;
-            if (checkRow.style.display === 'none' || checkRow.style.display === '') {
-                checkRow.style.display = 'table-row';
-            } else {
-                checkRow.style.display = 'none';
-            }
-        });
-    });
-
-
-/*создание новой версии*/
+    /*создание новой версии*/
     var newVersionButton = document.querySelector('[data-action="new-version"]');
     newVersionButton.addEventListener('click', function() {
-        var selectedReportId = document.querySelector('.report_row.active-report').dataset.id;
-        if (selectedReportId) {
-            fetch('/create_new_report_version/' + selectedReportId, {
-                method: 'POST'
-            })
-            .then(function(response) {
-                if (response.ok) {
-                    window.location.reload();
-                } else {
-                    console.error('Ошибка при добавлении версии');
-                }
-            })
-            .catch(function(error) {
-                console.error('Ошибка при отправке запроса:', error);
-            });
-        } else {
-            console.error('Выберите отчет для добавления версии');
-        }
-    });
-/*end*/
-    
-
-    
-
-
-
- /*активная версия*/
-    var rowsWithVersions = document.querySelectorAll(".version-row");
-    var previousRow = null;
-    rowsWithVersions.forEach(function(row) {
-        row.addEventListener('click', function() {
-            selectedversionId = this.dataset.id;
-            console.log(selectedversionId);
-        
-            if (this.classList.contains('active-report_version')) {
-                this.classList.remove('active-report_version');
-                this.style.backgroundColor = '';
+    var selectedReportId = document.querySelector('.report_row.active-report').dataset.id;
+    if (selectedReportId) {
+        fetch('/create_new_report_version/' + selectedReportId, {
+            method: 'POST'
+        })
+        .then(function(response) {
+            if (response.ok) {
+                window.location.reload();
             } else {
-                if (previousRow !== null) {
-                    previousRow.classList.remove('active-report_version');
-                    previousRow.style.backgroundColor = '';
-                }
-                this.classList.add('active-report_version');
-                previousRow = this;
+                console.error('Ошибка при добавлении версии');
             }
-        }); 
-    });
-
-/*end*/
-    
-    document.querySelectorAll('.version-row').forEach(function(row) {
-        row.addEventListener('dblclick', function() {
-            var id = this.dataset.id;
-            var url = "/report/fuel/" + id;
-            console.log(id);
-            window.location.href = url;
+        })
+        .catch(function(error) {
+            console.error('Ошибка при отправке запроса:', error);
         });
+    } else {
+        console.error('Выберите отчет для добавления версии');
+    }
     });
+    /*end*/
 
-/* реализация удаления версии, *активной строки*/
+    /*удаление версии*/
     var del_version = document.getElementById('del_version');
     del_version.addEventListener('click', function() {
         var activeRow = document.querySelector('.version-row.active-report_version');
@@ -335,72 +216,119 @@ document.addEventListener('click', function(event) {
         };
         xhr.send();
     }
-/*end*/
-    
-/*всплывающее окно с единицами измерения*/
+    /*end*/
+
+
+    /*Переход на страницу с fuel*/
+    document.querySelectorAll('.version-row').forEach(function(row) {
+    row.addEventListener('dblclick', function() {
+        var id = this.dataset.id;
+        var url = "/report/fuel/" + id;
+        console.log(id);
+        window.location.href = url;
+    });
+    });
+
+    document.querySelector('[data-action="checkVersionButton"]').addEventListener('click', function() {
+    var activeVersionRow = document.querySelector('.version-row.active-report_version');
+    if (activeVersionRow) {
+        var id = activeVersionRow.dataset.id;
+        var url = "/report/fuel/" + id;
+        console.log(id);
+        window.location.href = url;
+    } else {
+        alert('Нет активной версии. Пожалуйста, выберите версию.');
+    }
+    });
+    /*end*/
+
+    /*показ панели для редактирования параметров отчета при двойном клике на строку в таблице*/
+    var report_row = document.querySelectorAll('.report_row');
+    report_row.forEach(function(row) {
+        row.addEventListener('dblclick', function() {
+            var change_input_row = this.nextElementSibling;
+            if (change_input_row.style.display === 'none' || change_input_row.style.display === '') {
+                change_input_row.style.display = 'table-row';
+            } else {
+                change_input_row.style.display = 'none';
+            }
+        });
+    });
+    /*end*/
+
+
+    /*кнопка для отображения версий отчета*/
+    var toggleButtons = document.querySelectorAll('.show-versins_button');
+    toggleButtons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation();
+            var versionsRow = this.closest('.report_row').nextElementSibling.nextElementSibling;
+            if (versionsRow.style.display === 'none' || versionsRow.style.display === '') {
+                versionsRow.style.display = 'table-row';
+            } else {
+                versionsRow.style.display = 'none';
+            }
+        });
+    });
+    /*end*/
+
+    /*кнопка для отображения квитанций отчета*/
+    const showCheksButtons = document.querySelectorAll('.show-cheks_button');       
+    showCheksButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const checkRow = this.closest('.version-row').nextElementSibling;
+            if (checkRow.style.display === 'none' || checkRow.style.display === '') {
+                checkRow.style.display = 'table-row';
+            } else {
+                checkRow.style.display = 'none';
+            }
+        });
+    });
+    /*end*/
+
+    /*всплывающее окно с единицами измерения*/
     var myUOM = document.getElementById('myUOM');
     var modalUOM = document.getElementById('myModalUOM');
     var spanmyModalUOM = document.getElementsByClassName('close')[0];
     myUOM.addEventListener('click', function() {
         modalUOM.style.display = 'block';
     });
-    
+
     spanmyModalUOM.addEventListener('click', function() {
         modalUOM.style.display = 'none';
     });
-    
+
     window.addEventListener('click', function(event) {
         if (event.target == modalUOM) {
             modalUOM.style.display = 'none';
         }
     });
-/*end*/
-    
-/*всплывающее окно с продуктами*/
+    /*end*/
+
+    /*всплывающее окно с продуктами*/
     var myTOP = document.getElementById('myTOP');
     var modalTOP = document.getElementById('myModalTOP');
     var spanmyModalTOP = document.getElementsByClassName('close')[1];
     myTOP.addEventListener('click', function() {
         modalTOP.style.display = 'block';
     });
-    
+
     spanmyModalTOP.addEventListener('click', function() {
         modalTOP.style.display = 'none';
     });
-    
+
     window.addEventListener('click', function(event) {
         if (event.target == modalTOP) {
             modalTOP.style.display = 'none';
         }
     });
-/*end*/
-    
-/* открытие страницы в новой вкладке*/
+    /*end*/
+
+    /* открытие страницы в новой вкладке*/
     function openNewWindow(url) {
         window.open(url, '_blank');
     }
-/*end*/
-    
-/*отображение панели по кнопке*/
-
-/*end*/
-
-/*заперт на ввод всего кроме чисел в input*/
-
-/*end*/
-
-
-
-
-/*fuel*/
-
-
-
-
-
-
-/*end*/
-
-/*end*/
-
+    /*end*/
+});  
+ /*end*/   
 

@@ -15,14 +15,6 @@
                                     <img src="{{ url_for('static', filename='img/icon_new_file.png')}}" alt="">
                                     <a>Добавить</a>
                                 </li>
-                                <li>
-                                    <img src="{{ url_for('static', filename='img/icon_delete_file.png')}}" alt="">
-                                    <a>Удалить</a>
-                                </li>
-                                <li>                     
-                                    <img src="{{ url_for('static', filename='img/.png')}}" alt="">
-                                    <a>Изменить</a>
-                                </li>
                             </div>
                             <div style = "font-weight: 600;">
                                 Действия
@@ -205,17 +197,6 @@
         </table>        
     </div>
 </div>  
-<div id="contextmenufuel" class="white-panel">
-    <button id = "link_addfuel_modal">
-        <span>Добавить</span>
-    </button>
-    <button id = "link_changefuel_modal">
-        <span>Редактировать</span>
-    </button>
-    <button data-action="">
-        <span>Удалить</span>
-    </button>
-</div>
 
 <div id="changefuel_modal" class="modal">
     <div class="modal-content">
@@ -228,50 +209,50 @@
                 <tr>
                     <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
                     <td>
-                        <input type="text" name="product_name" style="width: 400px; text-align: left; color: rgb(132, 132, 132);" autocomplete="off" readonly>
+                        <input type="text" name="product_name" id="modal_product_name" style="width: 400px; text-align: left; color: rgb(132, 132, 132);" autocomplete="off" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td><span>[B]</span> ОКЭД</td>
                     <td>
-                        <input type="text" name="oked" maxlength="5" autocomplete="off" required>
+                        <input type="text" name="oked" id="modal_oked" maxlength="5" style="color: rgb(132, 132, 132);" autocomplete="off" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td><span>[1]</span> Произведено продукции (выполнено работ, услуг) за отчетный период</td>
                     <td>
-                        <input type="text" name="produced" autocomplete="off">
+                        <input type="text" name="produced" id="modal_produced" autocomplete="off">
                     </td>
                 </tr>
                 <tr>
                     <td><span>[2]</span> Утвержденная норма на единицу продукции</td>
                     <td>
-                        <input type="text" name="Consumed_Quota" autocomplete="off">
+                        <input type="text" name="Consumed_Quota" id="modal_Consumed_Quota" autocomplete="off">
                     </td>
                 </tr>
                 <tr>
                     <td><span>[3]</span> Израсходовано на единицу продукции фактически</td>
                     <td>
-                        <input type="text" name="Consumed_Fact" style="color: rgb(132, 132, 132);" readonly>
+                        <input type="text" name="Consumed_Fact" id="modal_Consumed_Fact" style="color: rgb(132, 132, 132);" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td><span>[4]</span> Израсходовано на всю производственную продукцию по действующей норме</td>
                     <td>
-                        <input type="text" name="Consumed_Total_Quota" style="color: rgb(132, 132, 132);" readonly>
+                        <input type="text" name="Consumed_Total_Quota" id="modal_Consumed_Total_Quota" style="color: rgb(132, 132, 132);" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td><span>[5]</span> Израсходовано на всю производственную продукцию фактически</td>
                     <td>
-                        <input type="text" name="Consumed_Total_Fact" autocomplete="off">
+                        <input type="text" name="Consumed_Total_Fact" id="modal_Consumed_Total_Fact" autocomplete="off">
                     </td>
                 </tr>
                 <tr>
                     <td>Примечание</td>
                     <td>
-                        <input style="width: 400px; text-align: left;" type="text" name="note" autocomplete="off">
-                        <input type="hidden" id="if_fuel" name="id">
+                        <input style="width: 400px; text-align: left;" type="text" name="note" id="modal_note" autocomplete="off">
+                        <input type="hidden" id="modal_id" name="id">
                         <input type="hidden" value="{{ current_version }}" name="current_version">
                     </td>
                 </tr>
@@ -325,7 +306,6 @@
                             type="text"
                             name="oked"
                             maxlength="5" 
-              
                             autocomplete="off"
                             required
                         >
@@ -341,7 +321,6 @@
                             name="produced"
                             value = "0.00"
                             autocomplete="off"
-    
                         >
                     </td>
                 </tr>
@@ -378,7 +357,6 @@
                             name="Consumed_Total_Quota"
                             value = "0.00"
                             style = "color: rgb(132, 132, 132);"
-                            
                             readonly
                         >
                     </td>
@@ -411,89 +389,25 @@
                     </td>
                 </tr>
             </table>    
-            <button type = "submit" class = "blue_button fuel-submit">Добавить</button>              
+            <button 
+                type = "submit" 
+                class = "blue_button fuel-submit"
+                >Добавить</button>              
         </form>   
     </div>
 </div>
 
+<div id="contextmenufuel" class="white-panel">
+    <button id = "link_addfuel_modal">
+        <span>Добавить</span>
+    </button>
+    <button id = "link_changefuel_modal">
+        <span>Редактировать</span>
+    </button>
+    <button data-action="">
+        <span>Удалить</span>
+    </button>
+</div>
 
-
-<script>  
-    var link_addfuel_modal = document.getElementById('link_addfuel_modal');
-    var addfuel_modal = document.getElementById('addfuel_modal'); 
-    var close_addfuel_modal = addfuel_modal.querySelector('.close'); 
-    link_addfuel_modal.addEventListener('click', function() {
-        addfuel_modal.style.display = 'block';
-        contextMenu.style.display = 'none';
-    });
-    close_addfuel_modal.addEventListener('click', function() {
-        addfuel_modal.style.display = 'none';
-    });
-    window.addEventListener('click', function(event) {
-        if (event.target == addfuel_modal) {
-            addfuel_modal.style.display = 'none';
-        }
-    });
-
-
-    var link_changefuel_modal = document.getElementById('link_changefuel_modal');
-    var changefuel_modal = document.getElementById('changefuel_modal'); 
-    var close_changefuel_modal = changefuel_modal.querySelector('.close'); 
-    link_changefuel_modal.addEventListener('click', function() {
-        changefuel_modal.style.display = 'block';
-        contextMenu.style.display = 'none';
-    });
-    close_changefuel_modal.addEventListener('click', function() {
-        changefuel_modal.style.display = 'none';
-    });
-    window.addEventListener('click', function(event) {
-        if (event.target == changefuel_modal) {
-            changefuel_modal.style.display = 'none';
-        }
-    });
-
-
-    var nameOfProductInput = document.querySelector('input[name="name_of_product"]');
-    var chooseProductArea = document.querySelector('.choose-product_area');
-    var chooseProdTableBody = document.getElementById('chooseProdTableBody');
-    var noResultsRow = document.getElementById('noResultsRow');
-    nameOfProductInput.addEventListener('focus', function() {
-        chooseProductArea.style.display = 'block';
-    });
-    chooseProdTableBody.addEventListener('click', function(event) {
-        if (event.target.tagName === 'TD') {
-            var productName = event.target.parentNode.querySelector('td:nth-child(2)').textContent;
-            nameOfProductInput.value = productName;
-            chooseProductArea.style.display = 'none';
-        }
-    });
-    nameOfProductInput.addEventListener('input', function() {
-        var filterText = this.value.trim().toLowerCase();
-        if (filterText.length > 0) {
-            chooseProductArea.style.display = 'block';
-        } else {
-            chooseProductArea.style.display = 'none';
-        }
-        var hasResults = false;
-        Array.from(chooseProdTableBody.querySelectorAll('tr')).forEach(function(row) {
-            var productName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-            if (productName.includes(filterText)) {
-                row.style.display = '';
-                hasResults = true;
-            } else {
-                row.style.display = 'none';
-            }
-        });
-        if (!hasResults && filterText.length > 0) {
-            noResultsRow.style.display = 'block';
-        } else {
-            noResultsRow.style.display = 'none';
-        }
-        document.addEventListener('click', function(event) {
-            if (!chooseProductArea.contains(event.target) && event.target !== nameOfProductInput) {
-                chooseProductArea.style.display = 'none';
-            }
-        });
-    });
-</script>
+<script src="{{ url_for('static', filename='js/fuel.js') }}"></script>
 {% endblock %}

@@ -529,13 +529,12 @@ def report_fuel(id):
     sections = Sections.query.filter_by(id_version=current_version, section_number=1).all()
     specific_codes = ['9001', '9010', '9100']
 
-    section9001_differents = 0
 
     if not sections:
         sections_data = [
-            (id, 282, 9001, 1, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-            (id, 285, 9010, 1, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
             (id, 288, 9100, 1, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 285, 9010, 1, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 282, 9001, 1, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
         ]
         for data in sections_data:
             section = Sections(
@@ -555,27 +554,11 @@ def report_fuel(id):
             db.session.add(section)
         db.session.commit()
 
-    sections = Sections.query.filter_by(id_version=current_version, section_number=1).all()
-
-    specific_sections = Sections.query.filter(
-        Sections.id_version == current_version,
-        Sections.section_number == 1,
-        Sections.code_product.in_(specific_codes)
-    ).all()
-
-    other_sections = Sections.query.filter(
-        Sections.id_version == current_version,
-        Sections.section_number == 1,
-        ~Sections.code_product.in_(specific_codes)
-    ).all()
-
     sections = Sections.query.filter_by(id_version=current_version, section_number=1).order_by(desc(Sections.id)).all()
     return render_template('report_fuel.html', 
         sections=sections,              
         dirUnit=dirUnit,
         dirProduct=dirProduct,
-        specific_sections=specific_sections,
-        other_sections=other_sections,
         user=current_user, 
         curent_report=curent_report,
         current_version=current_version
