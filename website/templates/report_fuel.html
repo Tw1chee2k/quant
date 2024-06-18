@@ -13,7 +13,7 @@
                             <div class = "functions_menu">
                                 <li id = "">
                                     <img src="{{ url_for('static', filename='img/icon_new_file.png')}}" alt="">
-                                    <a>Добавить</a>
+                                    <a></a>
                                 </li>
                             </div>
                             <div style = "font-weight: 600;">
@@ -44,7 +44,7 @@
                             <div class = "functions_menu">                         
                                 <li>           
                                     <img src="{{ url_for('static', filename='img/icon_excel.png')}}" alt="">
-                                    <a>Экспорт</a>   
+                                    <a></a>   
                                 </li>  
                             </div>
                             <div style = "font-weight: 600;">
@@ -54,12 +54,8 @@
                         <section>
                             <div class = "functions_menu">
                                 <li>           
-                                    <img src="{{ url_for('static', filename='img/.png')}}" alt="">
-                                    <a>Вверх</a>   
-                                </li> 
-                                <li>           
-                                    <img src="{{ url_for('static', filename='img/.png')}}" alt="">
-                                    <a>Вниз</a>   
+                                    <img src="{{ url_for('static', filename='img/icon_sort.png')}}" alt="">
+                                    <a></a>   
                                 </li> 
                             </div>
                             <div style = "font-weight: 600;">
@@ -71,7 +67,7 @@
                             <div class = "functions_menu">
                                 <li>           
                                     <img src="{{ url_for('static', filename='img/icon_control.png')}}" alt="">
-                                    <a>Контроль</a>   
+                                    <a></a>   
                                 </li>  
                             </div>
                             <div style = "font-weight: 600;">
@@ -179,7 +175,7 @@
                     <td>     
                         <input name = "Consumed_Total_Fact_fuel" value = "{{ row.Consumed_Total_Fact }}" readonly>
                     </td>
-                    {% if row.total_differents < 0 or row.total_differents == 0.00%}
+                    {% if row.total_differents is not none and (row.total_differents < 0.0 or row.total_differents == 0.00) %}
                         <td style="background-color: #a2ff77;">
                             <input style="background-color: #a2ff77;" name="" value="{{ row.total_differents }}" readonly>
                         </td>
@@ -404,7 +400,7 @@
     <button id = "link_changefuel_modal">
         <span>Редактировать</span>
     </button>
-    <button data-action="">
+    <button id = "remove_fuel">
         <span>Удалить</span>
     </button>
 </div>

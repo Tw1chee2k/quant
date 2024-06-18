@@ -152,4 +152,39 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+
+    var remove_fuel = document.getElementById('remove_fuel');
+    remove_fuel.addEventListener('click', function() {
+        var activefuel = document.querySelector('.fuel_row.active-report');
+        if (activefuel !== null) {
+            var fuelId = activefuel.dataset.id;
+            Remove_fuel(fuelId);
+        } else {
+            alert('Выберите продукцию для удаления');
+        }
+    });
+    function Remove_fuel(fuelId) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/remove_fuel/' + fuelId, true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    window.location.reload();
+                } else {
+                    console.error(xhr.statusText);
+                }
+            }
+        };
+        xhr.send();
+    }
+
+
+
+
+
+
+
+
 });

@@ -306,8 +306,7 @@ def add_fuel_param():
 def change_fuel():
     if request.method == 'POST':
         id_version = request.form.get('current_version')
-        id_fuel = request.form.get('id'
-                                   )
+        id_fuel = request.form.get('id')
         produced = request.form.get('produced')
         Consumed_Quota = request.form.get('Consumed_Quota')
         Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
@@ -315,15 +314,23 @@ def change_fuel():
 
         current_section = Sections.query.filter_by(id=id_fuel).first() 
         if current_section:
-
             current_section.produced = produced
             current_section.Consumed_Quota = Consumed_Quota
             current_section.Consumed_Total_Fact = Consumed_Total_Fact
             current_section.note = note 
             db.session.commit()
-            current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 1000, 2)
-            current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 1000, 2)
-            db.session.commit()
+            
+            if current_section.produced != 0:
+                current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 1000, 2)
+            else:
+                current_section.Consumed_Fact = 0.00
+
+            if current_section.Consumed_Quota != 0:
+                current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 1000, 2)
+            else:
+                current_section.Consumed_Total_Quota = 0.00
+            
+            db.session.commit() 
             current_section.total_differents=current_section.Consumed_Total_Fact-current_section.Consumed_Total_Quota
             db.session.commit()
       
@@ -334,27 +341,39 @@ def change_fuel():
 
             specific_codes = ['9001', '9010', '9100']
 
-            section9001 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product = 9001).first()
+            section9001 = Sections.query.filter_by(id_version=id_version, section_number=1, code_product = 9001).first()
             section9001.Consumed_Total_Quota = db.session.query(func.sum(Sections.Consumed_Total_Quota)).filter(
-                Sections.id_version == current_version,
+                Sections.id_version == id_version,
                 Sections.section_number == 1,
                 ~Sections.code_product.in_(specific_codes)
             ).scalar()
             section9001.Consumed_Total_Fact = db.session.query(func.sum(Sections.Consumed_Total_Fact)).filter(
-                Sections.id_version == current_version,
+                Sections.id_version == id_version,
                 Sections.section_number == 1,
                 ~Sections.code_product.in_(specific_codes)
             ).scalar()
             section9001.total_differents = db.session.query(func.sum(Sections.total_differents)).filter(
-                Sections.id_version == current_version,
+                Sections.id_version == id_version,
                 Sections.section_number == 1,
                 ~Sections.code_product.in_(specific_codes)
             ).scalar()
-
             db.session.commit() 
 
             flash("Параметры обновлены")
         else:
             flash("фатал")
+    return redirect(url_for('views.report_fuel', id=id_version))
 
+@auth.route('/remove_fuel/<id>', methods=['POST'])
+def remove_fuel(id):
+    if request.method == 'POST':
+        delete_section = Sections.query.filter_by(id=id).first()
+        id_version = delete_section.id_version
+        if delete_section and delete_section.code_product != 9001 and delete_section.code_product != 9010 and delete_section.code_product != 9100:
+            db.session.delete(delete_section)
+            db.session.commit()
+            flash('Удалено успешно')
+        else:
+            flash('Не подлежит удалению')
+            print('Не подлежит удалению')
         return redirect(url_for('views.report_fuel', id=id_version))
