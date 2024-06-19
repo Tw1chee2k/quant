@@ -11,7 +11,7 @@
                     <ul>
                         <section>
                             <div class = "functions_menu">
-                                <li id = "">
+                                <li id="link_addfuel_modal">
                                     <img src="{{ url_for('static', filename='img/icon_new_file.png')}}" alt="">
                                     <a></a>
                                 </li>
@@ -104,6 +104,20 @@
             </div>
         </div>
     </div>
+    <div class = "rotation-fromareas">
+        <nav>
+            <ul>
+                <li onclick="window.location.href='/report_area'" class = "linkto_report">
+                    Отчеты
+                </li>
+                <li>
+                    <img src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
+                </li>
+                <li>Топливо</li>
+            </ul>
+        </nav>
+    </div>
+
     <div class = "report-area">
         <table class = "table_report-area">
             <thead>
@@ -394,7 +408,7 @@
 </div>
 
 <div id="contextmenufuel" class="white-panel">
-    <button id = "link_addfuel_modal">
+    <button data-action="link_addfuel_modal">
         <span>Добавить</span>
     </button>
     <button id = "link_changefuel_modal">

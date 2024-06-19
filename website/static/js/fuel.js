@@ -73,6 +73,24 @@ document.addEventListener('DOMContentLoaded', function () {
     
 
 
+/*add new section for fuel*/
+    var link_addfuel_modal = document.querySelector('[data-action="link_addfuel_modal"]')
+    var addfuel_modal = document.getElementById('addfuel_modal'); 
+    var close_addfuel_modal = addfuel_modal.querySelector('.close'); 
+    link_addfuel_modal.addEventListener('click', function() {
+        contextmenufuel.style.display = 'none';
+        addfuel_modal.style.display = 'block';
+        contextMenu.style.display = 'none';
+    });
+    close_addfuel_modal.addEventListener('click', function() {
+        addfuel_modal.style.display = 'none';
+    });
+    window.addEventListener('click', function(event) {
+        contextmenufuel.style.display = 'none';
+        if (event.target == addfuel_modal) {
+            addfuel_modal.style.display = 'none';
+        }
+    });
 
     var link_addfuel_modal = document.getElementById('link_addfuel_modal');
     var addfuel_modal = document.getElementById('addfuel_modal'); 
@@ -91,6 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
             addfuel_modal.style.display = 'none';
         }
     });
+/*end*/
 
 
     var link_changefuel_modal = document.getElementById('link_changefuel_modal');

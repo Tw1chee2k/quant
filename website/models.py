@@ -48,7 +48,6 @@ class Version_report(db.Model):
     report_id = db.Column(db.Integer, db.ForeignKey('report.id'))
 
 class Ticket(db.Model):
-
     id = db.Column(db.Integer, primary_key=True)
     begin_time = db.Column(db.Date, default=datetime.now())
     luck = db.Column(db.Boolean, default=False)

@@ -371,9 +371,7 @@ def remove_fuel(id):
         id_version = delete_section.id_version
         if delete_section and delete_section.code_product != 9001 and delete_section.code_product != 9010 and delete_section.code_product != 9100:
             db.session.delete(delete_section)
-            db.session.commit()
-            flash('Удалено успешно')
-        else:
-            flash('Не подлежит удалению')
-            print('Не подлежит удалению')
+            db.session.commit()   
+            
+
         return redirect(url_for('views.report_fuel', id=id_version))
