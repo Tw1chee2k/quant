@@ -1,46 +1,47 @@
-document.addEventListener('DOMContentLoaded', function () {
-
+document.addEventListener('DOMContentLoaded', function() {
     var fuelRows = document.querySelectorAll('.fuel_row');
     var previousfuelRow = null;
     var selectedfuelId = null;
     var contextmenufuel = document.getElementById('contextmenufuel');
     var changefuel_modal = document.getElementById('changefuel_modal');
-    
-    fuelRows.forEach(function(row) {
+    var link_changefuel_modal = document.getElementById('link_changefuel_modal');
+    var remove_fuel = document.getElementById('remove_fuel');
+
+    fuelRows.forEach(function(row, index) {
         row.addEventListener('click', function(event) {
             if (event.button === 0 && this.dataset.id) {
-                selectRow(this);
+                selectRow(this, index);
             }
         });
-    
+
         row.addEventListener('contextmenu', function(event) {
             event.preventDefault();
             if (this.dataset.id) {
-                selectRow(this);
+                selectRow(this, index);
                 contextmenufuel.style.top = event.pageY + 'px';
                 contextmenufuel.style.left = event.pageX + 'px';
                 contextmenufuel.style.display = 'block';
             }
         });
     });
-    
+
     document.addEventListener('click', function(event) {
         if (!contextmenufuel.contains(event.target)) {
             contextmenufuel.style.display = 'none';
         }
     });
-    
+
     document.getElementById('link_changefuel_modal').addEventListener('click', function() {
         if (selectedfuelId) {
             openModal();
         }
     });
-    
+
     document.querySelector('.close').addEventListener('click', function() {
         changefuel_modal.style.display = 'none';
     });
-    
-    function selectRow(row) {
+
+    function selectRow(row, index) {
         selectedfuelId = row.dataset.id;
         if (previousfuelRow !== null) {
             previousfuelRow.classList.remove('active-report');
@@ -53,8 +54,20 @@ document.addEventListener('DOMContentLoaded', function () {
             input.classList.add('active-input');
         });
         previousfuelRow = row;
+
+        // Проверка, строк
+        if (index === fuelRows.length - 2) {
+            remove_fuel.disabled = true;
+            link_changefuel_modal.disabled = false;
+        } else if (index === fuelRows.length - 1 || index === fuelRows.length - 3) {
+            remove_fuel.disabled = true;
+            link_changefuel_modal.disabled = true;
+        } else {
+            remove_fuel.disabled = false;
+            link_changefuel_modal.disabled = false;
+        }
     }
-    
+
     function openModal() {
         var activeRow = document.querySelector('.fuel_row.active-report');
         if (activeRow) {
@@ -70,72 +83,36 @@ document.addEventListener('DOMContentLoaded', function () {
             changefuel_modal.style.display = 'block';
         }
     }
-    
 
+    var link_addfuel_modal = document.querySelector('[data-action="link_addfuel_modal"]');
+    var addfuel_modal = document.getElementById('addfuel_modal');
+    var close_addfuel_modal = addfuel_modal.querySelector('.close');
 
-/*add new section for fuel*/
-    var link_addfuel_modal = document.querySelector('[data-action="link_addfuel_modal"]')
-    var addfuel_modal = document.getElementById('addfuel_modal'); 
-    var close_addfuel_modal = addfuel_modal.querySelector('.close'); 
     link_addfuel_modal.addEventListener('click', function() {
         contextmenufuel.style.display = 'none';
         addfuel_modal.style.display = 'block';
-        contextMenu.style.display = 'none';
     });
+
     close_addfuel_modal.addEventListener('click', function() {
         addfuel_modal.style.display = 'none';
     });
+
     window.addEventListener('click', function(event) {
         contextmenufuel.style.display = 'none';
         if (event.target == addfuel_modal) {
             addfuel_modal.style.display = 'none';
         }
     });
-
-    var link_addfuel_modal = document.getElementById('link_addfuel_modal');
-    var addfuel_modal = document.getElementById('addfuel_modal'); 
-    var close_addfuel_modal = addfuel_modal.querySelector('.close'); 
-    link_addfuel_modal.addEventListener('click', function() {
-        contextmenufuel.style.display = 'none';
-        addfuel_modal.style.display = 'block';
-        contextMenu.style.display = 'none';
-    });
-    close_addfuel_modal.addEventListener('click', function() {
-        addfuel_modal.style.display = 'none';
-    });
-    window.addEventListener('click', function(event) {
-        contextmenufuel.style.display = 'none';
-        if (event.target == addfuel_modal) {
-            addfuel_modal.style.display = 'none';
-        }
-    });
-/*end*/
-
-
-    var link_changefuel_modal = document.getElementById('link_changefuel_modal');
-    var changefuel_modal = document.getElementById('changefuel_modal'); 
-    var close_changefuel_modal = changefuel_modal.querySelector('.close'); 
-    link_changefuel_modal.addEventListener('click', function() {
-        changefuel_modal.style.display = 'block';
-        contextMenu.style.display = 'none';
-    });
-    close_changefuel_modal.addEventListener('click', function() {
-        changefuel_modal.style.display = 'none';
-    });
-    window.addEventListener('click', function(event) {
-        if (event.target == changefuel_modal) {
-            changefuel_modal.style.display = 'none';
-        }
-    });
-
 
     var nameOfProductInput = document.querySelector('input[name="name_of_product"]');
     var chooseProductArea = document.querySelector('.choose-product_area');
     var chooseProdTableBody = document.getElementById('chooseProdTableBody');
     var noResultsRow = document.getElementById('noResultsRow');
+
     nameOfProductInput.addEventListener('focus', function() {
         chooseProductArea.style.display = 'block';
     });
+
     chooseProdTableBody.addEventListener('click', function(event) {
         if (event.target.tagName === 'TD') {
             var productName = event.target.parentNode.querySelector('td:nth-child(2)').textContent;
@@ -143,6 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
             chooseProductArea.style.display = 'none';
         }
     });
+
     nameOfProductInput.addEventListener('input', function() {
         var filterText = this.value.trim().toLowerCase();
         if (filterText.length > 0) {
@@ -172,8 +150,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-
-    var remove_fuel = document.getElementById('remove_fuel');
     remove_fuel.addEventListener('click', function() {
         var activefuel = document.querySelector('.fuel_row.active-report');
         if (activefuel !== null) {
@@ -183,6 +159,7 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Выберите продукцию для удаления');
         }
     });
+
     function Remove_fuel(fuelId) {
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/remove_fuel/' + fuelId, true);
@@ -198,12 +175,4 @@ document.addEventListener('DOMContentLoaded', function () {
         };
         xhr.send();
     }
-
-
-
-
-
-
-
-
 });

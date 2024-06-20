@@ -280,27 +280,37 @@ def add_fuel_param():
             current_section.total_differents=current_section.Consumed_Total_Fact-current_section.Consumed_Total_Quota
             db.session.commit()
 
-            specific_codes = ['9001', '9010', '9100']
+            specific_codes = ['9001', '9010', '9100'] 
 
-            section9001 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product = 9001).first()
-            section9001.Consumed_Total_Quota = db.session.query(func.sum(Sections.Consumed_Total_Quota)).filter(
+            section9001 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product=9001).first()
+            aggregated_values = db.session.query(
+                func.sum(Sections.Consumed_Total_Quota),
+                func.sum(Sections.Consumed_Total_Fact),
+                func.sum(Sections.total_differents)
+            ).filter(
                 Sections.id_version == current_version,
                 Sections.section_number == 1,
                 ~Sections.code_product.in_(specific_codes)
-            ).scalar()
-            section9001.Consumed_Total_Fact = db.session.query(func.sum(Sections.Consumed_Total_Fact)).filter(
-                Sections.id_version == current_version,
-                Sections.section_number == 1,
-                ~Sections.code_product.in_(specific_codes)
-            ).scalar()
-            section9001.total_differents = db.session.query(func.sum(Sections.total_differents)).filter(
-                Sections.id_version == current_version,
-                Sections.section_number == 1,
-                ~Sections.code_product.in_(specific_codes)
-            ).scalar()
+            ).first()
 
+            section9001.Consumed_Total_Quota, section9001.Consumed_Total_Fact, section9001.total_differents = aggregated_values
+            db.session.commit()
+
+            section9010 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product = 9010).first()
+            section9100 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product = 9100).first()
+            
+            section9100.Consumed_Total_Quota = section9001.Consumed_Total_Quota + section9010.Consumed_Total_Quota
+            section9100.Consumed_Total_Fact = section9001.Consumed_Total_Fact + section9010.Consumed_Total_Fact
+            section9100.total_differents = section9001.total_differents + section9010.total_differents
             db.session.commit() 
+
         return redirect(url_for('views.report_fuel', id = current_version))
+    
+
+
+
+
+
 
 @auth.route('/change_fuel', methods=['POST'])
 def change_fuel():
@@ -330,8 +340,10 @@ def change_fuel():
             else:
                 current_section.Consumed_Total_Quota = 0.00
             
-            db.session.commit() 
+            db.session.commit()
+
             current_section.total_differents=current_section.Consumed_Total_Fact-current_section.Consumed_Total_Quota
+            
             db.session.commit()
       
             current_version = Version_report.query.filter_by(id=id_version).first()
@@ -341,22 +353,26 @@ def change_fuel():
 
             specific_codes = ['9001', '9010', '9100']
 
-            section9001 = Sections.query.filter_by(id_version=id_version, section_number=1, code_product = 9001).first()
-            section9001.Consumed_Total_Quota = db.session.query(func.sum(Sections.Consumed_Total_Quota)).filter(
+            section9001 = Sections.query.filter_by(id_version=id_version, section_number=1, code_product=9001).first()
+            aggregated_values = db.session.query(
+                func.sum(Sections.Consumed_Total_Quota),
+                func.sum(Sections.Consumed_Total_Fact),
+                func.sum(Sections.total_differents)
+            ).filter(
                 Sections.id_version == id_version,
                 Sections.section_number == 1,
                 ~Sections.code_product.in_(specific_codes)
-            ).scalar()
-            section9001.Consumed_Total_Fact = db.session.query(func.sum(Sections.Consumed_Total_Fact)).filter(
-                Sections.id_version == id_version,
-                Sections.section_number == 1,
-                ~Sections.code_product.in_(specific_codes)
-            ).scalar()
-            section9001.total_differents = db.session.query(func.sum(Sections.total_differents)).filter(
-                Sections.id_version == id_version,
-                Sections.section_number == 1,
-                ~Sections.code_product.in_(specific_codes)
-            ).scalar()
+            ).first()
+
+            section9001.Consumed_Total_Quota, section9001.Consumed_Total_Fact, section9001.total_differents = aggregated_values
+            db.session.commit()
+
+            section9010 = Sections.query.filter_by(id_version=id_version, section_number=1, code_product = 9010).first()
+            section9100 = Sections.query.filter_by(id_version=id_version, section_number=1, code_product = 9100).first()
+            
+            section9100.Consumed_Total_Quota = section9001.Consumed_Total_Quota + section9010.Consumed_Total_Quota
+            section9100.Consumed_Total_Fact = section9001.Consumed_Total_Fact + section9010.Consumed_Total_Fact
+            section9100.total_differents = section9001.total_differents + section9010.total_differents
             db.session.commit() 
 
             flash("Параметры обновлены")
@@ -369,9 +385,18 @@ def remove_fuel(id):
     if request.method == 'POST':
         delete_section = Sections.query.filter_by(id=id).first()
         id_version = delete_section.id_version
-        if delete_section and delete_section.code_product != 9001 and delete_section.code_product != 9010 and delete_section.code_product != 9100:
+        if delete_section:
+            section9001 = Sections.query.filter_by(id_version=id_version, section_number = 1, code_product = 9001).first()
+            section9001.Consumed_Total_Quota -= delete_section.Consumed_Total_Quota
+            section9001.Consumed_Total_Fact -= delete_section.Consumed_Total_Fact
+            section9001.total_differents -= delete_section.total_differents
+
+            section9100 = Sections.query.filter_by(id_version=id_version, section_number = 1, code_product = 9100).first()
+            section9100.Consumed_Total_Quota -= delete_section.Consumed_Total_Quota
+            section9100.Consumed_Total_Fact -= delete_section.Consumed_Total_Fact
+            section9100.total_differents -= delete_section.total_differents
+
             db.session.delete(delete_section)
-            db.session.commit()   
-            
+            db.session.commit()
 
         return redirect(url_for('views.report_fuel', id=id_version))

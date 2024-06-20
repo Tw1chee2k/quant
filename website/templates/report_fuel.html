@@ -11,7 +11,7 @@
                     <ul>
                         <section>
                             <div class = "functions_menu">
-                                <li id="link_addfuel_modal">
+                                <li data-action="link_addfuel_modal">
                                     <img src="{{ url_for('static', filename='img/icon_new_file.png')}}" alt="">
                                     <a></a>
                                 </li>
@@ -164,9 +164,9 @@
                         <input type = "hidden" name = "id_fuel" value = "{{ row.id }}" readonly></td>
                     <td>
                         <input class = "product-name_fuel" type = "text" value = "{{ row.product.NameProduct }}" readonly>
-                    </td>   
+                    </td>
                     <td>
-                        <input name = "Oked_fuel" value = "{{ row.code_product }}" readonly>
+                        <input name = "code_product" value = "{{ row.code_product }}" readonly>
                     </td>
                     <td>
                         <input name = "Oked_fuel" value = "{{ row.Oked }}" readonly>
@@ -216,6 +216,7 @@
         </div>
         <form method="POST" action="/change_fuel">
             <table class="fuel-table_add">
+
                 <tr>
                     <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
                     <td>
@@ -408,9 +409,6 @@
 </div>
 
 <div id="contextmenufuel" class="white-panel">
-    <button data-action="link_addfuel_modal">
-        <span>Добавить</span>
-    </button>
     <button id = "link_changefuel_modal">
         <span>Редактировать</span>
     </button>
