@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         previousfuelRow = row;
 
-        // Проверка, строк
+        // Проверка, ст
         if (index === fuelRows.length - 2) {
             remove_fuel.disabled = true;
             link_changefuel_modal.disabled = false;
@@ -71,7 +71,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function openModal() {
         var activeRow = document.querySelector('.fuel_row.active-report');
         if (activeRow) {
-            document.getElementById('modal_product_name').value = activeRow.querySelector('.product-name_fuel').value;
+            var productName = activeRow.querySelector('.product-name_fuel').value;
+            document.getElementById('modal_product_name').value = productName;
             document.getElementById('modal_oked').value = activeRow.querySelector('input[name="Oked_fuel"]').value;
             document.getElementById('modal_produced').value = activeRow.querySelector('input[name="produced_fuel"]').value;
             document.getElementById('modal_Consumed_Quota').value = activeRow.querySelector('input[name="Consumed_Quota_fuel"]').value;
@@ -80,6 +81,21 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('modal_Consumed_Total_Fact').value = activeRow.querySelector('input[name="Consumed_Total_Fact_fuel"]').value;
             document.getElementById('modal_note').value = activeRow.querySelector('input[name="note_fuel"]').value;
             document.getElementById('modal_id').value = selectedfuelId;
+    
+            var inputs = document.querySelectorAll('#changefuel_modal input[type="text"]');
+
+            if (productName === "Прочее потребление") {
+                inputs.forEach(function(input, index) {
+                    if (index < inputs.length - 2) {
+                        input.readOnly = true;
+                        input.style.color = "rgb(132, 132, 132)";
+                    } else {
+                        input.readOnly = false;
+                        input.style.color = "";
+                    }
+                });
+            }
+    
             changefuel_modal.style.display = 'block';
         }
     }
