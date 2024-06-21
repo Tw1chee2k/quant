@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, jsonify, redirect,
 from flask_login import login_required, current_user
 from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections
 from . import db
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import generate_password_hash
 from sqlalchemy import asc
 from sqlalchemy import Numeric
 from sqlalchemy import or_
@@ -517,7 +517,6 @@ def report_area():
                            dirProduct=dirProduct, 
                            organization=organization, 
                            version=version)
-
 
 @views.route('/report/fuel/<int:id>')
 def report_fuel(id):

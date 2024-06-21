@@ -306,12 +306,6 @@ def add_fuel_param():
 
         return redirect(url_for('views.report_fuel', id = current_version))
     
-
-
-
-
-
-
 @auth.route('/change_fuel', methods=['POST'])
 def change_fuel():
     if request.method == 'POST':
