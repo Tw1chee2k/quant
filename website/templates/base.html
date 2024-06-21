@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+
     <title>{% block title %}Base{% endblock %}</title>
   </head>
   <body>  
     <header>
       <div class="left-content">
-        
+        <div class="theme-toggle" id="theme-toggle">
+          <img src="{{ url_for('static', filename='img/icon_night.png') }}" alt="Light Mode" class="theme-img light-mode">
+          <img src="{{ url_for('static', filename='img/icon_day.png') }}" alt="Dark Mode" class="theme-img dark-mode">
+      </div>
       </div>
       <div class="center-content">
         <nav>
@@ -29,10 +33,10 @@
             <li>
               {% if user.is_authenticated %}
               <div class="user-container">
-                  <img onclick="window.location.href='/account'" id="user-img" width="22" src="{{ url_for('static', filename='img/user.png')}}" alt="">
+                  <img onclick="window.location.href='/account'" id="user-img"  width="22" src="{{ url_for('static', filename='img/user.png')}}" alt="">
                   <div id="hoverPanel" class="hoverPanel">
-                      <button id="button1" onclick="window.location.href='/account'">Личный кабинет</button>
-                      <button id="button2" onclick="window.location.href='/logout'">Выйти</button>
+                      <button onclick="window.location.href='/account'">Личный кабинет</button>
+                      <button onclick="window.location.href='/logout'">Выйти</button>
                   </div>
               </div>
               {% else %}

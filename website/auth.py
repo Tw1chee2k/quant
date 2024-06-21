@@ -11,6 +11,7 @@ from datetime import datetime
 import re
 import random
 import string
+from decimal import Decimal, InvalidOperation
 
 auth = Blueprint('auth', __name__)
 login_manager = LoginManager()
@@ -239,6 +240,7 @@ def delete_version(id):
             flash("Версия была удалена")
         return redirect(url_for('views.report_area'))
     
+
 @auth.route('/add_fuel_param', methods=['POST'])
 def add_fuel_param():
     if request.method == 'POST':
@@ -251,8 +253,16 @@ def add_fuel_param():
         Consumed_Total_Quota = request.form.get('Consumed_Total_Quota')
         Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
         note = request.form.get('note')
+
+        # Преобразование значений в Decimal
+        produced = Decimal(produced) if produced else Decimal(0)
+        Consumed_Quota = Decimal(Consumed_Quota) if Consumed_Quota else Decimal(0)
+        Consumed_Fact = Decimal(Consumed_Fact) if Consumed_Fact else Decimal(0)
+        Consumed_Total_Quota = Decimal(Consumed_Total_Quota) if Consumed_Total_Quota else Decimal(0)
+        Consumed_Total_Fact = Decimal(Consumed_Total_Fact) if Consumed_Total_Fact else Decimal(0)
+
         current_product = DirProduct.query.filter_by(NameProduct=name).first()
-        proverka_section = Sections.query.filter_by(id_version = current_version, id_product = current_product.IdProduct).first()
+        proverka_section = Sections.query.filter_by(id_version=current_version, section_number=1, id_product=current_product.IdProduct).first()
         if proverka_section:
             flash('Такой вид продукции уже существует')
         else:
@@ -273,16 +283,27 @@ def add_fuel_param():
             db.session.add(new_section)
             db.session.commit()
 
-            current_section = Sections.query.filter_by(id=new_section.id).first()
-            current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 1000, 2)
-            current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 1000, 2)
-            db.session.commit()
-            current_section.total_differents=current_section.Consumed_Total_Fact-current_section.Consumed_Total_Quota
-            db.session.commit()
+            current_section = Sections.query.filter_by(id=new_section.id, section_number=1).first()
+            try:
+                # Проверка деления на ноль
+                if current_section.produced != 0:
+                    current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 1000, 2)
+                else:
+                    current_section.Consumed_Fact = 0
 
-            specific_codes = ['9001', '9010', '9100'] 
+                if current_section.Consumed_Quota != 0:
+                    current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 1000, 2)
+                else:
+                    current_section.Consumed_Total_Quota = 0
 
-            section9001 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product=9001).first()
+                current_section.total_differents = current_section.Consumed_Total_Fact - current_section.Consumed_Total_Quota
+                db.session.commit()
+            except InvalidOperation as e:
+                flash(f"Ошибка при вычислениях: {e}")
+
+            specific_codes = ['9001', '9010', '9100']
+
+            section9001 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product='9001').first()
             aggregated_values = db.session.query(
                 func.sum(Sections.Consumed_Total_Quota),
                 func.sum(Sections.Consumed_Total_Fact),
@@ -293,18 +314,20 @@ def add_fuel_param():
                 ~Sections.code_product.in_(specific_codes)
             ).first()
 
-            section9001.Consumed_Total_Quota, section9001.Consumed_Total_Fact, section9001.total_differents = aggregated_values
-            db.session.commit()
+            if section9001 and aggregated_values:
+                section9001.Consumed_Total_Quota, section9001.Consumed_Total_Fact, section9001.total_differents = aggregated_values
+                db.session.commit()
 
-            section9010 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product = 9010).first()
-            section9100 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product = 9100).first()
-            
-            section9100.Consumed_Total_Quota = section9001.Consumed_Total_Quota + section9010.Consumed_Total_Quota
-            section9100.Consumed_Total_Fact = section9001.Consumed_Total_Fact + section9010.Consumed_Total_Fact
-            section9100.total_differents = section9001.total_differents + section9010.total_differents
-            db.session.commit() 
+            section9010 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product='9010').first()
+            section9100 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product='9100').first()
 
-        return redirect(url_for('views.report_fuel', id = current_version))
+            if section9100 and section9001 and section9010:
+                section9100.Consumed_Total_Quota = section9001.Consumed_Total_Quota + section9010.Consumed_Total_Quota
+                section9100.Consumed_Total_Fact = section9001.Consumed_Total_Fact + section9010.Consumed_Total_Fact
+                section9100.total_differents = section9001.total_differents + section9010.total_differents
+                db.session.commit()
+
+        return redirect(url_for('views.report_fuel', id=current_version))
     
 @auth.route('/change_fuel', methods=['POST'])
 def change_fuel():
@@ -316,7 +339,7 @@ def change_fuel():
         Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
         note = request.form.get('note')
 
-        current_section = Sections.query.filter_by(id=id_fuel).first() 
+        current_section = Sections.query.filter_by(id=id_fuel, section_number=1,).first() 
         if current_section:
             current_section.produced = produced
             current_section.Consumed_Quota = Consumed_Quota
