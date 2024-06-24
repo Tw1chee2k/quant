@@ -1168,6 +1168,23 @@ footer {
     color: rgb(204, 204, 204);
 }
 
+
+.table_report-area input{            
+    font-size: 12px;  
+    font-weight: 500;   
+    width: 100%;
+    border: none;
+    text-align: left;
+    
+
+}
+
+.dark-mode .table_report-area input{            
+    background-color: #4d4d4d;
+    color: white;
+}
+
+
 .fuel-main_parapetrs td,
 .fuel-main_parapetrs td input{
     background-color: #ddfdfb;
@@ -1183,7 +1200,7 @@ footer {
 
 .table_report-area tr th{
     border: 1px solid #dddddd;
-    padding: 5px 10px;
+    padding: 5px 20px;
     text-align: center;             
     font-size: 12px;
 }
@@ -1194,6 +1211,7 @@ footer {
     text-align: left;             
     font-size: 12px;
     font-weight: 500;
+
 }
 
 .dark-mode .table_report-area tr th,
@@ -1201,17 +1219,6 @@ footer {
     border: 1px solid #616161;
 }
 
-.table_report-area input{            
-    font-size: 12px;  
-    font-weight: 500;   
-    width: 100%;
-    border: none;
-}
-
-.dark-mode .table_report-area input{            
-    background-color: #4d4d4d;
-    color: white;
-}
 
 
 
@@ -1348,73 +1355,11 @@ footer {
 
 /*-----------------ticket end*/
 /*-----------------change input*/
-
 .change_input_row {
     display: none;
 }
-
-.change_input_row td {
-    padding: 0; 
-    background-color: rgb(255, 255, 255); 
-}
-
-.change_input_row td form{
-    border: 0px solid rgb(255, 255, 255);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.change_input{
-    display: flex; 
-    flex-direction: row;
-    text-align: left;
-}
-
-.change_input .placehold_of_left {
-    min-width: 110px;
-    width: auto;
-    text-align: left;
-    vertical-align: middle;
-    line-height: 35px;
-}
-
-.change_input input{
-    padding: 5px; 
-    margin: 5px 0;
-    text-align: left;
-    font-size: 12px; 
-}
-
-.change_input select{
-    padding: 5px; 
-    margin: 5px 10px;
-    width: 15%;
-    text-align: left;
-    font-size: 12px; 
-}
-
-.change_input_row td form button{
-    width: 200px;
-    height: 27px;
-    border: none;
-    color: white;
-    background-color: #61b8ff;
-    margin: 5px 110px;
-}
 /*-----------------change input end*/
 
-
-.fuel_row,
-.fuel_row td,
-.fuel_row td input {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none; 
-    -moz-user-select: none; 
-    -ms-user-select: none; 
-}
 
 .report_row,
 .report_row td,
@@ -1425,6 +1370,21 @@ footer {
     -moz-user-select: none; 
     -ms-user-select: none;
 }
+
+/*active-report*/
+.active-report,
+.active-input,
+.active-report_version{
+    background-color:rgb(218, 255, 250);
+}
+
+.dark-mode .active-report,
+.dark-mode .active-input,
+.dark-mode .active-report_version{
+    background-color:rgb(92, 121, 117);
+}
+/*active-report end*/
+
 
 /* .report_row:hover,
 .report_row:hover,
@@ -1437,26 +1397,6 @@ footer {
 .dark-mode .version-row:hover{
     background-color: rgb(105, 105, 105);
 } */
-
-
-/*active-report*/
-
-.active-report,
-.active-input,
-.active-report_version{
-    background-color:rgb(218, 255, 250);
-}
-
-.dark-mode .active-report,
-.dark-mode .active-input,
-.dark-mode .active-report_version{
-    background-color:rgb(92, 121, 117);
-}
-
-
-/*active-report end*/
-
-
 
 
 /* ----------------------modal_window begin */
@@ -1484,13 +1424,14 @@ footer {
     max-width: 900px;
 }
 
+.modal-content form{
+    text-align: right;
+}
 
 .dark-mode .modal-content {
     background-color:#333;
     border: 1px solid #333;
-
 }
-
 
 .modal-header{
     display: flex;
@@ -1519,7 +1460,6 @@ footer {
 
 
 /*spravochniki begin*/
-
 .modal-content .spravochniki_area {
     margin-top: 10px;
     max-height: 400px;
@@ -1548,15 +1488,12 @@ footer {
     background-color:rgb(255, 255, 255);
 }
 
-
-
 /* .modal-content .spravochniki_area thead{
     position: fixed;
     background-color: white;
     width: fit-content;
 
 } */
-
 /*end */
 
 
@@ -1566,9 +1503,18 @@ footer {
 /*fuel page begin*/
 /*add fuel modal*/
 
-.modal-content form{
-    text-align: right;
+
+.fuel_row,
+.fuel_row td,
+.fuel_row td input {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
 }
+
+
 
 .fuel-table_add{
     width: 100%; 
@@ -1655,4 +1601,44 @@ footer {
     width: 180px;
     height: 35px;
 }
+
+/*fuel page end*/
+
+/*change report modal*/
+.change-report_table{
+    width: 100%; 
+    margin-top: 20px;
+}
+
+.change-report_table td{
+    height: 34px;
+    font-size: 12px; 
+    font-weight: 500;   
+    text-align: left;
+}
+
+.change-report_table input{
+    height: 26px;  
+    width: 100px;
+    padding: 0 10px;
+    margin: 0 20px;
+    text-align: right;
+    font-size: 12px; 
+    border-radius: 5px;
+    border: 1px solid rgb(220, 238, 255);
+    font-weight: 500; 
+}
+
+.report-submit{
+    border: 1px solid white;
+    color: white;
+    border-radius: 5px;
+    font-size: 12px;
+    margin: 3px 20px 0 0;
+    width: 180px;
+    height: 35px;
+}
+/*change report end*/
 /*report.css end*/
+
+

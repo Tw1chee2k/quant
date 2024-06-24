@@ -55,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         previousfuelRow = row;
 
-        // Проверка, ст
         if (index === fuelRows.length - 2) {
             remove_fuel.disabled = true;
             link_changefuel_modal.disabled = false;
@@ -99,7 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
             changefuel_modal.style.display = 'block';
         }
     }
-
     var link_addfuel_modal = document.querySelector('[data-action="link_addfuel_modal"]');
     var addfuel_modal = document.getElementById('addfuel_modal');
     var close_addfuel_modal = addfuel_modal.querySelector('.close');
@@ -119,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
             addfuel_modal.style.display = 'none';
         }
     });
+
 
     var nameOfProductInput = document.querySelector('input[name="name_of_product"]');
     var chooseProductArea = document.querySelector('.choose-product_area');

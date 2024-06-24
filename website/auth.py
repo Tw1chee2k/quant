@@ -175,12 +175,14 @@ def create_new_report():
     
 @auth.route('/update_report', methods=['POST'])
 def update_report():
-    id = request.form.get('id')
-    okpo = request.form.get('okpo')
-    year = request.form.get('year')
-    quarter = request.form.get('quarter')    
+    id = request.form.get('modal_report_id')
+    okpo = request.form.get('modal_report_okpo')
+    year = request.form.get('modal_report_year')
+    quarter = request.form.get('modal_report_quarter')    
+
     current_report = Report.query.filter_by(id = id).first()
     organization_okpo = Organization.query.filter_by(okpo = okpo).first()
+    
     if request.method == 'POST':
         current_report.okpo = okpo
         current_report.year = year

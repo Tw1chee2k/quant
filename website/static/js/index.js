@@ -244,19 +244,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*end*/
 
-    /*показ панели для редактирования параметров отчета при двойном клике на строку в таблице*/
-    var report_row = document.querySelectorAll('.report_row');
-    report_row.forEach(function(row) {
-        row.addEventListener('dblclick', function() {
-            var change_input_row = this.nextElementSibling;
-            if (change_input_row.style.display === 'none' || change_input_row.style.display === '') {
-                change_input_row.style.display = 'table-row';
-            } else {
-                change_input_row.style.display = 'none';
-            }
-        });
+    /*показ панели для редактирования параметров отчета*/
+    var link_change_report = document.getElementById('link_change_report');
+    var change_report_modal = document.getElementById('change_report_modal');
+    var close_report_modal = change_report_modal.querySelector('.close');
+
+    link_change_report.addEventListener('click', function(event) {
+        event.preventDefault();
+        var reportRow = document.querySelector('.report_row.active-report');
+
+        if (reportRow) {
+            var reportId = reportRow.querySelector('#report_id').value;
+            var reportOkpo = reportRow.querySelector('#report_okpo').value;
+            var organizationName = reportRow.querySelector('#report_organization_name').value;
+            var reportYear = reportRow.querySelector('#report_year').value;
+            var reportQuarter = reportRow.querySelector('#report_quarter').value;
+            
+            document.getElementById('modal_report_id').value = reportId;
+            document.getElementById('modal_organization_name').value = organizationName;
+            document.getElementById('modal_report_okpo').value = reportOkpo;
+            document.getElementById('modal_report_year').value = reportYear;
+            document.getElementById('modal_report_quarter').value = reportQuarter;
+        }
+        change_report_modal.style.display = 'block';
+        contextMenuReport.style.display = 'none';
+    });
+
+    close_report_modal.addEventListener('click', function() {
+        change_report_modal.style.display = 'none';
+    });
+
+    change_report_modal.addEventListener('click', function(event) {
+        if (event.target === change_report_modal) {
+            change_report_modal.style.display = 'none';
+        }
     });
     /*end*/
+
+
 
 
     /*кнопка для отображения версий отчета*/
