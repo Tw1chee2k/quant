@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         previousfuelRow = row;
 
+        // Проверка, ст
         if (index === fuelRows.length - 2) {
             remove_fuel.disabled = true;
             link_changefuel_modal.disabled = false;
@@ -82,25 +83,19 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('modal_id').value = selectedfuelId;
     
             var inputs = document.querySelectorAll('#changefuel_modal input[type="text"]');
-            var lastInput = inputs[inputs.length - 2];
-            var noteInput = document.getElementById('modal_note');
 
             if (productName === "Прочее потребление") {
-                lastInput.required = true;
                 inputs.forEach(function(input, index) {
                     if (index < inputs.length - 2) {
                         input.readOnly = true;
                         input.style.color = "rgb(132, 132, 132)";
-                       
                     } else {
                         input.readOnly = false;
                         input.style.color = "";
                     }
                 });
-                noteInput.required = true; 
-            } else {
-                noteInput.required = false;
             }
+    
             changefuel_modal.style.display = 'block';
         }
     }
@@ -196,7 +191,4 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         xhr.send();
     }
-
-
-    
 });

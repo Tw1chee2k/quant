@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem('theme', theme);
     });
     
-    
     (function() {
         var alertBox = document.querySelector('.custom-alert');
         if (alertBox) {
@@ -41,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
             userImg.addEventListener('mouseleave', function() {
                 timeoutId = setTimeout(function() {
                     hoverPanel.style.display = 'none';
-                }, 200); // Задержка в 200 миллисекунд
+                }, 200);
             });
     
             hoverPanel.addEventListener('mouseenter', function() {
@@ -52,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
             hoverPanel.addEventListener('mouseleave', function() {
                 timeoutId = setTimeout(function() {
                     hoverPanel.style.display = 'none';
-                }, 200); // Задержка в 200 миллисекунд
+                }, 200);
             });
         }
     })();

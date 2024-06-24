@@ -73,8 +73,8 @@ select:focus{
 }
 
 .theme-img {
-    width: 32px;
-    height: 32px;
+    width: 27px;
+    height: 27px;
 }
 
 .dark-mode .theme-img.light-mode {
@@ -907,15 +907,20 @@ footer {
     display: none; 
 }
 
-input[type="radio"]:checked + .report-area_menu-name {
+.report-area_menu-input:checked + .report-area_menu-name {
     background-color: rgb(255, 255, 255);
+    font-size: 16px;
+    padding: 7px 15px;
+    color: rgb(0, 0, 0);
+}
+
+.dark-mode .report-area_menu-input:checked +  .report-area_menu-name {
+    background-color: #252525;
+    color: white;
     font-size: 16px;
     padding: 7px 15px;
 }
 
-.dark-mode input[type="radio"]:checked + .dark-mode .report-area_menu-name {
-    background-color:  #252525;
-}
 
 .content-podmenu {
     position: absolute;
@@ -1021,12 +1026,21 @@ input[type="radio"]:checked + .report-area_menu-name {
     display: none; 
     position: absolute;
     flex-direction: column;
+}
 
+.dark-mode .white-panel {
+    background-color: #4d4d4d;    
+    border: 1px solid rgb(150, 150, 150);
+}
+
+.dark-mode .white-panel hr{
+    background-color: white;
 }
 
 
 .white-panel button {
-    display: flex;   font-size: 13px;
+    display: flex;   
+    font-size: 13px;
     flex-direction: row;
     justify-content: space-between;
     padding: 5px 20px;
@@ -1034,6 +1048,16 @@ input[type="radio"]:checked + .report-area_menu-name {
     border: none;
     background-color: #ffffff;
     cursor: pointer;
+}
+
+.dark-mode .white-panel button {
+    background-color: #4d4d4d;
+    color: white;
+}
+
+.dark-mode .white-panel button:disabled{
+    background-color: #4d4d4d;
+    color: rgb(132,132,132);
 }
 
 .white-panel button:hover {
@@ -1063,6 +1087,11 @@ input[type="radio"]:checked + .report-area_menu-name {
     display: flex; 
     margin: 0 7px;
     height: 100%; 
+    color: rgb(0, 0, 0);
+}
+
+.dark-mode .rotation-fromareas nav ul li {
+    color: rgb(255, 255, 255);
 }
 
 .rotation-fromareas nav ul li img {
@@ -1073,6 +1102,13 @@ input[type="radio"]:checked + .report-area_menu-name {
 }
 
 .linkto_report:hover {
+    color: #61b8ff;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+
+.dark-mode .linkto_report:hover {
     color: #61b8ff;
     transition: color 0.3s ease;
     cursor: pointer;
@@ -1113,22 +1149,12 @@ input[type="radio"]:checked + .report-area_menu-name {
 
 .dark-mode .table_report-area {
     background-color: #4d4d4d;
-    border: 1px solid white; 
 }     
-
-/* .report_row:hover{
-    background-color: #f0f0f0;
-} */
 
 .table_report-area .order-table_titels tr th:last-child {
     width: 100%;
     padding: 0;
     margin: 0;
-}
-
-.dark-mode .table_report-area thead{
-    background-color:  #252525;
-    color: rgb(204, 204, 204);
 }
 
 .table_report-area thead{
@@ -1137,6 +1163,10 @@ input[type="radio"]:checked + .report-area_menu-name {
     font-weight: 600;
 }
 
+.dark-mode .table_report-area thead{
+    background-color:  #252525;
+    color: rgb(204, 204, 204);
+}
 
 .fuel-main_parapetrs td,
 .fuel-main_parapetrs td input{
@@ -1164,6 +1194,11 @@ input[type="radio"]:checked + .report-area_menu-name {
     text-align: left;             
     font-size: 12px;
     font-weight: 500;
+}
+
+.dark-mode .table_report-area tr th,
+.dark-mode .table_report-area tr td{
+    border: 1px solid #616161;
 }
 
 .table_report-area input{            
@@ -1216,15 +1251,6 @@ input[type="radio"]:checked + .report-area_menu-name {
 
 .dark-mode .table-versions{
     background-color: #4d4d4d;;
-
-}
-
-
-.table-versions thead{
-    text-align: center;
-    color: rgb(14, 0, 71);
-    font-weight: 600;
-    background-color: white;
 }
 
 .table-versions tr th,
@@ -1239,7 +1265,7 @@ input[type="radio"]:checked + .report-area_menu-name {
     border: none;
     color: white;
     background-color: #61b8ff;
-    padding:  1px 6px;
+    padding: 1px 6px;
     margin: 5px;
 }
 
@@ -1258,7 +1284,7 @@ input[type="radio"]:checked + .report-area_menu-name {
 }
 
 .dark-mode .check-row{
-    background-color:#333;
+    background-color:#333; 
 }
 
 .check-row .check_cont{
@@ -1267,10 +1293,9 @@ input[type="radio"]:checked + .report-area_menu-name {
     padding: 10px 40px;
 }
 
-.check-row .check_cont{
+.dark-mode .check-row .check_cont{
     background-color:#333;
 }
-
 
 .text_cheks{
     color: black;
@@ -1283,7 +1308,6 @@ input[type="radio"]:checked + .report-area_menu-name {
 .dark-mode .text_cheks{
     color: white;
 }
-
 
 .cheks_table{
     border: none;
@@ -1359,7 +1383,6 @@ input[type="radio"]:checked + .report-area_menu-name {
 .change_input input{
     padding: 5px; 
     margin: 5px 0;
-
     text-align: left;
     font-size: 12px; 
 }
@@ -1403,7 +1426,7 @@ input[type="radio"]:checked + .report-area_menu-name {
     -ms-user-select: none;
 }
 
-.report_row:hover,
+/* .report_row:hover,
 .report_row:hover,
 .version-row:hover{
     background-color: rgb(247, 247, 247);
@@ -1412,8 +1435,8 @@ input[type="radio"]:checked + .report-area_menu-name {
 .dark-mode .report_row:hover,
 .dark-mode .report_row:hover,
 .dark-mode .version-row:hover{
-    background-color: rgb(121, 121, 121);
-}
+    background-color: rgb(105, 105, 105);
+} */
 
 
 /*active-report*/
@@ -1428,7 +1451,6 @@ input[type="radio"]:checked + .report-area_menu-name {
 .dark-mode .active-input,
 .dark-mode .active-report_version{
     background-color:rgb(92, 121, 117);
-
 }
 
 
@@ -1461,6 +1483,14 @@ input[type="radio"]:checked + .report-area_menu-name {
     max-height: 500px;
     max-width: 900px;
 }
+
+
+.dark-mode .modal-content {
+    background-color:#333;
+    border: 1px solid #333;
+
+}
+
 
 .modal-header{
     display: flex;
@@ -1517,6 +1547,8 @@ input[type="radio"]:checked + .report-area_menu-name {
 .spravochniki_area::-webkit-scrollbar-track {
     background-color:rgb(255, 255, 255);
 }
+
+
 
 /* .modal-content .spravochniki_area thead{
     position: fixed;
@@ -1623,17 +1655,4 @@ input[type="radio"]:checked + .report-area_menu-name {
     width: 180px;
     height: 35px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*report.css end*/

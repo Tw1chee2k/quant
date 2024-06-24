@@ -5,7 +5,7 @@
 <div class="report-area_page">
     <div class="report-area_menu">
         <div class="report-area_podmenu">
-            <input type="radio" id="tab1" name="tab-group" checked>
+            <input type="radio" id="tab1" name="tab-group" class = "report-area_menu-input" checked>
             <label for="tab1" class="report-area_menu-name">Панель управления</label>
             <div class="content-podmenu">
                 <nav>
@@ -15,10 +15,6 @@
                                 <li data-action="createReport">
                                     <img src="{{ url_for('static', filename='img/icon_new_file.png') }}" alt="">
                                     <a>Новый</a>
-                                </li>
-                                <li data-action="deleteReport">
-                                    <img src="{{ url_for('static', filename='img/icon_delete_file.png') }}" alt="">
-                                    <a>Удалить</a>
                                 </li>
                             </div>
                             <div style="font-weight: 600;">
@@ -59,23 +55,12 @@
                                 Квитанция
                             </div>
                         </section>
-                        <section>
-                            <div class="functions_menu">
-                                <li data-action="checkVersionButton">
-                                    <img src="{{ url_for('static', filename='img/icon_change.png') }}" alt="">
-                                    <a>Изменить данные</a>
-                                </li>
-                            </div>
-                            <div style="font-weight: 600;">
-                                Разделы
-                            </div>
-                        </section>
                     </ul>
                 </nav>
             </div>
         </div>
         <div class="report-area_podmenu">
-            <input type="radio" id="tab2" name="tab-group">
+            <input type="radio" id="tab2" name="tab-group" class = "report-area_menu-input">
             <label for="tab2" class="report-area_menu-name">Справка</label>
             <div class="content-podmenu">
                 <nav>
@@ -341,7 +326,7 @@
 
 <div id="contextMenu_version" class="white-panel">
     <button data-action="checkVersionButton">
-        <span>Перейти</span>
+        <span>Изменить данные</span>
     </button>
 
     <hr style="border: 1px solid #3333;">

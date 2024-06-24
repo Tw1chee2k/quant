@@ -4,7 +4,7 @@
 <div class = "report-area_page">
     <div class = "report-area_menu">
         <div class="report-area_podmenu">
-            <input type="radio" id="tab1" name="tab-group" checked>
+            <input type="radio" id="tab1" name="tab-group" class = "report-area_menu-input" checked>
             <label for="tab1" class="report-area_menu-name">Панель управления</label> 
             <div class="content-podmenu">
                 <nav>
@@ -79,7 +79,7 @@
             </div>
         </div> 
         <div class="report-area_podmenu">
-            <input type="radio" id="tab2" name="tab-group">
+            <input type="radio" id="tab2" name="tab-group" class = "report-area_menu-input">
             <label for="tab2" class="report-area_menu-name">Справка</label> 
             <div class="content-podmenu">
                 <nav>
@@ -161,90 +161,45 @@
                 {% for row in sections %}
                 <tr class = "fuel_row" data-id="{{ row.id }}" >
                     <td>
-                        <input 
-                            type = "hidden" 
-                            name = "id_fuel"
-                            value = "{{ row.id }}" 
-                            readonly>
-                        </td>
+                        <input type = "hidden" name = "id_fuel" value = "{{ row.id }}" readonly></td>
                     <td>
-                        <input 
-                            class = "product-name_fuel" 
-                            type = "text" 
-                            value = "{{ row.product.NameProduct }}" 
-                            readonly>
+                        <input class = "product-name_fuel" type = "text" value = "{{ row.product.NameProduct }}" readonly>
                     </td>
                     <td>
-                        <input 
-                            name = "code_product" 
-                            value = "{{ row.code_product }}" 
-                            readonly>
+                        <input name = "code_product" value = "{{ row.code_product }}" readonly>
                     </td>
                     <td>
-                        <input 
-                            name = "Oked_fuel" 
-                            value = "{{ row.Oked }}" 
-                            readonly>
+                        <input name = "Oked_fuel" value = "{{ row.Oked }}" readonly>
                     </td>
                     <td> 
-                        <input 
-                            style = "white-space: nowrap; text-align: left;" 
-                            name = "" 
-                            value = "{{ row.product.unit.NameUnit }}" 
-                            readonly>
+                        <input style = "white-space: nowrap; text-align: left;" name = "" value = "{{ row.product.unit.NameUnit }}" readonly>
                     </td> 
                     <td>
-                        <input 
-                            name = "produced_fuel" 
-                            value = "{{ row.produced }}"
-                            readonly>
+                        <input name = "produced_fuel" value = "{{ row.produced }}" readonly>
                     </td>
                     <td>
-                        <input 
-                            name = "Consumed_Quota_fuel" 
-                            value = "{{ row.Consumed_Quota }}" 
-                            readonly>
+                        <input name = "Consumed_Quota_fuel" value = "{{ row.Consumed_Quota }}" readonly>
                     </td>
                     <td>
-                        <input 
-                            name = "Consumed_Fact_fuel" 
-                            value = "{{ row.Consumed_Fact }}" 
-                            readonly>
+                        <input name = "Consumed_Fact_fuel" value = "{{ row.Consumed_Fact }}" readonly>
                     </td>
                     <td>
-                        <input 
-                            name = "Consumed_Total_Quota_fuel" 
-                            value = "{{ row.Consumed_Total_Quota }}" 
-                            readonly>
+                        <input name = "Consumed_Total_Quota_fuel" value = "{{ row.Consumed_Total_Quota }}" readonly>
                     </td>
                     <td>     
-                        <input 
-                            name = "Consumed_Total_Fact_fuel" 
-                            value = "{{ row.Consumed_Total_Fact }}" 
-                            readonly>
+                        <input name = "Consumed_Total_Fact_fuel" value = "{{ row.Consumed_Total_Fact }}" readonly>
                     </td>
                     {% if row.total_differents is not none and (row.total_differents < 0.0 or row.total_differents == 0.00) %}
                         <td style="background-color: #a2ff77;">
-                            <input 
-                                style="background-color: #a2ff77;" 
-                                name="" 
-                                value="{{ row.total_differents }}" 
-                                readonly>
+                            <input style="background-color: #a2ff77; color: black;" name="" value="{{ row.total_differents }}" readonly>
                         </td>
                     {%else%}
                         <td style="background-color: #ff7676;">
-                            <input 
-                                style="background-color: #ff7676;" 
-                                name="" 
-                                value="{{ row.total_differents }}"
-                                readonly>
+                            <input style="background-color: #ff7676; color: black;" name="" value="{{ row.total_differents }}" readonly>
                         </td>
                     {%endif%}
                     <td> 
-                        <input 
-                            name = "note_fuel" 
-                            value = "{{ row.note }}" 
-                            readonly>
+                        <input name = "note_fuel" value = "{{ row.note }}" readonly>
                     </td>           
                 </tr>   
                 {%endfor%}
@@ -265,105 +220,55 @@
                 <tr>
                     <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
                     <td>
-                        <input 
-                            type="text" 
-                            name="product_name" 
-                            id="modal_product_name" 
-                            style="width: 400px; text-align: left; color: rgb(132, 132, 132);" 
-                            autocomplete="off" 
-                            readonly>
+                        <input type="text" name="product_name" id="modal_product_name" style="width: 400px; text-align: left; color: rgb(132, 132, 132);" autocomplete="off" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td><span>[B]</span> ОКЭД</td>
                     <td>
-                        <input 
-                            type="text" 
-                            name="oked" 
-                            id="modal_oked" 
-                            maxlength="5" 
-                            style="color: rgb(132, 132, 132);" 
-                            autocomplete="off" 
-                            readonly>
+                        <input type="text" name="oked" id="modal_oked" maxlength="5" style="color: rgb(132, 132, 132);" autocomplete="off" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td><span>[1]</span> Произведено продукции (выполнено работ, услуг) за отчетный период</td>
                     <td>
-                        <input 
-                            type="text" 
-                            name="produced" 
-                            id="modal_produced" 
-                            autocomplete="off">
+                        <input type="text" name="produced" id="modal_produced" autocomplete="off">
                     </td>
                 </tr>
                 <tr>
                     <td><span>[2]</span> Утвержденная норма на единицу продукции</td>
                     <td>
-                        <input 
-                            type="text" 
-                            name="Consumed_Quota" 
-                            id="modal_Consumed_Quota" 
-                            autocomplete="off">
+                        <input type="text" name="Consumed_Quota" id="modal_Consumed_Quota" autocomplete="off">
                     </td>
                 </tr>
                 <tr>
                     <td><span>[3]</span> Израсходовано на единицу продукции фактически</td>
                     <td>
-                        <input 
-                            type="text" 
-                            name="Consumed_Fact" 
-                            id="modal_Consumed_Fact" 
-                            style="color: rgb(132, 132, 132);" 
-                            readonly>
+                        <input type="text" name="Consumed_Fact" id="modal_Consumed_Fact" style="color: rgb(132, 132, 132);" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td><span>[4]</span> Израсходовано на всю производственную продукцию по действующей норме</td>
                     <td>
-                        <input 
-                            type="text" 
-                            name="Consumed_Total_Quota" 
-                            id="modal_Consumed_Total_Quota" 
-                            style="color: rgb(132, 132, 132);"
-                            readonly>
+                        <input type="text" name="Consumed_Total_Quota" id="modal_Consumed_Total_Quota" style="color: rgb(132, 132, 132);" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td><span>[5]</span> Израсходовано на всю производственную продукцию фактически</td>
                     <td>
-                        <input 
-                            type="text" 
-                            name="Consumed_Total_Fact" 
-                            id="modal_Consumed_Total_Fact" 
-                            autocomplete="off">
+                        <input type="text" name="Consumed_Total_Fact" id="modal_Consumed_Total_Fact" autocomplete="off">
                     </td>
                 </tr>
                 <tr>
                     <td>Примечание</td>
                     <td>
-                        <input 
-                            style="width: 400px; text-align: left;" 
-                            type="text" 
-                            name="note" 
-                            id="modal_note" 
-                            autocomplete="off">
-                        <input 
-                            type="hidden" 
-                            id="modal_id" 
-                            name="id">
-                        <input 
-                            type="hidden" 
-                            value="{{ current_version }}" 
-                            name="current_version">
+                        <input style="width: 400px; text-align: left;" type="text" name="note" id="modal_note" autocomplete="off">
+                        <input type="hidden" id="modal_id" name="id">
+                        <input type="hidden" value="{{ current_version }}" name="current_version">
                     </td>
                 </tr>
             </table>
-            <button 
-                type="submit" 
-                class="blue_button fuel-submit">
-                Изменить
-            </button>
+            <button type="submit" class="blue_button fuel-submit">Изменить</button>
         </form> 
     </div>
 </div>
@@ -379,11 +284,7 @@
                 <tr>
                     <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
                     <td>
-                        <input 
-                            type="text" 
-                            name="name_of_product" 
-                            style = "width: 400px; text-align: left;" 
-                            autocomplete="off">
+                        <input type="text" name="name_of_product" style = "width: 400px; text-align: left;" autocomplete="off">
                         <div class="choose-product_area">
                             <table class = "choose-product_table">
                                 <thead>
