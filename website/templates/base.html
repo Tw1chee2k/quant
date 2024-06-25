@@ -33,10 +33,21 @@
             <li>
               {% if user.is_authenticated %}
               <div class="user-container">
-                  <img onclick="window.location.href='/account'" id="user-img"  width="22" src="{{ url_for('static', filename='img/user.png')}}" alt="">
+                  <img 
+                    onclick="window.location.href='/account'" 
+                    id="user-img" 
+                    class = "icon_white"
+                    src="{{ url_for('static', filename='img/icon_white-user.png')}}" 
+                    alt="">
+                  <img 
+                    onclick="window.location.href='/account'" 
+                    id="user-img" 
+                    class = "icon_black"
+                    src="{{ url_for('static', filename='img/icon_black-user.png')}}" alt="">
+
                   <div id="hoverPanel" class="hoverPanel">
-                      <button onclick="window.location.href='/account'">Личный кабинет</button>
-                      <button onclick="window.location.href='/logout'">Выйти</button>
+                      <button class = "hoverPanel_account" onclick="window.location.href='/account'">Личный кабинет</button>
+                      <button class = "hoverPanel_logout" onclick="window.location.href='/logout'">Выйти</button>
                   </div>
               </div>
               {% else %}

@@ -47,7 +47,7 @@ select:focus{
     font-size: 14px;
     align-items: center;
     border:none;
-    background-color: #61b8ff;
+    background-color: #028dff;
     color: white;
     width: 270px;
     height: 40px;
@@ -57,7 +57,7 @@ select:focus{
 }
 
 .blue_button:hover{
-    background-color: #028dff;
+    background-color:#0072cf;
 }
   
 .blue_button:focus {
@@ -160,6 +160,44 @@ main {
     padding: 10px;
 }
 
+.dark-mode .hoverPanel {
+    background-color:#252525;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); 
+}
+
+
+.user-container {
+    position: relative;
+    display: inline-block;
+}
+
+.user-container img{
+    width: 30px;
+    height: auto;
+    cursor: pointer;
+}
+
+.user-container .icon_white{
+    display:none;
+}
+
+.dark-mode .icon_white{
+    display:block;
+}
+
+.user-container .icon_black{
+    display:block;
+}
+
+.dark-mode .icon_black{
+    display:none;
+}
+
+.user-container:hover .hoverPanel,
+.hoverPanel:hover {
+    display: block;
+}
+
 .hoverPanel button {
     border: none;
     background-color: white;
@@ -169,6 +207,14 @@ main {
     padding: 10px 20px;
     text-align: start;
     align-items: start;
+    cursor: pointer;
+}
+
+
+.dark-mode .hoverPanel_account,
+.dark-mode .hoverPanel_logout{
+    background-color:  #252525;
+    color: rgb(255, 255, 255);
 }
 
 .hoverPanel button:focus {
@@ -177,21 +223,17 @@ main {
 
 .hoverPanel button:hover {
     transition: background-color 0.3s ease;
-    background-color: rgb(247, 247, 247);
+    background-color: rgb(221, 221, 221);
+}
+
+.dark-mode .hoverPanel_account:hover,
+.dark-mode .hoverPanel_logout:hover{
+    transition: background-color 0.3s ease;
+    background-color: rgb(29, 29, 29);
 }
 
 
 
-.user-container {
-    position: relative;
-    display: inline-block;
-}
-
-.user-container:hover .hoverPanel,
-.hoverPanel:hover {
-    display: block;
-    
-}
 
 footer {
     margin-top: 500px;
@@ -210,7 +252,9 @@ footer {
     margin: 10px;
 }
 
-.footer_cont .left_col_footer,.center_col_footer,.right_col_footer{
+.footer_cont .left_col_footer,
+.center_col_footer,
+.right_col_footer{
     display: flex;
     margin: 15px;
     min-width: 400px;
@@ -311,12 +355,15 @@ footer {
     display: flex; 
     flex-direction: column;
     text-align: left;
-    width: 670px;
+    width: min-content;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     padding: 25px;
     border-radius: 10px;
+}
 
-
+.dark-mode .log_reg_form {
+    background-color:  #252525;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); 
 }
 
 .link_cont{
@@ -344,16 +391,20 @@ footer {
 
 .aftorization_data{
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
 }
 
 .registration_data{
     display: flex;
     flex-direction: row;
     width: 100%;
+}
 
-    
+.organization_data{
+    margin-left: 12px;
 }
 
 .aftorization_data input,
@@ -368,8 +419,18 @@ footer {
     padding: 5px 20px;
     outline: none;
     z-index: 2;
-    font-size: 14px;
+    font-size: 15px;
 }
+
+.dark-mode .aftorization_data input,
+.dark-mode .persone_data input,
+.dark-mode .organization_data input{
+    background-color:  #252525; 
+    border-bottom: 1px solid rgb(202, 202, 202);
+    color: rgb(255, 255, 255);
+
+}
+
 
 .log_reg_form .remember_cont {
     border: none;
@@ -378,7 +439,7 @@ footer {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin: 20px 0 10px 0;
+    margin: 10px 0 10px 0;
 }
 
 .log_reg_form .remember_cont input[type = 'checkbox']{
@@ -386,13 +447,20 @@ footer {
     cursor: pointer;
 }
 
+.log_buttons_area{
+    display:flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    width: 100%;
+}
+
 .log_reg_form button{
     margin-top: 10px;
     padding: 5px 20px;
-    width: 100%;
-    height: 40px;
+    width: 300px;
+    height: 34px;
     cursor: pointer;
-
 }
 
 .log_reg_form .forgot_cont{
@@ -404,21 +472,21 @@ footer {
 
 .log_reg_form .forgot_cont a{
     color: rgb(131, 131, 131);
-    font-size: 13px;
+    font-size: 12px;
     cursor: pointer;
     margin-top: 5px;
-   
+    font-weight: 500;
     transition: 0.3ms ;
     transition: color 0.3s ease;
 }
 
 .log_reg_form .forgot_cont a:hover{
     color: black;
-
-
 }
 
-
+.dark-mode .forgot_cont a:hover{
+    color: rgb(255, 255, 255);
+}
 
 .google_cont button{
     background-color: rgb(255, 255, 255);
@@ -671,12 +739,22 @@ footer {
     font-weight: 600;
 }
   
-.account_cont .buttons_acount_cont{
+.account_cont .account_functions{
     display: flex;
     flex-direction: row;
     padding-top: 100px;
+    width: 100%;
+    justify-content: center;
+}
+
+.account_cont .account_functions .account_links{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding-right: 10%;
 }
   
+
 .account_buttons{
     display: flex;
     flex-direction: row;
@@ -688,14 +766,26 @@ footer {
     height: 82px;
     font-weight: 600;
     border-radius: 10px;
-    margin: 7px;
+    margin: 15px 7px 0px 7px;
     padding: 0 20px;
     font-size: 15px;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .account_buttons{
+    color: white;
+    background-color:  #252525;      
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); 
 }
   
 .account_buttons:hover{
     background-color: #f0f9ff;
     transition: background-color 0.3s ease;
+}
+
+.dark-mode .account_buttons:hover{
+    transition: background-color 0.3s ease;
+    background-color: rgb(29, 29, 29);
 }
   
 .account_buttons:focus {
@@ -710,53 +800,102 @@ footer {
 .account_buttons span{
     text-align: center;
 }
-  
 
-.account_cont .buttons_acount_cont{
-    width: 100%;
-    justify-content: center;
-
-}
-
-.account_cont .buttons_acount_cont .first_column_cont{
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    padding-right: 10%;
-}
-  
-  
-.account_cont .buttons_acount_cont .second_column_cont{
+.account_cont .account_functions .account_messages{
     display: flex;
     flex-direction: column;
 }
-  
-.buttons_account_add_report{
+
+.account_message_button{
     display: flex;
     flex-direction: row;
-    align-items: center;
-    font-size: 14px;
-    border:none;
-    background-color: #61b8ff;
-    color: white;
-    width: 270px;
-    height: 50px;
-    border-radius: 10px;
+    align-items:  center;
+    border: none;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    width: 474px;
+    height: 52px;
     font-weight: 600;
-    margin: 10px 0 10px 20px;
+    border-radius: 0;
+    margin: 15px 0 0 0;
+    padding: 0 20px;
+    font-size: 15px;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .account_message_button{
+    color: white;
+    background-color:  #252525;      
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); 
 }
   
-.buttons_account_add_report:hover{
-    background-color: #028dff;
+.account_message_button:hover{
+    background-color: #f0f9ff;
     transition: background-color 0.3s ease;
 }
+
+.dark-mode .account_message_button:hover{
+    transition: background-color 0.3s ease;
+    background-color: rgb(29, 29, 29);
+}
   
-.buttons_account_add_report:focus {
+.account_message_button:focus {
     outline: none;
 }
   
-.buttons_account_add_report span{
-    margin: 0 30px;
+.account_message_button img{
+    width: 36px;
+    margin: 0 40px 0 0;
+}
+  
+.account_message_button span{
+    text-align: center;
+}
+
+
+.message_cont{
+    width: 100%;
+    height: auto;
+    max-height: 280px; 
+    overflow-y: auto; 
+}
+  
+.message_cont::-webkit-scrollbar {
+    width: 5px; 
+}
+  
+.message_cont::-webkit-scrollbar-thumb {
+    background-color:rgb(131, 131, 131); 
+    border-radius: 5px;
+}
+
+.message_cont::-webkit-scrollbar-track {
+    background-color: #000000;
+}
+
+
+.message_cont .mes{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.4);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #333333;
+}
+
+
+.message_cont .mes .time_mes{
+    font-size: 14px;
+    color: rgb(134, 134, 134);
+    padding-bottom: 3px;
+}
+
+
+.message_cont .mes .text_mes{
+    font-size: 16px;
+    color:#00ca00;
+
 }
 
 /*account.css end*/
@@ -777,7 +916,7 @@ footer {
 }
 
 /*profil_header*/
-.profile_page nav {
+.profile_page .profile_navigation {
     position: fixed;
     width: 300px;
     display: flex;
@@ -788,25 +927,36 @@ footer {
     padding: 20px 0;
     border-radius: 10px;
     margin-left: 20px;
+    color: black;
 }
 
-.profile_page nav li {
+.dark-mode	.profile_navigation {
+    background-color:  #252525; 
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); 
+    color: white;
+}
+
+.profile_page .profile_navigation li {
     list-style-type: none;
     cursor: pointer;
-    padding: 7px 60px;
-    margin: 10px 0;
-
+    padding: 10px 60px;
+    margin: 7px 0;
     height: 100%;
     font-weight: 500;  
     transition: background-color 0.3s ease, color 0.3s ease;
     position: relative;
 }
 
-.profile_page nav li:hover {
+.profile_page .profile_navigation li:hover {
     background-color: rgb(236, 236, 236);
 }
 
-.profile_page nav li.active_li::before {
+.dark-mode .profile_page .profile_navigation li:hover {
+    transition: background-color 0.3s ease;
+    background-color: rgb(29, 29, 29);
+}
+
+.profile_page .profile_navigation li.active_li::before {
     content: '';
     position: absolute;
     top: 0;
@@ -828,6 +978,12 @@ footer {
     display: flex;
     flex-direction: column;
     top: 0;
+    color: black;
+
+}
+
+.dark-mode .personal-info_area{
+    color: rgb(255, 255, 255);
 }
 
 .profile_page .personal-info_area table, 
@@ -857,12 +1013,14 @@ footer {
     height: 40px;    
     border-radius: 10px;
     border: none;
-    /* border: 1px solid rgb(220, 238, 255); */
     box-shadow: 0 0 5px rgb(0, 0, 0, 0.1);
-
     color: black;
     background-color:rgb(255, 255, 255);
 }
+
+/* .dark-mode .profile_page .personal-info_area td input{
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+} */
 
 .profile_page .personal-info_area form {
     text-align: right;

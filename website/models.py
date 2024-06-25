@@ -90,6 +90,6 @@ class Sections(db.Model):
     total_differents = db.Column(Numeric(precision=10, scale=2))
     note = db.Column(db.String(200))
     product = relationship("DirProduct", foreign_keys=[id_product], backref="section")
-    
+
 
     

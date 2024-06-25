@@ -80,23 +80,22 @@
         </div> 
         <div class="report-area_podmenu">
             <input type="radio" id="tab2" name="tab-group" class = "report-area_menu-input">
-            <label for="tab2" class="report-area_menu-name">Справка</label> 
+            <label for="tab2" class="report-area_menu-name">Справка</label>
             <div class="content-podmenu">
                 <nav>
-                    <ul>  
+                    <ul>
                         <section>
-                            <div class = "functions_menu">
-                                <li id = "myUOM">                     
-                                    <img src="{{ url_for('static', filename='img/icon_UOM.png')}}" alt="">
-                                    <a>Еденицы измерения</a>
+                            <div class="functions_menu">
+                                <li id="myUOM">
+                                    <img src="{{ url_for('static', filename='img/icon_UOM.png') }}" alt="">
+                                    <a>Единицы измерения</a>
                                 </li>
-                                <li id = "myTOP">            
-                                    <img src="{{ url_for('static', filename='img/icons_TOP.png')}}" alt="">
+                                <li id="myTOP">
+                                    <img src="{{ url_for('static', filename='img/icons_TOP.png') }}" alt="">
                                     <a>Виды продукции</a>
                                 </li>
                             </div>
                             <div>
-                    
                             </div>
                         </section>
                     </ul>
@@ -408,6 +407,89 @@
     </div>
 </div>
 
+<div id="myModalUOM" class="modal">
+    <div class="modal-content">
+        <div class = "modal-header">
+            <h3>Единицы измерения</h3>
+            <a class="close">&times;</a>
+        </div>
+        <div class="spravochniki_area">
+            <table class = "table_report-area">
+                <thead>
+                    <tr>
+                        <th>Код единицы измерения</th>
+                        <th>Название единицы измерения</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in dirUnit %}
+                    <tr>
+                        <td style="text-align: left;">{{ row.CodeUnit }}</td>
+                        <td style="text-align: left;">{{ row.NameUnit }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="myModalTOP" class="modal">
+    <div class="modal-content">
+        <div class = "modal-header">
+            <h3>Виды продукции</h3>
+            <a class="close">&times;</a>
+        </div>
+        <div class="spravochniki_area">
+            <table class="table_report-area">
+                <thead>
+                    <tr>
+                        <th>Код продукции</th>
+                        <th>Наименование продукции</th>
+                        <th>Топливо</th>
+                        <th>Тепловая</th>
+                        <th>Электричество</th>
+                        <th>Код единицы измерения</th>
+                        <th>Дата начала</th>
+                        <th>Дата окончания</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in dirProduct %}
+                    <tr>
+                        <td>{{ row.CodeProduct }}</td>
+                        <td style="text-align: left;">{{ row.NameProduct }}</td>
+                        <td>
+                            <input type="checkbox" name="control" {% if row.IsFuel %} checked {% endif %} disabled>
+                        </td>
+                        <td>
+                            <input type="checkbox" name="control" {% if row.IsHeat %} checked {% endif %} disabled>
+                        </td>
+                        <td>
+                            <input type="checkbox" name="control" {% if row.IsElectro %} checked {% endif %} disabled>
+                        </td>
+                        <td>{{ row.IdUnit }}</td>
+                        <td>
+                            {% if row.DateStart %}
+                            {{ row.DateStart }}
+                            {% else %}
+                            &nbsp;
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if row.DateEnd %}
+                            {{ row.DateEnd }}
+                            {% else %}
+                            &nbsp;
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <div id="contextmenufuel" class="white-panel">
     <button id = "link_changefuel_modal">
         <span>Редактировать</span>
@@ -416,6 +498,5 @@
         <span>Удалить</span>
     </button>
 </div>
-
 <script src="{{ url_for('static', filename='js/fuel.js') }}"></script>
 {% endblock %}

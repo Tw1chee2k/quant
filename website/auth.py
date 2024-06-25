@@ -42,6 +42,7 @@ def login():
     return render_template("login.html", user=current_user)
 
 @auth.route('/logout')
+@login_required
 def logout():
     logout_user()
     flash('Выполнен выход из аккаунта', category='success')
@@ -143,6 +144,7 @@ def gener_password():
     return password
 
 @auth.route('/create_new_report', methods=['POST'])
+
 def create_new_report():
     organization = Organization.query.filter_by(id = current_user.organization_id).first()
     if request.method == 'POST':
@@ -246,7 +248,7 @@ def delete_version(id):
 @auth.route('/add_fuel_param', methods=['POST'])
 def add_fuel_param():
     if request.method == 'POST':
-        current_version = request.form.get('current_version')
+        current_version_id = request.form.get('current_version')
         name = request.form.get('name_of_product')
         oked = request.form.get('oked')
         produced = request.form.get('produced')
@@ -264,12 +266,12 @@ def add_fuel_param():
         Consumed_Total_Fact = Decimal(Consumed_Total_Fact) if Consumed_Total_Fact else Decimal(0)
 
         current_product = DirProduct.query.filter_by(NameProduct=name).first()
-        proverka_section = Sections.query.filter_by(id_version=current_version, section_number=1, id_product=current_product.IdProduct).first()
+        proverka_section = Sections.query.filter_by(id_version=current_version_id, section_number=1, id_product=current_product.IdProduct).first()
         if proverka_section:
             flash('Такой вид продукции уже существует')
         else:
             new_section = Sections(
-                id_version=current_version,
+                id_version=current_version_id,
                 id_product=current_product.IdProduct,
                 code_product=current_product.CodeProduct,
                 section_number=1,
@@ -287,7 +289,6 @@ def add_fuel_param():
 
             current_section = Sections.query.filter_by(id=new_section.id, section_number=1).first()
             try:
-                # Проверка деления на ноль
                 if current_section.produced != 0:
                     current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 1000, 2)
                 else:
@@ -305,13 +306,13 @@ def add_fuel_param():
 
             specific_codes = ['9001', '9010', '9100']
 
-            section9001 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product='9001').first()
+            section9001 = Sections.query.filter_by(id_version=current_version_id, section_number=1, code_product='9001').first()
             aggregated_values = db.session.query(
                 func.sum(Sections.Consumed_Total_Quota),
                 func.sum(Sections.Consumed_Total_Fact),
                 func.sum(Sections.total_differents)
             ).filter(
-                Sections.id_version == current_version,
+                Sections.id_version == current_version_id,
                 Sections.section_number == 1,
                 ~Sections.code_product.in_(specific_codes)
             ).first()
@@ -320,16 +321,22 @@ def add_fuel_param():
                 section9001.Consumed_Total_Quota, section9001.Consumed_Total_Fact, section9001.total_differents = aggregated_values
                 db.session.commit()
 
-            section9010 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product='9010').first()
-            section9100 = Sections.query.filter_by(id_version=current_version, section_number=1, code_product='9100').first()
+            section9010 = Sections.query.filter_by(id_version=current_version_id, section_number=1, code_product='9010').first()
+            section9100 = Sections.query.filter_by(id_version=current_version_id, section_number=1, code_product='9100').first()
 
             if section9100 and section9001 and section9010:
                 section9100.Consumed_Total_Quota = section9001.Consumed_Total_Quota + section9010.Consumed_Total_Quota
                 section9100.Consumed_Total_Fact = section9001.Consumed_Total_Fact + section9010.Consumed_Total_Fact
                 section9100.total_differents = section9001.total_differents + section9010.total_differents
                 db.session.commit()
+           
+           
+            current_version = Version_report.query.filter_by(id=current_version_id).first() 
+            if current_version:
+                current_version.change_time = datetime.now()
+                db.session.commit()
 
-        return redirect(url_for('views.report_fuel', id=current_version))
+        return redirect(url_for('views.report_fuel', id=current_version_id))
     
 @auth.route('/change_fuel', methods=['POST'])
 def change_fuel():
@@ -341,7 +348,12 @@ def change_fuel():
         Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
         note = request.form.get('note')
 
-        current_section = Sections.query.filter_by(id=id_fuel, section_number=1,).first() 
+        # Преобразование входных данных в числа с плавающей точкой или 0, если они пустые
+        produced = float(produced) if produced else 0.00
+        Consumed_Quota = float(Consumed_Quota) if Consumed_Quota else 0.00
+        Consumed_Total_Fact = float(Consumed_Total_Fact) if Consumed_Total_Fact else 0.00
+
+        current_section = Sections.query.filter_by(id=id_fuel, section_number=1).first()
         if current_section:
             current_section.produced = produced
             current_section.Consumed_Quota = Consumed_Quota
@@ -361,7 +373,7 @@ def change_fuel():
             
             db.session.commit()
 
-            current_section.total_differents=current_section.Consumed_Total_Fact-current_section.Consumed_Total_Quota
+            current_section.total_differents = current_section.Consumed_Total_Fact - current_section.Consumed_Total_Quota
             
             db.session.commit()
       
@@ -383,21 +395,26 @@ def change_fuel():
                 ~Sections.code_product.in_(specific_codes)
             ).first()
 
-            section9001.Consumed_Total_Quota, section9001.Consumed_Total_Fact, section9001.total_differents = aggregated_values
-            db.session.commit()
+            if aggregated_values:
+                section9001.Consumed_Total_Quota = aggregated_values[0] or 0
+                section9001.Consumed_Total_Fact = aggregated_values[1] or 0
+                section9001.total_differents = aggregated_values[2] or 0
+                db.session.commit()
 
-            section9010 = Sections.query.filter_by(id_version=id_version, section_number=1, code_product = 9010).first()
-            section9100 = Sections.query.filter_by(id_version=id_version, section_number=1, code_product = 9100).first()
-            
-            section9100.Consumed_Total_Quota = section9001.Consumed_Total_Quota + section9010.Consumed_Total_Quota
-            section9100.Consumed_Total_Fact = section9001.Consumed_Total_Fact + section9010.Consumed_Total_Fact
-            section9100.total_differents = section9001.total_differents + section9010.total_differents
-            db.session.commit() 
+            section9010 = Sections.query.filter_by(id_version=id_version, section_number=1, code_product=9010).first()
+            section9100 = Sections.query.filter_by(id_version=id_version, section_number=1, code_product=9100).first()
+
+            if section9100 and section9001 and section9010:
+                section9100.Consumed_Total_Quota = (section9001.Consumed_Total_Quota or 0) + (section9010.Consumed_Total_Quota or 0)
+                section9100.Consumed_Total_Fact = (section9001.Consumed_Total_Fact or 0) + (section9010.Consumed_Total_Fact or 0)
+                section9100.total_differents = (section9001.total_differents or 0) + (section9010.total_differents or 0)
+                db.session.commit()
 
             flash("Параметры обновлены")
         else:
             flash("фатал")
     return redirect(url_for('views.report_fuel', id=id_version))
+
 
 @auth.route('/remove_fuel/<id>', methods=['POST'])
 def remove_fuel(id):

@@ -479,16 +479,19 @@ def login():
     return render_template('login.html', user=current_user)
 
 @views.route('/account')
+@login_required
 def account():
     return render_template('account.html', user=current_user)
 
 @views.route('/profile/common')
+@login_required
 def profile_common():
     organization = Organization.query.filter_by(id = current_user.organization_id).first()
 
     return render_template('profile_common.html', user=current_user, organization=organization)
 
 @views.route('/profile/password')
+@login_required
 def profile_password():
     return render_template('profile_password.html', user=current_user)
 
@@ -497,6 +500,7 @@ def relod_password():
     return render_template('relod_password.html', user=current_user)
 
 @views.route('/report_area')
+@login_required
 def report_area():
     ticket = Ticket.query.filter_by().all()
     report = Report.query.filter_by(user_id=current_user.id).all()
@@ -519,6 +523,7 @@ def report_area():
                            version=version)
 
 @views.route('/report/fuel/<int:id>')
+@login_required
 def report_fuel(id):
     dirUnit = DirUnit.query.filter_by().all()
     dirProduct = DirProduct.query.filter(DirProduct.IsFuel == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()

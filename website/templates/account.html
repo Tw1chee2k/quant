@@ -6,27 +6,40 @@
     <div class = "privetstvie_cont">
         <a>Добро пожаловать, {{user.fio}}</a>
     </div>
-    <div class = "buttons_acount_cont">
-        <div class = "first_column_cont">
+    <div class = "account_functions">
+        <div class = "account_links">
             <button class = "account_buttons" onclick="window.location.href=''" type="" class = "">
                 <img src="{{ url_for('static', filename='img/icon_reports.png')}}"  alt="">
                 <span>Отчеты</span>
             </button>
-            <button class = "buttons_account_add_report" onclick="window.location.href='/report_area'" type="" class = "">
-                <span style = "font-size: 20px;">+</span>
-                <span>Добавить отчет</span>
-            </button>
-            
             <button class = "account_buttons" onclick="window.location.href='/profile/common'" type="" class = "">
                 <img src="{{ url_for('static', filename='img/icon_profile.png')}}"  alt="">
                 <span>Мой профиль</span>
             </button>
         </div>
-        <div class = "second_column_cont">
-            <button class = "account_buttons" onclick="window.location.href=''" type="" class = "">
+        <div class = "account_messages">
+            <button class = "account_message_button" onclick="window.location.href=''" type="" class = "">
                 <img src="{{ url_for('static', filename='img/icon_message.png')}}"  alt="">
                 <span>Сообщения</span>
             </button>
+            <div class = "message_cont">
+                {% if message %}
+                    {% for row in message %}
+                    <div class = "mes">
+                        <div class = "time_mes">{{row.created_at}}</div>
+                    {%if row.category == False%}
+                        <div class = "text_mes" style = "color:red;">{{row.text}}</div>
+                    {%else%}
+                        <div class = "text_mes" style = "color:#00ca00;">{{row.text}}</div>
+                    {%endif%}  
+                    </div>
+                    {%endfor%}
+                {%else%} 
+                <div class = "mes">
+                    <a class = "">No messages</a>
+                </div>
+                {%endif%} 
+            </div>
         </div>
     </div>
 </div>
