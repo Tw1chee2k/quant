@@ -123,11 +123,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var chooseProductArea = document.querySelector('.choose-product_area');
     var chooseProdTableBody = document.getElementById('chooseProdTableBody');
     var noResultsRow = document.getElementById('noResultsRow');
-
+    
     nameOfProductInput.addEventListener('focus', function() {
         chooseProductArea.style.display = 'block';
     });
-
+    
     chooseProdTableBody.addEventListener('click', function(event) {
         if (event.target.tagName === 'TD') {
             var productName = event.target.parentNode.querySelector('td:nth-child(2)').textContent;
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
             chooseProductArea.style.display = 'none';
         }
     });
-
+    
     nameOfProductInput.addEventListener('input', function() {
         var filterText = this.value.trim().toLowerCase();
         if (filterText.length > 0) {
@@ -145,8 +145,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         var hasResults = false;
         Array.from(chooseProdTableBody.querySelectorAll('tr')).forEach(function(row) {
+            var codeProduct = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
             var productName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-            if (productName.includes(filterText)) {
+            if (codeProduct.includes(filterText) || productName.includes(filterText)) {
                 row.style.display = '';
                 hasResults = true;
             } else {
@@ -158,11 +159,12 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             noResultsRow.style.display = 'none';
         }
-        document.addEventListener('click', function(event) {
-            if (!chooseProductArea.contains(event.target) && event.target !== nameOfProductInput) {
-                chooseProductArea.style.display = 'none';
-            }
-        });
+    });
+    
+    document.addEventListener('click', function(event) {
+        if (!chooseProductArea.contains(event.target) && event.target !== nameOfProductInput) {
+            chooseProductArea.style.display = 'none';
+        }
     });
 
     remove_fuel.addEventListener('click', function() {

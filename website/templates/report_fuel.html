@@ -300,10 +300,11 @@
                                         <td style = " text-align: left;">{{row.NameProduct}}</td>
                                         <td>{{row.unit.NameUnit}}</td>
                                     </tr>
-                                    <tr id="noResultsRow" style="display: none;">
-                                        <td>Нет результатов</td>        
-                                    </tr>
-                                {% endfor %}
+                         
+                                {% endfor %}           
+                                <tr id="noResultsRow" style="display: none;">
+                                    <td>Нет результатов</td>        
+                                </tr>
                                 <tbody>  
                             </table>
                         </div>
@@ -402,7 +403,8 @@
             <button 
                 type = "submit" 
                 class = "blue_button fuel-submit"
-                >Добавить</button>              
+                >Добавить
+            </button>              
         </form>   
     </div>
 </div>
