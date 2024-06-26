@@ -1363,12 +1363,12 @@ footer {
 }
 
 .table_report-area tr td{
-    border: 1px solid #dddddd;
+
     padding: 5px 10px;
     text-align: left;             
     font-size: 12px;
     font-weight: 500;
-
+    border: 1px solid #dddddd;
 }
 
 .dark-mode .table_report-area tr th,
@@ -1404,13 +1404,14 @@ footer {
 }
 
 .table-versions{
-    border: none;
+
     font-size: 12px;
     table-layout: fixed;  
     flex-grow: 1;
-    border-spacing: 0px;
+    
     background-color: #ffffff;
-    border-collapse: collapse;
+    border-collapse: collapse;    
+    border: none;
 }
 
 .dark-mode .table-versions{
@@ -1452,9 +1453,9 @@ footer {
 }
 
 .check-row .check_cont{
-    border: none; 
     background-color: aliceblue; 
     padding: 10px 40px;
+    border: none; 
 }
 
 .dark-mode .check-row .check_cont{
