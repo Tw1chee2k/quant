@@ -596,8 +596,6 @@ footer {
     color: white;
 }
 
-
-
 .statistic_cont .item_stat {
     display: flex;
     flex-direction: column;
@@ -616,8 +614,6 @@ footer {
     color: rgb(78, 177, 165);
 }
 
-
-
 .statistic_cont .item_stat .stat_count{
  
     font-size: 32px;
@@ -627,7 +623,7 @@ footer {
 .statistic_cont .item_stat img{
     width: 44px; 
     height: 44px;
-    margin: 5px;
+    margin: 10px;
 }
 /* Контейнер с количеством пользователей, организац... end*/
 
@@ -1244,7 +1240,8 @@ footer {
 }
 
 .report-area::-webkit-scrollbar {
-    height: 3px;
+    width: 7px;
+    height: 7px;
 }
 
 .report-area::-webkit-scrollbar-thumb {
@@ -1253,8 +1250,15 @@ footer {
 }
 
 .report-area::-webkit-scrollbar-track {
-    background-color: #ffffff;
+    background-color:rgb(255, 255, 255);
 }
+
+.dark-mode	.report-area::-webkit-scrollbar-track {
+    background-color:#333;
+}
+
+
+
 
 .table_report-area {
     border: none;
@@ -1281,6 +1285,7 @@ footer {
     text-align: center;
     color: rgb(0, 0, 0);
     font-weight: 600;
+    background-color: #0000000c;
 }
 
 .dark-mode .table_report-area thead{
@@ -1584,12 +1589,13 @@ footer {
     flex-grow: 1;
     border-spacing: 0px;
     border-collapse: collapse;
-    background-color: white;
+
     border: none;
 }
 
 .spravochniki_area::-webkit-scrollbar {
     width: 7px;
+    height: 7px;
 }
 
 .spravochniki_area::-webkit-scrollbar-thumb {
@@ -1599,6 +1605,10 @@ footer {
 
 .spravochniki_area::-webkit-scrollbar-track {
     background-color:rgb(255, 255, 255);
+}
+
+.dark-mode	.spravochniki_area::-webkit-scrollbar-track {
+    background-color:#333;
 }
 /*end */
 
@@ -1659,7 +1669,6 @@ footer {
     border: none; 
     z-index: 2; 
     display: none;
-    color: black;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -1694,10 +1703,7 @@ footer {
     background-color: #f0f0f0;
 }
 
-.fuel-submit{
-    border: 1px solid white;
-    color: white;
-    border-radius: 5px;
+.choose-product_area button{
     font-size: 12px;
     margin: 3px 20px 0 0;
     width: 180px;
