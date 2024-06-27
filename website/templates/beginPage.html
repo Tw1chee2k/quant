@@ -10,9 +10,9 @@
                 Информационная система учета и обработки отчетов организаций
             </span>
             {% if user.is_authenticated%}
-                <button onclick="window.location.href='/report_area'" type="" class = "">Подать отчет</button>
+                <button onclick="window.location.href='/report_area'" type="" class = "blue_button">Подать отчет</button>
             {% else %}
-                <button onclick="window.location.href='/login'" type="" class = "">Войти</button>
+                <button onclick="window.location.href='/login'" type="" class = "blue_button">Войти</button>
             {% endif %}
         </div>
         <div class = "gif_cont">
@@ -23,17 +23,17 @@
 
 <div class="statistic_cont">
     <div class="item_stat">
-        <div>Предприятий</div>
+        <a class = "item_statName">Предприятий</a>
         <img src="{{ url_for('static', filename='img/organization.png')}}" alt="организаций">
         <div class = "stat_count">111</div>
     </div>
     <div class="item_stat">
-        <div>Отчетов</div>
+        <a class = "item_statName">Отчетов</a>
         <img src="{{ url_for('static', filename='img/icon_reports.png')}}" alt="обращений">
         <div class = "stat_count">222</div>
     </div>
     <div class="item_stat">
-        <div>Респондентов</div>
+        <a class = "item_statName">Респондентов</a>
         <img src="{{ url_for('static', filename='img/people.png')}}" alt="Граждан">
         <div class = "stat_count">444</div>
     </div>
@@ -51,14 +51,5 @@
         </div>
     </div>
 </div>
-
-<div class = "cont_admin_main_page">
-
-</div>
-
-<div class = "cont_map">
-    <iframe srcв="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2349.9730443396306!2d27.55992441534424!3d53.91445490599758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46dbcf90d8205c97%3A0x1f35562803ee4ab8!2z0YPQuy4g0KHRgtCw0YDQvtCy0LjQu9C10L3RgdC60LDRjyA1NCwg0JzQuNC90YHQuiwg0JzQuNC90YHQutCw0Y8g0L7QsdC70LDRgdGC0YwgMjIwMDAy!5e0!3m2!1sru!2sby!4v1709240482760!5m2!1sru!2sby" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</div>
-
 
 {% endblock %}

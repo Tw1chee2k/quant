@@ -1,5 +1,42 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', (event) => {
+    const headers = document.querySelectorAll(".modal-header");
 
+    headers.forEach(header => {
+        const modal = header.closest('.modal-content');
+
+        let isDragging = false;
+        let startX, startY, initialX, initialY;
+
+        header.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            const rect = modal.getBoundingClientRect();
+            initialX = rect.left;
+            initialY = rect.top;
+            modal.style.position = "absolute";
+            modal.style.margin = 0;
+            document.body.style.userSelect = 'none';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                modal.style.left = `${initialX + dx}px`;
+                modal.style.top = `${initialY + dy}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            document.body.style.userSelect = 'auto';
+        });
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
     function createNewReport() {
         fetch('/create_new_report', {
             method: 'POST'
@@ -300,10 +337,11 @@ document.addEventListener('DOMContentLoaded', function () {
     /*end*/
 
     /*кнопка для отображения квитанций отчета*/
-    const showCheksButtons = document.querySelectorAll('.show-cheks_button');       
-    showCheksButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const checkRow = this.closest('.version-row').nextElementSibling;
+    var showCheksButtons = document.querySelectorAll('.show-cheks_button');   
+    showCheksButtons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation();
+            var checkRow = this.closest('.version-row').nextElementSibling;
             if (checkRow.style.display === 'none' || checkRow.style.display === '') {
                 checkRow.style.display = 'table-row';
             } else {
@@ -313,43 +351,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     /*end*/
 
-    /*всплывающее окно с единицами измерения*/
-    var myUOM = document.getElementById('myUOM');
-    var modalUOM = document.getElementById('myModalUOM');
-    var spanmyModalUOM = document.getElementsByClassName('close')[0];
-    myUOM.addEventListener('click', function() {
-        modalUOM.style.display = 'block';
-    });
+    
 
-    spanmyModalUOM.addEventListener('click', function() {
-        modalUOM.style.display = 'none';
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target == modalUOM) {
-            modalUOM.style.display = 'none';
-        }
-    });
-    /*end*/
-
-    /*всплывающее окно с продуктами*/
-    var myTOP = document.getElementById('myTOP');
-    var modalTOP = document.getElementById('myModalTOP');
-    var spanmyModalTOP = document.getElementsByClassName('close')[1];
-    myTOP.addEventListener('click', function() {
-        modalTOP.style.display = 'block';
-    });
-
-    spanmyModalTOP.addEventListener('click', function() {
-        modalTOP.style.display = 'none';
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target == modalTOP) {
-            modalTOP.style.display = 'none';
-        }
-    });
-    /*end*/
 
     /* открытие страницы в новой вкладке*/
     function openNewWindow(url) {

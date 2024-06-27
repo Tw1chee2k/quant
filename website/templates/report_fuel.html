@@ -86,11 +86,11 @@
                     <ul>
                         <section>
                             <div class="functions_menu">
-                                <li id="myUOM">
+                                <li id="DirUnitLink">
                                     <img src="{{ url_for('static', filename='img/icon_UOM.png') }}" alt="">
                                     <a>Единицы измерения</a>
                                 </li>
-                                <li id="myTOP">
+                                <li id="DirProductLink">
                                     <img src="{{ url_for('static', filename='img/icons_TOP.png') }}" alt="">
                                     <a>Виды продукции</a>
                                 </li>
@@ -211,7 +211,7 @@
     <div class="modal-content">
         <div class = "modal-header">
             <h3>Редактирование продукции</h3>
-            <a class="close">&times;</a>
+            <a id = "close_changefuel_modal" class="close">&times;</a>
         </div>
         <form method="POST" action="/change_fuel">
             <table class="fuel-table_add">
@@ -302,7 +302,7 @@
                                     </tr>
                          
                                 {% endfor %}           
-                                <tr id="noResultsRow" style="display: none;">
+                                <tr id="noResultsRow" style="">
                                     <td>Нет результатов</td>        
                                 </tr>
                                 <tbody>
@@ -409,14 +409,14 @@
     </div>
 </div>
 
-<div id="myModalUOM" class="modal">
+<div id="DirUnitModal" class="modal">
     <div class="modal-content">
-        <div class = "modal-header">
+        <div class="modal-header">
             <h3>Единицы измерения</h3>
-            <a class="close">&times;</a>
+            <a class="close" id = "CloseDirUnit">&times;</a>
         </div>
         <div class="spravochniki_area">
-            <table class = "table_report-area">
+            <table class="table_report-area">
                 <thead>
                     <tr>
                         <th>Код единицы измерения</th>
@@ -436,11 +436,11 @@
     </div>
 </div>
 
-<div id="myModalTOP" class="modal">
+<div id="DirProductModal" class="modal">
     <div class="modal-content">
         <div class = "modal-header">
             <h3>Виды продукции</h3>
-            <a class="close">&times;</a>
+            <a class="close" id = "CloseDirProduct">&times;</a>
         </div>
         <div class="spravochniki_area">
             <table class="table_report-area">

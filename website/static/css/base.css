@@ -46,25 +46,35 @@ select:focus{
 .blue_button{
     font-size: 14px;
     align-items: center;
-    border:none;
     background-color: #028dff;
     color: white;
     width: 270px;
     height: 40px;
-    border-radius: 10px;
+    border-radius: 5px;
     font-weight: 600;
-    transition: background-color 0.3s ease;
+    border: none;
 }
 
 .blue_button:hover{
+    transition: background-color 0.3s ease;   
     background-color:#0072cf;
 }
   
-.blue_button:focus {
-    outline: none;
+.dark-mode .blue_button{
+    background-color:rgb(84, 146, 139);
+}
+
+.dark-mode .blue_button:hover{
+    transition: background-color 0.3s ease;   
+    background-color:rgb(69, 105, 101);
 }
 
 
+
+
+.blue_button:focus {
+    outline: none;
+}
 /*----------them----------------------*/
 
 .theme-toggle {
@@ -235,18 +245,22 @@ main {
 
 
 
+
 footer {
-    margin-top: 500px;
     display: flex; 
     flex-direction: row;
     align-items: center;
     justify-content: center;
     color: white;
-    background-color: #61b8ff;
+    background-color: #028dff;
     width: 100%;
     font-weight: 500;
 }
   
+.dark-mode footer {
+    background-color:rgb(84, 146, 139);
+}
+
 .footer_cont{
     display: flex; 
     margin: 10px;
@@ -497,17 +511,7 @@ footer {
     font-weight: 500;
     cursor: pointer;
 }
-
-/**/
-
-/**/
-
-/**/
-
-/**/
-
 /*log_reg_fp.css end*/
-
 
 
 
@@ -559,7 +563,6 @@ footer {
     }
 }
 
-
 .hello_cont .main_cont .gif_cont{
     padding-right: 15%;
 }
@@ -569,25 +572,12 @@ footer {
     height: 50px;
     width: 260px;
     color: rgb(255, 255, 255);
-    background-color: #61b8ff;
     z-index: 1;
-    border: none;
-    border-radius: 5px;
     padding: 0 30px;
     font-size: 16px;
 }
 
-.hello_cont button:hover{
-    background-color: #028dff;
-    transition: background-color 0.3s ease;
-}
-
-.hello_cont button:focus{
-    outline: none;
-}
-
 /* Контейнер с количеством пользователей, организац...*/
-
 .statistic_cont {
     display: flex;
     align-items: center;
@@ -601,20 +591,35 @@ footer {
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1); 
 }
 
+.dark-mode .statistic_cont {
+    background-color:#333;
+    color: white;
+}
+
+
+
 .statistic_cont .item_stat {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     text-align: center;
+    align-items: center;
     margin: 25px;
 }
 
-.statistic_cont .item_stat div{
+.statistic_cont .item_stat .item_statName{
     font-size: 19px;    
-    color: #40a9ff;    
+    color: #028dff;   
     font-weight: 600;
 }
 
+.dark-mode .statistic_cont .item_statName{
+    color: rgb(78, 177, 165);
+}
+
+
+
 .statistic_cont .item_stat .stat_count{
-    color: rgb(0, 0, 0);
+ 
     font-size: 32px;
     font-weight: 400;
 
@@ -624,22 +629,25 @@ footer {
     height: 44px;
     margin: 5px;
 }
-
-/* Контейнер с количеством пользователей, организац... eeeeennddd*/
+/* Контейнер с количеством пользователей, организац... end*/
 
 /* Новости */
 
 .cont_news_main_page{
     min-height: 60vb;
-    background-color :#61b8ff;
+    background-color: #028dff;
     display:flex;
     justify-content: center;
     text-align: center;
 }
 
+.dark-mode .cont_news_main_page {
+    background-color:rgb(84, 146, 139);
+}
+
+
 .cont_news_main_page .white_news_cont{
     background-color: white;
-    color:black;
     min-width: 1400px;
     max-width: 1400px;
     display: flex;
@@ -647,20 +655,23 @@ footer {
     padding-top: 100px;
 }
 
+.dark-mode .white_news_cont{
+    background-color: #333;
+    color:rgb(255, 255, 255);
+}
+
 .name_news_text{
-    color:black;
     font-weight: 500;
     font-size: 20px;
 }
 
 .heading_news_text{
-    color:black;
     font-weight: 600;
     font-size: 24px;
 }
 
 .news_text{
-    color:black;
+   
     font-weight: 400;
     font-size: 23px;
 }
@@ -672,42 +683,8 @@ footer {
 .cont_news_main_page .white_news_cont .right_news_cont{
     min-width: 700px;
 }
-
 /* Новости end*/
 
-/* какой-то конт*/
-
-.cont_admin_main_page{
-    min-height: 60vb;
-    background-color :#ffffff;
-    display:flex;
-    justify-content: center;
-    text-align: center;    
-}
-
-
-/* какой-то конт end */
-/* map */
-
-.cont_map{
-    background-color :#ffffff;
-    display:flex;
-    justify-content: center;
-    text-align: center;
-}
-
-.cont_map iframe{
-    width: 100%; 
-    border: none;
-}
-
-/* map end*/
-
-/**/
-/**/
-
-/**/
-/**/
 /*beginPage.css end*/
 
 
@@ -752,7 +729,6 @@ footer {
     text-align: left;
     padding-right: 10%;
 }
-  
 
 .account_buttons{
     display: flex;
@@ -765,7 +741,7 @@ footer {
     height: 82px;
     font-weight: 600;
     border-radius: 10px;
-    margin: 15px 7px 0px 7px;
+    margin: 15px 7px 25px 7px;
     padding: 0 20px;
     font-size: 15px;
     transition: color 0.3s ease;
@@ -851,7 +827,6 @@ footer {
     text-align: center;
 }
 
-
 .message_cont{
     width: 100%;
     height: auto;
@@ -872,7 +847,6 @@ footer {
     background-color: #000000;
 }
 
-
 .message_cont .mes{
     display: flex;
     flex-direction: column;
@@ -883,13 +857,11 @@ footer {
     border-bottom: 2px solid #333333;
 }
 
-
 .message_cont .mes .time_mes{
     font-size: 14px;
     color: rgb(134, 134, 134);
     padding-bottom: 3px;
 }
-
 
 .message_cont .mes .text_mes{
     font-size: 16px;
@@ -898,7 +870,6 @@ footer {
 }
 
 /*account.css end*/
-
 
 
 
@@ -1017,10 +988,6 @@ footer {
     background-color:rgb(255, 255, 255);
 }
 
-/* .dark-mode .profile_page .personal-info_area td input{
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
-} */
-
 .profile_page .personal-info_area form {
     text-align: right;
 }
@@ -1030,10 +997,6 @@ footer {
 }
 /*panel end*/
 /*profile.css end*/
-
-
-
-
 
 
 
@@ -1429,13 +1392,13 @@ footer {
 .show-versins_button{
     border: none;
     color: white;
-    background-color: #61b8ff;
     padding: 1px 6px;
     margin: 5px;
+    background-color: #028dff;
 }
 
-.show-versins_button:focus{
-    outline: none;
+.dark-mode .show-versins_button{
+    background-color:rgb(84, 146, 139);
 }
 
 /*-----------------vers end*/
@@ -1499,13 +1462,18 @@ footer {
 }
 
 .show-cheks_button{
-    z-index: 2;
-    border: 1px solid white;
+    border: none;
     color: white;
-    background-color: #61b8ff;
-    padding:  1px 6px;
+    padding: 1px 6px;
     margin: 5px;
+    background-color: #028dff;
 }
+
+
+.dark-mode .show-cheks_button{
+    background-color:rgb(84, 146, 139);
+}
+
 
 .show-cheks_button:focus{
     outline: none;
@@ -1533,28 +1501,15 @@ footer {
 .active-report,
 .active-input,
 .active-report_version{
-    background-color:rgb(218, 255, 250);
+    background-color:#def0ff;
 }
 
 .dark-mode .active-report,
 .dark-mode .active-input,
 .dark-mode .active-report_version{
-    background-color:rgb(92, 121, 117);
+    background-color:rgb(86, 112, 110);
 }
 /*active-report end*/
-
-
-/* .report_row:hover,
-.report_row:hover,
-.version-row:hover{
-    background-color: rgb(247, 247, 247);
-}
-
-.dark-mode .report_row:hover,
-.dark-mode .report_row:hover,
-.dark-mode .version-row:hover{
-    background-color: rgb(105, 105, 105);
-} */
 
 
 /* ----------------------modal_window begin */
@@ -1566,7 +1521,6 @@ footer {
     top: 0;
     width: 100%;  
     height: 100%;
-    overflow: auto;
     background-color: rgba(0,0,0,0.4);
 }
 
@@ -1580,6 +1534,7 @@ footer {
     height:fit-content;
     max-height: 500px;
     max-width: 900px;
+    position: relative;
 }
 
 .modal-content form{
@@ -1597,6 +1552,7 @@ footer {
     vertical-align: middle;
     text-align: center;
     align-items: center;
+    cursor: move
 }
 
 .close {
@@ -1614,7 +1570,6 @@ footer {
     cursor: pointer;
 }
 /*end */
-
 
 
 /*spravochniki begin*/
@@ -1645,13 +1600,6 @@ footer {
 .spravochniki_area::-webkit-scrollbar-track {
     background-color:rgb(255, 255, 255);
 }
-
-/* .modal-content .spravochniki_area thead{
-    position: fixed;
-    background-color: white;
-    width: fit-content;
-
-} */
 /*end */
 
 
@@ -1660,8 +1608,6 @@ footer {
 
 /*fuel page begin*/
 /*add fuel modal*/
-
-
 .fuel_row,
 .fuel_row td,
 .fuel_row td input {
@@ -1671,8 +1617,6 @@ footer {
     -moz-user-select: none; 
     -ms-user-select: none; 
 }
-
-
 
 .fuel-table_add{
     width: 100%; 
@@ -1787,10 +1731,7 @@ footer {
     font-weight: 500; 
 }
 
-.report-submit{
-    border: 1px solid white;
-    color: white;
-    border-radius: 5px;
+.change-report_table button{
     font-size: 12px;
     margin: 3px 20px 0 0;
     width: 180px;

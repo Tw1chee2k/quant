@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var contextmenufuel = document.getElementById('contextmenufuel');
     var changefuel_modal = document.getElementById('changefuel_modal');
     var link_changefuel_modal = document.getElementById('link_changefuel_modal');
+    var close_changefuel_modal = document.getElementById('close_changefuel_modal');
     var remove_fuel = document.getElementById('remove_fuel');
 
     fuelRows.forEach(function(row, index) {
@@ -192,4 +193,55 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         xhr.send();
     }
+
+
+    /*всплывающее окно с единицами измерения*/
+    var DirUnitModal = document.getElementById('DirUnitModal');
+    var DirUnitLink = document.getElementById('DirUnitLink');
+    var CloseDirUnit = document.getElementById('CloseDirUnit');
+
+    DirUnitLink.addEventListener('click', function() {
+        DirUnitModal.style.display = 'block';
+    });
+
+    CloseDirUnit.addEventListener('click', function() {
+        DirUnitModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target == DirUnitModal) {
+            DirUnitModal.style.display = 'none';
+        }
+    });
+    /*end*/
+
+    /*всплывающее окно с продуктами*/
+    var DirProductModal = document.getElementById('DirProductModal');
+    var DirProductLink = document.getElementById('DirProductLink');
+    var CloseDirProduct = document.getElementById('CloseDirProduct');
+    DirProductLink.addEventListener('click', function() {
+        DirProductModal.style.display = 'block';
+    });
+
+    CloseDirProduct.addEventListener('click', function() {
+        DirProductModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target == DirProductModal) {
+            DirProductModal.style.display = 'none';
+        }
+    });
+    /*end*/
+
+
+
+
+
+
+
 });
+
+
+
+
