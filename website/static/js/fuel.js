@@ -18,7 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
         row.addEventListener('contextmenu', function(event) {
             event.preventDefault();
             if (this.dataset.id) {
-                selectRow(this, index);
+                if (!this.classList.contains('active-report')) {
+                    selectRow(this, index);
+                }
                 contextmenufuel.style.top = event.pageY + 'px';
                 contextmenufuel.style.left = event.pageX + 'px';
                 contextmenufuel.style.display = 'block';
@@ -44,27 +46,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function selectRow(row, index) {
         selectedfuelId = row.dataset.id;
-        if (previousfuelRow !== null) {
-            previousfuelRow.classList.remove('active-report');
-            previousfuelRow.querySelectorAll('input').forEach(function(input) {
+        if (row.classList.contains('active-report')) {
+            row.classList.remove('active-report');
+            row.querySelectorAll('input').forEach(function(input) {
                 input.classList.remove('active-input');
             });
-        }
-        row.classList.add('active-report');
-        row.querySelectorAll('input').forEach(function(input) {
-            input.classList.add('active-input');
-        });
-        previousfuelRow = row;
-
-        if (index === fuelRows.length - 2) {
-            remove_fuel.disabled = true;
-            link_changefuel_modal.disabled = false;
-        } else if (index === fuelRows.length - 1 || index === fuelRows.length - 3) {
+            previousfuelRow = null;
             remove_fuel.disabled = true;
             link_changefuel_modal.disabled = true;
         } else {
-            remove_fuel.disabled = false;
-            link_changefuel_modal.disabled = false;
+            // Если строка не активна, добавить классы и установить previousfuelRow
+            if (previousfuelRow !== null) {
+                previousfuelRow.classList.remove('active-report');
+                previousfuelRow.querySelectorAll('input').forEach(function(input) {
+                    input.classList.remove('active-input');
+                });
+            }
+            row.classList.add('active-report');
+            row.querySelectorAll('input').forEach(function(input) {
+                input.classList.add('active-input');
+            });
+            previousfuelRow = row;
+    
+            if (index === fuelRows.length - 2) {
+                remove_fuel.disabled = true;
+                link_changefuel_modal.disabled = false;
+            } else if (index === fuelRows.length - 1 || index === fuelRows.length - 3) {
+                remove_fuel.disabled = true;
+                link_changefuel_modal.disabled = true;
+            } else {
+                remove_fuel.disabled = false;
+                link_changefuel_modal.disabled = false;
+            }
         }
     }
 
@@ -83,22 +96,37 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('modal_id').value = selectedfuelId;
     
             var inputs = document.querySelectorAll('#changefuel_modal input[type="text"]');
-
-            if (productName === "Прочее потребление") {
-                inputs.forEach(function(input, index) {
+            var isOtherConsumption = productName === "Прочее потребление";
+    
+            inputs.forEach(function(input, index) {
+                if (isOtherConsumption) {
+                    // Делаем неактивными и меняем цвет текста для указанных полей
                     if (index < inputs.length - 2) {
+                        input.style.color = "rgb(132, 132, 132)";
+                        input.readOnly = true;
+                    } else {
+                        input.style.color = "";
+                        input.readOnly = false;
+                    }
+                    input.required = index >= inputs.length - 2;
+                } else {
+                    if (index === 0 || index === 1 || index === 4 || index === 5) {
+                        input.style.color = "";
                         input.readOnly = true;
                         input.style.color = "rgb(132, 132, 132)";
-                    } else {
-                        input.readOnly = false;
-                        input.style.color = "";
                     }
-                });
-            }
+                    else {
+                        input.style.color = "";
+                        input.readOnly = false;
+                    }
+                }
+            });
     
             changefuel_modal.style.display = 'block';
         }
     }
+    
+
     var link_addfuel_modal = document.querySelector('[data-action="link_addfuel_modal"]');
     var addfuel_modal = document.getElementById('addfuel_modal');
     var close_addfuel_modal = addfuel_modal.querySelector('.close');
@@ -118,7 +146,6 @@ document.addEventListener('DOMContentLoaded', function() {
             addfuel_modal.style.display = 'none';
         }
     });
-
 
     var nameOfProductInput = document.querySelector('input[name="name_of_product"]');
     var chooseProductArea = document.querySelector('.choose-product_area');
@@ -194,7 +221,6 @@ document.addEventListener('DOMContentLoaded', function() {
         xhr.send();
     }
 
-
     /*всплывающее окно с единицами измерения*/
     var DirUnitModal = document.getElementById('DirUnitModal');
     var DirUnitLink = document.getElementById('DirUnitLink');
@@ -233,15 +259,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     /*end*/
-
-
-
-
-
-
-
 });
-
-
-
-

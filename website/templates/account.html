@@ -8,7 +8,7 @@
     </div>
     <div class = "account_functions">
         <div class = "account_links">
-            <button class = "account_buttons" onclick="window.location.href=''" type="" class = "">
+            <button class = "account_buttons" onclick="window.location.href='/report_area'" type="" class = "">
                 <img src="{{ url_for('static', filename='img/icon_reports.png')}}"  alt="">
                 <span>Отчеты</span>
             </button>
@@ -36,7 +36,7 @@
                     {%endfor%}
                 {%else%} 
                 <div class = "mes">
-                    <a class = "">No messages</a>
+                    <a class = "">Нет сообщений</a>
                 </div>
                 {%endif%} 
             </div>

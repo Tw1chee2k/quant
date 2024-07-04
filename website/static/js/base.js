@@ -55,4 +55,24 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     })();
+
+    var numericInputs = document.querySelectorAll('.numericInput');
+    numericInputs.forEach(function(input) {
+        input.addEventListener('input', function(event) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+    });
+
+    var numeric_dotInputs = document.querySelectorAll('.numeric_dotInput');
+    numeric_dotInputs.forEach(function(input) {
+        input.addEventListener('input', function(event) {
+            var value = this.value.replace(/[^\d.]/g, '');
+            var parts = value.split('.');
+            if (parts.length > 1) {
+                value = parts[0] + '.' + parts[1].slice(0, 2); 
+            }
+
+            this.value = value;
+        });
+    });
 });

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    const headers = document.querySelectorAll(".modal-header");
+    const headers = document.querySelectorAll(".change-position");
 
     headers.forEach(header => {
         const modal = header.closest('.modal-content');
