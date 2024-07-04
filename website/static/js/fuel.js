@@ -97,10 +97,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
             var inputs = document.querySelectorAll('#changefuel_modal input[type="text"]');
             var isOtherConsumption = productName === "Прочее потребление";
-    
+            var is7000 = productName === "Предельный уровень потребления (объекты непроизводственного характера, коммунально-бытового назначения и другие)";
             inputs.forEach(function(input, index) {
                 if (isOtherConsumption) {
-                    // Делаем неактивными и меняем цвет текста для указанных полей
                     if (index < inputs.length - 2) {
                         input.style.color = "rgb(132, 132, 132)";
                         input.readOnly = true;
@@ -109,7 +108,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         input.readOnly = false;
                     }
                     input.required = index >= inputs.length - 2;
-                } else {
+                } 
+                else if (is7000){
+                    if (index === 5 || index === 6 || index === 7) {
+                        input.readOnly = false;
+                        input.style.color = "";
+                    }
+                    else {
+                        input.style.color = "rgb(132, 132, 132)";
+                        input.readOnly = true;
+                    }
+                }
+                else {
                     if (index === 0 || index === 1 || index === 4 || index === 5) {
                         input.style.color = "";
                         input.readOnly = true;
@@ -120,6 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         input.readOnly = false;
                     }
                 }
+                
             });
     
             changefuel_modal.style.display = 'block';

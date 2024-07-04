@@ -347,7 +347,11 @@ def change_fuel():
         id_version = request.form.get('current_version')
         id_fuel = request.form.get('id')
         produced = request.form.get('produced')
-        Consumed_Quota = request.form.get('Consumed_Quota')
+        Consumed_Quota = request.form.get('Consumed_Quota')     
+
+        Consumed_Fact = request.form.get('Consumed_Fact')
+        Consumed_Total_Quota = request.form.get('Consumed_Total_Quota')
+
         Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
         note = request.form.get('note')
 
@@ -360,6 +364,7 @@ def change_fuel():
         if current_section:
             current_section.produced = produced
             current_section.Consumed_Quota = Consumed_Quota
+            
             current_section.Consumed_Total_Fact = Consumed_Total_Fact
             current_section.note = note 
             db.session.commit()

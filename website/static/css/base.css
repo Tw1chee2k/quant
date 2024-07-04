@@ -1183,7 +1183,6 @@ footer {
     background-color: white;
 }
 
-
 .white-panel button {
     display: flex;   
     font-size: 13px;
@@ -1199,6 +1198,7 @@ footer {
 .dark-mode .white-panel button {
     background-color: #4d4d4d;
     color: white;
+    width: 100%;
 }
 
 .dark-mode .white-panel button:disabled{
@@ -1208,6 +1208,10 @@ footer {
 
 .white-panel button:hover {
     background-color: #e0e0e0;
+}
+
+.dark-mode .white-panel button:hover {
+    background-color: rgb(59, 59, 59);
 }
 
 .rotation-fromareas{
