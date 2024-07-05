@@ -175,36 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    nameOfProductInput.addEventListener('input', function() {
-        var filterText = this.value.trim().toLowerCase();
-        if (filterText.length > 0) {
-            chooseProductArea.style.display = 'block';
-        } else {
-            chooseProductArea.style.display = 'none';
-        }
-        var hasResults = false;
-        Array.from(chooseProdTableBody.querySelectorAll('tr')).forEach(function(row) {
-            var codeProduct = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
-            var productName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-            if (codeProduct.includes(filterText) || productName.includes(filterText)) {
-                row.style.display = '';
-                hasResults = true;
-            } else {
-                row.style.display = 'none';
-            }
-        });
-        if (!hasResults && filterText.length > 0) {
-            noResultsRow.style.display = 'block';
-        } else {
-            noResultsRow.style.display = 'none';
-        }
-    });
     
-    document.addEventListener('click', function(event) {
-        if (!chooseProductArea.contains(event.target) && event.target !== nameOfProductInput) {
-            chooseProductArea.style.display = 'none';
-        }
-    });
 
     remove_fuel.addEventListener('click', function() {
         var activefuel = document.querySelector('.fuel_row.active-report');
@@ -270,4 +241,77 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     /*end*/
+});
+
+
+
+document.querySelector('input[name="name_of_product"]').addEventListener('input', function() {
+    var filterText = this.value.trim().toLowerCase();
+    var chooseProductArea = document.querySelector('.choose-product_area');
+    var chooseProdTableBody = document.querySelector('#chooseProdTableBody');
+    var noResultsRow = document.querySelector('#noResultsRow');
+
+    if (filterText.length > 0) {
+        chooseProductArea.style.display = 'block';
+    } else {
+        chooseProductArea.style.display = 'none';
+    }
+
+    var hasResults = false;
+    Array.from(chooseProdTableBody.querySelectorAll('tr')).forEach(function(row) {
+        var codeProduct = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+        var productName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+        if (codeProduct.includes(filterText) || productName.includes(filterText)) {
+            row.style.display = '';
+            hasResults = true;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    if (!hasResults && filterText.length > 0) {
+        noResultsRow.style.display = 'block';
+    } else {
+        noResultsRow.style.display = 'none';
+    }
+});
+
+document.addEventListener('click', function(event) {
+    var chooseProductArea = document.querySelector('.choose-product_area');
+    var nameOfProductInput = document.querySelector('input[name="name_of_product"]');
+
+    if (!chooseProductArea.contains(event.target) && event.target !== nameOfProductInput) {
+        chooseProductArea.style.display = 'none';
+    }
+});
+
+document.querySelector('#chooseProdTableBody').addEventListener('click', function(event) {
+    var selectedRow = event.target.closest('tr');
+    var productName = selectedRow.querySelector('td:nth-child(2)').textContent;
+
+    if (productName === "Предельный уровень потребления (объекты непроизводственного характера, коммунально-бытового назначения и другие)") {
+        var inputs = document.querySelectorAll('.fuel-table_add input');
+        inputs.forEach(function(input) {
+            var inputName = input.getAttribute('name');
+            if (inputName !== 'name_of_product' &&  inputName !== 'oked' && inputName !== 'Consumed_Total_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note') {
+                input.readOnly = true;
+                input.style.color = "rgb(132, 132, 132)";
+            } else {
+                input.readOnly = false;
+                input.style.color = "";
+            }
+        });
+    } else {
+        var inputs = document.querySelectorAll('.fuel-table_add input');
+        inputs.forEach(function(input) {
+            var inputName = input.getAttribute('name');
+            if (inputName !== 'name_of_product' && inputName !== 'oked' && inputName !== 'produced' && inputName !== 'Consumed_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note') {
+                input.readOnly = true;
+                input.style.color = "rgb(132, 132, 132)";
+            } else {
+                input.readOnly = false;
+                input.style.color = "";
+            }
+        });
+    }
 });

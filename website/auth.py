@@ -254,7 +254,11 @@ def add_fuel_param():
         produced = request.form.get('produced')
         Consumed_Quota = request.form.get('Consumed_Quota')
         Consumed_Fact = request.form.get('Consumed_Fact')
+
+    
         Consumed_Total_Quota = request.form.get('Consumed_Total_Quota')
+
+
         Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
         note = request.form.get('note')
 
@@ -288,7 +292,7 @@ def add_fuel_param():
                 )
                 db.session.add(new_section)
                 db.session.commit()
-
+ 
                 current_section = Sections.query.filter_by(id=new_section.id, section_number=1).first()
                 try:
                     if current_section.produced != 0:

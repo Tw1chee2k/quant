@@ -189,19 +189,28 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {% for tickets in ticket %}
+                                                    {%if tickets%}  
+                                                        {% for tickets in ticket %}
+                                                        <tr class="row_with_cheks">
+                                                            <td>
+                                                                <input type = "text" value = "{{ tickets.begin_time }}" readonly>
+                                                            </td>
+                                                            <td>
+                                                                <input type = "text" value = "{{ tickets.luck }}" readonly>
+                                                            </td>
+                                                            <td>
+                                                                <input type = "text" value = "{{ tickets.note }}" readonly>
+                                                            </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    {%else%}
                                                     <tr class="row_with_cheks">
-                                                        <td>
-                                                            <input type = "text" value = "{{ tickets.begin_time }}" readonly>
-                                                        </td>
-                                                        <td>
-                                                            <input type = "text" value = "{{ tickets.luck }}" readonly>
-                                                        </td>
-                                                        <td>
-                                                            <input type = "text" value = "{{ tickets.note }}" readonly>
+                                                        <td colspan="3">
+                                                            <input type = "text" style = "margin: 3px;" value = "Нет данных" readonly>
                                                         </td>
                                                     </tr>
-                                                    {% endfor %}
+                                                    
+                                                    {%endif%}
                                                 </tbody>
                                             </table>
                                         </td>
@@ -279,7 +288,6 @@
         <span>Добавить версию</span>
     </button>
 
-    <hr style="border: 1px solid #3333;">
     <button data-action="deleteReport">
         <span>Удалить</span>
     </button>
@@ -291,7 +299,6 @@
         <span>Изменить данные</span>
     </button>
 
-    <hr style="border: 1px solid #3333;">
     <button id="del_version">
         <span>Удалить</span>
     </button>

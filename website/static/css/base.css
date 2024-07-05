@@ -1417,33 +1417,22 @@ footer {
 }
 
 .table-versions{
-
     font-size: 12px;
     table-layout: fixed;  
     flex-grow: 1;
-    
     background-color: #ffffff;
     border-collapse: collapse;    
-    border: none;
 }
 
 .dark-mode .table-versions{
     background-color: #4d4d4d;;
 }
 
-.table-versions tr th,
-.table-versions tr td{
-    border: 1px solid #dddddd;
-    padding: 5px 10px;
-    text-align: center;             
-    font-size: 12px;
-}
-
 .show-versins_button{
     border: none;
     color: white;
     padding: 1px 6px;
-    margin: 5px;
+    margin: 3px;
     background-color: #028dff;
     cursor: pointer;
     transition: background-color 0.3s ease;   
@@ -1461,51 +1450,48 @@ footer {
     background-color:rgb(69, 105, 101);
 }
 
-
 /*-----------------vers end*/
 /*-----------------ticket begin*/
 
 .check-row{
     display: none;
-    border: none; 
-    background-color: aliceblue; 
-    padding: 10px 40px;
 }
 
 .dark-mode .check-row{
     background-color:#333; 
 }
 
-.check-row .check_cont{
+.check_cont{
     background-color: aliceblue; 
-    padding: 10px 40px;
-    border: none; 
+    border: none;
 }
 
-.dark-mode .check-row .check_cont{
+.dark-mode .check_cont{
     background-color:#333;
 }
 
 .text_cheks{
-    color: black;
+    padding: 5px 0 5px 30px;
     font-size: 12px;
     font-weight: 600;
-    padding-bottom: 5px;
     text-align: left;
 }
 
-.dark-mode .text_cheks{
-    color: white;
-}
+
 
 .cheks_table{
-    border: none;
+    margin: 0 0 10px 30px;
     font-size: 12px;
     table-layout: fixed;  
     flex-grow: 1;
     border-spacing: 0px;
     border-collapse: collapse;
-    background-color: white;
+    background-color: white;    
+    border: none;
+}
+
+.dark-mode .cheks_table{
+    background-color: #4d4d4d;
 }
 
 .cheks_table thead{
@@ -1515,24 +1501,15 @@ footer {
 }
 
 .cheks_table tr th{
-    cursor: pointer;
-    
+    cursor: pointer; 
 }
 
-.cheks_table tr th,
-.cheks_table tr td{
-    border: 1px solid #dddddd;
-    padding: 5px 10px;
-    text-align: center;             
-    font-size: 12px;
-    
-}
 
 .show-cheks_button{
     border: none;
     color: white;
     padding: 1px 6px;
-    margin: 5px;
+    margin: 3px;
     background-color: #028dff;
     cursor: pointer;
     transition: background-color 0.3s ease;   
@@ -1550,17 +1527,17 @@ footer {
     background-color:rgb(69, 105, 101);
 }
 
-
-
 .show-cheks_button:focus{
     outline: none;
 }
 
 /*-----------------ticket end*/
 /*-----------------change input*/
+
 .change_input_row {
     display: none;
 }
+
 /*-----------------change input end*/
 
 
