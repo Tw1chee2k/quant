@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var changefuel_modal = document.getElementById('changefuel_modal');
     var link_changefuel_modal = document.getElementById('link_changefuel_modal');
     var close_changefuel_modal = document.getElementById('close_changefuel_modal');
-    var remove_fuel = document.getElementById('remove_fuel');
+    var remove_section = document.getElementById('remove_section');
 
     fuelRows.forEach(function(row, index) {
         row.addEventListener('click', function(event) {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 input.classList.remove('active-input');
             });
             previousfuelRow = null;
-            remove_fuel.disabled = true;
+            remove_section.disabled = true;
             link_changefuel_modal.disabled = true;
         } else {
             if (previousfuelRow !== null) {
@@ -68,13 +68,13 @@ document.addEventListener('DOMContentLoaded', function() {
             previousfuelRow = row;
     
             if (index === fuelRows.length - 2) {
-                remove_fuel.disabled = true;
+                remove_section.disabled = true;
                 link_changefuel_modal.disabled = false;
             } else if (index === fuelRows.length - 1 || index === fuelRows.length - 3) {
-                remove_fuel.disabled = true;
+                remove_section.disabled = true;
                 link_changefuel_modal.disabled = true;
             } else {
-                remove_fuel.disabled = false;
+                remove_section.disabled = false;
                 link_changefuel_modal.disabled = false;
             }
         }
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     
 
-    remove_fuel.addEventListener('click', function() {
+    remove_section.addEventListener('click', function() {
         var activefuel = document.querySelector('.fuel_row.active-report');
         if (activefuel !== null) {
             var fuelId = activefuel.dataset.id;
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function Remove_fuel(fuelId) {
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/remove_fuel/' + fuelId, true);
+        xhr.open('POST', '/remove_section/' + fuelId, true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4) {
