@@ -1,11 +1,9 @@
-from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
+from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections
 from . import db
 from werkzeug.security import generate_password_hash
 from sqlalchemy import asc
-from sqlalchemy import Numeric
-from sqlalchemy import or_
 from sqlalchemy import desc
 
 views = Blueprint('views', __name__)
@@ -567,5 +565,92 @@ def report_fuel(id):
         current_version=current_version
     )
 
+@views.route('/report/heat/<int:id>')
+@login_required
+def report_heat(id):
+    dirUnit = DirUnit.query.filter_by().all()
+    dirProduct = DirProduct.query.filter(DirProduct.IsHeat == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
+    current_version_report = Version_report.query.filter_by(id=id).first()
+    curent_report = current_version_report.report_id
+    current_version = id
+    sections = Sections.query.filter_by(id_version=current_version, section_number=2).all()
+    specific_codes = ['9001', '9010', '9100']
 
-        
+
+    if not sections:
+        sections_data = [
+            (id, 288, 9100, 2, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 285, 9010, 2, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 282, 9001, 2, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+        ]
+        for data in sections_data:
+            section = Sections(
+                id_version=data[0],
+                id_product=data[1],
+                code_product=data[2],
+                section_number=data[3],
+                Oked=data[4],
+                produced=data[5],
+                Consumed_Quota=data[6],
+                Consumed_Fact=data[7],
+                Consumed_Total_Quota=data[8],
+                Consumed_Total_Fact=data[9],
+                total_differents = data[10],
+                note=data[11]
+            )
+            db.session.add(section)
+        db.session.commit()
+    sections = Sections.query.filter_by(id_version=current_version, section_number=2).order_by(desc(Sections.id)).all()
+    return render_template('report_heat.html', 
+        sections=sections,              
+        dirUnit=dirUnit,
+        dirProduct=dirProduct,
+        user=current_user, 
+        curent_report=curent_report,
+        current_version=current_version
+    )
+
+@views.route('/report/electro/<int:id>')
+@login_required
+def report_electro(id):
+    dirUnit = DirUnit.query.filter_by().all()
+    dirProduct = DirProduct.query.filter(DirProduct.IsElectro == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
+    current_version_report = Version_report.query.filter_by(id=id).first()
+    curent_report = current_version_report.report_id
+    current_version = id
+    sections = Sections.query.filter_by(id_version=current_version, section_number=3).all()
+    specific_codes = ['9001', '9010', '9100']
+
+
+    if not sections:
+        sections_data = [
+            (id, 288, 9100, 3, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 285, 9010, 3, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 282, 9001, 3, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+        ]
+        for data in sections_data:
+            section = Sections(
+                id_version=data[0],
+                id_product=data[1],
+                code_product=data[2],
+                section_number=data[3],
+                Oked=data[4],
+                produced=data[5],
+                Consumed_Quota=data[6],
+                Consumed_Fact=data[7],
+                Consumed_Total_Quota=data[8],
+                Consumed_Total_Fact=data[9],
+                total_differents = data[10],
+                note=data[11]
+            )
+            db.session.add(section)
+        db.session.commit()
+    sections = Sections.query.filter_by(id_version=current_version, section_number=3).order_by(desc(Sections.id)).all()
+    return render_template('report_electro.html', 
+        sections=sections,              
+        dirUnit=dirUnit,
+        dirProduct=dirProduct,
+        user=current_user, 
+        curent_report=curent_report,
+        current_version=current_version
+    )

@@ -55,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function() {
             remove_fuel.disabled = true;
             link_changefuel_modal.disabled = true;
         } else {
-            // Если строка не активна, добавить классы и установить previousfuelRow
             if (previousfuelRow !== null) {
                 previousfuelRow.classList.remove('active-report');
                 previousfuelRow.querySelectorAll('input').forEach(function(input) {
@@ -103,6 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (index < inputs.length - 2) {
                         input.style.color = "rgb(132, 132, 132)";
                         input.readOnly = true;
+                        
                     } else {
                         input.style.color = "";
                         input.readOnly = false;
@@ -117,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     else {
                         input.style.color = "rgb(132, 132, 132)";
                         input.readOnly = true;
+                        
                     }
                 }
                 else {
@@ -124,6 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         input.style.color = "";
                         input.readOnly = true;
                         input.style.color = "rgb(132, 132, 132)";
+                        
                     }
                     else {
                         input.style.color = "";
@@ -293,9 +295,11 @@ document.querySelector('#chooseProdTableBody').addEventListener('click', functio
         var inputs = document.querySelectorAll('.fuel-table_add input');
         inputs.forEach(function(input) {
             var inputName = input.getAttribute('name');
-            if (inputName !== 'name_of_product' &&  inputName !== 'oked' && inputName !== 'Consumed_Total_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note') {
+            if (inputName !== 'name_of_product' &&  inputName !== 'oked' && inputName !== 'Consumed_Total_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note' && inputName !== 'current_version') {
                 input.readOnly = true;
                 input.style.color = "rgb(132, 132, 132)";
+                input.value = '0.00';
+
             } else {
                 input.readOnly = false;
                 input.style.color = "";
@@ -305,9 +309,10 @@ document.querySelector('#chooseProdTableBody').addEventListener('click', functio
         var inputs = document.querySelectorAll('.fuel-table_add input');
         inputs.forEach(function(input) {
             var inputName = input.getAttribute('name');
-            if (inputName !== 'name_of_product' && inputName !== 'oked' && inputName !== 'produced' && inputName !== 'Consumed_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note') {
+            if (inputName !== 'name_of_product' && inputName !== 'oked' && inputName !== 'produced' && inputName !== 'Consumed_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note' && inputName !== 'current_version') {
                 input.readOnly = true;
                 input.style.color = "rgb(132, 132, 132)";
+                input.value = '0.00';
             } else {
                 input.readOnly = false;
                 input.style.color = "";
