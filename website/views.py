@@ -557,7 +557,6 @@ def report_fuel(id):
             )
             db.session.add(section)
         db.session.commit()
-
     sections = Sections.query.filter_by(id_version=current_version, section_number=1).order_by(desc(Sections.id)).all()
     return render_template('report_fuel.html', 
         sections=sections,              

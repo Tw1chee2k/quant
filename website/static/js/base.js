@@ -20,11 +20,22 @@ document.addEventListener('DOMContentLoaded', function () {
     (function() {
         var alertBox = document.querySelector('.custom-alert');
         if (alertBox) {
+            // Добавляем анимацию прогресс-бара
+            var progressBar = alertBox.querySelector('.notif-progress');
+            if (progressBar) {
+                progressBar.style.animation = 'runProgress-mes 2.7s linear forwards';
+            }
             setTimeout(function() {
+                alertBox.classList.add('show');
+            }, 100); 
+    
+            setTimeout(function() {
+                alertBox.classList.remove('show');
                 alertBox.classList.add('hidden');
-            }, 2000);
+            }, 2700); 
         }
     })();
+    
 
     (function() {
         var userImg = document.getElementById('user-img');

@@ -325,37 +325,62 @@ footer {
 }
 
 /*-----------------------mes*/
-.custom-alert {  
+.custom-alert {
     position: fixed;
     bottom: 40px;
-    right: 40px; 
-    max-width: 400px; 
+    right: -500px;
+    max-width: 400px;
+
     font-size: 16px;
     padding: 20px 30px;
     z-index: 100;
-    opacity: 1;
-    transition: opacity 0.5s ease;
-    border: none;
-    border-radius: 10px;
-    font-weight: 500;    
-    color: #000000;
-    border: none;
-    background-color: rgb(255, 255, 255); 
-    font-family: 'Montserrat';
-    border: 1px solid rgb(132,132,132);
-}
-  
-.custom-alert.hidden {
     opacity: 0;
+    transition: opacity 0.5s ease, right 0.5s ease;
+    border-radius: 10px;
+    color: #ffffff;
+    border: 0;
+    overflow: hidden;
+}
+
+.custom-alert.show {
+    right: 40px;
+    opacity: 1;
+}
+
+.custom-alert.hidden {
+    opacity: 0; 
+}
+
+.custom-alert p {
+    text-align: left;
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0;
+    padding-bottom: 7px;
+}
+
+.notif-progress {
+    width: 0;
+    height: 10px;
+    background: rgba(255,255,255,0.5);
+    position: absolute;
+    bottom: 5px;
+    left: 3%;
+    border-radius: 12px;
+    animation: runProgress-mes 2.7s linear forwards;
+}
+
+@keyframes runProgress-mes {
+    0% { width: 0%; }
+    100% { width: 94%; }
 }
 
 .alert-danger {
-
-    
+    background: #cf0000;
 }
-  
-.alert-success {
 
+.alert-success {
+    background: #00B16A;
 }
 /*-----------------------mes end*/
 
