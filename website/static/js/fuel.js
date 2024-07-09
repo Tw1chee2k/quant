@@ -134,9 +134,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
             });
+
             changefuel_modal.style.display = 'block';
         }
     }
+    
 
     var link_addfuel_modal = document.querySelector('[data-action="link_addfuel_modal"]');
     var addfuel_modal = document.getElementById('addfuel_modal');
@@ -150,15 +152,15 @@ document.addEventListener('DOMContentLoaded', function() {
     close_addfuel_modal.addEventListener('click', function() {
         addfuel_modal.style.display = 'none';
     });
-    
+
     window.addEventListener('click', function(event) {
         contextmenufuel.style.display = 'none';
         if (event.target == addfuel_modal) {
             addfuel_modal.style.display = 'none';
         }
     });
-
     var nameOfProductInput = document.querySelector('input[name="name_of_product"]');
+    var add_id_productInput = document.querySelector('input[name="add_id_product"]');
     var chooseProductArea = document.querySelector('.choose-product_area');
     var chooseProdTableBody = document.getElementById('chooseProdTableBody');
     var noResultsRow = document.getElementById('noResultsRow');
@@ -170,7 +172,9 @@ document.addEventListener('DOMContentLoaded', function() {
     chooseProdTableBody.addEventListener('click', function(event) {
         if (event.target.tagName === 'TD') {
             var productName = event.target.parentNode.querySelector('td:nth-child(2)').textContent;
+            var productId = event.target.parentNode.querySelector('td:nth-child(4)').textContent;
             nameOfProductInput.value = productName;
+            add_id_productInput.value = productId;
             chooseProductArea.style.display = 'none';
         }
     });
@@ -241,44 +245,46 @@ document.addEventListener('DOMContentLoaded', function() {
     /*end*/
 });
 
-document.querySelector('input[name="name_of_product"]').addEventListener('input', function() {
+document.querySelector('input[name="search_product"]').addEventListener('input', function() {
     var filterText = this.value.trim().toLowerCase();
     var chooseProductArea = document.querySelector('.choose-product_area');
     var chooseProdTableBody = document.querySelector('#chooseProdTableBody');
-    var noResultsRow = document.querySelector('#noResultsRow');
+    var noResultsproduct = document.getElementById('noResultsRow');
 
     if (filterText.length > 0) {
         chooseProductArea.style.display = 'block';
     } else {
         chooseProductArea.style.display = 'none';
     }
+
     var hasResults = false;
     Array.from(chooseProdTableBody.querySelectorAll('tr')).forEach(function(row) {
         var codeProduct = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
         var productName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
         if (codeProduct.includes(filterText) || productName.includes(filterText)) {
             row.style.display = '';
-            hasResults = true;
-        } else {
+            noResultsproduct.style.display = 'block';
+        } else { 
             row.style.display = 'none';
         }
     });
 
-    if (!hasResults && filterText.length > 0) {
-        noResultsRow.style.display = 'block';
-    } else {
-        noResultsRow.style.display = 'none';
-    }
+
+
 });
 
 document.addEventListener('click', function(event) {
     var chooseProductArea = document.querySelector('.choose-product_area');
     var nameOfProductInput = document.querySelector('input[name="name_of_product"]');
+    var search_productInput = document.querySelector('input[name="search_product"]')
 
     if (!chooseProductArea.contains(event.target) && event.target !== nameOfProductInput) {
+        search_productInput.value = '';
         chooseProductArea.style.display = 'none';
+        
     }
 });
+
 
 document.querySelector('#chooseProdTableBody').addEventListener('click', function(event) {
     var selectedRow = event.target.closest('tr');
@@ -288,28 +294,32 @@ document.querySelector('#chooseProdTableBody').addEventListener('click', functio
         var inputs = document.querySelectorAll('.fuel-table_add input');
         inputs.forEach(function(input) {
             var inputName = input.getAttribute('name');
-            if (inputName !== 'name_of_product' &&  inputName !== 'oked' && inputName !== 'Consumed_Total_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note' && inputName !== 'current_version') {
+            if (inputName !== 'oked' && inputName !== 'Consumed_Total_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note' && inputName !== 'current_version' &&  inputName !== 'add_id_product' &&  inputName !== 'search_product') {
                 input.readOnly = true;
-                input.style.color = "rgb(132, 132, 132)";
-                input.value = '0.00';
-
+                if (inputName !== 'name_of_product'){
+                    input.style.color = "rgb(132, 132, 132)";
+                    input.value = '0.00';
+                }
             } else {
                 input.readOnly = false;
                 input.style.color = "";
-            }
+            }   
         });
     } else {
         var inputs = document.querySelectorAll('.fuel-table_add input');
         inputs.forEach(function(input) {
             var inputName = input.getAttribute('name');
-            if (inputName !== 'name_of_product' && inputName !== 'oked' && inputName !== 'produced' && inputName !== 'Consumed_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note' && inputName !== 'current_version') {
+            if (inputName !== 'oked' && inputName !== 'produced' && inputName !== 'Consumed_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note' && inputName !== 'current_version' &&  inputName !== 'add_id_product' &&  inputName !== 'search_product') {
                 input.readOnly = true;
-                input.style.color = "rgb(132, 132, 132)";
-                input.value = '0.00';
+                if (inputName !== 'name_of_product'){
+                    input.style.color = "rgb(132, 132, 132)";
+                    input.value = '0.00';
+                }
             } else {
                 input.readOnly = false;
                 input.style.color = "";
             }
+
         });
     }
 });

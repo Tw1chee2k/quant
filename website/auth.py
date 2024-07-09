@@ -270,6 +270,8 @@ def add_fuel_param():
     if request.method == 'POST':
         current_version_id = request.form.get('current_version')
         name = request.form.get('name_of_product')
+        id_product = request.form.get('add_id_product')
+        print(id_product)        
         oked = request.form.get('oked')
         produced = request.form.get('produced')
         Consumed_Quota = request.form.get('Consumed_Quota')
@@ -277,14 +279,14 @@ def add_fuel_param():
         Consumed_Total_Quota = request.form.get('Consumed_Total_Quota')
         Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
         note = request.form.get('note')
-
+        
         produced = Decimal(produced) if produced else Decimal(0)
         Consumed_Quota = Decimal(Consumed_Quota) if Consumed_Quota else Decimal(0)
         Consumed_Fact = Decimal(Consumed_Fact) if Consumed_Fact else Decimal(0)
         Consumed_Total_Quota = Decimal(Consumed_Total_Quota) if Consumed_Total_Quota else Decimal(0)
         Consumed_Total_Fact = Decimal(Consumed_Total_Fact) if Consumed_Total_Fact else Decimal(0)
 
-        current_product = DirProduct.query.filter_by(NameProduct=name).first()
+        current_product = DirProduct.query.filter_by(NameProduct=name, IdProduct=id_product).first()
        
         if current_product:
             proverka_section = Sections.query.filter_by(id_version=current_version_id, section_number=1, id_product=current_product.IdProduct).first()

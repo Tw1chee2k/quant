@@ -1762,13 +1762,44 @@ footer {
 .choose-product_area {
     position: absolute;
     max-width: 422px;
-    max-height: 250px; 
-    overflow-y: auto; 
     background-color: white;
     border: none; 
     z-index: 2; 
     display: none;
+    align-items: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .choose-product_area {
+    background-color: #333;
+}
+
+.serchProduct_cont{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    justify-content: left;
+    margin-left: 20px;
+}
+
+
+.choose-product_area .table_report-area thead {
+    width: 100%;
+}
+
+.choose-product_area .table_report-area tbody {
+    width: 100%;
+}
+
+.table_body_container {
+    max-height: 200px; 
+    overflow-y: auto;
+}
+
+.search_product_input{
+    margin: 10px;
+    width: 180px;
 }
 
 .fuel-table_add .table_report-area tr:hover{
@@ -1778,6 +1809,12 @@ footer {
 .dark-mode .fuel-table_add .table_report-area tr:hover{
     background-color: #6e6e6e;
 }
+
+.choose-product_area input{
+    max-width: 422px;
+  
+}
+
 
 .choose-product_area button{
     font-size: 12px;

@@ -256,7 +256,12 @@
                 <tr>
                     <td><span>[5]</span> Израсходовано на всю производственную продукцию фактически</td>
                     <td>
-                        <input type="text" name="Consumed_Total_Fact" class = "numeric_dotInput" id="modal_Consumed_Total_Fact" autocomplete="off">
+                        <input 
+                            type="text"
+                            name="Consumed_Total_Fact" 
+                            class = "numeric_dotInput" id="modal_Consumed_Total_Fact" 
+                            autocomplete="off"
+                        >
                     </td>
                 </tr>
                 <tr>
@@ -283,29 +288,42 @@
                 <tr>
                     <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
                     <td>
-                        <input type="text" name="name_of_product" style = "width: 400px; text-align: left;" autocomplete="off">
+                        <input type="text" name="name_of_product" style = "width: 400px; text-align: left;" readonly>
                         <div class="choose-product_area">
-                            <table class = "table_report-area">
-                                <thead>
-                                    <tr> 
-                                        <th>Код продукта</th>
-                                        <th>Наименование продукта</th>
-                                        <th>Единица измерения</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="chooseProdTableBody"> 
-                                {% for row in dirProduct %}
-                                    <tr data-id="{{ row.id }}">
-                                        <td>{{row.CodeProduct}}</td>
-                                        <td style = " text-align: left;">{{row.NameProduct}}</td>
-                                        <td>{{row.unit.NameUnit}}</td>
-                                    </tr>
-                                {% endfor %}           
-                                <tr colspan="3" id="noResultsRow">
-                                    <td>Нет результатов</td>        
-                                </tr>
-                                <tbody>
-                            </table>
+                            <div class = "serchProduct_cont">
+                                <a>Фильтр</a>
+                                <input type="text" name = "search_product" class = "search_product_input">
+                            </div>
+                            
+                            <div class="tableForChoose">
+                                <table class="table_report-area">
+                                    <thead>
+                                        <tr>
+                                            <th>Код продукта</th>
+                                            <th>Наименование продукта</th>
+                                            <th>Единица измерения</th>
+                                            <th style="display:none;">id</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <div class="table_body_container">
+                                    <table class="table_report-area">
+                                        <tbody id="chooseProdTableBody">
+                                            {% for row in dirProduct %}
+                                                <tr data-id="{{ row.id }}">
+                                                    <td>{{row.CodeProduct}}</td>
+                                                    <td style="text-align: left;">{{row.NameProduct}}</td>
+                                                    <td>{{row.unit.NameUnit}}</td>
+                                                    <td style="display:none;">{{row.IdProduct}}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            <tr id="noResultsRow" style="display: none;">
+                                                <td colspan="3">Нет результатов</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -406,6 +424,13 @@
                             type="hidden"
                             value = "{{current_version}}"
                             name="current_version"
+                            readonly
+                        >
+                        <input                 
+                            type="hidden"
+                            id = "add_id_product"
+                            name="add_id_product"
+                            readonly
                         >
                     </td>
                 </tr>
