@@ -2,8 +2,20 @@ import os
 from flask_admin import expose, AdminIndexView
 from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
+from functools import wraps
+from flask_login import login_required, current_user
+
+def admin_only(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.type != 'Администратор':
+            flash('Недостаточно прав для входа в админ-панель', 'error')
+            return redirect(url_for('views.beginPage'))   
+        return f(*args, **kwargs)
+    return decorated_function
 
 class MyMainView(AdminIndexView):
+    @admin_only
     @expose('/')
     def admin_stats(self):
         user_data = User.query.count()
@@ -14,9 +26,6 @@ class MyMainView(AdminIndexView):
         dirProduct_data = DirProduct.query.count()
         sections_data = Sections.query.count()
         ticket_data = Ticket.query.count()
-        
-        
-        
         return self.render('admin/stats.html', 
                            user_data=user_data,
                            dirUnit_data=dirUnit_data,

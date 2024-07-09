@@ -7,7 +7,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from datetime import datetime
+from datetime import datetime, timedelta
 import re
 import random
 import string
@@ -153,8 +153,8 @@ def create_new_report():
         new_report = Report(
             okpo=organization.okpo,
             organization_name= organization.full_name,
-            year=2024,
-            quarter=1,
+            year=year_fourMounth_ago(),
+            quarter=last_quarter(),
             user_id = current_user.id,
             organization_id = organization.id
         )
@@ -177,6 +177,25 @@ def create_new_report():
         db.session.commit() 
     return redirect(url_for('views.report_area'))
     
+def last_quarter():
+    current_mounth = datetime.now().strftime("%m")
+    if (current_mounth == '01' or current_mounth == '02' or current_mounth == '03'):
+        last_quarter_value = 4
+    elif (current_mounth == '04' or current_mounth == '05' or current_mounth == '06'):
+        last_quarter_value = 1
+    elif (current_mounth == '07' or current_mounth == '08' or current_mounth == '09'):
+        last_quarter_value = 2
+    else:
+        last_quarter_value = 3
+    return last_quarter_value
+  
+def year_fourMounth_ago():
+    current_date = datetime.now()
+    months_to_subtract = 4
+    new_date = current_date - timedelta(days=months_to_subtract * 30)
+    year_4_months_ago = new_date.year
+    return year_4_months_ago
+
 @auth.route('/update_report', methods=['POST'])
 def update_report():
     id = request.form.get('modal_report_id')

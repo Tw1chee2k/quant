@@ -1,12 +1,28 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections
 from . import db
 from werkzeug.security import generate_password_hash
 from sqlalchemy import asc
 from sqlalchemy import desc
+from functools import wraps
 
 views = Blueprint('views', __name__)
+
+def owner_only(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        version_id = kwargs.get('id')
+        version = Version_report.query.get(version_id)
+        if version is None:
+            flash('Версия отчета не найдена.', 'error')
+            return redirect(url_for('views.report_area', user=current_user))
+        report = version.report
+        if report.user_id != current_user.id and current_user.type != 'Администратор':
+            flash('Недостаточно прав для доступа к этой версии', 'error')
+            return redirect(url_for('views.report_area', user=current_user))
+        return f(*args, **kwargs)
+    return decorated_function
 
 @views.route('/')
 def beginPage():
@@ -522,6 +538,7 @@ def report_area():
 
 @views.route('/report/fuel/<int:id>')
 @login_required
+@owner_only
 def report_fuel(id):
     dirUnit = DirUnit.query.filter_by().all()
     dirProduct = DirProduct.query.filter(DirProduct.IsFuel == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
@@ -567,6 +584,7 @@ def report_fuel(id):
 
 @views.route('/report/heat/<int:id>')
 @login_required
+@owner_only
 def report_heat(id):
     dirUnit = DirUnit.query.filter_by().all()
     dirProduct = DirProduct.query.filter(DirProduct.IsHeat == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
@@ -612,6 +630,7 @@ def report_heat(id):
 
 @views.route('/report/electro/<int:id>')
 @login_required
+@owner_only
 def report_electro(id):
     dirUnit = DirUnit.query.filter_by().all()
     dirProduct = DirProduct.query.filter(DirProduct.IsElectro == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()

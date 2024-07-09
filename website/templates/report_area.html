@@ -59,9 +59,7 @@
                 </nav>
             </div>
         </div>
-        
     </div>
-
     <div class="report-area" style = "margin-top: 180px;">
         {%if report%}
         <table class="table_report-area">
@@ -243,26 +241,64 @@
                 <tr>
                     <td>Наименование предприятия</td>
                     <td>
-                        <input type="text" name="modal_organization_name" id="modal_organization_name" style = "width: 200px; text-align: left; color: rgb(132,132,132);" autocomplete="off" readonly>
+                        <input 
+                            type="text" 
+                            name="modal_organization_name" 
+                            id="modal_organization_name" 
+                            style = "width: 200px; text-align: left; color: rgb(132,132,132);" 
+                            autocomplete="off" 
+                            readonly
+                        >
                     </td>
                 </tr>
                 <tr>
                     <td>ОКПО</td>
                     <td>
-                        <input type="text" name="modal_report_okpo" id="modal_report_okpo" style = "color: rgb(132,132,132);" autocomplete="off" readonly>
+                        <input 
+                            type="text"
+                            name="modal_report_okpo" 
+                            id="modal_report_okpo" 
+                            style = "color: rgb(132,132,132);" 
+                            autocomplete="off" 
+                            readonly
+                        >
                     </td>
                 </tr>
                 <tr>
                     <td>Год</td>
                     <td>
-                        <input type="text" name="modal_report_year" id="modal_report_year" class = "numericInput" maxlength = "4" autocomplete="off">
+                        <select 
+                            name="modal_report_year" 
+                            id="modal_report_year" 
+                            readonly
+                        >
+                            <option>2024</option>
+                            <option>2025</option>
+                            <option>2026</option>
+                            <option>2027</option>
+                        </select>
+
                     </td>
                 </tr>
                 <tr>
                     <td>Квартал</td>
                     <td>
-                        <input type="text" name="modal_report_quarter" id="modal_report_quarter" class = "numericInput" maxlength = "1" autocomplete="off">
-                        <input type="hidden" name="modal_report_id" id="modal_report_id">
+                        <select 
+                            name="modal_report_quarter" 
+                            id="modal_report_quarter"
+                            readonly
+                        >
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+
+                        <input 
+                            type="hidden" 
+                            name="modal_report_id" 
+                            id="modal_report_id"
+                        >
                     </td>
                 </tr>
                 <tr>
@@ -307,6 +343,6 @@
 
 
 <script>
-    
+
 </script>
 {% endblock %}

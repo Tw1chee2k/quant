@@ -134,11 +134,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
             });
-    
             changefuel_modal.style.display = 'block';
         }
     }
-    
 
     var link_addfuel_modal = document.querySelector('[data-action="link_addfuel_modal"]');
     var addfuel_modal = document.getElementById('addfuel_modal');
@@ -152,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
     close_addfuel_modal.addEventListener('click', function() {
         addfuel_modal.style.display = 'none';
     });
-
+    
     window.addEventListener('click', function(event) {
         contextmenufuel.style.display = 'none';
         if (event.target == addfuel_modal) {
@@ -176,8 +174,6 @@ document.addEventListener('DOMContentLoaded', function() {
             chooseProductArea.style.display = 'none';
         }
     });
-    
-    
 
     remove_section.addEventListener('click', function() {
         var activefuel = document.querySelector('.fuel_row.active-report');
@@ -245,8 +241,6 @@ document.addEventListener('DOMContentLoaded', function() {
     /*end*/
 });
 
-
-
 document.querySelector('input[name="name_of_product"]').addEventListener('input', function() {
     var filterText = this.value.trim().toLowerCase();
     var chooseProductArea = document.querySelector('.choose-product_area');
@@ -258,7 +252,6 @@ document.querySelector('input[name="name_of_product"]').addEventListener('input'
     } else {
         chooseProductArea.style.display = 'none';
     }
-
     var hasResults = false;
     Array.from(chooseProdTableBody.querySelectorAll('tr')).forEach(function(row) {
         var codeProduct = row.querySelector('td:nth-child(1)').textContent.toLowerCase();

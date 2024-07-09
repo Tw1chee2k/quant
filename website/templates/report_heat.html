@@ -30,7 +30,6 @@
                                     <img src="{{ url_for('static', filename='img/Teplo.png')}}" alt="">
                                     <a>Тепло</a>
                                 </li>
-
                                 <li onclick="window.location.href='/report/electro/{{current_version}}'">           
                                     <img src="{{ url_for('static', filename='img/Electro.png')}}" alt="">
                                     <a>Электро</a>   
@@ -62,7 +61,6 @@
                                 Сортировка 
                             </div>   
                         </section>
-
                         <section>
                             <div class = "functions_menu">
                                 <li>           
@@ -118,7 +116,6 @@
             </ul>
         </nav>
     </div>
-
     <div class = "report-area">
         <table class = "table_report-area">
             <thead>
@@ -162,45 +159,104 @@
                 {% for row in sections %}
                 <tr class = "fuel_row" data-id="{{ row.id }}" >
                     <td>
-                        <input type = "hidden" name = "id_fuel" value = "{{ row.id }}" readonly></td>
-                    <td>
-                        <input class = "product-name_fuel" type = "text" value = "{{ row.product.NameProduct }}" readonly>
+                        <input 
+                            type = "hidden" 
+                            name = "id_fuel" 
+                            value = "{{ row.id }}" 
+                            readonly
+                        >
                     </td>
                     <td>
-                        <input name = "code_product" value = "{{ row.code_product }}" readonly>
+                        <input 
+                            class = "product-name_fuel" 
+                            type = "text" 
+                            value = "{{ row.product.NameProduct }}" 
+                            readonly
+                        >
                     </td>
                     <td>
-                        <input name = "Oked_fuel" value = "{{ row.Oked }}" readonly>
+                        <input 
+                            name = "code_product" 
+                            value = "{{ row.code_product }}" 
+                            readonly
+                        >
+                    </td>
+                    <td>
+                        <input 
+                            name = "Oked_fuel" 
+                            value = "{{ row.Oked }}" 
+                            readonly
+                        >
                     </td>
                     <td> 
-                        <input style = "white-space: nowrap; text-align: left;" name = "" value = "{{ row.product.unit.NameUnit }}" readonly>
+                        <input 
+                            style = "white-space: nowrap; text-align: left;" 
+                            name = "" 
+                            value = "{{ row.product.unit.NameUnit }}" 
+                            readonly
+                        >
                     </td> 
                     <td>
-                        <input name = "produced_fuel" value = "{{ row.produced }}" readonly>
+                        <input 
+                            name = "produced_fuel" 
+                            value = "{{ row.produced }}" 
+                            readonly
+                        >
                     </td>
                     <td>
-                        <input name = "Consumed_Quota_fuel" value = "{{ row.Consumed_Quota }}" readonly>
+                        <input 
+                            name = "Consumed_Quota_fuel" 
+                            value = "{{ row.Consumed_Quota }}" 
+                            readonly
+                        >
                     </td>
                     <td>
-                        <input name = "Consumed_Fact_fuel" value = "{{ row.Consumed_Fact }}" readonly>
+                        <input 
+                            name = "Consumed_Fact_fuel" 
+                            value = "{{ row.Consumed_Fact }}" 
+                            readonly
+                        >
                     </td>
                     <td>
-                        <input name = "Consumed_Total_Quota_fuel" value = "{{ row.Consumed_Total_Quota }}" readonly>
+                        <input 
+                            name = "Consumed_Total_Quota_fuel" 
+                            value = "{{ row.Consumed_Total_Quota }}" 
+                            readonly
+                        >
                     </td>
                     <td>     
-                        <input name = "Consumed_Total_Fact_fuel" value = "{{ row.Consumed_Total_Fact }}" readonly>
+                        <input 
+                            name = "Consumed_Total_Fact_fuel" 
+                            value = "{{ row.Consumed_Total_Fact }}" 
+                            readonly
+                        >
                     </td>
                     {% if row.total_differents is not none and (row.total_differents < 0.0 or row.total_differents == 0.00) %}
                         <td style="background-color: #a2ff77;">
-                            <input style="background-color: #a2ff77; color: black;" name="" value="{{ row.total_differents }}" readonly>
+                            <input 
+                                style="background-color: #a2ff77; color: black;" 
+                                name="" 
+                                value="{{ row.total_differents }}" 
+                                readonly
+                            >
                         </td>
                     {%else%}
                         <td style="background-color: #ff7676;">
-                            <input style="background-color: #ff7676; color: black;" name="" value="{{ row.total_differents }}" readonly>
+                            <input 
+                                style="background-color: #ff7676; 
+                                color: black;" 
+                                name="" 
+                                value="{{ row.total_differents }}" 
+                                readonly
+                            >
                         </td>
                     {%endif%}
                     <td> 
-                        <input name = "note_fuel" value = "{{ row.note }}" readonly>
+                        <input 
+                            name = "note_fuel" 
+                            value = "{{ row.note }}" 
+                            readonly
+                        >
                     </td>           
                 </tr>   
                 {%endfor%}
@@ -216,55 +272,116 @@
         </div>
         <form method="POST" action="/change_section">
             <table class="fuel-table_add">
-
                 <tr>
                     <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
                     <td>
-                        <input type="text" name="product_name" id="modal_product_name" style="width: 400px; text-align: left; color: rgb(132, 132, 132);" autocomplete="off" readonly>
+                        <input 
+                            type="text" 
+                            name="product_name" 
+                            id="modal_product_name" 
+                            style="width: 400px; text-align: left; color: rgb(132, 132, 132);" 
+                            autocomplete="off" 
+                            readonly
+                        >
                     </td>
                 </tr>
                 <tr>
                     <td><span>[B]</span> ОКЭД</td>
                     <td>
-                        <input type="text" name="oked" id="modal_oked" class = "numericInput" maxlength="5" style="color: rgb(132, 132, 132);" autocomplete="off" readonly>
+                        <input 
+                            type="text" 
+                            name="oked" 
+                            id="modal_oked" 
+                            class = "numericInput" 
+                            maxlength="5" 
+                            style="color: rgb(132, 132, 132);" 
+                            autocomplete="off" 
+                            readonly
+                        >
                     </td>
                 </tr>
                 <tr>
                     <td><span>[1]</span> Произведено продукции (выполнено работ, услуг) за отчетный период</td>
                     <td>
-                        <input type="text" name="produced" class = "numeric_dotInput" id="modal_produced" autocomplete="off">
+                        <input
+                            type="text" 
+                            name="produced" 
+                            class = "numeric_dotInput" 
+                            id="modal_produced" 
+                            autocomplete="off"
+                        >
                     </td>
                 </tr>
                 <tr>
                     <td><span>[2]</span> Утвержденная норма на единицу продукции</td>
                     <td>
-                        <input type="text" name="Consumed_Quota" class = "numeric_dotInput" id="modal_Consumed_Quota" autocomplete="off">
+                        <input 
+                            type="text"
+                            name="Consumed_Quota" 
+                            class = "numeric_dotInput" 
+                            id="modal_Consumed_Quota" 
+                            autocomplete="off"
+                        >
                     </td>
                 </tr>
                 <tr>
                     <td><span>[3]</span> Израсходовано на единицу продукции фактически</td>
                     <td>
-                        <input type="text" name="Consumed_Fact" id="modal_Consumed_Fact" style="color: rgb(132, 132, 132);" readonly>
+                        <input 
+                            type="text" 
+                            name="Consumed_Fact" 
+                            id="modal_Consumed_Fact" 
+                            style="color: rgb(132, 132, 132);" 
+                            readonly
+                        >
                     </td>
                 </tr>
                 <tr>
                     <td><span>[4]</span> Израсходовано на всю производственную продукцию по действующей норме</td>
                     <td>
-                        <input type="text" name="Consumed_Total_Quota" id="modal_Consumed_Total_Quota" style="color: rgb(132, 132, 132);" readonly>
+                        <input 
+                            type="text" 
+                            name="Consumed_Total_Quota" 
+                            id="modal_Consumed_Total_Quota" 
+                            style="color: rgb(132, 132, 132);" 
+                            readonly
+                        >
                     </td>
                 </tr>
                 <tr>
                     <td><span>[5]</span> Израсходовано на всю производственную продукцию фактически</td>
                     <td>
-                        <input type="text" name="Consumed_Total_Fact" class = "numeric_dotInput" id="modal_Consumed_Total_Fact" autocomplete="off">
+                        <input 
+                            type="text" 
+                            name="Consumed_Total_Fact" 
+                            class = "numeric_dotInput" 
+                            id="modal_Consumed_Total_Fact" 
+                            autocomplete="off"
+                        >
                     </td>
                 </tr>
                 <tr>
                     <td>Примечание</td>
                     <td>
-                        <input style="width: 400px; text-align: left;" type="text" name="note" id="modal_note" autocomplete="off">
-                        <input type="hidden" id="modal_id" name="id">
-                        <input type="hidden" value="{{ current_version }}" name="current_version">
+                        <input 
+                            style="width: 400px; text-align: left;" 
+                            type="text" 
+                            name="note" 
+                            id="modal_note" 
+                            autocomplete="off"
+                        >
+                        <input 
+                            type="hidden" 
+                            id="modal_id" 
+                            name="id" 
+                            readonly
+                        >
+                        <input 
+                            type="hidden" 
+                            value="{{ current_version }}" 
+                            name="current_version"
+                            readonly
+                        >
                     </td>
                 </tr>
             </table>
@@ -405,15 +522,13 @@
                         <input                 
                             type="hidden"
                             value = "{{current_version}}"
-                            name="current_version"
+                            name="current_version" readonly
                         >
                     </td>
                 </tr>
             </table>    
-            <button 
-                type = "submit" 
-                class = "blue_button"
-                >Добавить
+            <button type = "submit" class = "blue_button">
+                Добавить
             </button>              
         </form>   
     </div>
@@ -448,7 +563,6 @@
         </div>
     </div>
 </div>
-
 <div id="DirProductModal" class="modal">
     <div class="modal-content">
         <div class = "modal-header">

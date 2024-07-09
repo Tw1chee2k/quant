@@ -16,6 +16,13 @@
                 <img src="{{ url_for('static', filename='img/icon_profile.png')}}"  alt="">
                 <span>Мой профиль</span>
             </button>
+            {%if user.type == 'Администратор'%}
+            <button class = "account_buttons" onclick="window.location.href='/admin'">
+                <img src="{{ url_for('static', filename='img/icon_admin-panel.png')}}"  alt="">
+                <span>Админ-панель</span>
+            </button>
+            {%else%}
+            {%endif%}
         </div>
         <div class = "account_messages">
             <button class = "account_message_button" disabled>
