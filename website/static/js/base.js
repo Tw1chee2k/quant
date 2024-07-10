@@ -1,10 +1,27 @@
 document.addEventListener('DOMContentLoaded', function () {
+    
+    const header = document.querySelector('.fixed-header');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+            if (currentTheme === 'dark') {
+                header.style.backgroundColor = '#333';
+            }
+            else{
+                header.style.backgroundColor = '#f0f8ff';
+                
+            }
+        } else {
+            header.style.backgroundColor = 'transparent';
+        }
+    });
+
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
     const currentTheme = localStorage.getItem('theme') || 'light';
     
     if (currentTheme === 'dark') {
         body.classList.add('dark-mode');
+
     } else {
         body.classList.add('light-mode');
     }
@@ -15,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
         let theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
         localStorage.setItem('theme', theme);
+        location.reload();
     });
     
     (function() {

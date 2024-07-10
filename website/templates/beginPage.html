@@ -3,23 +3,22 @@
 {% block content %}
 
     
-<div class = "hello_cont">
-    <div class = "main_cont">
-        <div class = "text_main_cont">
-            <span>
-                Информационная система учета и обработки отчетов организаций
-            </span>
-            {% if user.is_authenticated%}
-                <button onclick="window.location.href='/report_area'" type="" class = "blue_button">Подать отчет</button>
-            {% else %}
-                <button onclick="window.location.href='/login'" type="" class = "blue_button">Войти</button>
-            {% endif %}
-        </div>
-        <div class = "gif_cont">
-          
-        </div>
+<div class="hello_cont">
+    <video autoplay loop muted>
+      <source src="{{ url_for('static', filename='video/    .mp4') }}" type="video/mp4">
+    </video>
+    <div class = "hello_cont_name">
+        Информационная система учета и обработки отчетов организаций
     </div>
+        {% if user.is_authenticated%}
+            <button onclick="window.location.href='/report_area'" type="" class = "blue_button">Подать отчет</button>
+        {% else %}
+            <button onclick="window.location.href='/login'" type="" class = "blue_button">Войти</button>
+        {% endif %}
 </div>
+
+
+
 
 <div class="statistic_cont">
     <div class="item_stat">

@@ -12,8 +12,10 @@
                     <ul>
                         <section>
                             <div class="functions_menu">
-                                <li data-action="createReport">
-                                    <img src="{{ url_for('static', filename='img/icon_new_file.png') }}" alt="">
+                                <form id="new-report-form" action="/create_new_report" method="POST" style="display: none;">
+                                </form>
+                                <li id="create-report-btn" >
+                                    <img src="{{ url_for('static', filename='img/icon_new_file.png') }}" alt="Создать отчет">
                                     <a></a>
                                 </li>
                             </div>
@@ -313,20 +315,20 @@
     </div>
 </div>
 
-
-
 <div id="contextMenu_report" class="white-panel">
     <button id = "link_change_report">
         <span>Редактировать</span>
     </button>
-
-    <button data-action = "new-version">
-        <span>Добавить версию</span>
-    </button>
-
-    <button data-action="deleteReport">
-        <span>Удалить</span>
-    </button>
+    <form id="addVersion" method="POST" action="/create_new_report_version/">
+        <button type="submit" id="add_versionButton">
+            <span>Добавить версию</span>
+        </button>
+    </form>
+    <form id="deleteReport" method="POST" action="/delete_report/">
+        <button type="submit" id="del_reportButton">
+            <span>Удалить</span>
+        </button>
+    </form>
 </div>
 
 
@@ -334,15 +336,18 @@
     <button data-action="checkVersionButton">
         <span>Изменить данные</span>
     </button>
-
-    <button id="del_version">
-        <span>Удалить</span>
-    </button>
+    <form id="deleteVersion" method="POST" action="/delete_version/">
+        <button type="submit" id="del_versionButton">
+            <span>Удалить</span>
+        </button>
+    </form>
 </div>
 
 
 
 <script>
+
+
 
 </script>
 {% endblock %}

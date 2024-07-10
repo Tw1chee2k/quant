@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     const headers = document.querySelectorAll(".change-position");
-
     headers.forEach(header => {
         const modal = header.closest('.modal-content');
 
@@ -18,7 +17,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             modal.style.margin = 0;
             document.body.style.userSelect = 'none';
         });
-
         document.addEventListener('mousemove', (e) => {
             if (isDragging) {
                 const dx = e.clientX - startX;
@@ -27,7 +25,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 modal.style.top = `${initialY + dy}px`;
             }
         });
-
         document.addEventListener('mouseup', () => {
             isDragging = false;
             document.body.style.userSelect = 'auto';
@@ -37,57 +34,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    function createNewReport() {
-        fetch('/create_new_report', {
-            method: 'POST'
-        })
-        .then(function(response) {
-            if (response.ok) {
-                window.location.reload();
-            } else {
-                console.error('Ошибка при добавлении отчета');
-            }
-        })
-        .catch(function(error) {
-            console.error('Ошибка при отправке запроса:', error);
-        });
-    }
-    var createReport = document.querySelectorAll('[data-action="createReport"]');
-    createReport.forEach(function(button) {
-        button.addEventListener('click', createNewReport);
-    });
-    /*end*/
-
-    /*удаления активного отчета*/
-    var deleteReportButtons = document.querySelectorAll('[data-action="deleteReport"]');
-    deleteReportButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            var activeRow = document.querySelector('.report_row.active-report');
-            if (activeRow !== null) {
-                var reportId = activeRow.dataset.id;
-                deleteReport(reportId);
-            } else {
-                alert('Выберите отчет для удаления');
-            }
-        });
-    });
-    function deleteReport(reportId) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/delete_report/' + reportId, true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    window.location.reload();
-                } else {
-                    console.error(xhr.statusText);
-                }
-            }
-        };
-        xhr.send();
-    }
-    /*end*/
-
     /*активный отчет и активная версия + модальные окна соответственно*/
     var reportRows = document.querySelectorAll('.report_row');
     var versionRows = document.querySelectorAll('.version-row');
@@ -202,60 +148,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     /*end*/
 
-
-    /*создание новой версии*/
-    var newVersionButton = document.querySelector('[data-action="new-version"]');
-    newVersionButton.addEventListener('click', function() {
-    var selectedReportId = document.querySelector('.report_row.active-report').dataset.id;
-    if (selectedReportId) {
-        fetch('/create_new_report_version/' + selectedReportId, {
-            method: 'POST'
-        })
-        .then(function(response) {
-            if (response.ok) {
-                window.location.reload();
-            } else {
-                console.error('Ошибка при добавлении версии');
-            }
-        })
-        .catch(function(error) {
-            console.error('Ошибка при отправке запроса:', error);
-        });
-    } else {
-        console.error('Выберите отчет для добавления версии');
-    }
-    });
-    /*end*/
-
-    /*удаление версии*/
-    var del_version = document.getElementById('del_version');
-    del_version.addEventListener('click', function() {
-        var activeRow = document.querySelector('.version-row.active-report_version');
-        if (activeRow !== null) {
-            var varsionId = activeRow.dataset.id;
-            Delete_version(varsionId);
-        } else {
-            alert('Выберите версию для удаления');
-        }
-    });
-    function Delete_version(varsionId) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/delete_version/' + varsionId, true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    window.location.reload();
-                } else {
-                    console.error(xhr.statusText);
-                }
-            }
-        };
-        xhr.send();
-    }
-    /*end*/
-
-
     /*Переход на страницу с fuel*/
     document.querySelectorAll('.version-row').forEach(function(row) {
     row.addEventListener('dblclick', function() {
@@ -277,8 +169,36 @@ document.addEventListener('DOMContentLoaded', function () {
         alert('Нет активной версии. Пожалуйста, выберите версию.');
     }
     });
+    /*end*/
 
+    /*кнопка для отображения версий отчета*/
+    var toggleButtons = document.querySelectorAll('.show-versins_button');
+    toggleButtons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation();
+            var versionsRow = this.closest('.report_row').nextElementSibling.nextElementSibling;
+            if (versionsRow.style.display === 'none' || versionsRow.style.display === '') {
+                versionsRow.style.display = 'table-row';
+            } else {
+                versionsRow.style.display = 'none';
+            }
+        });
+    });
+    /*end*/
 
+    /*кнопка для отображения квитанций отчета*/
+    var showCheksButtons = document.querySelectorAll('.show-cheks_button');   
+    showCheksButtons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation();
+            var checkRow = this.closest('.version-row').nextElementSibling;
+            if (checkRow.style.display === 'none' || checkRow.style.display === '') {
+                checkRow.style.display = 'table-row';
+            } else {
+                checkRow.style.display = 'none';
+            }
+        });
+    });
     /*end*/
 
     /*показ панели для редактирования параметров отчета*/
@@ -321,44 +241,79 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    /*кнопка для отображения версий отчета*/
-    var toggleButtons = document.querySelectorAll('.show-versins_button');
-    toggleButtons.forEach(function(button) {
-        button.addEventListener('click', function(event) {
-            event.stopPropagation();
-            var versionsRow = this.closest('.report_row').nextElementSibling.nextElementSibling;
-            if (versionsRow.style.display === 'none' || versionsRow.style.display === '') {
-                versionsRow.style.display = 'table-row';
-            } else {
-                versionsRow.style.display = 'none';
-            }
-        });
-    });
-    /*end*/
-
-    /*кнопка для отображения квитанций отчета*/
-    var showCheksButtons = document.querySelectorAll('.show-cheks_button');   
-    showCheksButtons.forEach(function(button) {
-        button.addEventListener('click', function(event) {
-            event.stopPropagation();
-            var checkRow = this.closest('.version-row').nextElementSibling;
-            if (checkRow.style.display === 'none' || checkRow.style.display === '') {
-                checkRow.style.display = 'table-row';
-            } else {
-                checkRow.style.display = 'none';
-            }
-        });
-    });
-    /*end*/
-
     
 
+    document.getElementById('create-report-btn').addEventListener('click', function() {
+        document.getElementById('new-report-form').submit();
+    });
 
-    /* открытие страницы в новой вкладке*/
-    function openNewWindow(url) {
-        window.open(url, '_blank');
-    }
-    /*end*/
+    var add_versionButton = document.getElementById('add_versionButton');
+    add_versionButton.addEventListener('click', function(event) {
+        var activeRow = document.querySelector('.report_row.active-report');
+        if (activeRow !== null) {
+            var ReportId = activeRow.dataset.id;
+            if (ReportId) {
+                var addForm = document.getElementById('addVersion');
+                addForm.action = '/create_new_report_version/' + ReportId;
+            }
+        } else {
+            alert('Выберите отчет для добавления версии');
+            event.preventDefault();
+        }
+    });
+
+    var del_versionButton = document.getElementById('del_versionButton');
+    del_versionButton.addEventListener('click', function(event) {
+        var activeRow = document.querySelector('.version-row.active-report_version');
+        if (activeRow !== null) {
+            var varsionId = activeRow.dataset.id;
+            if (varsionId) {
+                var deleteForm = document.getElementById('deleteVersion');
+                deleteForm.action = '/delete_version/' + varsionId;
+            }
+        } else {
+            alert('Выберите версию для удаления');
+            event.preventDefault();
+        }
+    });
+
+    var del_reportButton = document.getElementById('del_reportButton');
+    del_reportButton.addEventListener('click', function(event) {
+        var activeRow = document.querySelector('.report_row.active-report');
+        if (activeRow !== null) {
+            var ReportId = activeRow.dataset.id;
+            if (ReportId) {
+                var deleteForm = document.getElementById('deleteReport');
+                deleteForm.action = '/delete_report/' + ReportId;
+            }
+        } else {
+            alert('Выберите отчет для удаления');
+            event.preventDefault();
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });  
- /*end*/   
 
+ 
+
+ 

@@ -215,7 +215,7 @@
             <a id = "close_changefuel_modal" class="close">&times;</a>
         </div>
         <form method="POST" action="/change_section">
-            <table class="fuel-table_add">
+            <table class="sectionsModal-table">
 
                 <tr>
                     <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
@@ -284,7 +284,7 @@
             <a class="close">&times;</a>
         </div>
         <form method="POST" action="/add_fuel_param">
-            <table class = "fuel-table_add">
+            <table class = "sectionsModal-table">
                 <tr>
                     <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
                     <td>
@@ -540,5 +540,5 @@
         <span>Удалить</span>
     </button>
 </div>
-<script src="{{ url_for('static', filename='js/fuel.js') }}"></script>
+<script src="{{ url_for('static', filename='js/section.js') }}"></script>
 {% endblock %}

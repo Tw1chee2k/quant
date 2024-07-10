@@ -160,7 +160,7 @@ def create_new_report():
         )
         db.session.add(new_report)
         db.session.commit()
-        flash('Добавлен новый отчет', category='success')
+        
         
         new_version_report = Version_report(
             begin_time = datetime.now(),
@@ -175,6 +175,7 @@ def create_new_report():
         )
         db.session.add(new_version_report)
         db.session.commit() 
+        flash('Добавлен новый отчет', category='success')
     return redirect(url_for('views.report_area'))
     
 def last_quarter():
@@ -213,6 +214,7 @@ def update_report():
         current_report.organization_name = organization_okpo.full_name
         current_report.organization_id = organization_okpo.id
         db.session.commit()
+        flash('Параметры обновлены', category='success')
         return redirect(url_for('views.report_area'))
     
 @auth.route('/delete_report/<report_id>', methods=['POST'])
@@ -232,7 +234,7 @@ def delete_report(report_id):
                 db.session.delete(version)
             db.session.delete(current_report)
             db.session.commit()
-            flash("Отчет был удален")
+            flash('Отчет удален', category='success')
         return redirect(url_for('views.report_area'))
     
 @auth.route('/create_new_report_version/<int:id>', methods=['POST'])
@@ -246,25 +248,31 @@ def create_new_report_version(id):
         )
         db.session.add(new_version_report)
         db.session.commit()
-        flash('Добавлена новая версия отчета', category='success')
+        flash('Добавлена новая версия', category='success')
     return redirect(url_for('views.report_area'))
 
-@auth.route('/delete_version/<id>', methods=['POST'])
+@auth.route('/delete_version/<int:id>', methods=['POST'])
 def delete_version(id):
     if request.method == 'POST':
-        current_version = Version_report.query.filter_by(id = id).first()
-        sections = Sections.query.filter_by(id_version = id).all()
-        tickets = Ticket.query.filter_by(version_report_id = id).all()
+        current_version = Version_report.query.filter_by(id=id).first()
         if current_version:
-            for section in sections:
-                db.session.delete(section)
-            for ticket in tickets:
-                db.session.delete(ticket)
-            db.session.delete(current_version)
-            db.session.commit()
-            flash("Версия была удалена")
-        return redirect(url_for('views.report_area'))
-    
+            versions_currentReport = Version_report.query.filter_by(report_id=current_version.report_id).all()
+            if len(versions_currentReport) > 1:
+                sections = Sections.query.filter_by(id_version=id).all()
+                tickets = Ticket.query.filter_by(version_report_id=id).all()
+                for section in sections:
+                    db.session.delete(section)
+                for ticket in tickets:
+                    db.session.delete(ticket)
+                db.session.delete(current_version)
+                db.session.commit()
+                flash('Версия удалена', category='success')
+            else:
+                flash('Последняя версия не может быть удалена', category='error')
+        else:
+            flash('Версия не найдена', category='error')
+    return redirect(url_for('views.report_area'))
+
 @auth.route('/add_fuel_param', methods=['POST'])
 def add_fuel_param():
     if request.method == 'POST':
@@ -291,7 +299,7 @@ def add_fuel_param():
         if current_product:
             proverka_section = Sections.query.filter_by(id_version=current_version_id, section_number=1, id_product=current_product.IdProduct).first()
             if proverka_section:
-                flash('Такой вид продукции уже существует')
+                flash('Такой вид продукции уже существует', 'error')
                 return redirect(url_for('views.report_fuel', id=current_version_id))
             else:
                 new_section = Sections(
@@ -390,8 +398,8 @@ def add_heat_param():
         if current_product:
             proverka_section = Sections.query.filter_by(id_version=current_version_id, section_number=2, id_product=current_product.IdProduct).first()
             if proverka_section:
-                flash('Такой вид продукции уже существует')
-                return redirect(url_for('views.report_fuel', id=current_version_id))
+                flash('Такой вид продукции уже существует', 'error')
+                return redirect(url_for('views.report_heat', id=current_version_id))
             else:
                 new_section = Sections(
                         id_version=current_version_id,
@@ -489,8 +497,8 @@ def add_electro_param():
         if current_product:
             proverka_section = Sections.query.filter_by(id_version=current_version_id, section_number=3, id_product=current_product.IdProduct).first()
             if proverka_section:
-                flash('Такой вид продукции уже существует')
-                return redirect(url_for('views.report_fuel', id=current_version_id))
+                flash('Такой вид продукции уже существует', 'error')
+                return redirect(url_for('views.report_electro', id=current_version_id))
             else:
                 new_section = Sections(
                         id_version=current_version_id,

@@ -9,7 +9,8 @@
     <title>{% block title %}Base{% endblock %}</title>
   </head>
   <body>  
-    <header>
+
+    <header class="fixed-header">
       <div class="left-content">
         <div class="theme-toggle" id="theme-toggle">
           <img src="{{ url_for('static', filename='img/icon_night.png') }}" alt="Light Mode" class="theme-img light-mode">

@@ -12,11 +12,25 @@ html{
     height: 100%;
 }
 
+html::-webkit-scrollbar {
+    width: 10px;
+}
+  
+html::-webkit-scrollbar-track {
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+    border-radius: 10px;
+}
+
+html::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #d8d6d6;
+}
+
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color:aliceblue;
+    background-color:rgb(238, 246, 253);
     color: rgb(0, 0, 0);
     /* transition: background-color 0.3s ease;    */
 }
@@ -25,6 +39,23 @@ body.dark-mode {
     background-color: #333; 
     color: #fff; 
 }
+
+.blurred-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(216, 236, 255);
+    background: linear-gradient(615deg, rgb(238, 246, 253), rgba(0, 128, 255, 0.6), rgb(216, 236, 255));
+    z-index: -1;
+}
+
+.dark-mode .blurred-background {
+    background: linear-gradient(615deg, rgb(238, 246, 253), rgb(78, 177, 165), rgb(216, 236, 255));
+
+}
+
 
 input:-webkit-autofill{
     -webkit-text-fill-color: rgb(0, 0, 0);
@@ -103,27 +134,25 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color:aliceblue;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    background-color: transparent;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
     color: rgb(0, 0, 0);
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     text-align: center;
-    z-index: 2;
+    z-index: 100;
     font-weight: 500;
-    /* transition: background-color 0.3s ease;  */
+    transition: background-color 0.5s ease;  
 }
 
-.dark-mode  header {
-    background-color: #252525;
-    color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); 
+.dark-mode header{
+    color: white;
 }
 
 header .center-content nav {
+    
     cursor: pointer;
     font-size: 17px;
     margin: 15px auto; 
@@ -249,22 +278,27 @@ main {
 }
 
 
-
-
-
 footer {
     display: flex; 
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    color: white;
-    background-color: #028dff;
+   
+    /* background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
+
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.2);
+
+
     width: 100%;
     font-weight: 500;
 }
   
 .dark-mode footer {
-    background-color:rgb(84, 146, 139);
+    /* background-color:rgb(84, 146, 139); */
+    background-color: #333;
 }
 
 .footer_cont{
@@ -396,19 +430,26 @@ footer {
 }
 
 .log_reg_form {
-    background-color: rgb(255, 255, 255);
+    /* background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
+
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.2);
+
+
     display: flex; 
     flex-direction: column;
     text-align: left;
     width: min-content;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+
     padding: 25px;
     border-radius: 10px;
 }
 
 .dark-mode .log_reg_form {
-    background-color:  #252525;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); 
+    /* background-color:  #252525;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);  */
 }
 
 .link_cont{
@@ -466,6 +507,7 @@ footer {
 .aftorization_data input,
 .persone_data input,
 .organization_data input{
+    background: rgba(255, 255, 255, 0);
     width: 280px;
     height: 20px;
     margin: 10px 0;
@@ -481,7 +523,7 @@ footer {
 .dark-mode .aftorization_data input,
 .dark-mode .persone_data input,
 .dark-mode .organization_data input{
-    background-color:  #252525; 
+    background: rgba(255, 255, 255, 0);
     border-bottom: 1px solid rgb(202, 202, 202);
     color: rgb(255, 255, 255);
 
@@ -559,42 +601,51 @@ footer {
 
 
 /*beginPage.css begin*/
-.hello_cont{
-    padding: 60px 30px ;
+.hello_cont {
+    position: relative;
+    width: 100%;
     height: 100vh;
-}
-
-.hello_cont .main_cont{
-    display:flex;
-    justify-content: space-between;
-}
-
-.hello_cont .main_cont .text_main_cont{
-    display:flex;
+    overflow: hidden;
+    display: flex;
     flex-direction: column;
-    font-size: 50px;
+    justify-content: start;
+    align-items: left;
+  }
+  
+.hello_cont::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1; 
+}
+
+.hello_cont video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    object-fit: cover;
+    z-index: -100;
+}
+  
+.hello_cont_name{
+    font-size: 45px;
     text-transform: uppercase;
     text-align: left;
     font-weight: 500;
-    padding: 40px 0 0 0;
-    color: transparent;
-    animation: fadeInText 1s ease forwards;
-}
-
-.dark-mode .hello_cont .main_cont .text_main_cont{
+    padding: 110px 40px 40px 40px;
+    color: transparent;    
+    z-index: 2;
     animation: fadeInTextwhite 1s ease forwards;
 }
-
-@keyframes fadeInText {
-    0% {
-        opacity: 0; 
-    }
-    100% {
-        opacity: 1;
-        color:black;
-    }
-}
-
+  
 @keyframes fadeInTextwhite {
     0% {
         opacity: 0; 
@@ -605,18 +656,15 @@ footer {
     }
 }
 
-.hello_cont .main_cont .gif_cont{
-    padding-right: 15%;
-}
-
 .hello_cont button{
-    margin: 300px 0 0 0;
+    margin: 300px  0 0 40px;
     height: 50px;
     width: 260px;
     color: rgb(255, 255, 255);
     z-index: 1;
     padding: 0 30px;
     font-size: 16px;
+    z-index: 22;
 }
 
 /* Контейнер с количеством пользователей, организац...*/
@@ -779,7 +827,7 @@ footer {
     height: 82px;
     font-weight: 600;
     border-radius: 10px;
-    margin: 15px 7px 25px 7px;
+    margin: 15px 7px 12px 7px;
     padding: 0 20px;
     font-size: 15px;
     transition: color 0.3s ease;
@@ -1598,6 +1646,7 @@ footer {
     -ms-user-select: none;
 }
 
+
 /*active-report*/
 .active-report,
 .active-input,
@@ -1611,6 +1660,53 @@ footer {
     background-color:rgb(86, 112, 110);
 }
 /*active-report end*/
+
+
+
+/*change report modal*/
+.change-report_table{
+    width: 100%; 
+    margin-top: 20px;
+}
+
+.change-report_table td{
+    height: 34px;
+    font-size: 12px; 
+    font-weight: 500;   
+    text-align: left;
+}
+
+.change-report_table input{
+    height: 26px;  
+    width: 100px;
+    padding: 0 10px;
+    margin: 0 20px;
+    text-align: right;
+    font-size: 12px; 
+    border-radius: 5px;
+    border: 1px solid rgb(220, 238, 255);
+    font-weight: 500; 
+}
+
+.change-report_table select{
+    height: 26px;  
+    width: 122px;
+    margin: 0 20px;
+    text-align: right;
+    font-size: 12px; 
+    border-radius: 5px;
+    border: 1px solid rgb(220, 238, 255);
+    font-weight: 500; 
+}
+
+.change-report_table select option{
+    font-weight: 500; 
+}
+
+
+/*change report end*/
+/*report.css end*/
+
 
 
 /* ----------------------modal_window begin */
@@ -1640,6 +1736,14 @@ footer {
 
 .modal-content form{
     text-align: right;
+}
+
+.modal-content button{
+    font-size: 14px;
+    margin: 0;
+    margin: 5px 20px 0 20px;
+    width: 200px;
+    height: 35px;
 }
 
 .dark-mode .modal-content {
@@ -1688,26 +1792,20 @@ footer {
     flex-grow: 1;
     border-spacing: 0px;
     border-collapse: collapse;
-
     border: none;
 }
 
 .spravochniki_area::-webkit-scrollbar {
     width: 7px;
-    height: 7px;
+}
+  
+.spravochniki_area::-webkit-scrollbar-track {
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
 }
 
 .spravochniki_area::-webkit-scrollbar-thumb {
-    background-color:rgb(221, 221, 221); 
-    border-radius: 5px;
-}
-
-.spravochniki_area::-webkit-scrollbar-track {
-    background-color:rgb(255, 255, 255);
-}
-
-.dark-mode	.spravochniki_area::-webkit-scrollbar-track {
-    background-color:#333;
+    border-radius: 10px;
+    background-color: #d8d6d6;
 }
 /*end */
 
@@ -1715,8 +1813,7 @@ footer {
 
 
 
-/*fuel page begin*/
-/*add fuel modal*/
+/*sections page begin*/
 .fuel_row,
 .fuel_row td,
 .fuel_row td input {
@@ -1727,19 +1824,19 @@ footer {
     -ms-user-select: none; 
 }
 
-.fuel-table_add{
+.sectionsModal-table{
     width: 100%; 
     margin-top: 20px;
 }
 
-.fuel-table_add td{
+.sectionsModal-table td{
     height: 34px;
     font-size: 12px; 
     font-weight: 500;   
     text-align: left;
 }
 
-.fuel-table_add input{
+.sectionsModal-table input{
     height: 26px;  
     width: 100px;
     padding: 0 10px;
@@ -1751,16 +1848,17 @@ footer {
     font-weight: 500; 
 }
 
-.fuel-table_add input:required-invalid{
+.sectionsModal-table input:required-invalid{
     border: 2px solid red;
 }
 
-.fuel-table_add span{
+.sectionsModal-table span{
     font-weight: 600;
 }
 
 .choose-product_area {
     position: absolute;
+    margin-top: 7px;
     max-width: 422px;
     background-color: white;
     border: none; 
@@ -1783,7 +1881,6 @@ footer {
     margin-left: 20px;
 }
 
-
 .choose-product_area .table_report-area thead {
     width: 100%;
 }
@@ -1797,16 +1894,29 @@ footer {
     overflow-y: auto;
 }
 
+.table_body_container::-webkit-scrollbar {
+    width: 7px;
+}
+  
+.table_body_container::-webkit-scrollbar-track {
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+}
+
+.table_body_container::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #d8d6d6;
+}
+
 .search_product_input{
     margin: 10px;
     width: 180px;
 }
 
-.fuel-table_add .table_report-area tr:hover{
+.sectionsModal-table .table_report-area tr:hover{
     background-color: #ebebeb;
 }
 
-.dark-mode .fuel-table_add .table_report-area tr:hover{
+.dark-mode .sectionsModal-table .table_report-area tr:hover{
     background-color: #6e6e6e;
 }
 
@@ -1815,7 +1925,6 @@ footer {
   
 }
 
-
 .choose-product_area button{
     font-size: 12px;
     margin: 3px 20px 0 0;
@@ -1823,58 +1932,8 @@ footer {
     height: 35px;
 }
 
-/*fuel page end*/
-
-/*change report modal*/
-.change-report_table{
-    width: 100%; 
-    margin-top: 20px;
-}
-
-.change-report_table td{
-    height: 34px;
-    font-size: 12px; 
-    font-weight: 500;   
-    text-align: left;
-}
-
-.change-report_table input{
-    height: 26px;  
-    width: 100px;
-    padding: 0 10px;
-    margin: 0 20px;
-    text-align: right;
-    font-size: 12px; 
-    border-radius: 5px;
-    border: 1px solid rgb(220, 238, 255);
-    font-weight: 500; 
-}
-
-.change-report_table select{
-    height: 26px;  
-    width: 122px;
-    margin: 0 20px;
-    text-align: right;
-    font-size: 12px; 
-    border-radius: 5px;
-    border: 1px solid rgb(220, 238, 255);
-    font-weight: 500; 
-}
-
-.change-report_table select option{
-    font-weight: 500; 
-}
+/*sections page end*/
 
 
-
-
-.change-report_table button{
-    font-size: 12px;
-    margin: 15px 20px 0 0;
-    width: 180px;
-    height: 35px;
-}
-/*change report end*/
-/*report.css end*/
 
 
