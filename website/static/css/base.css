@@ -32,12 +32,21 @@ body {
     min-height: 100vh;
     background-color:rgb(238, 246, 253);
     color: rgb(0, 0, 0);
-    /* transition: background-color 0.3s ease;    */
 }
 
 body.dark-mode {
     background-color: #333; 
     color: #fff; 
+}
+
+:root {
+    --color1: rgb(238, 246, 253);
+    --color2: rgba(0, 128, 255, 0.6);
+    --color3: rgb(216, 236, 255);
+
+    --color4: #333;
+    --color5: rgb(61, 185, 171);
+    --color6: #444444;
 }
 
 .blurred-background {
@@ -46,34 +55,58 @@ body.dark-mode {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgb(216, 236, 255);
-    background: linear-gradient(615deg, rgb(238, 246, 253), rgba(0, 128, 255, 0.6), rgb(216, 236, 255));
     z-index: -1;
+    filter: blur(80px);
+    animation: gradient-animation 15s ease infinite;
+    background: linear-gradient(615deg, var(--color1), var(--color2), var(--color3));    
+    opacity: 1;
+    transition: opacity 3s ease-in-out;
 }
 
 .dark-mode .blurred-background {
-    background: linear-gradient(615deg, rgb(238, 246, 253), rgb(78, 177, 165), rgb(216, 236, 255));
-
+    background: linear-gradient(615deg, var(--color4), var(--color5), var(--color6));
+    animation: gradient-animation-dark 15s ease infinite;  
+    opacity: 1;
 }
 
-
-input:-webkit-autofill{
-    -webkit-text-fill-color: rgb(0, 0, 0);
-    caret-color: rgb(0, 0, 0);
-    -webkit-box-shadow: 0 0 0 1000px rgb(255, 255, 255) inset;
+@keyframes gradient-animation {
+    0% {
+        background: linear-gradient(615deg, var(--color1), var(--color2), var(--color3));
+        opacity: 1;
+    }
+    50% {
+        background: linear-gradient(615deg, var(--color1), var(--color2), var(--color3));
+        opacity: 0.6;
+    }
+    100% {
+        background: linear-gradient(615deg, var(--color1), var(--color2), var(--color3));
+        opacity: 1;
+    }
 }
 
-input:focus{
+@keyframes gradient-animation-dark {
+    0% {
+        background: linear-gradient(615deg, var(--color4), var(--color5), var(--color6));
+        opacity: 1;
+    }
+    50% {
+        background: linear-gradient(615deg, var(--color4), var(--color5), var(--color6));
+        opacity: 0.6;
+    }
+    100% {
+        background: linear-gradient(615deg, var(--color4), var(--color5), var(--color6));
+        opacity: 1;
+    }
+}
+
+input:focus,
+button:focus,
+select:focus{
     outline: none ;
 }
 
-button:focus{
-    outline: none;
-}
-
-select:focus{
-    outline: none;
-}
+input::-webkit-input-placeholder {  color: rgb(56, 56, 56); }
+.dark-mode input::-webkit-input-placeholder {  color: rgb(255, 255, 255); }
 
 .blue_button{
     font-size: 14px;
@@ -93,22 +126,15 @@ select:focus{
 }
   
 .dark-mode .blue_button{
-    background-color:rgb(84, 146, 139);
+    background-color:rgb(0, 158, 140);
 }
 
 .dark-mode .blue_button:hover{
     transition: background-color 0.3s ease;   
-    background-color:rgb(69, 105, 101);
+    background-color:rgb(41, 109, 101);
 }
 
-
-
-
-.blue_button:focus {
-    outline: none;
-}
 /*----------them----------------------*/
-
 .theme-toggle {
     cursor: pointer;
     margin-left: 40px;
@@ -135,7 +161,6 @@ header {
     justify-content: space-between;
     align-items: center;
     background-color: transparent;
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
     color: rgb(0, 0, 0);
     position: fixed;
     top: 0;
@@ -152,7 +177,6 @@ header {
 }
 
 header .center-content nav {
-    
     cursor: pointer;
     font-size: 17px;
     margin: 15px auto; 
@@ -283,21 +307,16 @@ footer {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-   
-    /* background-color: rgb(255, 255, 255);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
-
-    backdrop-filter: blur(10px);
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  
+    /* backdrop-filter: blur(10px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    background: rgba(255, 255, 255, 0.2);
-
-
+    background: rgba(255, 255, 255, 0.2); */
     width: 100%;
     font-weight: 500;
 }
   
 .dark-mode footer {
-    /* background-color:rgb(84, 146, 139); */
     background-color: #333;
 }
 
@@ -432,24 +451,15 @@ footer {
 .log_reg_form {
     /* background-color: rgb(255, 255, 255);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
-
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     background: rgba(255, 255, 255, 0.2);
-
-
     display: flex; 
     flex-direction: column;
     text-align: left;
     width: min-content;
-
     padding: 25px;
     border-radius: 10px;
-}
-
-.dark-mode .log_reg_form {
-    /* background-color:  #252525;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);  */
 }
 
 .link_cont{
@@ -472,19 +482,18 @@ footer {
 }
 
 .dark-mode .link_cont a:hover{
-    color: rgb(43, 236, 214); 
+    color: rgb(0, 112, 99);
     transition: color 0.3s ease;
 }
 
 
 .link_cont .active{
-    color: #61b8ff;
+    color: #028dff;
 }
 
 .dark-mode .link_cont .active{
-    color: rgb(43, 236, 214); 
+    color: rgb(0, 112, 99);
 }
-
 
 .aftorization_data{
     display: flex;
@@ -504,6 +513,8 @@ footer {
     margin-left: 12px;
 }
 
+
+
 .aftorization_data input,
 .persone_data input,
 .organization_data input{
@@ -512,7 +523,7 @@ footer {
     height: 20px;
     margin: 10px 0;
     border: none; 
-    border-bottom: 1px solid rgb(202, 202, 202);
+    border-bottom: 1px solid rgb(56, 56, 56); 
     color: black;
     padding: 5px 20px;
     outline: none;
@@ -524,7 +535,7 @@ footer {
 .dark-mode .persone_data input,
 .dark-mode .organization_data input{
     background: rgba(255, 255, 255, 0);
-    border-bottom: 1px solid rgb(202, 202, 202);
+    border-bottom: 1px solid rgb(255, 255, 255);
     color: rgb(255, 255, 255);
 
 }
@@ -539,10 +550,29 @@ footer {
     margin: 10px 0 10px 0;
 }
 
-.log_reg_form .remember_cont input[type = 'checkbox']{
-    margin-right: 10px;
+.remember_cont input[type='checkbox'] {
+    margin: 0 10px;
+    appearance: none; 
+    width: 14px; 
+    height: 14px; 
+    border-radius: 50%;
+    border: 1px solid rgb(134, 134, 134);
+    background-color: rgb(255, 255, 255); 
     cursor: pointer;
+    transition: background-color 0.3s ease;  
+    vertical-align: middle;
 }
+
+.remember_cont input[type='checkbox']:checked  {
+    background-color: #007bff; 
+    border: 1px solid rgb(134, 134, 134);
+}
+
+.dark-mode .remember_cont input[type='checkbox']:checked  {
+    background-color: rgb(0, 158, 140);
+    border: 1px solid rgb(134, 134, 134);
+}
+
 
 .log_buttons_area{
     display:flex;
@@ -558,6 +588,8 @@ footer {
     width: 300px;
     height: 34px;
     cursor: pointer;
+    border: none;
+    border-radius: 5px;
 }
 
 .log_reg_form .forgot_cont{
@@ -585,16 +617,6 @@ footer {
     color: rgb(255, 255, 255);
 }
 
-.google_cont button{
-    background-color: rgb(255, 255, 255);
-    border: 1px solid rgb(202, 202, 202);
-    color: black;
-    margin: 30px 0 0  0;
-    height: 40px;
-    width: 100%;
-    font-weight: 500;
-    cursor: pointer;
-}
 /*log_reg_fp.css end*/
 
 
@@ -798,6 +820,7 @@ footer {
     width: 1024px;
     background-image: url('../img/begin_name1.png');
     text-shadow: 1px 1px 2px black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0);
     font-weight: 600;
 }
   
@@ -1797,6 +1820,7 @@ footer {
 
 .spravochniki_area::-webkit-scrollbar {
     width: 7px;
+    height: 7px;
 }
   
 .spravochniki_area::-webkit-scrollbar-track {
