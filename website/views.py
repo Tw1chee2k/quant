@@ -587,6 +587,7 @@ def report_fuel(id):
 @owner_only
 def report_heat(id):
     dirUnit = DirUnit.query.filter_by().all()
+    
     dirProduct = DirProduct.query.filter(DirProduct.IsHeat == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
     current_version_report = Version_report.query.filter_by(id=id).first()
     curent_report = current_version_report.report_id

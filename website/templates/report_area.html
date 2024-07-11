@@ -85,19 +85,19 @@
                             <button class="show-versins_button">+</button>
                         </td>
                         <td>
-                            <input type = "text" id = "report_id" value = "{{ row.id }}" readonly>
+                            <input type = "text" id = "report_id" style = "text-align:center;" value = "{{ row.id }}" readonly>
                         </td>
                         <td>
-                            <input type = "text" id = "report_okpo" value = "{{ row.okpo }}" readonly>
+                            <input type = "text" id = "report_okpo" style = "text-align:center;" value = "{{ row.okpo }}" readonly>
                         </td>
                         <td>
                             <input type = "text" id = "report_organization_name" value = "{{ row.organization_name }}" readonly>
                         </td>
                         <td>
-                            <input type = "text" id = "report_year" value = "{{ row.year }}" readonly>
+                            <input type = "text" id = "report_year" style = "text-align:center;" value = "{{ row.year }}" readonly>
                         </td>
                         <td>
-                            <input type = "text" id = "report_quarter" value = "{{ row.quarter }}" readonly>
+                            <input type = "text" id = "report_quarter" style = "text-align:center;" value = "{{ row.quarter }}" readonly>
                         </td>
                         <td>
 
@@ -155,10 +155,10 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            <input type="checkbox" name="control" {% if rows.control %} checked {% endif %} disabled>
+                                            <input type="checkbox" name="control" {% if rows.control %} checked {% endif %} >
                                         </td>
                                         <td>
-                                            <input type="checkbox" name="control" {% if rows.agreed %} checked {% endif %} disabled>
+                                            <input type="checkbox" name="control" {% if rows.agreed %} checked {% endif %} >
                                         </td>
                                         <td>
                                             {% if rows.agreed_time %}

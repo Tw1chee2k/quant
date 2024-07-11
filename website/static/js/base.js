@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 header.style.backgroundColor = '#333';
             }
             else{
-                header.style.backgroundColor = '#f0f8ff';
+                header.style.backgroundColor = 'white';
                 
             }
         } else {
@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
     
     if (currentTheme === 'dark') {
         body.classList.add('dark-mode');
-
     } else {
         body.classList.add('light-mode');
     }
@@ -38,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
     (function() {
         var alertBox = document.querySelector('.custom-alert');
         if (alertBox) {
-            // Добавляем анимацию прогресс-бара
             var progressBar = alertBox.querySelector('.notif-progress');
             if (progressBar) {
                 progressBar.style.animation = 'runProgress-mes 2.7s linear forwards';

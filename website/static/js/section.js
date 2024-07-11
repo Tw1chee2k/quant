@@ -140,23 +140,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
 
-    var link_addfuel_modal = document.querySelector('[data-action="link_addfuel_modal"]');
-    var addfuel_modal = document.getElementById('addfuel_modal');
-    var close_addfuel_modal = addfuel_modal.querySelector('.close');
+    var link_addSection_modal = document.querySelector('[data-action="link_addSection_modal"]');
+    var addSection_modal = document.getElementById('addSection_modal');
+    var close_addSection_modal = addSection_modal.querySelector('.close');
 
-    link_addfuel_modal.addEventListener('click', function() {
+    link_addSection_modal.addEventListener('click', function() {
         contextmenufuel.style.display = 'none';
-        addfuel_modal.style.display = 'block';
+        addSection_modal.style.display = 'block';
     });
 
-    close_addfuel_modal.addEventListener('click', function() {
-        addfuel_modal.style.display = 'none';
+    close_addSection_modal.addEventListener('click', function() {
+        addSection_modal.style.display = 'none';
     });
 
     window.addEventListener('click', function(event) {
         contextmenufuel.style.display = 'none';
-        if (event.target == addfuel_modal) {
-            addfuel_modal.style.display = 'none';
+        if (event.target == addSection_modal) {
+            addSection_modal.style.display = 'none';
         }
     });
     var nameOfProductInput = document.querySelector('input[name="name_of_product"]');
