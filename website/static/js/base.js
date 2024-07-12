@@ -5,13 +5,15 @@ document.addEventListener('DOMContentLoaded', function () {
         if (window.scrollY > 0) {
             if (currentTheme === 'dark') {
                 header.style.backgroundColor = '#333';
+           
             }
             else{
                 header.style.backgroundColor = 'white';
-                
+                // header.style.color = 'black';
             }
         } else {
             header.style.backgroundColor = 'transparent';
+            // header.style.color = 'white';
         }
     });
 

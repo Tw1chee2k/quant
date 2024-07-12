@@ -718,3 +718,41 @@ def remove_section(id):
             return redirect(url_for('views.report_heat', id=id_version))
         elif(section_numberDELsection == 3):
             return redirect(url_for('views.report_electro', id=id_version))
+        
+@auth.route('/control_version/<id>', methods=['POST'])
+def control_version(id):
+    if request.method == 'POST':
+        current_reportVersion = Version_report.query.filter_by(id=id).first()
+        id_version = current_reportVersion.id
+        fuel_section9010 = Sections.query.filter_by(id_version=id, section_number=1, code_product=9010).first()
+        heat_section9010 = Sections.query.filter_by(id_version=id, section_number=2, code_product=9010).first()
+        electro_section9010 = Sections.query.filter_by(id_version=id, section_number=3, code_product=9010).first()    
+
+        if current_reportVersion.control == False: 
+            if fuel_section9010 is None or heat_section9010 is None or electro_section9010 is None:
+                if fuel_section9010 is None:
+                    flash('Код строки 9010 не заполнен', 'error')
+                    return redirect(url_for('views.report_fuel', id=id_version))
+                if heat_section9010 is None:
+                    flash('Код строки 9010 не заполнен', 'error')
+                    return redirect(url_for('views.report_heat', id=id_version))
+                if electro_section9010 is None:
+                    flash('Код строки 9010 не заполнен', 'error')
+                    return redirect(url_for('views.report_electro', id=id_version))
+            
+            if not fuel_section9010.note:
+                flash('Код строки 9010 не заполнен', 'error')
+                return redirect(url_for('views.report_fuel', id=id_version))
+            elif not heat_section9010.note:
+                flash('Код строки 9010 не заполнен', 'error')
+                return redirect(url_for('views.report_heat', id=id_version))
+            elif not electro_section9010.note:
+                flash('Код строки 9010 не заполнен', 'error')
+                return redirect(url_for('views.report_electro', id=id_version))
+            
+            current_reportVersion.control = True
+            db.session.commit()
+            flash('Контроль пройден', 'successful')
+        else:
+            flash('Контроль уже был пройден', 'successful')
+        return redirect(url_for('views.report_area'))

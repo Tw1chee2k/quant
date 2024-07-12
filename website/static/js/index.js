@@ -240,12 +240,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
-    
-
     document.getElementById('create-report-btn').addEventListener('click', function() {
         document.getElementById('new-report-form').submit();
     });
+
+
 
     var add_versionButton = document.getElementById('add_versionButton');
     add_versionButton.addEventListener('click', function(event) {

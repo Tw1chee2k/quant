@@ -323,3 +323,8 @@ document.querySelector('#chooseProdTableBody').addEventListener('click', functio
         });
     }
 });
+
+
+document.getElementById('control-report-btn').addEventListener('click', function() {
+    document.getElementById('control-report-form').submit();
+});

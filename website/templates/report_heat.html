@@ -63,10 +63,12 @@
                         </section>
                         <section>
                             <div class = "functions_menu">
-                                <li>           
+                                <form id="control-report-form" action="/control_version/{{current_version}}" method="POST" style="display: none;">
+                                </form>
+                                <li id="control-report-btn">           
                                     <img src="{{ url_for('static', filename='img/icon_control.png')}}" alt="">
                                     <a></a>   
-                                </li>  
+                                </li> 
                             </div>
                             <div style = "font-weight: 600;">
                                 Контроль 
