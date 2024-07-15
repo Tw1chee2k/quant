@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.version-row').forEach(function(row) {
     row.addEventListener('dblclick', function() {
         var id = this.dataset.id;
-        var url = "/report/fuel/" + id;
+        var url = "/report_area/fuel/" + id;
         console.log(id);
         window.location.href = url;
     });
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var activeVersionRow = document.querySelector('.version-row.active-report_version');
     if (activeVersionRow) {
         var id = activeVersionRow.dataset.id;
-        var url = "/report/fuel/" + id;
+        var url = "/report_area/fuel/" + id;
         console.log(id);
         window.location.href = url;
     } else {
@@ -291,8 +291,38 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    var controlVersionButton = document.getElementById('control_versionButton');
+    controlVersionButton.addEventListener('click', function(event) {
+        var activeRow = document.querySelector('.version-row.active-report_version');
+        if (activeRow !== null) {
+            var versionId = activeRow.dataset.id;
+            if (versionId) {
+                var controlForm = document.getElementById('control-version-form');
+                controlForm.action = '/control_version/' + versionId;
+                controlForm.submit();
+            }
+        } else {
+            alert('Выберите версию для контроля');
+            event.preventDefault();
+        }
+    });
 
 
+    var agreedVersionButton = document.getElementById('agreedVersionButton');
+    agreedVersionButton.addEventListener('click', function(event) {
+        var activeRow = document.querySelector('.version-row.active-report_version');
+        if (activeRow !== null) {
+            var versionId = activeRow.dataset.id;
+            if (versionId) {
+                var agreedForm = document.getElementById('agreed-version-form');
+                agreedForm.action = '/agreed_version/' + versionId;
+                agreedForm.submit();
+            }
+        } else {
+            alert('Выберите версию для согласования');
+            event.preventDefault();
+        }
+    });
 
 
 

@@ -294,7 +294,7 @@ def add_fuel_param():
         Consumed_Total_Fact = Decimal(Consumed_Total_Fact) if Consumed_Total_Fact else Decimal(0)
 
 
-
+        current_version = Version_report.query.filter_by(id=current_version_id).first()
         current_product = DirProduct.query.filter_by(NameProduct=name, IdProduct=id_product).first()
         product_unit = DirUnit.query.filter_by(IdUnit = current_product.IdUnit).first()
 
@@ -375,11 +375,14 @@ def add_fuel_param():
                     section9100.total_differents = section9001.total_differents + section9010.total_differents
                     db.session.commit()
             
-                current_version = Version_report.query.filter_by(id=current_version_id).first()
                 if current_version:
                     current_version.change_time = datetime.now()
                     db.session.commit()
             flash("Продукция была добавлена", category='success')
+            current_version.control = False
+            current_version.agreed = False
+            current_version.agreed_time = None
+            db.session.commit()
         else:
             flash("Выбирите вид продукции из выпадающего списка", category='error')
         return redirect(url_for('views.report_fuel', id=current_version_id))
@@ -403,7 +406,8 @@ def add_heat_param():
         Consumed_Fact = Decimal(Consumed_Fact) if Consumed_Fact else Decimal(0)
         Consumed_Total_Quota = Decimal(Consumed_Total_Quota) if Consumed_Total_Quota else Decimal(0)
         Consumed_Total_Fact = Decimal(Consumed_Total_Fact) if Consumed_Total_Fact else Decimal(0)
-
+        
+        current_version = Version_report.query.filter_by(id=current_version_id).first() 
         current_product = DirProduct.query.filter_by(NameProduct=name, IdProduct=id_product).first()
         product_unit = DirUnit.query.filter_by(IdUnit = current_product.IdUnit).first()
         if current_product:
@@ -481,11 +485,15 @@ def add_heat_param():
                     section9100.total_differents = section9001.total_differents + section9010.total_differents
                     db.session.commit()
             
-                current_version = Version_report.query.filter_by(id=current_version_id).first() 
+                
                 if current_version:
                     current_version.change_time = datetime.now()
                     db.session.commit()
             flash("Продукция была добавлена", category='success')
+            current_version.control = False
+            current_version.agreed = False
+            current_version.agreed_time = None
+            db.session.commit()
         else:
             flash("Выбирите вид продукции из выпадающего списка", category='error')
         return redirect(url_for('views.report_heat', id=current_version_id))
@@ -510,6 +518,7 @@ def add_electro_param():
         Consumed_Total_Quota = Decimal(Consumed_Total_Quota) if Consumed_Total_Quota else Decimal(0)
         Consumed_Total_Fact = Decimal(Consumed_Total_Fact) if Consumed_Total_Fact else Decimal(0)
 
+        current_version = Version_report.query.filter_by(id=current_version_id).first() 
         current_product = DirProduct.query.filter_by(NameProduct=name, IdProduct=id_product).first()
         product_unit = DirUnit.query.filter_by(IdUnit = current_product.IdUnit).first()
         if current_product:
@@ -586,11 +595,15 @@ def add_electro_param():
                     section9100.total_differents = section9001.total_differents + section9010.total_differents
                     db.session.commit()
             
-                current_version = Version_report.query.filter_by(id=current_version_id).first() 
+               
                 if current_version:
                     current_version.change_time = datetime.now()
                     db.session.commit()
             flash("Продукция была добавлена", category='success')
+            current_version.control = False
+            current_version.agreed = False
+            current_version.agreed_time = None
+            db.session.commit()
         else:
             flash("Выбирите вид продукции из выпадающего списка", category='error')
         return redirect(url_for('views.report_electro', id=current_version_id))
@@ -613,6 +626,7 @@ def change_section():
         Consumed_Total_Quota = Decimal(Consumed_Total_Quota) if Consumed_Total_Quota else Decimal(0)
         Consumed_Total_Fact = Decimal(Consumed_Total_Fact) if Consumed_Total_Fact else Decimal(0)
 
+        current_version = Version_report.query.filter_by(id=id_version).first() 
         current_section = Sections.query.filter_by(id=id_fuel).first()
         if current_section:
             if (current_section.code_product == 7000):
@@ -645,7 +659,6 @@ def change_section():
                 current_section.total_differents = current_section.Consumed_Total_Fact - current_section.Consumed_Total_Quota
                 db.session.commit()
         
-            current_version = Version_report.query.filter_by(id=id_version).first()
             if current_version:
                 current_version.change_time = datetime.now()
                 db.session.commit()
@@ -677,7 +690,11 @@ def change_section():
                 section9100.Consumed_Total_Fact = (section9001.Consumed_Total_Fact or 0) + (section9010.Consumed_Total_Fact or 0)
                 section9100.total_differents = (section9001.total_differents or 0) + (section9010.total_differents or 0)
                 db.session.commit()
-
+            
+            current_version.control = False
+            current_version.agreed = False
+            current_version.agreed_time = None
+            db.session.commit()
             flash("Параметры обновлены", category='success')
         else:
             flash("Ошибка при обновлении", category='error')    
@@ -694,7 +711,9 @@ def remove_section(id):
         delete_section = Sections.query.filter_by(id=id).first()
         id_version = delete_section.id_version
         section_numberDELsection = delete_section.section_number
-        
+
+        current_version = Version_report.query.filter_by(id=id_version).first() 
+
         if delete_section:
             section9001 = Sections.query.filter_by(id_version=id_version, section_number = section_numberDELsection, code_product = 9001).first()
             section9001.Consumed_Total_Quota -= delete_section.Consumed_Total_Quota
@@ -709,6 +728,14 @@ def remove_section(id):
             db.session.delete(delete_section)
             db.session.commit()
             flash("Продукция была удалена", category='success')
+            if current_version:
+                current_version.change_time = datetime.now()
+                db.session.commit()
+
+            current_version.control = False
+            current_version.agreed = False
+            current_version.agreed_time = None
+            db.session.commit()
         else: 
             flash("Ошибка при удалении", category='error')
 
@@ -755,4 +782,21 @@ def control_version(id):
             flash('Контроль пройден', 'successful')
         else:
             flash('Контроль уже был пройден', 'successful')
+        return redirect(url_for('views.report_area'))
+    
+@auth.route('/agreed_version/<id>', methods=['POST'])
+def agreed_version(id):
+    if request.method == 'POST':
+        current_reportVersion = Version_report.query.filter_by(id=id).first()
+
+        if current_reportVersion.agreed == False: 
+            if current_reportVersion.control == True: 
+                current_reportVersion.agreed = True
+                current_reportVersion.agreed_time = datetime.now()
+                db.session.commit()
+                flash('Версия согласована', 'successful')
+            else:
+                flash('Необходимо пройти контроль', 'error')
+        else:
+            flash('Версия уже согласована', 'successful')
         return redirect(url_for('views.report_area'))

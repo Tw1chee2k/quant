@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Fuel rep:{{curent_report}}; vers:{{current_version}} {% endblock %}
+{% block title %}Fuel{% endblock %}
 {% block content %}
 <div class = "report-area_page">
     <div class = "report-area_menu">
@@ -13,68 +13,53 @@
                             <div class = "functions_menu">
                                 <li data-action="link_addSection_modal">
                                     <img src="{{ url_for('static', filename='img/icon_new_file.png')}}" alt="">
-                                    <a></a>
+                                    <a>Добавить</a>
                                 </li>
                             </div>
-                            <div style = "font-weight: 600;">
-                                Действия
-                            </div>
+                            <a class="functions_menu_name">
+                                Продукция
+                            </a>
                         </section>
                         <section>
                             <div class = "functions_menu">
-                                <li onclick="window.location.href='/report/fuel/{{current_version}}'" class = "activefunctions_menu">         
+                                <li onclick="window.location.href='/report_area/fuel/{{current_version}}'" class = "activefunctions_menu">         
                                     <img src="{{ url_for('static', filename='img/Toplivo.png')}}" alt="">
                                     <a>Топливо</a>   
                                 </li>
-                                <li onclick="window.location.href='/report/heat/{{current_version}}'">                      
+                                <li onclick="window.location.href='/report_area/heat/{{current_version}}'">                      
                                     <img src="{{ url_for('static', filename='img/Teplo.png')}}" alt="">
                                     <a>Тепло</a>
                                 </li>
 
-                                <li onclick="window.location.href='/report/electro/{{current_version}}'">           
+                                <li onclick="window.location.href='/report_area/electro/{{current_version}}'">           
                                     <img src="{{ url_for('static', filename='img/Electro.png')}}" alt="">
                                     <a>Электро</a>   
                                 </li>  
                             </div>
-                            <div style = "font-weight: 600;">
-                                Выбрать раздел
-                            </div> 
+                            <a class="functions_menu_name">
+                                Раздел
+                            </a>
                         </section>
                         <section>
                             <div class = "functions_menu">                         
                                 <li>           
                                     <img src="{{ url_for('static', filename='img/icon_excel.png')}}" alt="">
-                                    <a></a>   
+                                    <a>Экспорт</a>   
                                 </li>  
-                            </div>
-                            <div style = "font-weight: 600;">
-                                Экспорт
-                            </div>   
-                        </section>
-                        <section>
-                            <div class = "functions_menu">
                                 <li>           
                                     <img src="{{ url_for('static', filename='img/icon_sort.png')}}" alt="">
-                                    <a></a>   
+                                    <a>Сортировка</a>   
                                 </li> 
-                            </div>
-                            <div style = "font-weight: 600;">
-                                Сортировка 
-                            </div>   
-                        </section>
-
-                        <section>
-                            <div class = "functions_menu">
                                 <form id="control-report-form" action="/control_version/{{current_version}}" method="POST" style="display: none;">
                                 </form>
                                 <li id="control-report-btn">           
                                     <img src="{{ url_for('static', filename='img/icon_control.png')}}" alt="">
-                                    <a></a>   
-                                </li>  
-                            </div>
-                            <div  style = "font-weight: 600;">
-                                Контроль 
-                            </div>   
+                                    <a>Контроль</a>   
+                                </li> 
+                            </div>  
+                            <a class="functions_menu_name">
+                                Версия отчета
+                            </a>
                         </section>
                     </ul>
                 </nav>
@@ -116,7 +101,7 @@
                     <img class = "icon_arroy" src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
                     <img class = "icon_arroy_dark" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
                 </li>
-                <li>Топливо</li>
+                <li>Топливо ({{curent_report}}, {{current_version}})</li>
             </ul>
         </nav>
     </div>

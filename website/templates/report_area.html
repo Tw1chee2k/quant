@@ -16,12 +16,12 @@
                                 </form>
                                 <li id="create-report-btn" >
                                     <img src="{{ url_for('static', filename='img/icon_new_file.png') }}" alt="Создать отчет">
-                                    <a></a>
+                                    <a>Добавить</a>
                                 </li>
                             </div>
-                            <div style="font-weight: 600;">
+                            <a class="functions_menu_name">
                                 Отчет
-                            </div>
+                            </a>
                         </section>
                         <section>
                             <div class="functions_menu">
@@ -29,33 +29,40 @@
                                     <img src="{{ url_for('static', filename='img/icon_excel.png') }}" alt="">
                                     <a>Экспорт</a>
                                 </li>
-                                <li>
+
+                                <li id="control_versionButton">
                                     <img src="{{ url_for('static', filename='img/icon_control.png') }}" alt="">
                                     <a>Контроль</a>
                                 </li>
-                                <li>
+
+                                    <form id="control-version-form" action="/control_version" method="POST" style="display: none;">
+                                    </form>
+                        
+                                <li id = "agreedVersionButton">
                                     <img src="{{ url_for('static', filename='img/icon_galochka.png') }}" alt="">
-                                    <a>Согласован</a>
+                                    <a>Согласовать</a>
                                 </li>
+                                    <form id="agreed-version-form" action="/agreed_version" method="POST" style="display: none;">
+                                    </form>
                                 <li>
                                     <img src="{{ url_for('static', filename='img/icon_send.png') }}" alt="">
                                     <a>Отправить</a>
                                 </li>
                             </div>
-                            <div style="font-weight: 600;">
-                                Действия с версией
-                            </div>
+                            <a class="functions_menu_name">
+                                Версия отчета
+                            </a>
                         </section>
                         <section>
                             <div class="functions_menu">
                                 <li onclick="openNewWindow('/report')">
                                     <img src="{{ url_for('static', filename='img/icon_print_file.png') }}" alt="">
-                                    <a></a>
+                                    <a>Печать</a>
                                 </li>
                             </div>
-                            <div style="font-weight: 600;">
+                            <a class="functions_menu_name">
                                 Квитанция
-                            </div>
+                            </a>
                         </section>
                     </ul>
                 </nav>

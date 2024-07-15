@@ -29,7 +29,7 @@ def beginPage():
     if User.query.count() == 0:
         new_org = Organization(full_name = "Руп Квант-АС", 
                                okpo = '12345678', 
-                               ynp = '4532345')
+                               ynp = '453234532')
         
         db.session.add(new_org)
         db.session.commit()
@@ -482,7 +482,16 @@ def beginPage():
                                  DateEnd=data[8])
             db.session.add(product)
         db.session.commit()
-    return render_template('beginPage.html', user=current_user)
+    user_data = User.query.count()
+    organization_data = Organization.query.count()
+    report_data = Report.query.count()
+
+    return render_template('beginPage.html', 
+                           user=current_user, 
+                           user_data = user_data, 
+                           organization_data = organization_data, 
+                           report_data = report_data
+                           )
 
 @views.route('/sign')
 def sign():
@@ -536,7 +545,7 @@ def report_area():
                            organization=organization, 
                            version=version)
 
-@views.route('/report/fuel/<int:id>')
+@views.route('/report_area/fuel/<int:id>')
 @login_required
 @owner_only
 def report_fuel(id):
@@ -582,7 +591,7 @@ def report_fuel(id):
         current_version=current_version
     )
 
-@views.route('/report/heat/<int:id>')
+@views.route('/report_area/heat/<int:id>')
 @login_required
 @owner_only
 def report_heat(id):
@@ -629,7 +638,7 @@ def report_heat(id):
         current_version=current_version
     )
 
-@views.route('/report/electro/<int:id>')
+@views.route('/report_area/electro/<int:id>')
 @login_required
 @owner_only
 def report_electro(id):

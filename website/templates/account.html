@@ -24,10 +24,10 @@
             {%endif%}
         </div>
         <div class = "account_messages">
-            <button class = "account_message_button" disabled>
+            <div class = "account_messageArea">
                 <img src="{{ url_for('static', filename='img/icon_message.png')}}"  alt="">
                 <span>Сообщения</span>
-            </button>
+            </div>
             <div class = "message_cont">
                 {% if message %}
                     {% for row in message %}

@@ -8,7 +8,7 @@
       <source src="{{ url_for('static', filename='video/    .mp4') }}" type="video/mp4">
     </video>
     <div class = "hello_cont_name">
-        Информационная система учета и обработки отчетов организаций
+        Информационная система учета и обработки отчетов предприятий
     </div>
         {% if user.is_authenticated%}
             <button onclick="window.location.href='/report_area'" type="" class = "blue_button">Подать отчет</button>
@@ -24,17 +24,17 @@
     <div class="item_stat">
         <a class = "item_statName">Предприятий</a>
         <img src="{{ url_for('static', filename='img/organization.png')}}" alt="организаций">
-        <div class = "stat_count">111</div>
+        <div class = "stat_count">{{organization_data}}</div>
     </div>
     <div class="item_stat">
         <a class = "item_statName">Отчетов</a>
         <img src="{{ url_for('static', filename='img/icon_reports.png')}}" alt="обращений">
-        <div class = "stat_count">222</div>
+        <div class = "stat_count">{{report_data}}</div>
     </div>
     <div class="item_stat">
         <a class = "item_statName">Респондентов</a>
         <img src="{{ url_for('static', filename='img/people.png')}}" alt="Граждан">
-        <div class = "stat_count">444</div>
+        <div class = "stat_count">{{user_data}}</div>
     </div>
 </div>
 

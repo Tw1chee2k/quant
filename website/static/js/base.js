@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
            
             }
             else{
-                header.style.backgroundColor = 'white';
+                header.style.backgroundColor = 'aliceblue';
                 // header.style.color = 'black';
             }
         } else {

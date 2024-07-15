@@ -105,6 +105,10 @@ select:focus{
     outline: none ;
 }
 
+input[type = "checkbox"]:disabled{
+    background-color: #028dff;
+}
+
 input::-webkit-input-placeholder {  color: rgb(56, 56, 56); }
 .dark-mode input::-webkit-input-placeholder {  color: rgb(255, 255, 255); }
 
@@ -118,6 +122,7 @@ input::-webkit-input-placeholder {  color: rgb(56, 56, 56); }
     border-radius: 5px;
     font-weight: 600;
     border: none;
+    cursor: pointer;
 }
 
 .blue_button:hover{
@@ -232,7 +237,7 @@ main {
 
 .dark-mode .hoverPanel {
     background-color:#252525;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); 
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.1); 
 }
 
 
@@ -308,7 +313,7 @@ footer {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    background-color: rgb(255, 255, 255);
+    background-color: aliceblue;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  
     /* backdrop-filter: blur(10px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -696,11 +701,10 @@ footer {
     align-items: center;
     justify-content: center;
     position: relative;
-    background-color: rgb(255, 255, 255);
+    background-color: aliceblue;
     overflow-x: auto;
     white-space: nowrap;
     width: 100%;
-    background-color: white;  
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1); 
 }
 
@@ -756,7 +760,7 @@ footer {
 
 
 .cont_news_main_page .white_news_cont{
-    background-color: white;
+    background-color: aliceblue;
     min-width: 1400px;
     max-width: 1400px;
     display: flex;
@@ -860,11 +864,12 @@ footer {
 .dark-mode .account_buttons{
     color: white;
     background-color:  #252525;      
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); 
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.1); 
 }
   
 .account_buttons:hover{
-    background-color: #f0f9ff;
+    background-color: #c4e8ff;
+
     transition: background-color 0.3s ease;
 }
 
@@ -891,7 +896,7 @@ footer {
     flex-direction: column;
 }
 
-.account_message_button{
+.account_messageArea{
     display: flex;
     flex-direction: row;
     align-items:  center;
@@ -908,32 +913,18 @@ footer {
     transition: color 0.3s ease;
 }
 
-.dark-mode .account_message_button{
+.dark-mode .account_messageArea{
     color: white;
     background-color:  #252525;      
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); 
-}
-  
-.account_message_button:hover{
-    background-color: #f0f9ff;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.1); 
 }
 
-.dark-mode .account_message_button:hover{
-    transition: background-color 0.3s ease;
-    background-color: rgb(29, 29, 29);
-}
-  
-.account_message_button:focus {
-    outline: none;
-}
-  
-.account_message_button img{
+.account_messageArea img{
     width: 36px;
     margin: 0 40px 0 0;
 }
   
-.account_message_button span{
+.account_messageArea span{
     text-align: center;
 }
 
@@ -1022,7 +1013,7 @@ footer {
 
 .dark-mode	.profile_navigation {
     background-color:  #252525; 
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); 
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.1); 
     color: white;
 }
 
@@ -1104,14 +1095,21 @@ footer {
     width: 500px;
     font-size: 14px;
     margin-left: 50px;
-    padding: 0 10px;
+    padding: 0 15px;
     height: 40px;    
     border-radius: 10px;
     border: none;
     box-shadow: 0 0 5px rgb(0, 0, 0, 0.1);
-    color: black;
     background-color:rgb(255, 255, 255);
+    font-weight: 500;
 }
+
+.dark-mode .profile_page .personal-info_area td input{
+    color: rgb(255, 255, 255);
+    background-color:#4d4d4d;
+    box-shadow: 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
 
 .profile_page .personal-info_area form {
     text-align: right;
@@ -1208,7 +1206,7 @@ footer {
 
 .dark-mode .content-podmenu nav ul section {
     background-color:  #252525;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); 
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.1); 
     color: white;
 }   
 
@@ -1217,6 +1215,11 @@ footer {
     flex-direction: row;
 }
 
+.functions_menu_name{
+    font-weight: 600;
+    font-family: 13px;
+    margin-bottom: 3px;
+}
 
 .content-podmenu nav ul li{
     margin: 0;
@@ -1225,14 +1228,17 @@ footer {
     margin: 7px;
     align-items: center;
     text-align: center;
-    max-width: 65px;    
-    padding: 11px;
+    width: 65px;    
+
+    padding: 15px;
+    cursor: pointer;
 }
 
 .activefunctions_menu{
     border-radius: 5px;
     border: none;
-    background-color:#def0ff;
+    background-color:#c4e8ff;
+    
 }
 
 .dark-mode .activefunctions_menu{
@@ -1246,7 +1252,7 @@ footer {
 }
 
 .dark-mode .content-podmenu nav ul li:hover{
-    background-color:rgb(81, 124, 120);
+    background-color:#457270;
 }
 
 
@@ -1256,7 +1262,8 @@ footer {
 }
 
 .content-podmenu nav ul li a{
-    font-size: 12px;
+    font-size: 13px;
+    padding-top: 2px;
 }
 
 /*---------------menu_report_area end*/
@@ -1292,12 +1299,13 @@ footer {
     border: none;
     background-color: #ffffff;
     cursor: pointer;
+    width: 100%;
 }
 
 .dark-mode .white-panel button {
     background-color: #4d4d4d;
     color: white;
-    width: 100%;
+
 }
 
 .dark-mode .white-panel button:disabled{
@@ -1314,7 +1322,7 @@ footer {
 }
 
 .rotation-fromareas{
-    margin-top: 150px;
+    margin-top: 160px;
 }
 
 .rotation-fromareas nav ul {
