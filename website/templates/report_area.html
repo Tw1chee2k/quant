@@ -89,7 +89,10 @@
                     <tr class="report_row" data-id="{{ row.id }}">
                         <td></td>
                         <td>
-                            <button class="show-versins_button">+</button>
+                            <button class="show-versions_button">  
+                                <img src="{{ url_for('static', filename='img/close_white.png')}}" class = "close_white" alt="">
+                                <img src="{{ url_for('static', filename='img/close_black.png')}}" class = "close_black" alt="">
+                            </button>
                         </td>
                         <td>
                             <input type = "text" id = "report_id" style = "text-align:center;" value = "{{ row.id }}" readonly>
@@ -130,7 +133,7 @@
                             </form>
                         </td>
                     </tr>
-                    <tr class="versions_row" style="display: none;">
+                    <tr class="versions_row" >
                         <td colspan="10" class="vers_cont">
                             <div class="text_vers">--Версии--</div>
                             <table class="table-versions">
@@ -150,7 +153,13 @@
                                 <tbody>
                                     {% for rows in row.versions %}
                                     <tr class="version-row" data-id="{{ rows.id }}">
-                                        <td><button class="show-cheks_button">+</button></td>
+                                        <td>
+                                            <button class="show-cheks_button">  
+                                                <img src="{{ url_for('static', filename='img/close_white.png')}}" class = "close_white" alt="">
+                                                <img src="{{ url_for('static', filename='img/close_black.png')}}" class = "close_black" alt="">
+                                            </button>
+                                            
+                                        </td>
                                         <td>
                                             <input type = "text" value = "{{ rows.begin_time}}" readonly>
                                         </td>
@@ -162,10 +171,10 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            <input type="checkbox" name="control" {% if rows.control %} checked {% endif %} disabled>
+                                            <input type="checkbox" name="control" {% if rows.control %} checked {% endif %} >
                                         </td>
                                         <td>
-                                            <input type="checkbox" name="control" {% if rows.agreed %} checked {% endif %} disabled>
+                                            <input type="checkbox" name="control" {% if rows.agreed %} checked {% endif %} >
                                         </td>
                                         <td>
                                             {% if rows.agreed_time %}
@@ -184,7 +193,7 @@
                                             <input type = "text" value = "{{ rows.email }}" readonly>
                                         </td> 
                                     </tr>
-                                    <tr class="check-row">
+                                    <tr class="check_row">
                                         <td colspan="10" class = "check_cont">
                                             <div class="text_cheks">--Квитанции--</div>
                                             <table class="cheks_table">
@@ -232,9 +241,9 @@
             </tbody>
         </table>
     {%else%}
-            <h3 style = "margin-left: 30px;">
-                Для начала работы создайте новый отчет
-            </h3>
+        <h3 style = "margin-left: 30px;">
+            Для начала работы создайте новый отчет
+        </h3>
     {%endif%}
     </div>
 </div>
@@ -353,8 +362,6 @@
 
 
 <script>
-
-
 
 </script>
 {% endblock %}

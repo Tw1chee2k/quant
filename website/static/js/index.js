@@ -172,15 +172,29 @@ document.addEventListener('DOMContentLoaded', function () {
     /*end*/
 
     /*кнопка для отображения версий отчета*/
-    var toggleButtons = document.querySelectorAll('.show-versins_button');
+    var toggleButtons = document.querySelectorAll('.show-versions_button');
     toggleButtons.forEach(function(button) {
         button.addEventListener('click', function(event) {
             event.stopPropagation();
             var versionsRow = this.closest('.report_row').nextElementSibling.nextElementSibling;
             if (versionsRow.style.display === 'none' || versionsRow.style.display === '') {
                 versionsRow.style.display = 'table-row';
+                setTimeout(function() {
+                    versionsRow.classList.add('show');
+                }, 10);
             } else {
-                versionsRow.style.display = 'none';
+                versionsRow.classList.remove('show');
+                versionsRow.addEventListener('transitionend', function handler() {
+                    versionsRow.style.display = 'none';
+                    versionsRow.removeEventListener('transitionend', handler);
+                });
+            }
+            
+            var imgBlack = this.querySelector('.close_black');
+            var imgWhite = this.querySelector('.close_white');
+            if (imgBlack && imgWhite) {
+                imgBlack.classList.toggle('rotated');
+                imgWhite.classList.toggle('rotated');
             }
         });
     });
@@ -194,11 +208,27 @@ document.addEventListener('DOMContentLoaded', function () {
             var checkRow = this.closest('.version-row').nextElementSibling;
             if (checkRow.style.display === 'none' || checkRow.style.display === '') {
                 checkRow.style.display = 'table-row';
+                setTimeout(function() {
+                    checkRow.classList.add('show');
+                }, 10);
             } else {
-                checkRow.style.display = 'none';
+                checkRow.classList.remove('show');
+                checkRow.addEventListener('transitionend', function handler() {
+                    checkRow.style.display = 'none';
+                    checkRow.removeEventListener('transitionend', handler);
+                });
+            }
+            var imgBlack = this.querySelector('.close_black');
+            var imgWhite = this.querySelector('.close_white');
+            if (imgBlack && imgWhite) {
+                imgBlack.classList.toggle('rotated');
+                imgWhite.classList.toggle('rotated');
             }
         });
     });
+
+
+
     /*end*/
 
     /*показ панели для редактирования параметров отчета*/

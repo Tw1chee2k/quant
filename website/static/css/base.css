@@ -1500,6 +1500,18 @@ footer {
 
 
 /*-----------------vers*/
+.versions_row {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.versions_row.show {
+    display: table-row;
+    opacity: 1;
+}
+
+
 .versions_row .vers_cont {
     padding: 10px 40px; 
     background-color: aliceblue;
@@ -1535,36 +1547,57 @@ footer {
     background-color: #4d4d4d;;
 }
 
-.show-versins_button{
+.show-versions_button{
+    display: flex;
+    justify-content: center;
     border: none;
     color: white;
-    padding: 1px 6px;
-    margin: 3px;
-    background-color: #028dff;
+    padding: 2px 6px;
+    /* background-color: #028dff; */
+    background-color: #00000000;
     cursor: pointer;
     transition: background-color 0.3s ease;   
+    text-align: center;
+    align-items: center;
 }
 
-.show-versins_button:hover{
-    background-color:#0072cf;
+.show-versions_button img{
+    width: 15px;
+    transform: rotate(45deg);
+    transition: transform 0.5s;
 }
 
-.dark-mode .show-versins_button{
-    background-color:rgb(84, 146, 139);
+.show-versions_button img.rotated {
+    transform: rotate(-90deg);
 }
 
-.dark-mode .show-versins_button:hover{
-    background-color:rgb(69, 105, 101);
+.show-versions_button:hover{
+    /* background-color:#0072cf; */
+}
+
+.dark-mode .show-versions_button{
+    /* background-color:rgb(84, 146, 139); */
+}
+
+.dark-mode .show-versions_button:hover{
+    /* background-color:rgb(69, 105, 101); */
 }
 
 /*-----------------vers end*/
 /*-----------------ticket begin*/
 
-.check-row{
+.check_row {
     display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
-.dark-mode .check-row{
+.check_row.show {
+    display: table-row;
+    opacity: 1;
+}
+
+.dark-mode .check_row{
     background-color:#333; 
 }
 
@@ -1583,8 +1616,6 @@ footer {
     font-weight: 600;
     text-align: left;
 }
-
-
 
 .cheks_table{
     margin: 0 0 10px 30px;
@@ -1611,27 +1642,56 @@ footer {
     cursor: pointer; 
 }
 
-
 .show-cheks_button{
+    display: flex;
+    justify-content: center;
     border: none;
     color: white;
-    padding: 1px 6px;
-    margin: 3px;
-    background-color: #028dff;
+    padding: 2px 6px;
+    /* background-color: #028dff; */
+    background-color: #00000000;
     cursor: pointer;
     transition: background-color 0.3s ease;   
+    text-align: center;
+    align-items: center;
+}
+
+.close_white{
+    display: none;
+}
+
+.close_black{
+    display: block;
+}
+
+.dark-mode .close_white{
+    display: block;
+}
+
+.dark-mode .close_black{
+    display: none;
+}
+
+.show-cheks_button img{
+    width: 15px;
+    transform: rotate(45deg);
+    transition: transform 0.5s;
+}
+
+.show-cheks_button img.rotated {
+    transform: rotate(-90deg);
 }
 
 .show-cheks_button:hover{
-    background-color:#0072cf;
+    /* background-color:#0072cf; */
 }
 
 .dark-mode .show-cheks_button{
-    background-color:rgb(84, 146, 139);
+    /* background-color:rgb(84, 146, 139); */
 }
 
 .dark-mode .show-cheks_button:hover{
-    background-color:rgb(69, 105, 101);
+    /* background-color:rgb(69, 105, 101); */
 }
 
 .show-cheks_button:focus{
