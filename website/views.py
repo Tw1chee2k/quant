@@ -26,22 +26,59 @@ def owner_only(f):
 
 @views.route('/')
 def beginPage():
-    if User.query.count() == 0:
-        new_org = Organization(full_name = "Руп Квант-АС", 
-                               okpo = '12345678', 
-                               ynp = '453234532')
+    if User.query.count() == 0:   
+        organizations_data = [
+                                ('Региональное управление №1 (Брестская область)', '111', '111'),         
+                                ('Региональное управление №2 (Витебская область)', '222', '222'),  
+                                ('Региональное управление №3 (Гомельская область)', '333', '333'),  
+                                ('Региональное управление №4 (Гродненская область)', '444', '444'),  
+                                ('Региональное управление №5 (Минская область)', '555', '555'),  
+                                ('Региональное управление №6 (Могилевская область)', '666', '666'),  
+                                ('Региональное управление №7 (Минск)', '777', '777'),  
+                                (' №8 ()', '888', '888'),
+                                ('Руп (КВАНТ-АС)', '12345678', '453234532'),
+                                ('Борисовский завод медицинских препаратов', '05799746', '600125834'),
+        ]
+    
+        for organization_data in organizations_data:
+            new_org = Organization(full_name=organization_data[0], 
+                        okpo=organization_data[1], 
+                        ynp=organization_data[2]
+                        )
         
-        db.session.add(new_org)
+            db.session.add(new_org)
         db.session.commit()
+
+
+
+    if User.query.count() == 0:   
+        users_data = [
+                    ('Аудитор', 'BrestReg@gmail.com', None, None, generate_password_hash('1234'), 1),
+                    ('Аудитор', 'VitebskReg@gmail.com', None, None, generate_password_hash('1234'), 2),
+                    ('Аудитор','GomelReg@gmail.com',  None, None, generate_password_hash('1234'), 3),
+                    ('Аудитор', 'GrodnoReg@gmail.com',  None, None, generate_password_hash('1234'), 4),
+                    ('Аудитор', 'MinskReg@gmail.com',  None, None, generate_password_hash('1234'), 5),
+                    ('Аудитор', 'MogilevReg@gmail.com',  None, None, generate_password_hash('1234'), 6),
+                    ('Аудитор', 'Minsk@gmail.com',  None, None, generate_password_hash('1234'), 7),
+                    ('Аудитор', 'HZ@gmail.com',  None, None, generate_password_hash('1234'), 8),
+                    ('Администратор', 'tw1che.2k@gmail.com', 'Сидоров Максим Андреевич','+375445531847', generate_password_hash('1234'), 9),
+                    ('Респондент', 'clown4lenix@gmail.com', 'Шапавалов Алексей Юрьевич','+375447317128', generate_password_hash('1234'), 10),
+        ]
+    
+        for user_data in users_data:
+            user = User(type=user_data[0], 
+                        email=user_data[1], 
+                        fio=user_data[2],
+                        telephone=user_data[3],
+                        password=user_data[4],
+                        organization_id=user_data[5],
+                        )
         
-        new_user = User(type = "Администратор",
-                        email='tw1che.2k@gmail.com', 
-                        fio = 'Сидоров Максим Андреевич', 
-                        telephone = '+375445531847', 
-                        password=generate_password_hash('1234'), 
-                        organization_id = new_org.id)
-        db.session.add(new_user)
+            db.session.add(user)
         db.session.commit()
+
+
+
     if DirUnit.query.count() == 0:   
         units_data = [
             (1, 'тыс. кВт. ч', 'тыс. кВт. ч'),
@@ -683,3 +720,30 @@ def report_electro(id):
         curent_report=curent_report,
         current_version=current_version
     )
+
+@views.route('/audit')
+@login_required
+def audit():
+    report = Report.query.join(Version_report).filter(
+        Version_report.sent == True
+    ).all()
+
+    for i in report:
+        i.versions = [version for version in i.versions if version.sent]
+
+    tickets = Ticket.query.all()
+    organizations = Organization.query.all()
+    dir_units = DirUnit.query.all()
+    dir_products = DirProduct.query.all()
+
+    for row in dir_products:
+        current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
+        row.IdUnit = current_unit.NameUnit
+
+    return render_template('audit.html', 
+                           tickets=tickets, 
+                           report=report, 
+                           user=current_user, 
+                           dir_units=dir_units, 
+                           dir_products=dir_products, 
+                           organizations=organizations)

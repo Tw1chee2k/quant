@@ -1229,10 +1229,11 @@ footer {
     align-items: center;
     text-align: center;
     width: 65px;    
-
     padding: 15px;
     cursor: pointer;
 }
+
+
 
 .activefunctions_menu{
     border-radius: 5px;

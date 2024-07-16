@@ -12,7 +12,7 @@ class User(db.Model, UserMixin):
     fio = db.Column(db.String(30))
     telephone = db.Column(db.String(20))
     password = db.Column(db.String(50))
-    organization_id = db.Column(db.Integer(), db.ForeignKey('organization.id'), nullable=False)
+    organization_id = db.Column(db.Integer(), db.ForeignKey('organization.id'))
     reports = db.relationship('Report', backref='user', lazy = True, cascade = "all, delete-orphan")
 
 class Organization(db.Model):
@@ -41,6 +41,7 @@ class Version_report(db.Model):
     change_time = db.Column(db.Date)
     control = db.Column(db.Boolean, default=False)
     agreed = db.Column(db.Boolean, default=False)
+    sent = db.Column(db.Boolean, default=False)
     agreed_time = db.Column(db.Date)
     fio = db.Column(db.String(30))
     telephone = db.Column(db.String(20))    
