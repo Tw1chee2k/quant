@@ -107,3 +107,36 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+document.addEventListener('DOMContentLoaded', (event) => {
+    const headers = document.querySelectorAll(".change-position");
+    headers.forEach(header => {
+        const modal = header.closest('.modal-content');
+
+        let isDragging = false;
+        let startX, startY, initialX, initialY;
+
+        header.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            const rect = modal.getBoundingClientRect();
+            initialX = rect.left;
+            initialY = rect.top;
+            modal.style.position = "absolute";
+            modal.style.margin = 0;
+            document.body.style.userSelect = 'none';
+        });
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                modal.style.left = `${initialX + dx}px`;
+                modal.style.top = `${initialY + dy}px`;
+            }
+        });
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            document.body.style.userSelect = 'auto';
+        });
+    });
+});

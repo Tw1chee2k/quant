@@ -287,8 +287,8 @@ def delete_version(id):
             flash('Версия не найдена', category='error')
     return redirect(url_for('views.report_area'))
 
-@auth.route('/add_fuel_param', methods=['POST'])
-def add_fuel_param():
+@auth.route('/add_section_param', methods=['POST'])
+def add_section_param():
     if request.method == 'POST':
         current_version_id = request.form.get('current_version')
         name = request.form.get('name_of_product')
@@ -300,6 +300,7 @@ def add_fuel_param():
         Consumed_Total_Quota = request.form.get('Consumed_Total_Quota')
         Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
         note = request.form.get('note')
+        section_number = request.form.get('section_number')
         
         produced = Decimal(produced) if produced else Decimal(0)
         Consumed_Quota = Decimal(Consumed_Quota) if Consumed_Quota else Decimal(0)
@@ -307,14 +308,13 @@ def add_fuel_param():
         Consumed_Total_Quota = Decimal(Consumed_Total_Quota) if Consumed_Total_Quota else Decimal(0)
         Consumed_Total_Fact = Decimal(Consumed_Total_Fact) if Consumed_Total_Fact else Decimal(0)
 
-
         current_version = Version_report.query.filter_by(id=current_version_id).first()
         current_product = DirProduct.query.filter_by(NameProduct=name, IdProduct=id_product).first()
-        product_unit = DirUnit.query.filter_by(IdUnit = current_product.IdUnit).first()
+        product_unit = DirUnit.query.filter_by(IdUnit=current_product.IdUnit).first() if current_product else None
         if current_version:
-            if current_version.sent == False:
+            if not current_version.sent:
                 if current_product:
-                    proverka_section = Sections.query.filter_by(id_version=current_version_id, section_number=1, id_product=current_product.IdProduct).first()
+                    proverka_section = Sections.query.filter_by(id_version=current_version_id, section_number=section_number, id_product=current_product.IdProduct).first()
                     if proverka_section:
                         flash('Такой вид продукции уже существует', 'error')
                         return redirect(url_for('views.report_fuel', id=current_version_id))
@@ -323,7 +323,7 @@ def add_fuel_param():
                             id_version=current_version_id,
                             id_product=current_product.IdProduct,
                             code_product=current_product.CodeProduct,
-                            section_number=1,
+                            section_number=section_number,
                             Oked=oked,
                             produced=produced,
                             Consumed_Quota=Consumed_Quota,
@@ -335,17 +335,15 @@ def add_fuel_param():
                         )
                         db.session.add(new_section)
                         db.session.commit()
-                        current_section = Sections.query.filter_by(id=new_section.id, section_number=1).first()
+                        current_section = Sections.query.filter_by(id=new_section.id, section_number=section_number).first()
 
-
-
-                        if (current_section.code_product == 7000):
+                        if current_section.code_product == 7000:
                             current_section.total_differents = current_section.Consumed_Total_Fact - current_section.Consumed_Total_Quota
                             db.session.commit()
                         else:
                             try:
                                 if current_section.produced != 0:
-                                    if product_unit.NameUnit == '%' or product_unit.NameUnit == '% (включая покупную)':
+                                    if product_unit and (product_unit.NameUnit == '%' or product_unit.NameUnit == '% (включая покупную)'):
                                         current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 100, 2)
                                     else:
                                         current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 1000, 2)
@@ -353,7 +351,7 @@ def add_fuel_param():
                                     current_section.Consumed_Fact = 0
 
                                 if current_section.Consumed_Quota != 0:
-                                    if product_unit.NameUnit == '%' or product_unit.NameUnit == '% (включая покупную)':
+                                    if product_unit and (product_unit.NameUnit == '%' or product_unit.NameUnit == '% (включая покупную)'):
                                         current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 100, 2)
                                     else:
                                         current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 1000, 2)
@@ -365,14 +363,14 @@ def add_fuel_param():
                                 flash(f"Ошибка при вычислениях: {e}")
 
                         specific_codes = ['9001', '9010', '9100']
-                        section9001 = Sections.query.filter_by(id_version=current_version_id, section_number=1, code_product='9001').first()
+                        section9001 = Sections.query.filter_by(id_version=current_version_id, section_number=section_number, code_product='9001').first()
                         aggregated_values = db.session.query(
                             func.sum(Sections.Consumed_Total_Quota),
                             func.sum(Sections.Consumed_Total_Fact),
                             func.sum(Sections.total_differents)
                         ).filter(
                             Sections.id_version == current_version_id,
-                            Sections.section_number == 1,
+                            Sections.section_number == section_number,
                             ~Sections.code_product.in_(specific_codes)
                         ).first()
 
@@ -380,8 +378,8 @@ def add_fuel_param():
                             section9001.Consumed_Total_Quota, section9001.Consumed_Total_Fact, section9001.total_differents = aggregated_values
                             db.session.commit()
 
-                        section9010 = Sections.query.filter_by(id_version=current_version_id, section_number=1, code_product='9010').first()
-                        section9100 = Sections.query.filter_by(id_version=current_version_id, section_number=1, code_product='9100').first()
+                        section9010 = Sections.query.filter_by(id_version=current_version_id, section_number=section_number, code_product='9010').first()
+                        section9100 = Sections.query.filter_by(id_version=current_version_id, section_number=section_number, code_product='9100').first()
 
                         if section9100 and section9001 and section9010:
                             section9100.Consumed_Total_Quota = section9001.Consumed_Total_Quota + section9010.Consumed_Total_Quota
@@ -403,241 +401,11 @@ def add_fuel_param():
                 flash('Редактирование отправленной версии недоступно', 'error')
         else:
             flash('Версия не найдена', 'error') 
+    if section_number == '1':
         return redirect(url_for('views.report_fuel', id=current_version_id))
-    
-@auth.route('/add_heat_param', methods=['POST'])
-def add_heat_param():
-    if request.method == 'POST':
-        current_version_id = request.form.get('current_version')
-        name = request.form.get('name_of_product')
-        id_product = request.form.get('add_id_product')
-        oked = request.form.get('oked')
-        produced = request.form.get('produced')
-        Consumed_Quota = request.form.get('Consumed_Quota')
-        Consumed_Fact = request.form.get('Consumed_Fact')
-        Consumed_Total_Quota = request.form.get('Consumed_Total_Quota')
-        Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
-        note = request.form.get('note')
-       
-        produced = Decimal(produced) if produced else Decimal(0)
-        Consumed_Quota = Decimal(Consumed_Quota) if Consumed_Quota else Decimal(0)
-        Consumed_Fact = Decimal(Consumed_Fact) if Consumed_Fact else Decimal(0)
-        Consumed_Total_Quota = Decimal(Consumed_Total_Quota) if Consumed_Total_Quota else Decimal(0)
-        Consumed_Total_Fact = Decimal(Consumed_Total_Fact) if Consumed_Total_Fact else Decimal(0)
-        
-        current_version = Version_report.query.filter_by(id=current_version_id).first() 
-        current_product = DirProduct.query.filter_by(NameProduct=name, IdProduct=id_product).first()
-        product_unit = DirUnit.query.filter_by(IdUnit = current_product.IdUnit).first()
-
-
-        if current_version:
-            if current_version.sent == False:
-                if current_product:
-                    proverka_section = Sections.query.filter_by(id_version=current_version_id, section_number=2, id_product=current_product.IdProduct).first()
-                    if proverka_section:
-                        flash('Такой вид продукции уже существует', 'error')
-                        return redirect(url_for('views.report_heat', id=current_version_id))
-                    else:
-                        new_section = Sections(
-                                id_version=current_version_id,
-                                id_product=current_product.IdProduct,
-                                code_product=current_product.CodeProduct,
-                                section_number=2,
-                                Oked=oked,
-                                produced=produced,
-                                Consumed_Quota=Consumed_Quota,
-                                Consumed_Fact=Consumed_Fact,
-                                Consumed_Total_Quota=Consumed_Total_Quota,
-                                Consumed_Total_Fact=Consumed_Total_Fact,
-                                total_differents=None,
-                                note=note
-                            )
-                        db.session.add(new_section)
-                        db.session.commit()
-                        current_section = Sections.query.filter_by(id=new_section.id, section_number=2).first()
-
-                        if (current_section.code_product == 7000):
-                            current_section.total_differents = current_section.Consumed_Total_Fact - current_section.Consumed_Total_Quota
-                            db.session.commit()
-                        else:
-                            try:
-                                if current_section.produced != 0:
-                                    if product_unit.NameUnit == '%' or product_unit.NameUnit == '% (включая покупную)':
-                                        current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 100, 2)
-                                    else:
-                                        current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 1000, 2)
-                                else:
-                                    current_section.Consumed_Fact = 0
-
-                                if current_section.Consumed_Quota != 0:
-                                    if product_unit.NameUnit == '%' or product_unit.NameUnit == '% (включая покупную)':
-                                        current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 100, 2)
-                                    else:
-                                        current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 1000, 2)
-                                else:
-                                    current_section.Consumed_Total_Quota = 0
-                                current_section.total_differents = current_section.Consumed_Total_Fact - current_section.Consumed_Total_Quota
-                                db.session.commit()
-                            except InvalidOperation as e:
-                                flash(f"Ошибка при вычислениях: {e}")
-
-                        specific_codes = ['9001', '9010', '9100']
-                        section9001 = Sections.query.filter_by(id_version=current_version_id, section_number=2, code_product='9001').first()
-                        aggregated_values = db.session.query(
-                            func.sum(Sections.Consumed_Total_Quota),
-                            func.sum(Sections.Consumed_Total_Fact),
-                            func.sum(Sections.total_differents)
-                        ).filter(
-                            Sections.id_version == current_version_id,
-                            Sections.section_number == 2,
-                            ~Sections.code_product.in_(specific_codes)
-                        ).first()
-
-                        if section9001 and aggregated_values:
-                            section9001.Consumed_Total_Quota, section9001.Consumed_Total_Fact, section9001.total_differents = aggregated_values
-                            db.session.commit()
-
-                        section9010 = Sections.query.filter_by(id_version=current_version_id, section_number=2, code_product='9010').first()
-                        section9100 = Sections.query.filter_by(id_version=current_version_id, section_number=2, code_product='9100').first()
-
-                        if section9100 and section9001 and section9010:
-                            section9100.Consumed_Total_Quota = section9001.Consumed_Total_Quota + section9010.Consumed_Total_Quota
-                            section9100.Consumed_Total_Fact = section9001.Consumed_Total_Fact + section9010.Consumed_Total_Fact
-                            section9100.total_differents = section9001.total_differents + section9010.total_differents
-                            db.session.commit()
-                    
-                        
-                        if current_version:
-                            current_version.change_time = datetime.now()
-                            db.session.commit()
-                    flash("Продукция была добавлена", category='success')
-                    current_version.control = False
-                    current_version.agreed = False
-                    current_version.agreed_time = None
-                    db.session.commit()
-                else:
-                    flash('Выбирите вид продукции из выпадающего списка', 'error')
-            else:
-                flash('Редактирование отправленной версии недоступно', 'error')
-        else:
-            flash('Версия не найдена', 'error')
+    elif section_number == '2':
         return redirect(url_for('views.report_heat', id=current_version_id))
-
-@auth.route('/add_electro_param', methods=['POST'])
-def add_electro_param():
-    if request.method == 'POST':
-        current_version_id = request.form.get('current_version')
-        name = request.form.get('name_of_product')
-        id_product = request.form.get('add_id_product')
-        oked = request.form.get('oked')
-        produced = request.form.get('produced')
-        Consumed_Quota = request.form.get('Consumed_Quota')
-        Consumed_Fact = request.form.get('Consumed_Fact')
-        Consumed_Total_Quota = request.form.get('Consumed_Total_Quota')
-        Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
-        note = request.form.get('note')
-
-        produced = Decimal(produced) if produced else Decimal(0)
-        Consumed_Quota = Decimal(Consumed_Quota) if Consumed_Quota else Decimal(0)
-        Consumed_Fact = Decimal(Consumed_Fact) if Consumed_Fact else Decimal(0)
-        Consumed_Total_Quota = Decimal(Consumed_Total_Quota) if Consumed_Total_Quota else Decimal(0)
-        Consumed_Total_Fact = Decimal(Consumed_Total_Fact) if Consumed_Total_Fact else Decimal(0)
-
-        current_version = Version_report.query.filter_by(id=current_version_id).first() 
-        current_product = DirProduct.query.filter_by(NameProduct=name, IdProduct=id_product).first()
-        product_unit = DirUnit.query.filter_by(IdUnit = current_product.IdUnit).first()
-        
-        if current_version:
-            if current_version.sent == False:
-                if current_product:
-                    proverka_section = Sections.query.filter_by(id_version=current_version_id, section_number=3, id_product=current_product.IdProduct).first()
-                    if proverka_section:
-                        flash('Такой вид продукции уже существует', 'error')
-                        return redirect(url_for('views.report_electro', id=current_version_id))
-                    else:
-                        new_section = Sections(
-                                id_version=current_version_id,
-                                id_product=current_product.IdProduct,
-                                code_product=current_product.CodeProduct,
-                                section_number=3,
-                                Oked=oked,
-                                produced=produced,
-                                Consumed_Quota=Consumed_Quota,
-                                Consumed_Fact=Consumed_Fact,
-                                Consumed_Total_Quota=Consumed_Total_Quota,
-                                Consumed_Total_Fact=Consumed_Total_Fact,
-                                total_differents=None,
-                                note=note
-                            )
-                        db.session.add(new_section)
-                        db.session.commit()
-                        current_section = Sections.query.filter_by(id=new_section.id, section_number=3).first()
-
-                        if (current_section.code_product == 7000):
-                            current_section.total_differents = current_section.Consumed_Total_Fact - current_section.Consumed_Total_Quota
-                            db.session.commit()
-                        else:
-                            try:
-                                if current_section.produced != 0:
-                                    if product_unit.NameUnit == '%' or product_unit.NameUnit == '% (включая покупную)':
-                                        current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 100, 2)
-                                    else:
-                                        current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 1000, 2)
-                                else:
-                                    current_section.Consumed_Fact = 0
-
-                                if current_section.Consumed_Quota != 0:
-                                    if product_unit.NameUnit == '%' or product_unit.NameUnit == '% (включая покупную)':
-                                        current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 100, 2)
-                                    else:
-                                        current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 1000, 2)
-                                else:
-                                    current_section.Consumed_Total_Quota = 0
-                                current_section.total_differents = current_section.Consumed_Total_Fact - current_section.Consumed_Total_Quota
-                                db.session.commit()
-                            except InvalidOperation as e:
-                                flash(f"Ошибка при вычислениях: {e}")
-
-                        specific_codes = ['9001', '9010', '9100']
-                        section9001 = Sections.query.filter_by(id_version=current_version_id, section_number=3, code_product='9001').first()
-                        aggregated_values = db.session.query(
-                            func.sum(Sections.Consumed_Total_Quota),
-                            func.sum(Sections.Consumed_Total_Fact),
-                            func.sum(Sections.total_differents)
-                        ).filter(
-                            Sections.id_version == current_version_id,
-                            Sections.section_number == 3,
-                            ~Sections.code_product.in_(specific_codes)
-                        ).first()
-
-                        if section9001 and aggregated_values:
-                            section9001.Consumed_Total_Quota, section9001.Consumed_Total_Fact, section9001.total_differents = aggregated_values
-                            db.session.commit()
-
-                        section9010 = Sections.query.filter_by(id_version=current_version_id, section_number=3, code_product='9010').first()
-                        section9100 = Sections.query.filter_by(id_version=current_version_id, section_number=3, code_product='9100').first()
-
-                        if section9100 and section9001 and section9010:
-                            section9100.Consumed_Total_Quota = section9001.Consumed_Total_Quota + section9010.Consumed_Total_Quota
-                            section9100.Consumed_Total_Fact = section9001.Consumed_Total_Fact + section9010.Consumed_Total_Fact
-                            section9100.total_differents = section9001.total_differents + section9010.total_differents
-                            db.session.commit()
-                    
-                    
-                        if current_version:
-                            current_version.change_time = datetime.now()
-                            db.session.commit()
-                    flash("Продукция была добавлена", category='success')
-                    current_version.control = False
-                    current_version.agreed = False
-                    current_version.agreed_time = None
-                    db.session.commit()
-                else:
-                    flash("Выбирите вид продукции из выпадающего списка", category='error')
-            else:
-                flash('Редактирование отправленной версии недоступно', 'error')
-        else:
-            flash('Версия не найдена', 'error')
+    elif section_number == '3':
         return redirect(url_for('views.report_electro', id=current_version_id))
 
 @auth.route('/change_section', methods=['POST'])
@@ -743,9 +511,7 @@ def change_section():
         elif(current_section.section_number == 2):
             return redirect(url_for('views.report_heat', id=id_version))
         elif(current_section.section_number == 3):
-            return redirect(url_for('views.report_electro', id=id_version))
-
-        
+            return redirect(url_for('views.report_electro', id=id_version))  
 
 @auth.route('/remove_section/<id>', methods=['POST'])
 def remove_section(id):

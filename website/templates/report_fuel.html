@@ -257,6 +257,7 @@
                         <input style="width: 400px; text-align: left;" type="text" name="note" id="modal_note" autocomplete="off">
                         <input type="hidden" id="modal_id" name="id" readonly>
                         <input type="hidden" value="{{ current_version }}" name="current_version" readonly>
+
                     </td>
                 </tr>
             </table>
@@ -270,7 +271,7 @@
             <h3 class = "change-position">Добавить продукцию</h3>
             <a class="close">&times;</a>
         </div>
-        <form method="POST" action="/add_fuel_param">
+        <form method="POST" action="/add_section_param">
             <table class = "sectionsModal-table">
                 <tr>
                     <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
@@ -408,17 +409,18 @@
                             id = "add_modal_note"
                         >
                         <input                 
-                            type="hidden"
+                            type=""
                             value = "{{current_version}}"
                             name="current_version"
                             readonly
                         >
                         <input                 
-                            type="hidden"
+                            type=""
                             id = "add_id_product"
                             name="add_id_product"
                             readonly
                         >
+                        <input type="" value="1" name="section_number" id="section_number" readonly>
                     </td>
                 </tr>
             </table>    

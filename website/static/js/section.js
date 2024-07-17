@@ -294,7 +294,7 @@ document.querySelector('#chooseProdTableBody').addEventListener('click', functio
         var inputs = document.querySelectorAll('.sectionsModal-table input');
         inputs.forEach(function(input) {
             var inputName = input.getAttribute('name');
-            if (inputName !== 'oked' && inputName !== 'Consumed_Total_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note' && inputName !== 'current_version' &&  inputName !== 'add_id_product' &&  inputName !== 'search_product') {
+            if (inputName !== 'oked' && inputName !== 'Consumed_Total_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note' && inputName !== 'current_version' &&  inputName !== 'add_id_product' &&  inputName !== 'search_product' &&  inputName !== 'section_number') {
                 input.readOnly = true;
                 if (inputName !== 'name_of_product'){
                     input.style.color = "rgb(132, 132, 132)";
@@ -309,7 +309,7 @@ document.querySelector('#chooseProdTableBody').addEventListener('click', functio
         var inputs = document.querySelectorAll('.sectionsModal-table input');
         inputs.forEach(function(input) {
             var inputName = input.getAttribute('name');
-            if (inputName !== 'oked' && inputName !== 'produced' && inputName !== 'Consumed_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note' && inputName !== 'current_version' &&  inputName !== 'add_id_product' &&  inputName !== 'search_product') {
+            if (inputName !== 'oked' && inputName !== 'produced' && inputName !== 'Consumed_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note' && inputName !== 'current_version' &&  inputName !== 'add_id_product' &&  inputName !== 'search_product' &&  inputName !== 'section_number') {
                 input.readOnly = true;
                 if (inputName !== 'name_of_product'){
                     input.style.color = "rgb(132, 132, 132)";
