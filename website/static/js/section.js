@@ -345,15 +345,18 @@ document.querySelector('#chooseProdTableBody').addEventListener('click', functio
                 if (inputName !== 'name_of_product' && inputName !== 'oked'){
                     input.style.color = "rgb(132, 132, 132)";
                     input.value = '0.00';
+                    
                 }
                 else if(inputName === 'oked'){
                     input.readOnly = true;
-                    input.style.color = "rgb(132, 132, 132)";
+                    
                     input.value = '';
+                    input.style.color = "rgb(132, 132, 132)";
                 }
             } else {
                 input.readOnly = false;
                 input.style.color = "";
+                
             }   
         });
     } 
