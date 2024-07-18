@@ -39,7 +39,12 @@ document.addEventListener('DOMContentLoaded', function() {
             openModal();
         }
     });
-
+    window.addEventListener('click', function(event) {
+        contextmenufuel.style.display = 'none';
+        if (event.target == changefuel_modal) {
+            changefuel_modal.style.display = 'none';
+        }
+    });
     document.querySelector('.close').addEventListener('click', function() {
         changefuel_modal.style.display = 'none';
     });
@@ -97,6 +102,17 @@ document.addEventListener('DOMContentLoaded', function() {
             var inputs = document.querySelectorAll('#changefuel_modal input[type="text"]');
             var isOtherConsumption = productName === "Прочее потребление";
             var is7000 = productName === "Предельный уровень потребления (объекты непроизводственного характера, коммунально-бытового назначения и другие)";
+            
+            var is0020 = productName === "Теплоэнергия, отпущенная электростанциями и районными котельными";
+            var is0021 = productName === "Теплоэнергия, отпущенная электростанциями и районными котельными (в том числе отпущенная районными котельными)";
+            var is0024 = productName === "Теплоэнергия, отпущенная промышленно-производственными котельными производительностью 10 Гкал/час и более";
+            var is0025 = productName === "Теплоэнергия, отпущенная промышленно-производственными котельными производительностью от 0,5 до 10 Гкал/час";
+            var is0026 = productName === "Теплоэнергия, отпущенная отопительными котельными производительностью 10 Гкал/час  и более";
+            var is0027 = productName === "Теплоэнергия, отпущенная отопительными котельными производительностью от 0,5 до 10 Гкал/час";
+            var is0030 = productName === "Теплоэнергия, отпущенная отопительно-производственными котельными, производительностью 10 Гкал/час и более";
+            var is0031 = productName === "Теплоэнергия, отпущенная отопительно-производственными котельными производительностью от 0,5 до 10 Гкал/час";
+
+
             inputs.forEach(function(input, index) {
                 if (isOtherConsumption) {
                     if (index < inputs.length - 2) {
@@ -120,6 +136,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                     }
                 }
+
+
                 else {
                     if (index === 0 || index === 1 || index === 4 || index === 5) {
                         input.style.color = "";
@@ -289,8 +307,20 @@ document.addEventListener('click', function(event) {
 document.querySelector('#chooseProdTableBody').addEventListener('click', function(event) {
     var selectedRow = event.target.closest('tr');
     var productName = selectedRow.querySelector('td:nth-child(2)').textContent;
+    
+    var is7000 = productName === "Предельный уровень потребления (объекты непроизводственного характера, коммунально-бытового назначения и другие)";
+    var is0020 = productName === "Теплоэнергия, отпущенная электростанциями и районными котельными";
+    var is0021 = productName === "Теплоэнергия, отпущенная электростанциями и районными котельными (в том числе отпущенная районными котельными)";
+    var is0024 = productName === "Теплоэнергия, отпущенная промышленно-производственными котельными производительностью 10 Гкал/час и более";
+    var is0025 = productName === "Теплоэнергия, отпущенная промышленно-производственными котельными производительностью от 0,5 до 10 Гкал/час";
+    var is0026 = productName === "Теплоэнергия, отпущенная отопительными котельными производительностью 10 Гкал/час  и более";
+    var is0027 = productName === "Теплоэнергия, отпущенная отопительными котельными производительностью от 0,5 до 10 Гкал/час";
+    var is0030 = productName === "Теплоэнергия, отпущенная отопительно-производственными котельными, производительностью 10 Гкал/час и более";
+    var is0031 = productName === "Теплоэнергия, отпущенная отопительно-производственными котельными производительностью от 0,5 до 10 Гкал/час";
 
-    if (productName === "Предельный уровень потребления (объекты непроизводственного характера, коммунально-бытового назначения и другие)") {
+
+
+    if (is7000) {
         var inputs = document.querySelectorAll('.sectionsModal-table input');
         inputs.forEach(function(input) {
             var inputName = input.getAttribute('name');
@@ -305,7 +335,29 @@ document.querySelector('#chooseProdTableBody').addEventListener('click', functio
                 input.style.color = "";
             }   
         });
-    } else {
+    }
+    else if (is0020 || is0021 || is0024 || is0025 || is0026 || is0027 || is0030 || is0031){
+        var inputs = document.querySelectorAll('.sectionsModal-table input');
+        inputs.forEach(function(input) {
+            var inputName = input.getAttribute('name');
+            if (inputName !== 'Consumed_Total_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note' && inputName !== 'current_version' &&  inputName !== 'add_id_product' &&  inputName !== 'search_product' &&  inputName !== 'section_number') {
+                input.readOnly = true;
+                if (inputName !== 'name_of_product' && inputName !== 'oked'){
+                    input.style.color = "rgb(132, 132, 132)";
+                    input.value = '0.00';
+                }
+                else if(inputName === 'oked'){
+                    input.readOnly = true;
+                    input.style.color = "rgb(132, 132, 132)";
+                    input.value = '';
+                }
+            } else {
+                input.readOnly = false;
+                input.style.color = "";
+            }   
+        });
+    } 
+    else {
         var inputs = document.querySelectorAll('.sectionsModal-table input');
         inputs.forEach(function(input) {
             var inputName = input.getAttribute('name');
@@ -328,3 +380,5 @@ document.querySelector('#chooseProdTableBody').addEventListener('click', functio
 document.getElementById('control-report-btn').addEventListener('click', function() {
     document.getElementById('control-report-form').submit();
 });
+
+

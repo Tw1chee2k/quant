@@ -36,8 +36,9 @@ def beginPage():
                                 ('Региональное управление №6 (Могилевская область)', '666', '666'),  
                                 ('Региональное управление №7 (Минск)', '777', '777'),  
                                 (' №8 ()', '888', '888'),
-                                ('Руп (КВАНТ-АС)', '12345678', '453234532'),
+                                ('УО Новопольский ГАЭК', '35678438', '253314532'),
                                 ('Борисовский завод медицинских препаратов', '05799746', '600125834'),
+                                ('Руп "КВАНТ-АС"', '12345678', '453234532'),
         ]
     
         for organization_data in organizations_data:
@@ -49,9 +50,6 @@ def beginPage():
             db.session.add(new_org)
         db.session.commit()
 
-
-
-    if User.query.count() == 0:   
         users_data = [
                     ('Аудитор', 'BrestReg@gmail.com', None, None, generate_password_hash('1234'), 1),
                     ('Аудитор', 'VitebskReg@gmail.com', None, None, generate_password_hash('1234'), 2),
@@ -63,6 +61,7 @@ def beginPage():
                     ('Аудитор', 'HZ@gmail.com',  None, None, generate_password_hash('1234'), 8),
                     ('Администратор', 'tw1che.2k@gmail.com', 'Сидоров Максим Андреевич','+375445531847', generate_password_hash('1234'), 9),
                     ('Респондент', 'clown4lenix@gmail.com', 'Шапавалов Алексей Юрьевич','+375447317128', generate_password_hash('1234'), 10),
+                    ('Респондент', 'info@kvantas-as', 'Санников Вячеслав Степанович','365 04 33', generate_password_hash('1234'), 11),
         ]
     
         for user_data in users_data:

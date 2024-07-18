@@ -17,7 +17,7 @@ html::-webkit-scrollbar {
 }
   
 html::-webkit-scrollbar-track {
-    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+   
     border-radius: 10px;
 }
 
@@ -314,7 +314,7 @@ footer {
     align-items: center;
     justify-content: center;
     background-color: aliceblue;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  
+    border-top: 1px solid rgb(132,132,132);
     /* backdrop-filter: blur(10px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     background: rgba(255, 255, 255, 0.2); */
@@ -702,7 +702,6 @@ footer {
     justify-content: center;
     position: relative;
     background-color: aliceblue;
-    overflow-x: auto;
     white-space: nowrap;
     width: 100%;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1); 
@@ -1397,8 +1396,8 @@ footer {
 }
 
 .report-area::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
+    width: 5px;
+    height: 5px;
 }
 
 .report-area::-webkit-scrollbar-thumb {
@@ -1406,89 +1405,93 @@ footer {
     border-radius: 5px;
 }
 
-.report-area::-webkit-scrollbar-track {
-    background-color:rgb(255, 255, 255);
-}
-
-.dark-mode .report-area::-webkit-scrollbar-track {
-    background-color:#333;
-}
 
 .table_report-area {
     border: none;
     width: auto;
     background-color: #ffffff;
     font-size: 12px;
-    table-layout: fixed;  
-    flex-grow: 1;
+    display: block;
     border-spacing: 0px;
     border-collapse: collapse;
-}     
 
+    height: 100%;
+}
+ 
 .dark-mode .table_report-area {
     background-color: #4d4d4d;
-}     
+}    
 
-.table_report-area .order-table_titels tr th:last-child {
-    width: 100%;
-    padding: 0;
-    margin: 0;
-}
-
-.table_report-area thead{
+.order-table_titels {
     text-align: center;
     color: rgb(0, 0, 0);
     font-weight: 600;
 }
 
-.dark-mode .table_report-area thead{
+.dark-mode .order-table_titels {
     background-color:  #252525;
     color: rgb(204, 204, 204);
 }
 
+.order-table_titels tr th:first-child {
+    width: 0;
+}
 
-.table_report-area input{            
+.order-table_titels tr th:nth-child(2) {
+    width: 0;
+}
+
+.order-table_titels tr th:last-child {
+    width: 0;
+}
+
+.order-table_titels tr th {
+    padding: 5px 10px;
+    text-align: center;
+    font-size: 12px;
+    position: relative;
+    min-width: min-content;
+    border: 1px solid #dddddd;
+
+}
+
+
+th.resizable {
+    position: relative;	
+}
+
+th .resizer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 5px;
+    height: 100%;
+    cursor: col-resize;
+    user-select: none;
+}
+
+.table_report-area input {            
     font-size: 12px;  
-    font-weight: 500;   
+    font-weight: 500;  
     width: 100%;
     border: none;
     text-align: left;
-    
+    background: none;
+    color: #000000;
+    box-sizing: border-box;
+    min-width: min-content;
 
 }
 
 .dark-mode .table_report-area input{            
     background-color: #4d4d4d;
-    color: white;
-}
-
-
-.fuel-main_parapetrs td,
-.fuel-main_parapetrs td input{
-    background-color: #ddfdfb;
-}
-
-.fuel-main_parapetrs td:first-child{
-    background-color: #ffffff;
-}
-
-.fuel-main_parapetrs td input{
-    width: 100%;    
-}
-
-.table_report-area tr th{
-    border: 1px solid #dddddd;
-    padding: 5px 20px;
-    text-align: center;             
-    font-size: 12px;
+    color: rgb(255, 255, 255);
 }
 
 .table_report-area tr td{
-
     padding: 5px 10px;
     text-align: left;             
     font-size: 12px;
-    font-weight: 500;
     border: 1px solid #dddddd;
 }
 
@@ -1496,9 +1499,6 @@ footer {
 .dark-mode .table_report-area tr td{
     border: 1px solid #616161;
 }
-
-
-
 
 /*-----------------vers*/
 .versions_row {
@@ -1512,11 +1512,10 @@ footer {
     opacity: 1;
 }
 
-
 .versions_row .vers_cont {
     padding: 10px 40px; 
     background-color: aliceblue;
-    border: none;
+
 }
 
 .dark-mode .versions_row .vers_cont {
@@ -1633,16 +1632,6 @@ footer {
     background-color: #4d4d4d;
 }
 
-.cheks_table thead{
-    text-align: center;
-    color: rgb(14, 0, 71);
-    font-weight: 600;
-}
-
-.cheks_table tr th{
-    cursor: pointer; 
-}
-
 .show-cheks_button{
     display: flex;
     justify-content: center;
@@ -1683,22 +1672,6 @@ footer {
     transform: rotate(-90deg);
 }
 
-.show-cheks_button:hover{
-    /* background-color:#0072cf; */
-}
-
-.dark-mode .show-cheks_button{
-    /* background-color:rgb(84, 146, 139); */
-}
-
-.dark-mode .show-cheks_button:hover{
-    /* background-color:rgb(69, 105, 101); */
-}
-
-.show-cheks_button:focus{
-    outline: none;
-}
-
 /*-----------------ticket end*/
 /*-----------------change input*/
 
@@ -1707,7 +1680,6 @@ footer {
 }
 
 /*-----------------change input end*/
-
 
 .report_row,
 .report_row td,
@@ -1756,6 +1728,7 @@ footer {
 
 
 
+
 /*change report modal*/
 .change-report_table{
     width: 100%; 
@@ -1796,11 +1769,8 @@ footer {
     font-weight: 500; 
 }
 
-
 /*change report end*/
 /*report.css end*/
-
-
 
 /* ----------------------modal_window begin */
 .modal {
@@ -1877,8 +1847,9 @@ footer {
 .modal-content .spravochniki_area {
     margin-top: 10px;
     max-height: 400px;
-    max-width: 100%;
+    width: 100%;
     overflow-y: auto; 
+    overflow-x: auto; 
     border: none;
     font-size: 12px;
     table-layout: fixed;  
@@ -1886,6 +1857,11 @@ footer {
     border-spacing: 0px;
     border-collapse: collapse;
     border: none;
+    background-color:#ffffff;
+}
+
+.dark-mode .modal-content .spravochniki_area {
+    background-color:#4d4d4d;
 }
 
 .spravochniki_area::-webkit-scrollbar {
@@ -1894,7 +1870,7 @@ footer {
 }
   
 .spravochniki_area::-webkit-scrollbar-track {
-    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(224, 224, 224, 0.253) inset;
 }
 
 .spravochniki_area::-webkit-scrollbar-thumb {

@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    
     const header = document.querySelector('.fixed-header');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 0) {
@@ -104,8 +103,10 @@ document.addEventListener('DOMContentLoaded', function () {
             this.value = value;
         });
     });
-});
 
+
+
+});
 
 document.addEventListener('DOMContentLoaded', (event) => {
     const headers = document.querySelectorAll(".change-position");
@@ -138,5 +139,43 @@ document.addEventListener('DOMContentLoaded', (event) => {
             isDragging = false;
             document.body.style.userSelect = 'auto';
         });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const table = document.querySelector('.table_report-area');
+    const thElements = table.querySelectorAll('th.resizable');
+    let isResizing = false;
+    let startX = 0;
+    let startWidth = 0;
+    let currentTh = null;
+
+    thElements.forEach(th => {
+        const resizer = th.querySelector('.resizer');
+        if (resizer) { // Проверка наличия resizer
+            resizer.addEventListener('mousedown', function(e) {
+                isResizing = true;
+                startX = e.clientX;
+                startWidth = th.offsetWidth;
+                currentTh = th;
+                document.body.style.cursor = 'col-resize';
+                e.preventDefault(); // Предотвращение выделения текста при перетаскивании
+            });
+        }
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (isResizing) {
+            const newWidth = startWidth + (e.clientX - startX);
+            currentTh.style.width = newWidth + 'px';
+            currentTh.style.minWidth = newWidth + 'px'; // Устанавливаем минимальную ширину, чтобы предотвратить уменьшение
+        }
+    });
+
+    document.addEventListener('mouseup', function() {
+        if (isResizing) {
+            isResizing = false;
+            document.body.style.cursor = '';
+        }
     });
 });

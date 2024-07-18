@@ -46,10 +46,6 @@
                                     <img src="{{ url_for('static', filename='img/icon_excel.png')}}" alt="">
                                     <a>Экспорт</a>   
                                 </li>  
-                                <li>           
-                                    <img src="{{ url_for('static', filename='img/icon_sort.png')}}" alt="">
-                                    <a>Сортировка</a>   
-                                </li> 
                                 <form id="control-report-form" action="/control_version/{{current_version}}" method="POST" style="display: none;">
                                 </form>
                                 <li id="control-report-btn">           
@@ -59,6 +55,17 @@
                             </div>  
                             <a class="functions_menu_name">
                                 Версия отчета
+                            </a>
+                        </section>
+                        <section>
+                            <div class = "functions_menu">                         
+                                <li>           
+                                    <img src="{{ url_for('static', filename='img/icon_sort.png')}}" alt="">
+                                    <a>Сортировка</a>   
+                                </li>  
+                            </div>  
+                            <a class="functions_menu_name">
+                                Таблица
                             </a>
                         </section>
                     </ul>
@@ -107,40 +114,40 @@
     </div>
     <div class = "report-area">
         <table class = "table_report-area">
-            <thead>
+            <thead class="order-table_titels">
                 <tr>
-                    <th rowspan="2"></th>
-                    <th rowspan="2" style = "white-space: nowrap;">Наименование вида продукции(работ услуг)</th>
-                    <th rowspan="2" style = "white-space: nowrap;">Код строки</th>
-                    <th rowspan="2" style = "white-space: nowrap;">Код по ОКЭД</th>
-                    <th rowspan="2">Единица измерения</th>
-                    <th rowspan="2">Произведено продукции (работ, услуг) за отчетный период</th>
-                    <th colspan="2">Израсходовано на единицу продукции (работы, услуги) за отчетный период, Мкал</th>
-                    <th colspan="3">Израсходовано на всю произведенную продукцию (работу, услугу) за отчетный период, Гкал</th>
-                    <th rowspan="2">Примечание</th>
+                    <th class="resizable" rowspan="2"></th>
+                    <th class="resizable" style = "white-space: nowrap;" rowspan="2">Наименование вида продукции (работ услуг)<div class="resizer"></div></th>
+                    <th class="resizable" rowspan="2">Код строки<div class="resizer"></div></th>
+                    <th class="resizable" rowspan="2">Код по ОКЭД<div class="resizer"></div></th>
+                    <th class="resizable" rowspan="2">Единица измерения<div class="resizer"></div></th>
+                    <th class="resizable" rowspan="2">Произведено продукции (работ, услуг) за отчетный период<div class="resizer"></div></th>
+                    <th class="resizable" colspan="2">Израсходовано на единицу продукции (работы, услуги) за отчетный период, Мкал<div class="resizer"></div></th>
+                    <th class="resizable" colspan="3">Израсходовано на всю произведенную продукцию (работу, услугу) за отчетный период, Гкал<div class="resizer"></div></th>
+                    <th class="resizable" rowspan="2">Примечание<div class="resizer"></div></th>
                     <th colspan="2"></th>
                 </tr>
                 <tr>
-                    <th>по утвержденной норме (предельному уровню)</th>
-                    <th>фактически</th>
-                    <th>по утвержденной норме (предельному уровню)</th>
-                    <th>фактически</th>
-                    <th>Экономия(-), перерасход(+)</th>
+                    <th class="resizable">по утвержденной норме (предельному уровню)</th>
+                    <th class="resizable">фактически</th>
+                    <th class="resizable">по утвержденной норме (предельному уровню)</th>
+                    <th class="resizable">фактически</th>
+                    <th class="resizable">Экономия(-), перерасход(+)</th>
                     <th colspan="2"></th>
                 </tr>
                 <tr>
                     <th></th>
-                    <th>A</th>
-                    <th>Б</th>
-                    <th>В</th>
-                    <th>Г</th>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>4</th>
-                    <th>5</th>
-                    <th>6</th>
-                    <th>7</th>
+                    <th class="resizable">A</th>
+                    <th class="resizable">Б</th>
+                    <th class="resizable">В</th>
+                    <th class="resizable">Г</th>
+                    <th class="resizable">1</th>
+                    <th class="resizable">2</th>
+                    <th class="resizable">3</th>
+                    <th class="resizable">4</th>
+                    <th class="resizable">5</th>
+                    <th class="resizable">6</th>
+                    <th class="resizable">7</th>
                     <th colspan="2"></th>
                 </tr>
             </thead>
@@ -399,7 +406,7 @@
                             
                             <div class="tableForChoose">
                                 <table class="table_report-area">
-                                    <thead>
+                                    <thead >
                                         <tr>
                                             <th>Код продукта</th>
                                             <th>Наименование продукта</th>
@@ -554,10 +561,10 @@
         </div>
         <div class="spravochniki_area">
             <table class="table_report-area">
-                <thead>
-                    <tr>
-                        <th>Код единицы измерения</th>
-                        <th>Название единицы измерения</th>
+                <thead class="order-table_titels">
+                    <tr>  
+                        <th class="resizable" style = "white-space: nowrap;">Код единицы измерения<div class="resizer"></div></th>
+                        <th class="resizable" style = "white-space: nowrap;">Название единицы измерения<div class="resizer"></div></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -576,6 +583,7 @@
         </div>
     </div>
 </div>
+
 <div id="DirProductModal" class="modal">
     <div class="modal-content">
         <div class = "modal-header">
@@ -583,25 +591,25 @@
             <a class="close" id = "CloseDirProduct">&times;</a>
         </div>
         <div class="spravochniki_area">
-            <table class="table_report-area">
-                <thead>
+            <table class="table_report-area" style = "width: 100%;">
+                <thead class="order-table_titels">
                     <tr>
-                        <th>Код продукции</th>
-                        <th>Наименование продукции</th>
-                        <th>Топливо</th>
-                        <th>Тепловая</th>
-                        <th>Электричество</th>
-                        <th>Код единицы измерения</th>
-                        <th>Дата начала</th>
-                        <th>Дата окончания</th>
+                        <th class="resizable" style = "white-space: nowrap;">Код продукции<div class="resizer"></div></th>
+                        <th class="resizable" style = "white-space: nowrap;">Наименование продукции<div class="resizer"></div></th>
+                        <th class="resizable" style = "white-space: nowrap;">Топливо<div class="resizer"></div></th>
+                        <th class="resizable" style = "white-space: nowrap;">Тепловая<div class="resizer"></div></th>
+                        <th class="resizable" style = "white-space: nowrap;">Электричество<div class="resizer"></div></th>
+                        <th class="resizable" style = "white-space: nowrap;">Код единицы измерения<div class="resizer"></div></th>
+                        <th class="resizable" style = "white-space: nowrap;">Дата начала<div class="resizer"></div></th>
+                        <th class="resizable" style = "white-space: nowrap;">Дата окончания<div class="resizer"></div></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for row in dirProduct %}
                     <tr>
                         <td>{{ row.CodeProduct }}</td>
-                        <td style="text-align: left;">
-                            <input type = "text" style = "width: 100%;" value = "{{ row.NameProduct }}" readonly>
+                        <td>
+                            <input type = "text" style = "width: 420px;" value = "{{ row.NameProduct }}" readonly>
                         </td> 
                         <td>
                             <input type="checkbox" name="control" {% if row.IsFuel %} checked {% endif %} disabled>
@@ -624,7 +632,7 @@
                             {% if row.DateEnd %}
                             {{ row.DateEnd }}
                             {% else %}
-                            &nbsp;
+                        
                             {% endif %}
                         </td>
                     </tr>
