@@ -59,7 +59,7 @@
                         </section>
                         <section>
                             <div class = "functions_menu">                         
-                                <li>           
+                                <li onclick="sortTable()">           
                                     <img src="{{ url_for('static', filename='img/icon_sort.png')}}" alt="">
                                     <a>Сортировка</a>   
                                 </li>  
@@ -186,11 +186,11 @@
                     </td>
                     {% if row.total_differents is not none and (row.total_differents < 0.0 or row.total_differents == 0.00) %}
                         <td style="background-color: #a2ff77;">
-                            <input style="background-color: #a2ff77; color: black;" name="" value="{{ row.total_differents }}" readonly>
+                            <input style="background-color: #a2ff77; color: black;" name="row_total_differents"  value="{{ row.total_differents }}" readonly>
                         </td>
                     {%else%}
                         <td style="background-color: #ff7676;">
-                            <input style="background-color: #ff7676; color: black;" name="" value="{{ row.total_differents }}" readonly>
+                            <input style="background-color: #ff7676; color: black;" name="row_total_differents"  value="{{ row.total_differents }}" readonly>
                         </td>
                     {%endif%}
                     <td> 
@@ -490,7 +490,7 @@
                     <tr>
                         <td>{{ row.CodeProduct }}</td>
                         <td>
-                            <input type = "text" style = "width: 420px;" value = "{{ row.NameProduct }}" readonly>
+                            {{ row.NameProduct }}
                         </td> 
                         <td>
                             <input type="checkbox" name="control" {% if row.IsFuel %} checked {% endif %} disabled>

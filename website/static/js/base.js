@@ -1,13 +1,23 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const clearButtons = document.querySelectorAll('.clear-btn');
+
+    clearButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const input = this.previousElementSibling;
+            input.value = '';
+        });
+    });
+    
+    
     const header = document.querySelector('.fixed-header');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 0) {
             if (currentTheme === 'dark') {
-                header.style.backgroundColor = '#333';
+                header.style.backgroundColor = '#252525';
            
             }
             else{
-                header.style.backgroundColor = 'aliceblue';
+                header.style.backgroundColor = 'white';
                 // header.style.color = 'black';
             }
         } else {
@@ -92,17 +102,66 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     var numeric_dotInputs = document.querySelectorAll('.numeric_dotInput');
+
     numeric_dotInputs.forEach(function(input) {
         input.addEventListener('input', function(event) {
-            var value = this.value.replace(/[^\d.]/g, '');
+            var oldValue = this.value;
+            var selectionStart = this.selectionStart;
+            var selectionEnd = this.selectionEnd;
+            
+            var value = oldValue.replace(/[^\d.]/g, '');
             var parts = value.split('.');
             if (parts.length > 1) {
-                value = parts[0] + '.' + parts[1].slice(0, 2); 
+                value = parts[0] + '.' + parts[1].slice(0, 2);
             }
-
+            
+            // Удалить начальный 0, если он есть, при первом вводе данных
+            if (value.startsWith('0') && value.length > 1 && value[1] !== '.') {
+                value = value.substring(1);
+            }
+    
+            // Автоматически добавлять дробную часть .00
+            if (!value.includes('.')) {
+                value += '.00';
+            }
+    
+            // Сохраняем позицию точки для будущих проверок
+            var oldDotIndex = oldValue.indexOf('.');
+            var newDotIndex = value.indexOf('.');
+    
             this.value = value;
+    
+            // Если текст был вставлен, просто переместите курсор в конец вставки
+            if (selectionEnd - selectionStart > 1) {
+                this.setSelectionRange(selectionEnd, selectionEnd);
+            } else if (selectionStart <= oldDotIndex) {
+                // Если редактируем целую часть, то курсор перед точкой
+                var cursorPos = selectionStart + (newDotIndex - oldDotIndex);
+                this.setSelectionRange(cursorPos, cursorPos);
+            } else {
+                // Если редактируем дробную часть, оставляем курсор на месте
+                this.setSelectionRange(selectionStart, selectionStart);
+            }
+        });
+    
+        input.addEventListener('focus', function(event) {
+            if (this.value === '') {
+                this.value = '0.00';
+            }
+    
+            // Установить курсор перед точкой, если значение равно 0.00
+            var dotIndex = this.value.indexOf('.');
+            if (dotIndex !== -1) {
+                this.setSelectionRange(dotIndex, dotIndex);
+            }
+        });
+    
+        input.addEventListener('click', function(event) {
+            this.select();
         });
     });
+    
+    
 
 
 
@@ -152,14 +211,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     thElements.forEach(th => {
         const resizer = th.querySelector('.resizer');
-        if (resizer) { // Проверка наличия resizer
+        if (resizer) {
             resizer.addEventListener('mousedown', function(e) {
                 isResizing = true;
                 startX = e.clientX;
                 startWidth = th.offsetWidth;
                 currentTh = th;
                 document.body.style.cursor = 'col-resize';
-                e.preventDefault(); // Предотвращение выделения текста при перетаскивании
+                e.preventDefault();
             });
         }
     });
@@ -168,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isResizing) {
             const newWidth = startWidth + (e.clientX - startX);
             currentTh.style.width = newWidth + 'px';
-            currentTh.style.minWidth = newWidth + 'px'; // Устанавливаем минимальную ширину, чтобы предотвратить уменьшение
+            currentTh.style.minWidth = newWidth + 'px';
         }
     });
 
@@ -179,3 +238,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+

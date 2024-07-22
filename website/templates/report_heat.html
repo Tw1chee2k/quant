@@ -59,7 +59,7 @@
                         </section>
                         <section>
                             <div class = "functions_menu">                         
-                                <li>           
+                                <li onclick="sortTable()">           
                                     <img src="{{ url_for('static', filename='img/icon_sort.png')}}" alt="">
                                     <a>Сортировка</a>   
                                 </li>  
@@ -128,26 +128,26 @@
                     <th colspan="2"></th>
                 </tr>
                 <tr>
-                    <th class="resizable">по утвержденной норме (предельному уровню)</th>
-                    <th class="resizable">фактически</th>
-                    <th class="resizable">по утвержденной норме (предельному уровню)</th>
-                    <th class="resizable">фактически</th>
-                    <th class="resizable">Экономия(-), перерасход(+)</th>
+                    <th class="resizable">по утвержденной норме (предельному уровню)<div class="resizer"></div></th>
+                    <th class="resizable">фактически<div class="resizer"></div></th>
+                    <th class="resizable">по утвержденной норме (предельному уровню)<div class="resizer"></div></th>
+                    <th class="resizable">фактически<div class="resizer"></div></th>
+                    <th class="resizable">Экономия(-), перерасход(+)<div class="resizer"></div></th>
                     <th colspan="2"></th>
                 </tr>
                 <tr>
                     <th></th>
-                    <th class="resizable">A</th>
-                    <th class="resizable">Б</th>
-                    <th class="resizable">В</th>
-                    <th class="resizable">Г</th>
-                    <th class="resizable">1</th>
-                    <th class="resizable">2</th>
-                    <th class="resizable">3</th>
-                    <th class="resizable">4</th>
-                    <th class="resizable">5</th>
-                    <th class="resizable">6</th>
-                    <th class="resizable">7</th>
+                    <th class="resizable">A<div class="resizer"></div></th>
+                    <th class="resizable">Б<div class="resizer"></div></th>
+                    <th class="resizable">В<div class="resizer"></div></th>
+                    <th class="resizable">Г<div class="resizer"></div></th>
+                    <th class="resizable">1<div class="resizer"></div></th>
+                    <th class="resizable">2<div class="resizer"></div></th>
+                    <th class="resizable">3<div class="resizer"></div></th>
+                    <th class="resizable">4<div class="resizer"></div></th>
+                    <th class="resizable">5<div class="resizer"></div></th>
+                    <th class="resizable">6<div class="resizer"></div></th>
+                    <th class="resizable">7<div class="resizer"></div></th>
                     <th colspan="2"></th>
                 </tr>
             </thead>
@@ -184,14 +184,14 @@
                             readonly
                         >
                     </td>
-                    <td> 
+                     <td> 
                         <input 
                             style = "white-space: nowrap; text-align: left;" 
                             name = "" 
                             value = "{{ row.product.unit.NameUnit }}" 
                             readonly
                         >
-                    </td> 
+                    </td>
                     <td>
                         <input 
                             name = "produced_fuel" 
@@ -231,7 +231,7 @@
                         <td style="background-color: #a2ff77;">
                             <input 
                                 style="background-color: #a2ff77; color: black;" 
-                                name="" 
+                                name="row_total_differents" 
                                 value="{{ row.total_differents }}" 
                                 readonly
                             >
@@ -241,7 +241,7 @@
                             <input 
                                 style="background-color: #ff7676; 
                                 color: black;" 
-                                name="" 
+                                name="row_total_differents" 
                                 value="{{ row.total_differents }}" 
                                 readonly
                             >
@@ -609,7 +609,7 @@
                     <tr>
                         <td>{{ row.CodeProduct }}</td>
                         <td>
-                            <input type = "text" style = "width: 420px;" value = "{{ row.NameProduct }}" readonly>
+                            {{ row.NameProduct }}
                         </td> 
                         <td>
                             <input type="checkbox" name="control" {% if row.IsFuel %} checked {% endif %} disabled>

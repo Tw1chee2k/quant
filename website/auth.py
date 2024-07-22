@@ -83,6 +83,52 @@ def sign():
             return redirect(url_for('views.account'))
     return render_template("sign.html", user=current_user)
 
+
+@auth.route('/profile/common', methods=['GET', 'POST'])
+def profile_common():
+    if request.method == 'POST':
+        fio = request.form.get('fio')
+        telephone = request.form.get('telephone')   
+        organization_full_name = request.form.get('organization_full_name')
+        okpo = request.form.get('okpo')
+        ynp = request.form.get('ynp')
+
+        current_user.fio = fio
+        existing_telephone = User.query.filter(User.id != current_user.id, User.telephone == telephone).first()
+        if not existing_telephone:
+            current_user.telephone = telephone
+            db.session.commit()
+
+            userOrganization = Organization.query.filter_by(id = current_user.organization_id).first()
+            
+            existing_full_name = Organization.query.filter(Organization.full_name == organization_full_name, Organization.id != userOrganization.id).first()
+            existing_okpo = Organization.query.filter(Organization.okpo == okpo, Organization.id != userOrganization.id).first()
+            existing_ynp = Organization.query.filter(Organization.ynp == ynp, Organization.id != userOrganization.id).first()
+            
+            if existing_full_name:
+                flash('Организация c таким названием уже существует', 'error')
+                return redirect(url_for('views.profile_common'))
+            else:
+                userOrganization.full_name = organization_full_name
+                db.session.commit()
+            if existing_okpo:
+                flash('Организация c таким ОКПО уже существует', 'error')
+                return redirect(url_for('views.profile_common'))
+            else:
+                userOrganization.okpo = okpo
+                db.session.commit()
+            if existing_ynp:
+                flash('Организация c таким УНП уже существует', 'error')
+                return redirect(url_for('views.profile_common'))
+            else:
+                userOrganization.ynp = ynp
+                db.session.commit()
+            db.session.commit()
+            flash('Данные обновлены', 'success')
+        else: 
+            flash('Пользователь с таким номером телефона уже существует','error')
+    return redirect(url_for('views.profile_common'))
+
 @auth.route('/profile/password', methods=['GET', 'POST'])
 def profile_password():
     if request.method == 'POST':

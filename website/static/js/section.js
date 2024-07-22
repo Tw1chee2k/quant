@@ -384,4 +384,45 @@ document.getElementById('control-report-btn').addEventListener('click', function
     document.getElementById('control-report-form').submit();
 });
 
+let sortOrder = 'asc';
+
+function sortTable() {
+    var table, rows, switching, i, x, y, shouldSwitch;
+    table = document.querySelector(".table_report-area tbody");
+    switching = true;
+    while (switching) {
+        switching = false;
+        rows = table.rows;
+        for (i = 0; i < (rows.length - 3 - 1); i++) {
+            shouldSwitch = false;
+            var input1 = rows[i].querySelector('input[name="row_total_differents"]');
+            var input2 = rows[i + 1].querySelector('input[name="row_total_differents"]');
+            
+            if (input1 && input2) {
+                x = input1.value;
+                y = input2.value;
+                if (sortOrder === 'asc') {
+                    if (parseFloat(x) > parseFloat(y)) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else {
+                    if (parseFloat(x) < parseFloat(y)) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            } else {
+                console.error("One of the inputs is missing. Check the 'name' attribute.");
+            }
+        }
+        if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+        } else {
+            sortOrder = (sortOrder === 'asc') ? 'desc' : 'asc';
+        }
+    }
+    console.log('end');
+}
 
