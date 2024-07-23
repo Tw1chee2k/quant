@@ -7,7 +7,7 @@
     </div>
     <div class = "account_functions">
         <div class = "account_links">
-            <button class = "account_buttons" {%if user.type == 'Аудитор'%} onclick="window.location.href='/audit'"{%else%} onclick="window.location.href='/report_area'"{%endif%}>
+            <button class = "account_buttons" {%if user.type == 'Аудитор'%} onclick="window.location.href='/audit/not_viewed'"{%else%} onclick="window.location.href='/report_area'"{%endif%}>
                 <img src="{{ url_for('static', filename='img/icon_reports.png')}}"  alt="">
                 <span>Отчеты</span>
             </button>

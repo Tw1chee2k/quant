@@ -4,14 +4,17 @@
 
     
 <div class="hello_cont">
-    <video autoplay loop muted>
-      <source src="{{ url_for('static', filename='video/    .mp4') }}" type="video/mp4">
-    </video>
+        <!-- <video autoplay loop muted>
+            <source src="{{ url_for('static', filename='video/    .mp4') }}" type="video/mp4">
+        </video> -->
+
         <div class = "hello_cont_name">
             Информационная система учета и обработки отчетов предприятий
         </div>
-        {% if user.is_authenticated%}
+        {% if user.is_authenticated and user.type != 'Аудитор'%}
             <button onclick="window.location.href='/report_area'" type="" class = "blue_button">Подать отчет</button>
+        {% elif user.is_authenticated and user.type == 'Аудитор' %}
+            <button onclick="window.location.href='/audit/not_viewed'" type="" class = "blue_button">Просмотр отчетов</button>        
         {% else %}
             <button onclick="window.location.href='/login'" type="" class = "blue_button">Войти</button>
         {% endif %}

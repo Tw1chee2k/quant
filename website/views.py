@@ -720,7 +720,7 @@ def report_electro(id):
         current_version=current_version
     )
 
-@views.route('/audit')
+@views.route('/audit/not_viewed')
 @login_required
 def audit():
     report = Report.query.join(Version_report).filter(
@@ -739,7 +739,7 @@ def audit():
         current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
         row.IdUnit = current_unit.NameUnit
 
-    return render_template('audit.html', 
+    return render_template('audit_not_viewed.html', 
                            tickets=tickets, 
                            report=report, 
                            user=current_user, 

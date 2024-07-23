@@ -4,36 +4,50 @@
 
 <div class="audit-area_page">
     <nav class = "audit_navigation ">
-        <li class="active_li" onclick="window.location.href=''">
-            Не просмотренные
+        <li class="active_li" onclick="window.location.href=''">            
+            <img src="{{ url_for('static', filename='img/downloaded_icon_white.png')}}" class = "close_white" alt="">
+            <img src="{{ url_for('static', filename='img/downloaded_icon.png')}}" class = "close_black" alt="">
+            <a>Не просмотренные</a>
+
         </li>
-        <li onclick="window.location.href=''">
-            Замечания
+        <li onclick="window.location.href=''">            
+            <img src="{{ url_for('static', filename='img/warning_icon_white.png')}}" class = "close_white" alt="">
+            <img src="{{ url_for('static', filename='img/warning_icon.png')}}" class = "close_black" alt="">
+            <a>Замечания</a>
+
         </li>
-        <li onclick="window.location.href=''">
-            Для загрузки
+        <li onclick="window.location.href=''">            
+            <img src="{{ url_for('static', filename='img/down_icon_white.png')}}" class = "close_white" alt="">
+            <img src="{{ url_for('static', filename='img/down_icon.png')}}" class = "close_black" alt="">
+            <a>Для загрузки</a>
+
         </li>
-        <li onclick="window.location.href=''">
-            Для удаления
+        <li onclick="window.location.href=''">             
+            <img src="{{ url_for('static', filename='img/trash_icon_white.png')}}" class = "close_white" alt="">
+            <img src="{{ url_for('static', filename='img/trash_icon.png')}}" class = "close_black" alt="">
+            <a>Для удаления</a>
+
         </li>
     </nav>
-    <div class="audit-area">
+    <div class="audit-area" >
         <table class="table_report-area">
             <thead class="order-table_titels">
                 <tr>
-                    <th></th>
-                    <th class="resizable">ОКПО<div class="resizer"></div></th>
-                    <th class="resizable" style="white-space: nowrap;">Наименование предприятия<div class="resizer"></div></th>
+         
+                    <th class="resizable" style = "white-space: nowrap;">Код ОКПО<div class="resizer"></div></th>
+                    <th class="resizable" style="white-space: nowrap;">Организация<div class="resizer"></div></th>
+                    <th class="resizable" style="white-space: nowrap;">Дата поступления<div class="resizer"></div></th>
                     <th class="resizable">Год<div class="resizer"></div></th>
                     <th class="resizable">Квартал<div class="resizer"></div></th>
-                    <th></th>
+                    <th class="resizable">Категория<div class="resizer"></div></th>
+               
                 </tr>
             </thead>
             <tbody>
                 {%if report%}
                     {% for row in report %}
                     <tr class="report_row" data-id="{{ row.id }}">
-                        <td></td>
+                 
                         <td style = "display: none;">
                             <input type = "text" id = "report_id" value = "{{ row.id }}" readonly>
                         </td>
@@ -44,14 +58,18 @@
                             <input type = "text" id = "report_organization_name" value = "{{ row.organization_name }}" readonly>
                         </td>
                         <td>
+
+                        </td>
+                        <td>
                             <input type = "text" id = "report_year" value = "{{ row.year }}" readonly>
                         </td>
                         <td>
                             <input type = "text" id = "report_quarter" value = "{{ row.quarter }}" readonly>
                         </td>
                         <td>
-
+                            <input type = "text" id = "report_category" value = "{{ row.category }}" readonly>    
                         </td>
+        
                     </tr>
                     {% endfor %}
             {%else%}

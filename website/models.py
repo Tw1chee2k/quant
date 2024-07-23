@@ -32,6 +32,9 @@ class Report(db.Model):
     quarter = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  
     organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'))  
+    time_of_receipt = db.Column(db.Date) 
+    category = db.Column(db.String(20), default='Не просмотренные')
+
     versions = relationship('Version_report', backref='report')
 
 class Version_report(db.Model):

@@ -165,9 +165,10 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: transparent;
-    /* color: white; */
+    /* background-color: transparent; */
+    /* background-color: white; */
     color: black;
+
     position: fixed;
     top: 0;
     left: 0;
@@ -180,6 +181,7 @@ header {
 
 .dark-mode header{
     color: white;
+    /* background-color: #252525; */
 }
 
 header .center-content nav {
@@ -642,7 +644,7 @@ footer {
     align-items: left;
   }
   
-.hello_cont::before {
+/* .hello_cont::before {
     content: '';
     position: absolute;
     top: 0;
@@ -663,7 +665,7 @@ footer {
     background: rgba(0, 0, 0, 0.3);
     object-fit: cover;
     z-index: -100;
-}
+} */
   
 .hello_cont_name{
     font-size: 45px;
@@ -1445,7 +1447,7 @@ footer {
     display: block;
     border-spacing: 0px;
     border-collapse: collapse;
-    height: 100%;
+    height: max-content;
 }
  
 .dark-mode .table_report-area {
@@ -1460,6 +1462,7 @@ footer {
     text-align: center;
     color: rgb(0, 0, 0);
     font-weight: 600;
+    background-color:rgb(255, 255, 255);
 }
 
 .dark-mode .order-table_titels {
@@ -1467,7 +1470,7 @@ footer {
     color: rgb(204, 204, 204);
 }
 
-.order-table_titels tr th:first-child {
+/* .order-table_titels tr th:first-child {
     width: 0;
 }
 
@@ -1477,7 +1480,7 @@ footer {
 
 .order-table_titels tr th:last-child {
     width: 0;
-}
+} */
 
 .order-table_titels tr th {
     padding: 5px 10px;
@@ -2046,34 +2049,37 @@ th .resizer {
 .audit_navigation {
     display: flex;
     flex-direction: column;
-    text-align: left;
+    /* box-shadow: 0 0 5px rgb(0, 0, 0, 0.1); */
     background-color: white;
     padding: 20px 0;
     color: black;    
-    width: 300px;
+    width: 400px;
     height: 100%;    
     min-height: 100vh;
+    margin-right: 30px;
+
 }
 
 .dark-mode	.audit_navigation {
-    background-color:  #252525; 
-    box-shadow: 0 0 1px rgba(255, 255, 255, 0.1); 
+    background-color: #252525; 
     color: white;
 }
 
 .audit_navigation li {
     display: flex;
-    justify-content: start;
+    justify-content: left;
     list-style-type: none;
     cursor: pointer;
-    padding: 10px 60px;
+    padding: 10px 30px;
     margin: 7px 0;
     height: 25px;
     font-weight: 500;  
     transition: background-color 0.3s ease, color 0.3s ease;
     position: relative;
     align-items: center;
+    text-align: left;
 }
+
 
 .audit_navigation li:hover {
     background-color: rgb(236, 236, 236);
@@ -2088,7 +2094,7 @@ th .resizer {
     content: '';
     position: absolute;
     top: 0;
-    left: 15%; 
+    left: 30px; 
     transform: translateX(-50%); 
     width: 3px;
     border: none;
@@ -2100,9 +2106,44 @@ th .resizer {
     background-color: rgb(43, 236, 214); 
 }
 
+.audit_navigation li img{
+    padding: 0 20px;
+    width: 34px;
+    height: auto;
+}
+
 .audit-area{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+}
+
+.audit-area::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+.audit-area::-webkit-scrollbar-thumb {
+    background-color:rgb(221, 221, 221); 
+    border-radius: 5px;
+}
+
+.audit-area .table_report-area{
+    
+}
+
+.audit-area .table_report-area tr th,
+.audit-area .table_report-area tr td {
 
 }
 
+.audit-area td:first-child {
 
+   
+}
+
+.audit-area .table_report-area .order-table_titels tr th{
+    padding: 10px;
+}
 /*audit page end*/

@@ -8,6 +8,24 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
     
+    function expandText(input) {
+        // Сохраняем оригинальное значение ширины
+        if (!input.originalWidth) {
+            input.originalWidth = input.style.width;
+        }
+        // Если текст обрезан, расширяем поле ввода
+        if (input.style.whiteSpace === 'nowrap') {
+            input.style.whiteSpace = 'normal';
+            input.style.overflow = 'visible';
+            input.style.textOverflow = 'clip';
+            input.style.width = 'auto';
+        } else { // В противном случае возвращаем в исходное состояние
+            input.style.whiteSpace = 'nowrap';
+            input.style.overflow = 'hidden';
+            input.style.textOverflow = 'ellipsis';
+            input.style.width = input.originalWidth;
+        }
+    }
     
     const header = document.querySelector('.fixed-header');
     window.addEventListener('scroll', () => {

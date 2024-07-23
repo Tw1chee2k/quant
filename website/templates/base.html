@@ -21,13 +21,7 @@
         <nav>
           <ul>
               <li onclick="window.location.href='/'">Главная</li>
-              {%if user.type != 'Аудитор'%}
-              <li onclick="window.location.href='/report_area'">Отчетность</li>
-              {%else%}
-              {%endif%}
-              {%if user.type == 'Администратор' or user.type == 'Аудитор'%}
-              <li onclick="window.location.href='/audit'">Аудит</li>
-              {%endif%}
+
 
               <li onclick="window.location.href=''">Новости</li>
               <li onclick="window.location.href=''" >Контакты</li>
