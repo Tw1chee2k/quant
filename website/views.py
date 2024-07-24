@@ -28,51 +28,53 @@ def owner_only(f):
 def beginPage():
     if User.query.count() == 0:   
         organizations_data = [
-                                ('Региональное управление №1 (Брестская область)', '111', '111'),         
-                                ('Региональное управление №2 (Витебская область)', '222', '222'),  
-                                ('Региональное управление №3 (Гомельская область)', '333', '333'),  
-                                ('Региональное управление №4 (Гродненская область)', '444', '444'),  
-                                ('Региональное управление №5 (Минская область)', '555', '555'),  
-                                ('Региональное управление №6 (Могилевская область)', '666', '666'),  
-                                ('Региональное управление №7 (Минск)', '777', '777'),  
-                                (' №8 ()', '888', '888'),
-                                ('УО Новопольский ГАЭК', '35678438', '253314532'),
-                                ('Борисовский завод медицинских препаратов', '05799746', '600125834'),
-                                ('Руп "КВАНТ-АС"', '12345678', '453234532'),
+            ('Региональное управление №1 (Брестская область)', '111', '111'),         
+            ('Региональное управление №2 (Витебская область)', '222', '222'),  
+            ('Региональное управление №3 (Гомельская область)', '333', '333'),  
+            ('Региональное управление №4 (Гродненская область)', '444', '444'),  
+            ('Региональное управление №5 (Минская область)', '555', '555'),  
+            ('Региональное управление №6 (Могилевская область)', '666', '666'),  
+            ('Региональное управление №7 (Минск)', '777', '777'),  
+            (' №8 ()', '888', '888'),
+            ('УО Новопольский ГАЭК', '35678438', '253314532'),
+            ('Борисовский завод медицинских препаратов', '05799746', '600125834'),
+            ('Руп "КВАНТ-АС"', '12345678', '453234532'),
         ]
-    
+
+        organizations = {}
+        
         for organization_data in organizations_data:
             new_org = Organization(full_name=organization_data[0], 
-                        okpo=organization_data[1], 
-                        ynp=organization_data[2]
-                        )
-        
+                                okpo=organization_data[1], 
+                                ynp=organization_data[2])
             db.session.add(new_org)
-        db.session.commit()
+            db.session.commit()  
+
+            organizations[new_org.id] = new_org
 
         users_data = [
-                    ('Аудитор', 'BrestReg@gmail.com', None, None, generate_password_hash('1234'), 1),
-                    ('Аудитор', 'VitebskReg@gmail.com', None, None, generate_password_hash('1234'), 2),
-                    ('Аудитор','GomelReg@gmail.com',  None, None, generate_password_hash('1234'), 3),
-                    ('Аудитор', 'GrodnoReg@gmail.com',  None, None, generate_password_hash('1234'), 4),
-                    ('Аудитор', 'MinskReg@gmail.com',  None, None, generate_password_hash('1234'), 5),
-                    ('Аудитор', 'MogilevReg@gmail.com',  None, None, generate_password_hash('1234'), 6),
-                    ('Аудитор', 'Minsk@gmail.com',  None, None, generate_password_hash('1234'), 7),
-                    ('Аудитор', 'HZ@gmail.com',  None, None, generate_password_hash('1234'), 8),
-                    ('Администратор', 'tw1che.2k@gmail.com', 'Сидоров Максим Андреевич','+375445531847', generate_password_hash('1234'), 9),
-                    ('Респондент', 'clown4lenix@gmail.com', 'Шапавалов Алексей Юрьевич','+375447317128', generate_password_hash('1234'), 10),
-                    ('Респондент', 'info@kvantas-as', 'Санников Вячеслав Степанович','365 04 33', generate_password_hash('1234'), 11),
+            ('Аудитор', 'BrestReg@gmail.com', None, None, generate_password_hash('1234'), 1),
+            ('Аудитор', 'VitebskReg@gmail.com', None, None, generate_password_hash('1234'), 2),
+            ('Аудитор','GomelReg@gmail.com',  None, None, generate_password_hash('1234'), 3),
+            ('Аудитор', 'GrodnoReg@gmail.com',  None, None, generate_password_hash('1234'), 4),
+            ('Аудитор', 'MinskReg@gmail.com',  None, None, generate_password_hash('1234'), 5),
+            ('Аудитор', 'MogilevReg@gmail.com',  None, None, generate_password_hash('1234'), 6),
+            ('Аудитор', 'Minsk@gmail.com',  None, None, generate_password_hash('1234'), 7),
+            ('Аудитор', 'HZ@gmail.com',  None, None, generate_password_hash('1234'), 8),
+            ('Администратор', 'tw1che.2k@gmail.com', 'Сидоров Максим Андреевич','+375445531847', generate_password_hash('1234'), 9),
+            ('Респондент', 'clown4lenix@gmail.com', 'Шапавалов Алексей Юрьевич','+375447317128', generate_password_hash('1234'), 10),
+            ('Респондент', 'info@kvantas-as', 'Санников Вячеслав Степанович','365 04 33', generate_password_hash('1234'), 11),
         ]
-    
+
+
         for user_data in users_data:
             user = User(type=user_data[0], 
                         email=user_data[1], 
                         fio=user_data[2],
                         telephone=user_data[3],
                         password=user_data[4],
-                        organization_id=user_data[5],
-                        )
-        
+                        organization=organizations[user_data[5]])
+            
             db.session.add(user)
         db.session.commit()
 
@@ -545,7 +547,7 @@ def account():
 @views.route('/profile/common')
 @login_required
 def profile_common():
-    organization = Organization.query.filter_by(id = current_user.organization_id).first()
+    organization = Organization.query.filter_by(id = current_user.organization).first()
 
     return render_template('profile_common.html', user=current_user, organization=organization)
 
@@ -563,7 +565,7 @@ def relod_password():
 def report_area():
     ticket = Ticket.query.filter_by().all()
     report = Report.query.filter_by(user_id=current_user.id).all()
-    organization = Organization.query.filter_by().all()
+    organization = Organization.query.filter_by(id = current_user.organization.id).all()
     version = Version_report.query.filter_by().all()
     
     dirUnit = DirUnit.query.filter_by().all()
@@ -587,10 +589,10 @@ def report_area():
 def report_fuel(id):
     dirUnit = DirUnit.query.filter_by().all()
     dirProduct = DirProduct.query.filter(DirProduct.IsFuel == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
-    current_version_report = Version_report.query.filter_by(id=id).first()
-    curent_report = current_version_report.report_id
-    current_version = id
-    sections = Sections.query.filter_by(id_version=current_version, section_number=1).all()
+    current_version = Version_report.query.filter_by(id=id).first()
+    curent_report = Report.query.filter_by(id=current_version.report_id).first()
+    
+    sections = Sections.query.filter_by(id_version=current_version.id, section_number=1).all()
     specific_codes = ['9001', '9010', '9100']
 
 
@@ -617,7 +619,7 @@ def report_fuel(id):
             )
             db.session.add(section)
         db.session.commit()
-    sections = Sections.query.filter_by(id_version=current_version, section_number=1).order_by(desc(Sections.id)).all()
+    sections = Sections.query.filter_by(id_version=current_version.id, section_number=1).order_by(desc(Sections.id)).all()
     return render_template('report_fuel.html', 
         sections=sections,              
         dirUnit=dirUnit,
@@ -632,14 +634,13 @@ def report_fuel(id):
 @owner_only
 def report_heat(id):
     dirUnit = DirUnit.query.filter_by().all()
-    
     dirProduct = DirProduct.query.filter(DirProduct.IsHeat == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
-    current_version_report = Version_report.query.filter_by(id=id).first()
-    curent_report = current_version_report.report_id
-    current_version = id
-    sections = Sections.query.filter_by(id_version=current_version, section_number=2).all()
+    
+    current_version = Version_report.query.filter_by(id=id).first()
+    curent_report = Report.query.filter_by(id=current_version.report_id).first()
+   
+    sections = Sections.query.filter_by(id_version=current_version.id, section_number=2).all()
     specific_codes = ['9001', '9010', '9100']
-
 
     if not sections:
         sections_data = [
@@ -664,7 +665,7 @@ def report_heat(id):
             )
             db.session.add(section)
         db.session.commit()
-    sections = Sections.query.filter_by(id_version=current_version, section_number=2).order_by(desc(Sections.id)).all()
+    sections = Sections.query.filter_by(id_version=current_version.id, section_number=2).order_by(desc(Sections.id)).all()
     return render_template('report_heat.html', 
         sections=sections,              
         dirUnit=dirUnit,
@@ -680,10 +681,11 @@ def report_heat(id):
 def report_electro(id):
     dirUnit = DirUnit.query.filter_by().all()
     dirProduct = DirProduct.query.filter(DirProduct.IsElectro == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
-    current_version_report = Version_report.query.filter_by(id=id).first()
-    curent_report = current_version_report.report_id
-    current_version = id
-    sections = Sections.query.filter_by(id_version=current_version, section_number=3).all()
+    
+    current_version = Version_report.query.filter_by(id=id).first()
+    curent_report = Report.query.filter_by(id=current_version.report_id).first()
+    
+    sections = Sections.query.filter_by(id_version=current_version.id, section_number=3).all()
     specific_codes = ['9001', '9010', '9100']
 
 
@@ -710,7 +712,7 @@ def report_electro(id):
             )
             db.session.add(section)
         db.session.commit()
-    sections = Sections.query.filter_by(id_version=current_version, section_number=3).order_by(desc(Sections.id)).all()
+    sections = Sections.query.filter_by(id_version=current_version.id, section_number=3).order_by(desc(Sections.id)).all()
     return render_template('report_electro.html', 
         sections=sections,              
         dirUnit=dirUnit,
@@ -720,11 +722,32 @@ def report_electro(id):
         current_version=current_version
     )
 
+def count_reports():
+    not_viewedReports_count = Report.query.join(Version_report).filter(
+        Version_report.sent == True,
+        Report.category == 'Не просмотренные'
+    ).count()
+    remarksReports_count = Report.query.join(Version_report).filter(
+        Version_report.sent == True,
+        Report.category == 'Есть замечания'
+    ).count()
+    to_downloadReports_count = Report.query.join(Version_report).filter(
+        Version_report.sent == True,
+        Report.category == 'Готов к загрузке'
+    ).count()
+    to_deleteReports_count = Report.query.join(Version_report).filter(
+        Version_report.sent == True,
+        Report.category == 'Готов к удалению'
+    ).count()
+    return not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count
+
+
 @views.route('/audit/not_viewed')
 @login_required
-def audit():
+def audit_not_viewed():
     report = Report.query.join(Version_report).filter(
-        Version_report.sent == True
+        Version_report.sent == True,
+        Report.category == 'Не просмотренные'
     ).all()
 
     for i in report:
@@ -739,10 +762,117 @@ def audit():
         current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
         row.IdUnit = current_unit.NameUnit
 
+    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count = count_reports()
     return render_template('audit_not_viewed.html', 
                            tickets=tickets, 
                            report=report, 
                            user=current_user, 
                            dir_units=dir_units, 
                            dir_products=dir_products, 
-                           organizations=organizations)
+                           organizations=organizations,
+                           not_viewedReports_count=not_viewedReports_count,
+                           remarksReports_count=remarksReports_count,
+                           to_downloadReports_count=to_downloadReports_count,
+                           to_deleteReports_count=to_deleteReports_count
+                           )
+
+
+@views.route('/audit/remarks')
+@login_required
+def audit_remarks():
+    report = Report.query.join(Version_report).filter(
+        Version_report.sent == True,
+        Report.category == 'Есть замечания'
+    ).all()
+
+    for i in report:
+        i.versions = [version for version in i.versions if version.sent]
+
+    tickets = Ticket.query.all()
+    organizations = Organization.query.all()
+    dir_units = DirUnit.query.all()
+    dir_products = DirProduct.query.all()
+
+    for row in dir_products:
+        current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
+        row.IdUnit = current_unit.NameUnit
+
+    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count = count_reports()
+    return render_template('audit_remarks.html', 
+                           tickets=tickets, 
+                           report=report, 
+                           user=current_user, 
+                           dir_units=dir_units, 
+                           dir_products=dir_products, 
+                           organizations=organizations,
+                           not_viewedReports_count=not_viewedReports_count,
+                           remarksReports_count=remarksReports_count,
+                           to_downloadReports_count=to_downloadReports_count,
+                           to_deleteReports_count=to_deleteReports_count)
+
+@views.route('/audit/to_download')
+@login_required
+def audit_to_download():
+    report = Report.query.join(Version_report).filter(
+        Version_report.sent == True,
+        Report.category == 'Готов к загрузке'
+    ).all()
+
+    for i in report:
+        i.versions = [version for version in i.versions if version.sent]
+
+    tickets = Ticket.query.all()
+    organizations = Organization.query.all()
+    dir_units = DirUnit.query.all()
+    dir_products = DirProduct.query.all()
+
+    for row in dir_products:
+        current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
+        row.IdUnit = current_unit.NameUnit
+
+    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count = count_reports()
+    return render_template('audit_to_download.html', 
+                           tickets=tickets, 
+                           report=report, 
+                           user=current_user, 
+                           dir_units=dir_units, 
+                           dir_products=dir_products, 
+                           organizations=organizations,
+                           not_viewedReports_count=not_viewedReports_count,
+                           remarksReports_count=remarksReports_count,
+                           to_downloadReports_count=to_downloadReports_count,
+                           to_deleteReports_count=to_deleteReports_count)
+
+
+@views.route('/audit/to_delete')
+@login_required
+def audit_to_delete():
+    report = Report.query.join(Version_report).filter(
+        Version_report.sent == True,
+        Report.category == 'Готов к удалению'
+    ).all()
+
+    for i in report:
+        i.versions = [version for version in i.versions if version.sent]
+
+    tickets = Ticket.query.all()
+    organizations = Organization.query.all()
+    dir_units = DirUnit.query.all()
+    dir_products = DirProduct.query.all()
+
+    for row in dir_products:
+        current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
+        row.IdUnit = current_unit.NameUnit
+
+    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count = count_reports()
+    return render_template('audit_to_delete.html', 
+                           tickets=tickets, 
+                           report=report, 
+                           user=current_user, 
+                           dir_units=dir_units, 
+                           dir_products=dir_products, 
+                           organizations=organizations,
+                           not_viewedReports_count=not_viewedReports_count,
+                           remarksReports_count=remarksReports_count,
+                           to_downloadReports_count=to_downloadReports_count,
+                           to_deleteReports_count=to_deleteReports_count)

@@ -12,9 +12,7 @@
                     <ul>
                         <section>
                             <div class="functions_menu">
-                                <form id="new-report-form" action="/create_new_report" method="POST" style="display: none;">
-                                </form>
-                                <li id="create-report-btn" >
+                                <li id = "link_add_report">
                                     <img src="{{ url_for('static', filename='img/icon_new_file.png') }}" alt="Создать отчет">
                                     <a>Добавить</a>
                                 </li>
@@ -256,7 +254,78 @@
 
     </div>
 </div>
-
+<div id="add_report_modal" class="modal">
+    <div class="modal-content">
+        <div class = "modal-header">
+            <h3 class = "change-position">Создание отчета</h3>
+            <a class="close">&times;</a>
+        </div>
+        <form method="POST" action="/create_new_report">
+            <table class="change-report_table">      
+                <tr>
+                    <td>Наименование предприятия</td>
+                    <td>
+                        <input 
+                            type="text" 
+                            name="modal_organization_name" 
+                            value="{{current_user.organization.full_name}}" 
+                            style = "width: 250px; text-align: left; color: rgb(132,132,132);" 
+                            autocomplete="off" 
+                            readonly
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <td>ОКПО</td>
+                    <td>
+                        <input 
+                            type="text"
+                            name="modal_organization_okpo" 
+                            value="{{current_user.organization.okpo}}"  
+                            style = "color: rgb(132,132,132);" 
+                            autocomplete="off" 
+                            readonly
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <td>Год</td>
+                    <td>
+                        <select 
+                            name="modal_report_year" 
+                            readonly
+                        >
+                            <option>2024</option>
+                            <option>2025</option>
+                            <option>2026</option>
+                            <option>2027</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Квартал</td>
+                    <td>
+                        <select 
+                            name="modal_report_quarter" 
+                            readonly
+                        >
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style = "text-align: right;">
+                        <button type="submit" class="blue_button report-submit">Создать</button>
+                    </td>
+                </tr>
+            </table>
+        </form> 
+    </div>
+</div>
 <div id="change_report_modal" class="modal">
     <div class="modal-content">
         <div class = "modal-header">
@@ -268,11 +337,11 @@
                 <tr>
                     <td>Наименование предприятия</td>
                     <td>
-                        <input 
+                        <input
                             type="text" 
                             name="modal_organization_name" 
                             id="modal_organization_name" 
-                            style = "width: 200px; text-align: left; color: rgb(132,132,132);" 
+                            style = "width: 250px; text-align: left; color: rgb(132,132,132);" 
                             autocomplete="off" 
                             readonly
                         >
@@ -304,7 +373,6 @@
                             <option>2026</option>
                             <option>2027</option>
                         </select>
-
                     </td>
                 </tr>
                 <tr>
@@ -320,7 +388,6 @@
                             <option>3</option>
                             <option>4</option>
                         </select>
-
                         <input 
                             type="hidden" 
                             name="modal_report_id" 
@@ -335,7 +402,6 @@
                     </td>
                 </tr>
             </table>
-       
         </form> 
     </div>
 </div>
@@ -356,7 +422,6 @@
     </form>
 </div>
 
-
 <div id="contextMenu_version" class="white-panel">
     <button data-action="checkVersionButton">
         <span>Изменить данные</span>
@@ -371,6 +436,6 @@
 
 <script src="{{ url_for('static', filename='js/report_area.js') }}"></script>
 <script>
-
+    
 </script>
 {% endblock %}

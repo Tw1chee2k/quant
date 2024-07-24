@@ -3,6 +3,7 @@ from flask_login import UserMixin
 from datetime import datetime
 from sqlalchemy.orm import relationship
 from sqlalchemy import Numeric
+from sqlalchemy.orm import backref
 
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
@@ -13,7 +14,8 @@ class User(db.Model, UserMixin):
     telephone = db.Column(db.String(20))
     password = db.Column(db.String(50))
     organization_id = db.Column(db.Integer(), db.ForeignKey('organization.id'))
-    reports = db.relationship('Report', backref='user', lazy = True, cascade = "all, delete-orphan")
+    reports = db.relationship('Report', backref='user', lazy=True, cascade="all, delete-orphan")
+    organization = db.relationship('Organization', backref=backref('users', lazy=True, single_parent=True))
 
 class Organization(db.Model):
     __tablename__ = 'organization'
@@ -21,8 +23,7 @@ class Organization(db.Model):
     full_name = db.Column(db.String(50))
     okpo = db.Column(db.Integer)
     ynp = db.Column(db.Integer)
-    users = db.relationship('User', backref = 'organization', lazy = True, cascade = "all, delete-orphan")
-    
+  
 class Report(db.Model):
     __tablename__ = 'report'
     id = db.Column(db.Integer, primary_key=True)
@@ -31,10 +32,8 @@ class Report(db.Model):
     year = db.Column(db.Integer)
     quarter = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  
-    organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'))  
     time_of_receipt = db.Column(db.Date) 
     category = db.Column(db.String(20), default='Не просмотренные')
-
     versions = relationship('Version_report', backref='report')
 
 class Version_report(db.Model):

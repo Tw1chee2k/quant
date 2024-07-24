@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Проверка отчетов{% endblock %}
+{% block title %}Для загрузки{% endblock %}
 {% block content %}
 
 <div class="audit-area_page">
     <nav class="audit_navigation">
-        <li class="active_li" data-action="not_viewed" onclick="window.location.href='/audit/not_viewed'">            
+        <li data-action="not_viewed" onclick="window.location.href='/audit/not_viewed'">            
             <img src="{{ url_for('static', filename='img/downloaded_icon_white.png') }}" class="close_white" alt="">
             <img src="{{ url_for('static', filename='img/downloaded_icon.png') }}" class="close_black" alt="">
             <a>Не просмотренные</a>       
@@ -17,7 +17,7 @@
             <a class = "count_reports">{{remarksReports_count}}</a>
 
         </li>
-        <li data-action="to_download" onclick="window.location.href='/audit/to_download'">            
+        <li class="active_li" data-action="to_download" onclick="window.location.href='/audit/to_download'">            
             <img src="{{ url_for('static', filename='img/down_icon_white.png') }}" class="close_white" alt="">
             <img src="{{ url_for('static', filename='img/down_icon.png') }}" class="close_black" alt="">
             <a>Для загрузки</a> 
@@ -84,7 +84,7 @@
 </div>
 
 <div id="contextMenu_report" class="white-panel">
-    <button id="">
+    <button id = "">
         <span>Просмотреть</span>
     </button>
 </div>

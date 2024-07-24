@@ -675,9 +675,23 @@ footer {
     padding: 110px 40px 40px 40px;
     color: transparent;    
     z-index: 2;
+    animation: fadeInTextblack 1s ease forwards;
+}
+
+.dark-mode .hello_cont_name{
     animation: fadeInTextwhite 1s ease forwards;
 }
   
+@keyframes fadeInTextblack {
+    0% {
+        opacity: 0; 
+    }
+    100% {
+        opacity: 1;
+        color:rgb(0, 0, 0);
+    }
+}
+
 @keyframes fadeInTextwhite {
     0% {
         opacity: 0; 
@@ -1265,13 +1279,10 @@ footer {
     cursor: pointer;
 }
 
-
-
 .activefunctions_menu{
     border-radius: 5px;
     border: none;
     background-color:#c4e8ff;
-    
 }
 
 .dark-mode .activefunctions_menu{
@@ -1288,7 +1299,6 @@ footer {
     background-color:#457270;
 }
 
-
 .content-podmenu nav ul li img{
     height: 40px;
     width: auto;
@@ -1298,6 +1308,8 @@ footer {
     font-size: 13px;
     padding-top: 2px;
 }
+
+
 
 /*---------------menu_report_area end*/
 
@@ -1418,6 +1430,12 @@ footer {
     cursor: pointer;
 }
 
+.dop_version_info{
+    padding-top: 7px;
+    font-size: 12px;
+  
+}
+
 
 .report-area {
     margin-top: 20px;
@@ -1526,7 +1544,7 @@ th .resizer {
 }
 
 .table_report-area tr td{
-    padding: 5px 10px;
+    padding: 7px 10px;
     text-align: left;             
     font-size: 12px;
     border: 1px solid #dddddd;
@@ -1754,6 +1772,7 @@ th .resizer {
 .active-input,
 .active-report_version{
     background-color:#def0ff;
+
 }
 
 .dark-mode .active-report,
@@ -2068,16 +2087,15 @@ th .resizer {
 .audit_navigation li {
     display: flex;
     justify-content: left;
+    align-items: center;
     list-style-type: none;
     cursor: pointer;
-    padding: 10px 30px;
+    padding: 10px 20px;
     margin: 7px 0;
     height: 25px;
     font-weight: 500;  
     transition: background-color 0.3s ease, color 0.3s ease;
     position: relative;
-    align-items: center;
-    text-align: left;
 }
 
 
@@ -2094,7 +2112,7 @@ th .resizer {
     content: '';
     position: absolute;
     top: 0;
-    left: 30px; 
+    left: 20px; 
     transform: translateX(-50%); 
     width: 3px;
     border: none;
@@ -2107,9 +2125,13 @@ th .resizer {
 }
 
 .audit_navigation li img{
-    padding: 0 20px;
+    padding: 0 15px;
     width: 34px;
     height: auto;
+}
+
+.count_reports{
+    padding: 0 0 0 15px;
 }
 
 .audit-area{
@@ -2129,13 +2151,13 @@ th .resizer {
     border-radius: 5px;
 }
 
-.audit-area .table_report-area{
+.audit-area  input{
     
 }
 
 .audit-area .table_report-area tr th,
 .audit-area .table_report-area tr td {
-
+    font-size: 18px;
 }
 
 .audit-area td:first-child {
@@ -2145,5 +2167,12 @@ th .resizer {
 
 .audit-area .table_report-area .order-table_titels tr th{
     padding: 10px;
+
 }
+
+.audit-area .table_report-area .order-table_titels tr th {
+  
+
+}
+
 /*audit page end*/

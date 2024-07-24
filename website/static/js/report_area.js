@@ -151,12 +151,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 setTimeout(function() {
                     versionsRow.classList.add('show');
                 }, 10);
+                contextMenuReport.style.display = 'none';
+                contextMenuVersion.style.display = 'none';
+                
             } else {
                 versionsRow.classList.remove('show');
                 versionsRow.addEventListener('transitionend', function handler() {
                     versionsRow.style.display = 'none';
                     versionsRow.removeEventListener('transitionend', handler);
                 });
+                contextMenuReport.style.display = 'none';
+                contextMenuVersion.style.display = 'none';
             }
             
             var imgBlack = this.querySelector('.close_black');
@@ -180,12 +185,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 setTimeout(function() {
                     checkRow.classList.add('show');
                 }, 10);
+                contextMenuReport.style.display = 'none';
+                contextMenuVersion.style.display = 'none';
             } else {
                 checkRow.classList.remove('show');
                 checkRow.addEventListener('transitionend', function handler() {
                     checkRow.style.display = 'none';
                     checkRow.removeEventListener('transitionend', handler);
                 });
+                contextMenuReport.style.display = 'none';
+                contextMenuVersion.style.display = 'none';
             }
             var imgBlack = this.querySelector('.close_black');
             var imgWhite = this.querySelector('.close_white');
@@ -202,8 +211,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*показ панели для редактирования параметров отчета*/
     var link_change_report = document.getElementById('link_change_report');
+    var link_add_report = document.getElementById('link_add_report');
+
     var change_report_modal = document.getElementById('change_report_modal');
-    var close_report_modal = change_report_modal.querySelector('.close');
+    var add_report_modal = document.getElementById('add_report_modal');
+    
+    var close_change_report_modal = change_report_modal.querySelector('.close');
+    var close_add_report_modal = add_report_modal.querySelector('.close');
+
 
     link_change_report.addEventListener('click', function(event) {
         event.preventDefault();
@@ -226,8 +241,21 @@ document.addEventListener('DOMContentLoaded', function () {
         contextMenuReport.style.display = 'none';
     });
 
-    close_report_modal.addEventListener('click', function() {
+    link_add_report.addEventListener('click', function() {
+    
+        add_report_modal.style.display = 'block';
+        contextMenuReport.style.display = 'none';
+    });
+
+
+    close_change_report_modal.addEventListener('click', function() {
         change_report_modal.style.display = 'none';
+
+    });
+
+    close_add_report_modal.addEventListener('click', function() {
+        add_report_modal.style.display = 'none';
+
     });
 
     change_report_modal.addEventListener('click', function(event) {
@@ -235,13 +263,16 @@ document.addEventListener('DOMContentLoaded', function () {
             change_report_modal.style.display = 'none';
         }
     });
+
+    add_report_modal.addEventListener('click', function(event) {
+        if (event.target === add_report_modal) {
+            add_report_modal.style.display = 'none';
+        }
+    });
     /*end*/
 
 
 
-    document.getElementById('create-report-btn').addEventListener('click', function() {
-        document.getElementById('new-report-form').submit();
-    });
 
 
 

@@ -20,6 +20,10 @@
                 <img src="{{ url_for('static', filename='img/icon_admin-panel.png')}}"  alt="">
                 <span>Админ-панель</span>
             </button>
+            <button class = "account_buttons" onclick="window.location.href='/audit/not_viewed'">
+                <img src="{{ url_for('static', filename='img/.png')}}"  alt="">
+                <span>Аудит</span>
+            </button>
             {%else%}
             {%endif%}
         </div>

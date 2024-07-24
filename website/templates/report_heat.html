@@ -22,16 +22,16 @@
                         </section>
                         <section>
                             <div class = "functions_menu">
-                                <li onclick="window.location.href='/report_area/fuel/{{current_version}}'" >         
+                                <li onclick="window.location.href='/report_area/fuel/{{current_version.id}}'" >         
                                     <img src="{{ url_for('static', filename='img/Toplivo.png')}}" alt="">
                                     <a>Топливо</a>   
                                 </li>
-                                <li onclick="window.location.href='/report_area/heat/{{current_version}}'" class = "activefunctions_menu">                      
+                                <li onclick="window.location.href='/report_area/heat/{{current_version.id}}'" class = "activefunctions_menu">                      
                                     <img src="{{ url_for('static', filename='img/Teplo.png')}}" alt="">
                                     <a>Тепло</a>
                                 </li>
 
-                                <li onclick="window.location.href='/report_area/electro/{{current_version}}'">           
+                                <li onclick="window.location.href='/report_area/electro/{{current_version.id}}'">           
                                     <img src="{{ url_for('static', filename='img/Electro.png')}}" alt="">
                                     <a>Электро</a>   
                                 </li>  
@@ -46,7 +46,7 @@
                                     <img src="{{ url_for('static', filename='img/icon_excel.png')}}" alt="">
                                     <a>Экспорт</a>   
                                 </li>  
-                                <form id="control-report-form" action="/control_version/{{current_version}}" method="POST" style="display: none;">
+                                <form id="control-report-form" action="/control_version/{{current_version.id}}" method="POST" style="display: none;">
                                 </form>
                                 <li id="control-report-btn">           
                                     <img src="{{ url_for('static', filename='img/icon_control.png')}}" alt="">
@@ -108,7 +108,16 @@
                     <img class = "icon_arroy" src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
                     <img class = "icon_arroy_dark" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
                 </li>
-                <li>Тепло ({{curent_report}}, {{current_version}})</li>
+                <li>Тепло ({{curent_report.id}}, {{current_version.id}})</li> 
+            </ul>
+            <ul>
+                <li>
+                    <a class = "dop_version_info">ОКПО: "{{curent_report.okpo}}", 
+                    УНП: "{{curent_report.organization_name.ynp}}", 
+                    Название предприятия: "{{curent_report.organization_name}}", 
+                    Год: {{curent_report.year}}, 
+                    Квартал: {{curent_report.quarter}} </a>
+                </li> 
             </ul>
         </nav>
     </div>
@@ -374,7 +383,7 @@
                         >
                         <input 
                             type="hidden" 
-                            value="{{ current_version }}" 
+                            value="{{ current_version.id }}" 
                             name="current_version"
                             readonly
                         >
@@ -531,7 +540,7 @@
                         >
                         <input                 
                             type="hidden"
-                            value = "{{current_version}}"
+                            value = "{{current_version.id}}"
                             name="current_version"
                             readonly
                         >

@@ -75,7 +75,7 @@ def sign():
                             fio=fio, 
                             telephone=telephone, 
                             password=generate_password_hash(password),
-                            organization_id = new_organization.id)
+                            organization = new_organization)
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
@@ -99,7 +99,7 @@ def profile_common():
             current_user.telephone = telephone
             db.session.commit()
 
-            userOrganization = Organization.query.filter_by(id = current_user.organization_id).first()
+            userOrganization = Organization.query.filter_by(id = current_user.organization).first()
             
             existing_full_name = Organization.query.filter(Organization.full_name == organization_full_name, Organization.id != userOrganization.id).first()
             existing_okpo = Organization.query.filter(Organization.okpo == okpo, Organization.id != userOrganization.id).first()
@@ -194,34 +194,40 @@ def gener_password():
 
 @auth.route('/create_new_report', methods=['POST'])
 def create_new_report():
-    organization = Organization.query.filter_by(id = current_user.organization_id).first()
-    if request.method == 'POST':
-        new_report = Report(
-            okpo=organization.okpo,
-            organization_name= organization.full_name,
-            year=year_fourMounth_ago(),
-            quarter=last_quarter(),
-            user_id = current_user.id,
-            organization_id = organization.id
-        )
-        db.session.add(new_report)
-        db.session.commit()
-        
-        
-        new_version_report = Version_report(
-            begin_time = datetime.now(),
-            # change_time = 
-            # control = 
-            # agreed = 
-            # agreed_time = 
-            fio = current_user.fio,
-            telephone = current_user.telephone,
-            email = current_user.email,
-            report_id = new_report.id
-        )
-        db.session.add(new_version_report)
-        db.session.commit() 
-        flash('Добавлен новый отчет', category='success')
+    if request.method == 'POST':    
+        organization_name = request.form.get('modal_organization_name')
+        okpo = request.form.get('modal_organization_okpo')
+        year = request.form.get('modal_report_year')
+        quarter = request.form.get('modal_report_quarter')
+        organization = Organization.query.filter_by(okpo = okpo, full_name=organization_name).first()
+        proverka_report = Report.query.filter_by(organization_name=organization_name, year = year, quarter=quarter).first()
+        if not proverka_report:
+            new_report = Report(
+                okpo=organization.okpo,
+                organization_name= organization.full_name,
+                year=year,
+                quarter=quarter,
+                user_id = current_user.id
+            )
+            db.session.add(new_report)
+            db.session.commit()
+            
+            new_version_report = Version_report(
+                begin_time = datetime.now(),
+                # change_time = 
+                # control = 
+                # agreed = 
+                # agreed_time = 
+                fio = current_user.fio,
+                telephone = current_user.telephone,
+                email = current_user.email,
+                report_id = new_report.id
+            )
+            db.session.add(new_version_report)
+            db.session.commit() 
+            flash('Добавлен новый отчет', 'success')
+        else:
+            flash(f'Отчет {year} года {quarter} квартала уже существует', 'error')
     return redirect(url_for('views.report_area'))
     
 def last_quarter():
@@ -264,7 +270,6 @@ def update_report():
             current_report.year = year
             current_report.quarter = quarter
             current_report.organization_name = organization_okpo.full_name
-            current_report.organization_id = organization_okpo.id
             db.session.commit()
             flash('Параметры обновлены', category='success')
         else:
@@ -326,7 +331,7 @@ def delete_version(id):
                     db.session.commit()
                     flash('Версия удалена', category='success')
                 else:
-                    flash('Последняя версия не может быть удалена', category='error')
+                    flash('Единственная версия не может быть удалена', category='error')
             else:
                 flash('Отправленная версия не может быть удалена', category='error')
         else:
@@ -674,3 +679,37 @@ def sent_version(id):
         else:
             flash('Версия уже была оправлена', 'successful')
         return redirect(url_for('views.report_area'))
+    
+@auth.route('/change_category_report', methods=['POST'])
+def change_category_report():
+    action = request.form.get('action')
+    report_id = request.form.get('reportId')
+    
+    cutegory_itog = None
+    if request.method == 'POST':
+        current_report = Report.query.filter_by(id=report_id).first()
+        link_return = current_report.category
+        if current_report:
+            if action == 'not_viewed':
+                cutegory_itog = 'Не просмотренные'
+            elif action == 'remarks':
+                cutegory_itog = 'Есть замечания'
+            elif action == 'to_download':
+                cutegory_itog = 'Готов к загрузке'
+            elif action == 'to_delete':
+                cutegory_itog = 'Готов к удалению'
+
+            current_report.category = cutegory_itog
+            db.session.commit()
+
+            flash('Отчет был перемещен', 'success')
+            if link_return == 'Не просмотренные':
+                return redirect(url_for('views.audit_not_viewed'))
+            elif link_return == 'Есть замечания':
+                return redirect(url_for('views.audit_remarks'))
+            elif link_return == 'Готов к загрузке':
+                return redirect(url_for('views.audit_to_download'))
+            elif link_return == 'Готов к удалению':
+                return redirect(url_for('views.audit_to_delete'))
+
+            
