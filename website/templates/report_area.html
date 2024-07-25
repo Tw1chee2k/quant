@@ -77,10 +77,10 @@
                 <tr>
                     <th></th>
                     <th></th>
-                    <th class="resizable">ОКПО<div class="resizer"></div></th>
+                    <th class="resizable" style="width: 80px;">ОКПО<div class="resizer"></div></th>
                     <th class="resizable" style="white-space: nowrap;">Наименование предприятия<div class="resizer"></div></th>
-                    <th class="resizable">Год<div class="resizer"></div></th>
-                    <th class="resizable">Квартал<div class="resizer"></div></th>
+                    <th class="resizable" style="width: 80px;">Год<div class="resizer"></div></th>
+                    <th class="resizable" style="width: 80px;">Квартал<div class="resizer"></div></th>
                     <th></th>
                 </tr>
             </thead>
@@ -141,16 +141,14 @@
                                 <thead class="order-table_titels">
                                     <tr>
                                         <th></th>
-                                        <th class="resizable" style = "white-space: nowrap;">Дата начала<div class="resizer"></div></th>
-                                        <th class="resizable" style = "white-space: nowrap;">Дата изменения<div class="resizer"></div></th>
-                                        <th class="resizable">Контроль<div class="resizer"></div></th>
-                                        <th class="resizable">Согласовано<div class="resizer"></div></th>
-                                        <th class="resizable">Отправлено<div class="resizer"></div></th>
-                                        <th class="resizable">Статус<div class="resizer"></div></th>
-                                        <th class="resizable" style = "white-space: nowrap;">Дата согласования<div class="resizer"></div></th>
-                                        <th class="resizable">ФИО<div class="resizer"></div></th>
-                                        <th class="resizable">Телефон<div class="resizer"></div></th>
-                                        <th class="resizable">Email<div class="resizer"></div></th>
+                                        <th class="resizable" style ="white-space: nowrap; width: 100px;">Дата начала<div class="resizer"></div></th>
+                                        <th class="resizable" style="white-space: nowrap; width: 100px;">Дата изменения<div class="resizer"></div></th>
+                                        
+                                        <th class="resizable" >Статус<div class="resizer"></div></th>
+                                        <th class="resizable" style="white-space: nowrap; width: 100px;">Дата согласования<div class="resizer"></div></th>
+                                        <th class="resizable" style="white-space: nowrap; width: 200px;">ФИО<div class="resizer"></div></th>
+                                        <th class="resizable" style="white-space: nowrap; width: 100px;">Телефон<div class="resizer"></div></th>
+                                        <th class="resizable" style="white-space: nowrap; width: 140px;">Email<div class="resizer"></div></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -173,15 +171,7 @@
                                             &nbsp;
                                             {% endif %}
                                         </td>
-                                        <td>
-                                            <input type="checkbox" name="control" {% if rows.control %} checked {% endif %} >
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" name="agreed" {% if rows.agreed %} checked {% endif %} >
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" name="sent" {% if rows.sent %} checked {% endif %} >
-                                        </td>
+
                                         <td>
                                             <input type = "text" value = "{{ rows.status }}" readonly>
                                         </td> 

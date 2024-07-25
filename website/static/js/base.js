@@ -9,17 +9,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     function expandText(input) {
-        // Сохраняем оригинальное значение ширины
         if (!input.originalWidth) {
             input.originalWidth = input.style.width;
         }
-        // Если текст обрезан, расширяем поле ввода
         if (input.style.whiteSpace === 'nowrap') {
             input.style.whiteSpace = 'normal';
             input.style.overflow = 'visible';
             input.style.textOverflow = 'clip';
             input.style.width = 'auto';
-        } else { // В противном случае возвращаем в исходное состояние
+        } else {
             input.style.whiteSpace = 'nowrap';
             input.style.overflow = 'hidden';
             input.style.textOverflow = 'ellipsis';
@@ -83,34 +81,50 @@ document.addEventListener('DOMContentLoaded', function () {
     
 
     (function() {
-        var userImg = document.getElementById('user-img');
-        var hoverPanel = document.getElementById('hoverPanel');
+        var userImgs = document.querySelectorAll('.icon_black, .icon_white');
+        var hoverPanel = document.querySelector('.hoverPanel');
         var timeoutId;
     
-        if (userImg && hoverPanel) {
-            userImg.addEventListener('mouseenter', function() {
+        function showhoverPanel() {
+            if (hoverPanel) {
+                hoverPanel.classList.remove('hidden');
+                hoverPanel.classList.add('show');
+            }
+        }
+    
+        function hidehoverPanel() {
+            if (hoverPanel) {
+                hoverPanel.classList.remove('show');
+                hoverPanel.classList.add('hidden');
+            }
+        }
+    
+        function setupEventListeners(element) {
+            element.addEventListener('mouseenter', function() {
                 clearTimeout(timeoutId);
-                hoverPanel.style.display = 'block';
+                showhoverPanel();
             });
     
-            userImg.addEventListener('mouseleave', function() {
-                timeoutId = setTimeout(function() {
-                    hoverPanel.style.display = 'none';
-                }, 200);
+            element.addEventListener('mouseleave', function() {
+                timeoutId = setTimeout(hidehoverPanel, 1000); // Задержка перед началом скрытия
             });
+        }
+    
+        if (userImgs.length > 0 && hoverPanel) {
+            userImgs.forEach(setupEventListeners);
     
             hoverPanel.addEventListener('mouseenter', function() {
                 clearTimeout(timeoutId);
-                hoverPanel.style.display = 'block';
+                showhoverPanel();
             });
     
             hoverPanel.addEventListener('mouseleave', function() {
-                timeoutId = setTimeout(function() {
-                    hoverPanel.style.display = 'none';
-                }, 200);
+                timeoutId = setTimeout(hidehoverPanel, 1000); // Задержка перед началом скрытия
             });
         }
     })();
+    
+
 
     var numericInputs = document.querySelectorAll('.numericInput');
     numericInputs.forEach(function(input) {
@@ -133,31 +147,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 value = parts[0] + '.' + parts[1].slice(0, 2);
             }
             
-            // Удалить начальный 0, если он есть, при первом вводе данных
             if (value.startsWith('0') && value.length > 1 && value[1] !== '.') {
                 value = value.substring(1);
             }
     
-            // Автоматически добавлять дробную часть .00
             if (!value.includes('.')) {
                 value += '.00';
             }
-    
-            // Сохраняем позицию точки для будущих проверок
+
             var oldDotIndex = oldValue.indexOf('.');
             var newDotIndex = value.indexOf('.');
     
             this.value = value;
     
-            // Если текст был вставлен, просто переместите курсор в конец вставки
+
             if (selectionEnd - selectionStart > 1) {
                 this.setSelectionRange(selectionEnd, selectionEnd);
             } else if (selectionStart <= oldDotIndex) {
-                // Если редактируем целую часть, то курсор перед точкой
                 var cursorPos = selectionStart + (newDotIndex - oldDotIndex);
                 this.setSelectionRange(cursorPos, cursorPos);
             } else {
-                // Если редактируем дробную часть, оставляем курсор на месте
                 this.setSelectionRange(selectionStart, selectionStart);
             }
         });
@@ -167,7 +176,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.value = '0.00';
             }
     
-            // Установить курсор перед точкой, если значение равно 0.00
             var dotIndex = this.value.indexOf('.');
             if (dotIndex !== -1) {
                 this.setSelectionRange(dotIndex, dotIndex);

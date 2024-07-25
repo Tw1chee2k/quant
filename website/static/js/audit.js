@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     var reportRows = document.querySelectorAll('.report_row');
-    var navigationItems = document.querySelectorAll('.audit_navigation li');
+    var navigationItems = document.querySelectorAll('.profile_navigation li');
     var previousReportRow = null;
     var selectedReportId = null;
     var contextMenuReport = document.getElementById('contextMenu_report');

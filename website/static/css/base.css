@@ -23,14 +23,14 @@ html::-webkit-scrollbar-track {
 
 html::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: #d8d6d6;
+    background-color: #d3d3d3;
 }
 
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color:rgb(238, 246, 253);
+    background-color:rgb(247, 247, 247);
     color: rgb(0, 0, 0);
 }
 
@@ -168,7 +168,7 @@ header {
     /* background-color: transparent; */
     /* background-color: white; */
     color: black;
-
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     position: fixed;
     top: 0;
     left: 0;
@@ -176,7 +176,7 @@ header {
     text-align: center;
     z-index: 100;
     font-weight: 500;
-    transition: background-color 0.5s ease;  
+    transition: background-color 0.3s ease;  
 }
 
 .dark-mode header{
@@ -227,21 +227,38 @@ main {
     min-height: 100vb;
 }
 
+/* Основные стили для hoverPanel */
 .hoverPanel {
-    display: none;
     position: absolute;
     background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-    border-radius: 5px; 
-    right: 0; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    right: 0;
     padding: 10px;
+    opacity: 0;
+    top: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, top 0.5s ease, visibility 0s 0.5s;
+    z-index: 100;
 }
 
 .dark-mode .hoverPanel {
-    background-color:#252525;
-    box-shadow: 0 0 1px rgba(255, 255, 255, 0.1); 
+    background-color: #252525;
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
+.hoverPanel.show {
+    opacity: 1;
+    top: 40px;
+    visibility: visible; 
+    transition: opacity 0.5s ease, top 0.5s ease; 
+}
+
+.hoverPanel.hidden {
+    opacity: 0;
+    visibility: hidden; 
+    transition: opacity 0.5s ease, top 0.5s ease, visibility 0s 0.5s;
+}   
 
 .user-container {
     position: relative;
@@ -719,7 +736,7 @@ footer {
     align-items: center;
     justify-content: center;
     position: relative;
-    background-color: aliceblue;
+    background-color: rgb(247, 247, 247);
     white-space: nowrap;
     width: 100%;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1); 
@@ -777,7 +794,7 @@ footer {
 
 
 .cont_news_main_page .white_news_cont{
-    background-color: aliceblue;
+    background-color: rgb(247, 247, 247);
     min-width: 1400px;
     max-width: 1400px;
     display: flex;
@@ -962,7 +979,7 @@ footer {
 }
 
 .message_cont::-webkit-scrollbar-track {
-    background-color: aliceblue;
+    background-color: rgb(247, 247, 247);
 }
 
 .dark-mode .message_cont::-webkit-scrollbar-track {
@@ -1019,18 +1036,19 @@ footer {
     display: flex;
     flex-direction: column;
     text-align: left;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    background-color: rgba(238, 238, 238, 0.507);
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
     padding: 20px 0;
     color: black;    
-    width: 300px;
+    width: auto;
     height: 100%;    
     min-height: 100vh;
+    font-size: 14px;
 }
 
 .dark-mode	.profile_navigation {
     background-color:  #252525; 
-    box-shadow: 0 0 1px rgba(255, 255, 255, 0.1); 
+    /* box-shadow: 0 0 1px rgba(255, 255, 255, 0.1);  */
     color: white;
 }
 
@@ -1039,8 +1057,8 @@ footer {
     justify-content: start;
     list-style-type: none;
     cursor: pointer;
-    padding: 10px 60px;
-    margin: 7px 0;
+    padding: 10px 50px;
+    white-space: nowrap;
     height: 25px;
     font-weight: 500;  
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -1049,7 +1067,7 @@ footer {
 }
 
 .profile_navigation li:hover {
-    background-color: rgb(236, 236, 236);
+    background-color: rgb(223, 223, 223);
 }
 
 .dark-mode .profile_navigation li:hover {
@@ -1061,7 +1079,7 @@ footer {
     content: '';
     position: absolute;
     top: 0;
-    left: 15%; 
+    left: 13%; 
     transform: translateX(-50%); 
     width: 3px;
     border: none;
@@ -1072,6 +1090,21 @@ footer {
 
 .dark-mode .profile_navigation li.active_li::before {
     background-color: rgb(43, 236, 214); 
+}
+
+.profile_navigation li img{
+    padding: 0 15px;
+    width: 34px;
+    height: auto;
+    display: none;
+}
+
+.dark-mode .profile_navigation li img{
+    display: none;
+}
+
+.count_reports{
+    padding: 0 0 0 15px;
 }
 
 /*profil_header end*/
@@ -1178,7 +1211,7 @@ footer {
 
 .report-area_menu{
     display: flex;
-    color: rgb(0, 0, 0);
+
     font-weight: 500;
     top: 0;
     left: 0;
@@ -1200,12 +1233,10 @@ footer {
     background-color: rgb(255, 255, 255);
     font-size: 16px;
     padding: 7px 15px;
-    color: rgb(0, 0, 0);
 }
 
 .dark-mode .report-area_menu-input:checked +  .report-area_menu-name {
     background-color: #252525;
-    color: white;
     font-size: 16px;
     padding: 7px 15px;
 }
@@ -1472,15 +1503,11 @@ footer {
     background-color: #4d4d4d;
 }    
 
-
-
-
-
 .order-table_titels {
     text-align: center;
     color: rgb(0, 0, 0);
     font-weight: 600;
-    background-color:rgb(255, 255, 255);
+    background-color:rgba(231, 231, 231, 0.507);
 }
 
 .dark-mode .order-table_titels {
@@ -1569,7 +1596,7 @@ th .resizer {
 
 .versions_row .vers_cont {
     padding: 10px 40px; 
-    background-color: aliceblue;
+    background-color: rgb(247, 247, 247);
 
 }
 
@@ -1657,7 +1684,7 @@ th .resizer {
 }
 
 .check_cont{
-    background-color: aliceblue; 
+    background-color: rgb(247, 247, 247); 
     border: none;
 }
 
@@ -2065,114 +2092,11 @@ th .resizer {
     flex-direction: row;
 }
 
-.audit_navigation {
-    display: flex;
-    flex-direction: column;
-    /* box-shadow: 0 0 5px rgb(0, 0, 0, 0.1); */
-    background-color: white;
-    padding: 20px 0;
-    color: black;    
-    width: 400px;
-    height: 100%;    
-    min-height: 100vh;
-    margin-right: 30px;
-
-}
-
-.dark-mode	.audit_navigation {
-    background-color: #252525; 
-    color: white;
-}
-
-.audit_navigation li {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    list-style-type: none;
-    cursor: pointer;
-    padding: 10px 20px;
-    margin: 7px 0;
-    height: 25px;
-    font-weight: 500;  
-    transition: background-color 0.3s ease, color 0.3s ease;
-    position: relative;
-}
-
-
-.audit_navigation li:hover {
-    background-color: rgb(236, 236, 236);
-}
-
-.dark-mode .audit_navigation li:hover {
-    transition: background-color 0.3s ease;
-    background-color: rgb(29, 29, 29);
-}
-
-.audit_navigation li.active_li::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 20px; 
-    transform: translateX(-50%); 
-    width: 3px;
-    border: none;
-    height: 100%; 
-    background-color: #028dff; 
-}
-
-.dark-mode .audit_navigation li.active_li::before {
-    background-color: rgb(43, 236, 214); 
-}
-
-.audit_navigation li img{
-    padding: 0 15px;
-    width: 34px;
-    height: auto;
-}
-
-.count_reports{
-    padding: 0 0 0 15px;
-}
-
-.audit-area{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-}
-
-.audit-area::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-}
-
-.audit-area::-webkit-scrollbar-thumb {
-    background-color:rgb(221, 221, 221); 
-    border-radius: 5px;
-}
-
-.audit-area  input{
-    
-}
-
 .audit-area .table_report-area tr th,
 .audit-area .table_report-area tr td {
     font-size: 18px;
 }
 
-.audit-area td:first-child {
 
-   
-}
-
-.audit-area .table_report-area .order-table_titels tr th{
-    padding: 10px;
-
-}
-
-.audit-area .table_report-area .order-table_titels tr th {
-  
-
-}
 
 /*audit page end*/

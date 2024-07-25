@@ -46,7 +46,8 @@ class Version_report(db.Model):
     sent = db.Column(db.Boolean, default=False)
 
     status = db.Column(db.String(20))
-
+    sent_time = db.Column(db.Date)
+    
     agreed_time = db.Column(db.Date)
 
     fio = db.Column(db.String(30))
