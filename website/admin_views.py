@@ -1,9 +1,9 @@
 import os
-from flask_admin import expose, AdminIndexView
-from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
-from functools import wraps
+from flask_admin import Admin, AdminIndexView, expose
 from flask_login import login_required, current_user
+from functools import wraps
+from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections
 
 def admin_only(f):
     @wraps(f)
@@ -34,5 +34,4 @@ class MyMainView(AdminIndexView):
                            version_report_data=version_report_data,
                            dirProduct_data=dirProduct_data,
                            sections_data=sections_data,
-                           ticket_data=ticket_data,
-                           )
+                           ticket_data=ticket_data)

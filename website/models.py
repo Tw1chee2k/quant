@@ -33,7 +33,6 @@ class Report(db.Model):
     quarter = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  
     time_of_receipt = db.Column(db.Date) 
-    category = db.Column(db.String(20), default='Не просмотренные')
     versions = relationship('Version_report', backref='report')
 
 class Version_report(db.Model):
@@ -41,14 +40,20 @@ class Version_report(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     begin_time = db.Column(db.Date, default=datetime.now())
     change_time = db.Column(db.Date)
+
     control = db.Column(db.Boolean, default=False)
     agreed = db.Column(db.Boolean, default=False)
     sent = db.Column(db.Boolean, default=False)
+
+    status = db.Column(db.String(20))
+
     agreed_time = db.Column(db.Date)
+
     fio = db.Column(db.String(30))
     telephone = db.Column(db.String(20))    
     email = db.Column(db.String(50))
     report_id = db.Column(db.Integer, db.ForeignKey('report.id'))
+
 
 class Ticket(db.Model):
     id = db.Column(db.Integer, primary_key=True)

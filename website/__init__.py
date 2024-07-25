@@ -39,6 +39,7 @@ def create_app():
 
     from website.admin_views import MyMainView
     from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections
+    
     from website.admin.user_view import UserView
     from website.admin.organization_view import OrganizationView
     from website.admin.report_view import ReportView

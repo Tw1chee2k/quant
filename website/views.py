@@ -547,7 +547,7 @@ def account():
 @views.route('/profile/common')
 @login_required
 def profile_common():
-    organization = Organization.query.filter_by(id = current_user.organization).first()
+    organization = Organization.query.filter_by(id = current_user.organization.id).first()
 
     return render_template('profile_common.html', user=current_user, organization=organization)
 
@@ -659,7 +659,7 @@ def report_heat(id):
                 Consumed_Quota=data[6],
                 Consumed_Fact=data[7],
                 Consumed_Total_Quota=data[8],
-                Consumed_Total_Fact=data[9],
+                Consumed_Total_Fact=data[9 ],
                 total_differents = data[10],
                 note=data[11]
             )
@@ -725,29 +725,28 @@ def report_electro(id):
 def count_reports():
     not_viewedReports_count = Report.query.join(Version_report).filter(
         Version_report.sent == True,
-        Report.category == 'Не просмотренные'
+        Version_report.status == 'Отправлено'
     ).count()
     remarksReports_count = Report.query.join(Version_report).filter(
         Version_report.sent == True,
-        Report.category == 'Есть замечания'
+        Version_report.status == 'Есть замечания'
     ).count()
     to_downloadReports_count = Report.query.join(Version_report).filter(
         Version_report.sent == True,
-        Report.category == 'Готов к загрузке'
+        Version_report.status == 'Готов к загрузке'
     ).count()
     to_deleteReports_count = Report.query.join(Version_report).filter(
         Version_report.sent == True,
-        Report.category == 'Готов к удалению'
+        Version_report.status == 'Готов к удалению'
     ).count()
     return not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count
-
 
 @views.route('/audit/not_viewed')
 @login_required
 def audit_not_viewed():
     report = Report.query.join(Version_report).filter(
         Version_report.sent == True,
-        Report.category == 'Не просмотренные'
+        Version_report.status == 'Отправлено'
     ).all()
 
     for i in report:
@@ -776,13 +775,12 @@ def audit_not_viewed():
                            to_deleteReports_count=to_deleteReports_count
                            )
 
-
 @views.route('/audit/remarks')
 @login_required
 def audit_remarks():
     report = Report.query.join(Version_report).filter(
         Version_report.sent == True,
-        Report.category == 'Есть замечания'
+        Version_report.status == 'Есть замечания'
     ).all()
 
     for i in report:
@@ -815,7 +813,7 @@ def audit_remarks():
 def audit_to_download():
     report = Report.query.join(Version_report).filter(
         Version_report.sent == True,
-        Report.category == 'Готов к загрузке'
+        Version_report.status == 'Готов к загрузке'
     ).all()
 
     for i in report:
@@ -843,13 +841,12 @@ def audit_to_download():
                            to_downloadReports_count=to_downloadReports_count,
                            to_deleteReports_count=to_deleteReports_count)
 
-
 @views.route('/audit/to_delete')
 @login_required
 def audit_to_delete():
     report = Report.query.join(Version_report).filter(
         Version_report.sent == True,
-        Report.category == 'Готов к удалению'
+        Version_report.status == 'Готов к удалению'
     ).all()
 
     for i in report:
@@ -876,3 +873,6 @@ def audit_to_delete():
                            remarksReports_count=remarksReports_count,
                            to_downloadReports_count=to_downloadReports_count,
                            to_deleteReports_count=to_deleteReports_count)
+
+
+

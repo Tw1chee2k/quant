@@ -218,10 +218,11 @@ def create_new_report():
                 # control = 
                 # agreed = 
                 # agreed_time = 
+                status = "Заполнение",
                 fio = current_user.fio,
                 telephone = current_user.telephone,
                 email = current_user.email,
-                report_id = new_report.id
+                report=new_report
             )
             db.session.add(new_version_report)
             db.session.commit() 
@@ -442,6 +443,7 @@ def add_section_param():
                             current_version.change_time = datetime.now()
                             db.session.commit()
                     flash('Продукция была добавлена', 'success')
+                    current_version.status = "Заполнение"
                     current_version.control = False
                     current_version.agreed = False
                     current_version.agreed_time = None
@@ -544,7 +546,7 @@ def change_section():
                         section9100.Consumed_Total_Fact = (section9001.Consumed_Total_Fact or 0) + (section9010.Consumed_Total_Fact or 0)
                         section9100.total_differents = (section9001.total_differents or 0) + (section9010.total_differents or 0)
                         db.session.commit()
-                    
+                    current_version.status = "Заполнение"
                     current_version.control = False
                     current_version.agreed = False
                     current_version.agreed_time = None
@@ -591,7 +593,7 @@ def remove_section(id):
                     if current_version:
                         current_version.change_time = datetime.now()
                         db.session.commit()
-
+                    current_version.status = "Заполнение"
                     current_version.control = False
                     current_version.agreed = False
                     current_version.agreed_time = None
@@ -613,13 +615,13 @@ def remove_section(id):
 @auth.route('/control_version/<id>', methods=['POST'])
 def control_version(id):
     if request.method == 'POST':
-        current_reportVersion = Version_report.query.filter_by(id=id).first()
-        id_version = current_reportVersion.id
+        current_version = Version_report.query.filter_by(id=id).first()
+        id_version = current_version.id
         fuel_section9010 = Sections.query.filter_by(id_version=id, section_number=1, code_product=9010).first()
         heat_section9010 = Sections.query.filter_by(id_version=id, section_number=2, code_product=9010).first()
         electro_section9010 = Sections.query.filter_by(id_version=id, section_number=3, code_product=9010).first()    
 
-        if current_reportVersion.control == False: 
+        if current_version.status == "Заполнение": 
             if fuel_section9010 is None or heat_section9010 is None or electro_section9010 is None:
                 if fuel_section9010 is None:
                     flash('Код строки 9010 не заполнен', 'error')
@@ -640,8 +642,8 @@ def control_version(id):
             elif not electro_section9010.note:
                 flash('Код строки 9010 не заполнен', 'error')
                 return redirect(url_for('views.report_electro', id=id_version))
-            
-            current_reportVersion.control = True
+            current_version.status = 'Контроль пройден'
+            current_version.control = True
             db.session.commit()
             flash('Контроль пройден', 'successful')
         else:
@@ -651,33 +653,34 @@ def control_version(id):
 @auth.route('/agreed_version/<id>', methods=['POST'])
 def agreed_version(id):
     if request.method == 'POST':
-        current_reportVersion = Version_report.query.filter_by(id=id).first()
+        current_version = Version_report.query.filter_by(id=id).first()
+        if current_version.status == 'Контроль пройден': 
+            current_version.agreed = True
+            current_version.agreed_time = datetime.now()          
+            current_version.status = 'Согласовано'
 
-        if current_reportVersion.agreed == False: 
-            if current_reportVersion.control == True: 
-                current_reportVersion.agreed = True
-                current_reportVersion.agreed_time = datetime.now()
-                db.session.commit()
-                flash('Версия согласована', 'successful')
-            else:
-                flash('Необходимо пройти контроль', 'error')
+            db.session.commit()
+            flash('Версия согласована', 'successful')
         else:
-            flash('Версия уже согласована', 'successful')
+            flash('Необходимо пройти контроль', 'error')
         return redirect(url_for('views.report_area'))
     
 @auth.route('/sent_version/<id>', methods=['POST'])
 def sent_version(id):
     if request.method == 'POST':
-        current_reportVersion = Version_report.query.filter_by(id=id).first()
-        if current_reportVersion.sent == False: 
-            if current_reportVersion.agreed == True:
-                current_reportVersion.sent = True
-                db.session.commit()
-                flash('Версия отправлена', 'successful')
-            else:
-                flash('Необходимо согласовать', 'error')
+        current_version = Version_report.query.filter_by(id=id).first()
+
+        if current_version.status == 'Согласовано':
+            current_version.status = 'Отправлено'
+            current_version.sent = True
+            db.session.commit()
+            flash('Версия отправлена', 'successful')
         else:
-            flash('Версия уже была оправлена', 'successful')
+            flash('Необходимо согласовать', 'error')
+
+
+
+
         return redirect(url_for('views.report_area'))
     
 @auth.route('/change_category_report', methods=['POST'])
@@ -685,25 +688,25 @@ def change_category_report():
     action = request.form.get('action')
     report_id = request.form.get('reportId')
     
-    cutegory_itog = None
+    status_itog = None
     if request.method == 'POST':
-        current_report = Report.query.filter_by(id=report_id).first()
-        link_return = current_report.category
-        if current_report:
+        current_version = Version_report.query.filter_by(id=report_id).first()
+        link_return = current_version.status
+        if current_version:
             if action == 'not_viewed':
-                cutegory_itog = 'Не просмотренные'
+                status_itog = 'Отправлено'
             elif action == 'remarks':
-                cutegory_itog = 'Есть замечания'
+                status_itog = 'Есть замечания'
             elif action == 'to_download':
-                cutegory_itog = 'Готов к загрузке'
+                status_itog = 'Готов к загрузке'
             elif action == 'to_delete':
-                cutegory_itog = 'Готов к удалению'
+                status_itog = 'Готов к удалению'
 
-            current_report.category = cutegory_itog
+            current_version.status = status_itog
             db.session.commit()
 
             flash('Отчет был перемещен', 'success')
-            if link_return == 'Не просмотренные':
+            if link_return == 'Отправлено':
                 return redirect(url_for('views.audit_not_viewed'))
             elif link_return == 'Есть замечания':
                 return redirect(url_for('views.audit_remarks'))

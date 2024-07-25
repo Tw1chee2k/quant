@@ -146,6 +146,7 @@
                                         <th class="resizable">Контроль<div class="resizer"></div></th>
                                         <th class="resizable">Согласовано<div class="resizer"></div></th>
                                         <th class="resizable">Отправлено<div class="resizer"></div></th>
+                                        <th class="resizable">Статус<div class="resizer"></div></th>
                                         <th class="resizable" style = "white-space: nowrap;">Дата согласования<div class="resizer"></div></th>
                                         <th class="resizable">ФИО<div class="resizer"></div></th>
                                         <th class="resizable">Телефон<div class="resizer"></div></th>
@@ -182,6 +183,9 @@
                                             <input type="checkbox" name="sent" {% if rows.sent %} checked {% endif %} >
                                         </td>
                                         <td>
+                                            <input type = "text" value = "{{ rows.status }}" readonly>
+                                        </td> 
+                                        <td>
                                             {% if rows.agreed_time %}
                                             <input type = "text" value = "{{ rows.agreed_time }}" readonly>
                                             {% else %}
@@ -199,7 +203,7 @@
                                         </td> 
                                     </tr>
                                     <tr class="check_row">
-                                        <td colspan="10" class = "check_cont">
+                                        <td colspan="22" class = "check_cont">
                                             <div class="text_cheks">--Квитанции--</div>
                                             <table class="cheks_table">
                                                 <thead class="order-table_titels">
@@ -410,7 +414,7 @@
     <button id = "link_change_report">
         <span>Редактировать</span>
     </button>
-    <form id="addVersion" method="POST" action="/create_new_report_version/">
+    <form id="addVersion" style = "display:none;" method="POST" action="/create_new_report_version/">
         <button type="submit" id="add_versionButton">
             <span>Добавить версию</span>
         </button>
@@ -426,7 +430,7 @@
     <button data-action="checkVersionButton">
         <span>Изменить данные</span>
     </button>
-    <form id="deleteVersion" method="POST" action="/delete_version/">
+    <form id="deleteVersion"  style = "display:none;" method="POST" action="/delete_version/">
         <button type="submit" id="del_versionButton">
             <span>Удалить</span>
         </button>

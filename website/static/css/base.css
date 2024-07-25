@@ -13,7 +13,7 @@ html{
 }
 
 html::-webkit-scrollbar {
-    width: 10px;
+    width: 7px;
 }
   
 html::-webkit-scrollbar-track {
@@ -1488,7 +1488,7 @@ footer {
     color: rgb(204, 204, 204);
 }
 
-/* .order-table_titels tr th:first-child {
+.order-table_titels tr th:first-child {
     width: 0;
 }
 
@@ -1498,7 +1498,7 @@ footer {
 
 .order-table_titels tr th:last-child {
     width: 0;
-} */
+}
 
 .order-table_titels tr th {
     padding: 5px 10px;

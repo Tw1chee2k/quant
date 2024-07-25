@@ -7,7 +7,7 @@
         <li class="active_li" data-action="not_viewed" onclick="window.location.href='/audit/not_viewed'">            
             <img src="{{ url_for('static', filename='img/downloaded_icon_white.png') }}" class="close_white" alt="">
             <img src="{{ url_for('static', filename='img/downloaded_icon.png') }}" class="close_black" alt="">
-            <a>Не просмотренные</a>       
+            <a>Не просмотреноные</a>       
             <a class = "count_reports">{{not_viewedReports_count}}</a>
         </li>
         <li data-action="remarks" onclick="window.location.href='/audit/remarks'">            
@@ -67,7 +67,11 @@
                                 <input type="text" id="report_quarter" value="{{ row.quarter }}" readonly>
                             </td>
                             <td>
-                                <input type="text" id="report_category" value="{{ row.category }}" readonly>
+                                {%if row.status == 'Отправлен'%}
+                                    <input type="text" id="report_category" value="Не просмотрен" readonly>
+                                    {%else%}
+                                    <input type="text" id="report_category" value="{{row.status}}" readonly>
+                                {%endif%}
                             </td>
                         </tr>
                     {% endfor %}
