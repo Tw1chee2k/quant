@@ -70,14 +70,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 event.preventDefault();
             });
 
-            item.addEventListener('dragenter', function(event) {
-                event.preventDefault(); // Предотвращаем действия по умолчанию
-                if (action === 'to_delete') {
-                    this.style.backgroundColor = '#fd0404'; // фон для элемента с data-action="to_delete"
-                } else {
-                    this.style.backgroundColor = '#51ff00';
-                }
-            });
+            // item.addEventListener('dragenter', function(event) {
+            //     event.preventDefault(); // Предотвращаем действия по умолчанию
+            //     if (action === 'to_delete') {
+            //         this.style.backgroundColor = '#fd0404'; // фон для элемента с data-action="to_delete"
+            //     } else {
+            //         this.style.backgroundColor = '#51ff00';
+            //     }
+            // });
 
             item.addEventListener('dragleave', function(event) {
                 this.style.backgroundColor = ''; 
