@@ -33,15 +33,11 @@
                 <span>Сообщения</span>
             </div>
             <div class = "message_cont">
-                {% if message %}
-                    {% for row in message %}
+                {% if messages %}
+                    {% for row in messages %}
                     <div class = "mes">
-                        <div class = "time_mes">{{row.created_at}}</div>
-                    {%if row.category == False%}
-                        <div class = "text_mes" style = "color:red;">{{row.text}}</div>
-                    {%else%}
-                        <div class = "text_mes" style = "color:#00ca00;">{{row.text}}</div>
-                    {%endif%}  
+                        <div class = "time_mes">{{row.create_time}}</div>
+                        <div class = "text_mes">{{row.text}}</div>
                     </div>
                     {%endfor%}
                 {%else%} 

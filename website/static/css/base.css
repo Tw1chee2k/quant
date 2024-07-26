@@ -38,6 +38,22 @@ body.dark-mode {
     background-color: #333; 
     color: #fff; 
 }
+body.dimmed {
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s;
+}
+
+.dimmed-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    pointer-events: none;
+    transition: background 0.3s;
+}
 
 :root {
     --color1: rgb(238, 246, 253);
@@ -945,12 +961,14 @@ footer {
     padding: 0 20px;
     font-size: 15px;
     transition: color 0.3s ease;
+    border-bottom: 2px solid #dfdfdf;
 }
 
 .dark-mode .account_messageArea{
     color: white;
     background-color:  #252525;      
     box-shadow: 0 0 1px rgba(255, 255, 255, 0.1); 
+    border-bottom: 2px solid #333333;
 }
 
 .account_messageArea img{
@@ -1011,7 +1029,8 @@ footer {
 .message_cont .mes .text_mes{
     font-size: 16px;
     color:#00ca00;
-
+    /* color: black; */
+    font-weight: 500;
 }
 
 /*account.css end*/
@@ -1291,6 +1310,11 @@ footer {
     display: flex; 
     flex-direction: row;
 }
+
+.functions_menu a{
+    /* white-space: nowrap; */
+}
+
 
 .functions_menu_name{
     font-weight: 600;
@@ -2085,18 +2109,11 @@ th .resizer {
 
 
 /*audit page*/
+
+
 .audit-area_page{
+    margin-top: 60px;
     height: 100vh;
-    margin-top: 110px;
-    display: flex;
-    flex-direction: row;
 }
-
-.audit-area .table_report-area tr th,
-.audit-area .table_report-area tr td {
-    font-size: 18px;
-}
-
-
 
 /*audit page end*/

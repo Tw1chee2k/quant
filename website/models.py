@@ -5,6 +5,13 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Numeric
 from sqlalchemy.orm import backref
 
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    create_time = db.Column(db.Date, default=datetime.now())
+    text = db.Column(db.String(200))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref=backref('messages', lazy=True, cascade="all, delete-orphan"))
+
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)

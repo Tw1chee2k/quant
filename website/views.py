@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
-from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections
+from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections, Message
 from . import db
 from werkzeug.security import generate_password_hash
 from sqlalchemy import asc
@@ -542,7 +542,10 @@ def login():
 @views.route('/account')
 @login_required
 def account():
-    return render_template('account.html', user=current_user)
+    messages = Message.query.filter_by(user = current_user).all()
+    return render_template('account.html', 
+                           user=current_user, 
+                           messages=messages)
 
 @views.route('/profile/common')
 @login_required

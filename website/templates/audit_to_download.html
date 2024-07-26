@@ -3,41 +3,61 @@
 {% block content %}
 
 <div class="audit-area_page">
-    <nav class="profile_navigation">
-        <li data-action="not_viewed" onclick="window.location.href='/audit/not_viewed'">            
-            <img src="{{ url_for('static', filename='img/downloaded_icon_white.png') }}" class="close_white" alt="">
-            <img src="{{ url_for('static', filename='img/downloaded_icon.png') }}" class="close_black" alt="">
-            <a>Не просмотренные</a>       
-            <a class = "count_reports">{{not_viewedReports_count}}</a>
-        </li>
-        <li data-action="remarks" onclick="window.location.href='/audit/remarks'">            
-            <img src="{{ url_for('static', filename='img/warning_icon_white.png') }}" class="close_white" alt="">
-            <img src="{{ url_for('static', filename='img/warning_icon.png') }}" class="close_black" alt="">
-            <a>Замечания</a> 
-            <a class = "count_reports">{{remarksReports_count}}</a>
-
-        </li>
-        <li class="active_li" data-action="to_download" onclick="window.location.href='/audit/to_download'">            
-            <img src="{{ url_for('static', filename='img/down_icon_white.png') }}" class="close_white" alt="">
-            <img src="{{ url_for('static', filename='img/down_icon.png') }}" class="close_black" alt="">
-            <a>Для загрузки</a> 
-            <a class = "count_reports">{{to_downloadReports_count}}</a>
-        </li>
-        <li data-action="to_delete" onclick="window.location.href='/audit/to_delete'">             
-            <img src="{{ url_for('static', filename='img/trash_icon_white.png') }}" class="close_white" alt="">
-            <img src="{{ url_for('static', filename='img/trash_icon.png') }}" class="close_black" alt="">
-            <a>Для удаления</a>      
-            <a class = "count_reports">{{to_deleteReports_count}}</a>
-        </li>
-        <form id="change-category-form" style = "display: none;" method="post" action="/change_category_report">
-            <input type="hidden" name="reportId" id="report-id-input">
-            <input type="hidden" name="action" id="action-input">
-        </form>
-    </nav>
-    <div class="report-area" style="margin: 0 0 0 40px;">
+    <div class="report-area_menu">
+        <div class="report-area_podmenu">
+            <input type="radio" id="tab1" name="tab-group" class = "report-area_menu-input" checked>
+            <label for="tab1" class="report-area_menu-name">Панель управления</label>
+            <div class="content-podmenu">
+                <nav>
+                    <ul>
+                        <section>
+                            <div class="functions_menu">
+                                <li data-action="not_viewed" onclick="window.location.href='/audit/not_viewed'">
+                                    <img src="{{ url_for('static', filename='img/not_read_report.png') }}" alt="">
+                                    <a>Не просмотр.</a>
+                                </li>
+                                <li data-action="remarks" onclick="window.location.href='/audit/remarks'">
+                                    <img src="{{ url_for('static', filename='img/remarks_report.png') }}" alt="">
+                                    <a>Есть замечание</a>
+                                </li>
+                                <li data-action="to_download" onclick="window.location.href='/audit/to_download'" class = "activefunctions_menu">
+                                    <img src="{{ url_for('static', filename='img/for_downloade_report.png') }}" alt="">
+                                    <a>Готов к загрузке</a>
+                                </li>
+                                <li data-action="to_delete" onclick="window.location.href='/audit/to_delete'">
+                                    <img src="{{ url_for('static', filename='img/for_delete_report.png') }}" alt="">
+                                    <a>Готов к удалению</a>
+                                </li>
+                                <form id="change-category-form" style = "display: none;" method="post" action="/change_category_report">
+                                    <input type="hidden" name="reportId" id="report-id-input">
+                                    <input type="hidden" name="action" id="action-input">
+                                </form>
+                            </div>
+                            <a class="functions_menu_name">
+                                Статус отчета
+                            </a>
+                        </section>
+                        <section>
+                            <div class = "functions_menu">             
+                                <li onclick="sortTable()">           
+                                    <img src="{{ url_for('static', filename='img/icon_sort.png')}}" alt="">
+                                    <a>Сортировка</a>   
+                                </li>  
+                            </div>  
+                            <a class="functions_menu_name">
+                                Таблица
+                            </a>
+                        </section>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="report-area" style = "margin-top: 180px;">
         <table class="table_report-area">
             <thead class="order-table_titels">
                 <tr>
+                    <th></th>
                     <th class="resizable" style="white-space: nowrap; width: 220px;">Организация<div class="resizer"></div></th>
                     <th class="resizable" style="white-space: nowrap; width: 100px;">Код ОКПО<div class="resizer"></div></th>
                     <th class="resizable" style="white-space: nowrap; width: 80px;">Дата поступления<div class="resizer"></div></th>
@@ -50,6 +70,8 @@
                 {% if report %}
                 {% for row in report %}
                     <tr class="report_row" data-id="{{ row.id }}" draggable="true">
+                        <td>
+                        </td>
                         <td style="display: none;">
                             <input type="text" id="report_id" value="{{ row.id }}" readonly>
                         </td>
@@ -59,6 +81,7 @@
                         <td>
                             <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
                         </td>
+
                         <td></td>
                         <td>
                             <input type="text" id="report_year" value="{{ row.year }}" readonly>
@@ -79,8 +102,9 @@
                 {% endfor %}
                 {% else %}
                     <tr>
+                        <td></td>
                         <td colspan="12">
-                            <input type="text" value="Отчеты отсутствуют" readonly>
+                            <input type="text" value="Отчеты отсутствуют" style = "padding: 10px 20px; font-size: 14    px;" readonly>
                         </td>
                     </tr>
                 {% endif %}
@@ -90,7 +114,7 @@
 </div>
 
 <div id="contextMenu_report" class="white-panel">
-    <button id = "">
+    <button id="">
         <span>Просмотреть</span>
     </button>
 </div>

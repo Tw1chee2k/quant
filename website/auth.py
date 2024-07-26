@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
-from .models import User, Organization, Report, Version_report, DirUnit, DirProduct, Sections, Ticket
+from .models import User, Organization, Report, Version_report, DirUnit, DirProduct, Sections, Ticket, Message
 from . import db
 from flask_login import login_user, logout_user, current_user, LoginManager, login_required
 from sqlalchemy import func
@@ -675,6 +675,15 @@ def sent_version(id):
             current_version.sent = True
             db.session.commit()
             flash('Версия отправлена', 'successful')
+
+            user_message = Message(
+                text = f"Статус версии: №{current_version.id}, был изменен на '{current_version.status}'",
+                user = current_user
+            )
+
+            db.session.add(user_message)
+            db.session.commit()
+
         else:
             flash('Необходимо согласовать', 'error')
 

@@ -38,7 +38,7 @@ def create_app():
         create_database(app)
 
     from website.admin_views import MyMainView
-    from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections
+    from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections, Message
     
     from website.admin.user_view import UserView
     from website.admin.organization_view import OrganizationView
@@ -48,7 +48,8 @@ def create_app():
     from website.admin.dirUnit_view import DirUnitView
     from website.admin.dirProduct_view import DirProductView
     from website.admin.sections_view import SectionsView
-    
+    from website.admin.message_view import MessageView
+
     admin = Admin(app, 'Вернуться', index_view=MyMainView(), template_mode='bootstrap4', url='/')
     admin.add_view(UserView(User, db.session))
     admin.add_view(OrganizationView(Organization, db.session))
@@ -58,7 +59,7 @@ def create_app():
     admin.add_view(DirUnitView(DirUnit, db.session))
     admin.add_view(DirProductView(DirProduct, db.session))
     admin.add_view(SectionsView(Sections, db.session))
-    
+    admin.add_view(MessageView(Message, db.session)) 
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
