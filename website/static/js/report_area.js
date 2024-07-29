@@ -35,6 +35,35 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    
+    row.addEventListener('dblclick', function() {
+        contextMenuVersion.style.display = 'none';
+
+        var versionsRow = this.nextElementSibling.nextElementSibling;
+        if (versionsRow.style.display === 'none' || versionsRow.style.display === '') {
+            versionsRow.style.display = 'table-row';
+            setTimeout(function() {
+                versionsRow.classList.add('show');
+            }, 10);
+            contextMenuReport.style.display = 'none';
+            contextMenuVersion.style.display = 'none';
+        } else {
+            versionsRow.classList.remove('show');
+            versionsRow.addEventListener('transitionend', function handler() {
+                versionsRow.style.display = 'none';
+                versionsRow.removeEventListener('transitionend', handler);
+            });
+            contextMenuReport.style.display = 'none';
+            contextMenuVersion.style.display = 'none';
+        }
+
+        var imgBlack = this.querySelector('.close_black');
+        var imgWhite = this.querySelector('.close_white');
+        if (imgBlack && imgWhite) {
+            imgBlack.classList.toggle('rotated');
+            imgWhite.classList.toggle('rotated');
+        }
+    });
     row.addEventListener('contextmenu', function(event) {
         contextMenuVersion.style.display = 'none';
         event.preventDefault();
@@ -320,6 +349,8 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
         }
     });
+
+    
 
     var agreedVersionButton = document.getElementById('agreedVersionButton');
     var agreedForm = document.getElementById('agreed-version-form');

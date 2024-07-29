@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Electro{% endblock %}
+{% block title %}audit Electro{% endblock %}
 {% block content %}
 <div class = "report-area_page">
     <div class = "report-area_menu">
@@ -8,30 +8,45 @@
             <label for="tab1" class="report-area_menu-name">Панель управления</label> 
             <div class="content-podmenu">
                 <nav>
-                    <ul> 
+                    <ul>            
                         <section>    
                             <div class = "functions_menu">
-                                <li data-action="link_addSection_modal">
+                                <li >
                                     <img src="{{ url_for('static', filename='img/icon_new_file.png')}}" alt="">
                                     <a>Добавить</a>
                                 </li>
                             </div>
                             <a class="functions_menu_name">
-                                Продукция
+                                Коммент.
                             </a>
-                        </section>           
+                        </section>
+                        <section>
+                            <div class = "functions_menu">                         
+                                <li id = "RespondentLink">           
+                                    <img src="{{ url_for('static', filename='img/icon_profile.png')}}" alt="">
+                                    <a>Респондент</a>   
+                                </li>  
+                                <li>           
+                                    <img src="{{ url_for('static', filename='img/komments.png')}}" alt="">
+                                    <a>Коммент.</a>   
+                                </li>
+                            </div>  
+                            <a class="functions_menu_name">
+                                Доп. информация
+                            </a>
+                        </section>
                         <section>
                             <div class = "functions_menu">
-                                <li onclick="window.location.href='/report_area/fuel/{{current_version.id}}'">         
+                                <li onclick="window.location.href='/audit/fuel/{{current_version.id}}'">         
                                     <img src="{{ url_for('static', filename='img/Toplivo.png')}}" alt="">
                                     <a>Топливо</a>   
                                 </li>
-                                <li onclick="window.location.href='/report_area/heat/{{current_version.id}}'">                      
+                                <li onclick="window.location.href='/audit/heat/{{current_version.id}}'">                      
                                     <img src="{{ url_for('static', filename='img/Teplo.png')}}" alt="">
                                     <a>Тепло</a>
                                 </li>
 
-                                <li onclick="window.location.href='/report_area/electro/{{current_version.id}}'"  class = "activefunctions_menu">           
+                                <li onclick="window.location.href='/audit/electro/{{current_version.id}}'"  class = "activefunctions_menu">           
                                     <img src="{{ url_for('static', filename='img/Electro.png')}}" alt="">
                                     <a>Электро</a>   
                                 </li>  
@@ -41,7 +56,7 @@
                             </a>
                         </section>
                         <section>
-                            <div class = "functions_menu">                         
+                            <div class = "functions_menu">  
                                 <form style = "display: none;" id = "export-table-form" action="/export_table" method="post">
                                     <input type = "hidden" name = "version_id" value = "{{current_version.id}}" readonly>
                                     <input type = "hidden" name = "numb_section" value = "3" readonly>
@@ -49,20 +64,7 @@
                                 <li id = "export-table-btn">           
                                     <img src="{{ url_for('static', filename='img/icon_excel.png')}}" alt="">
                                     <a>Экспорт</a>   
-                                </li>   
-                                <form id="control-report-form" action="/control_version/{{current_version.id}}" method="POST" style="display: none;">
-                                </form>
-                                <li id="control-report-btn">           
-                                    <img src="{{ url_for('static', filename='img/icon_control.png')}}" alt="">
-                                    <a>Контроль</a>   
-                                </li> 
-                            </div>  
-                            <a class="functions_menu_name">
-                                Версия отчета
-                            </a>
-                        </section>
-                        <section>
-                            <div class = "functions_menu">                         
+                                </li>                         
                                 <li onclick="sortTable()">           
                                     <img src="{{ url_for('static', filename='img/icon_sort.png')}}" alt="">
                                     <a>Сортировка</a>   
@@ -105,8 +107,8 @@
     <div class = "rotation-fromareas">
         <nav>
             <ul>
-                <li onclick="window.location.href='/report_area'" class = "linkto_report">
-                    Отчеты
+                <li onclick="window.location.href='/audit/not_viewed'" class = "linkto_report">
+                    Просмотр отчетов
                 </li>
                 <li>
                     <img class = "icon_arroy" src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
@@ -118,7 +120,7 @@
                 <li>
                     <a class = "dop_version_info">ОКПО: "{{curent_report.okpo}}", 
                     УНП: "{{curent_report.organization_name.ynp}}", 
-                    Наименование предприятия: "{{curent_report.organization_name}}", 
+                    Название предприятия: "{{curent_report.organization_name}}", 
                     Год: {{curent_report.year}}, 
                     Квартал: {{curent_report.quarter}} </a>
                 </li> 
@@ -215,238 +217,8 @@
         </table>        
     </div>
 </div>
-<div id="changefuel_modal" class="modal">
-    <div class="modal-content">
-        <div class = "modal-header">
-            <h3 class = "change-position">Редактирование продукции</h3>
-            <a id = "close_changefuel_modal" class="close">&times;</a>
-        </div>
-        <form method="POST" action="/change_section">
-            <table class="sectionsModal-table">
 
-                <tr>
-                    <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
-                    <td>
-                        <input type="text" name="product_name" id="modal_product_name" style="width: 400px; text-align: left; color: rgb(132, 132, 132);" autocomplete="off" readonly>
-                    </td>
-                </tr>
-                <tr>
-                    <td><span>[B]</span> ОКЭД</td>
-                    <td>
-                        <input type="text" name="oked" id="modal_oked" class = "numericInput" maxlength="5" style="color: rgb(132, 132, 132);" autocomplete="off" readonly>
-                    </td>
-                </tr>
-                <tr>
-                    <td><span>[1]</span> Произведено продукции (выполнено работ, услуг) за отчетный период</td>
-                    <td>
-                        <input type="text" name="produced" class = "numeric_dotInput" id="modal_produced" autocomplete="off">
-                    </td>
-                </tr>
-                <tr>
-                    <td><span>[2]</span> Утвержденная норма на единицу продукции</td>
-                    <td>
-                        <input type="text" name="Consumed_Quota" class = "numeric_dotInput" id="modal_Consumed_Quota" autocomplete="off">
-                    </td>
-                </tr>
-                <tr>
-                    <td><span>[3]</span> Израсходовано на единицу продукции фактически</td>
-                    <td>
-                        <input type="text" name="Consumed_Fact" id="modal_Consumed_Fact" style="color: rgb(132, 132, 132);" readonly>
-                    </td>
-                </tr>
-                <tr>
-                    <td><span>[4]</span> Израсходовано на всю производственную продукцию по действующей норме</td>
-                    <td>
-                        <input type="text" name="Consumed_Total_Quota" id="modal_Consumed_Total_Quota" style="color: rgb(132, 132, 132);" readonly>
-                    </td>
-                </tr>
-                <tr>
-                    <td><span>[5]</span> Израсходовано на всю производственную продукцию фактически</td>
-                    <td>
-                        <input type="text" name="Consumed_Total_Fact" class = "numeric_dotInput" id="modal_Consumed_Total_Fact" autocomplete="off">
-                    </td>
-                </tr>
-                <tr>
-                    <td>Примечание</td>
-                    <td>
-                        <input style="width: 400px; text-align: left;" type="text" name="note" id="modal_note" autocomplete="off">
-                        <input type="hidden" id="modal_id" name="id" readonly>
-                        <input type="hidden" value="{{ current_version.id }}" name="current_version" readonly>
-    
-                    </td>
-                </tr>
-            </table>
-            <button type="submit" class="blue_button fuel-submit">Изменить</button>
-        </form> 
-    </div>
-</div>
-<div id="addSection_modal" class="modal">
-    <div class="modal-content">
-        <div class = "modal-header">
-            <h3 class = "change-position">Добавить продукцию</h3>
-            <a class="close">&times;</a>
-        </div>
-        <form method="POST" action="/add_section_param">
-            <table class = "sectionsModal-table">
-                <tr>
-                    <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
-                    <td>
-                        <input type="text" name="name_of_product" style = "width: 400px; text-align: left;" readonly>
-                        <div class="choose-product_area">
-                            <div class = "serchProduct_cont">
-                                <a>Фильтр</a>
-                                <input type="text" name = "search_product" class = "search_product_input">
-                            </div>
-                            
-                            <div class="tableForChoose">
-                                <table class="table_report-area">
-                                    <thead class = "order-table_titels" style = "width: 100%;">
-                                        <tr>
-                                            <th>Код продукта</th>
-                                            <th>Наименование продукта</th>
-                                            <th>Единица измерения</th>
-                                            <th style="display:none;">id</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                                <div class="table_body_container">
-                                    <table class="table_report-area">
-                                        <tbody id="chooseProdTableBody">
-                                            {% for row in dirProduct %}
-                                                <tr data-id="{{ row.id }}">
-                                                    <td>{{row.CodeProduct}}</td>
-                                                    <td style="text-align: left;">{{row.NameProduct}}</td>
-                                                    <td>{{row.unit.NameUnit}}</td>
-                                                    <td style="display:none;">{{row.IdProduct}}</td>
-                                                </tr>
-                                            {% endfor %}
-                                            <tr id="noResultsRow" style="display: none;">
-                                                <td colspan="3">Нет результатов</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><span>[B]</span> ОКЭД</td>
-                    <td>
-                        <input                 
-                            type="text"
-                            name="oked"
-                            maxlength="5" 
-                            autocomplete="off"
-                            class="numericInput"
-                            id = "add_modal_Oked"
-                            required
-                        >
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>[1]</span> Произведено продукции (выполнено работ, услуг) за отчетный период
-                    </td>
-                    <td>
-                        <input                 
-                            type="text"
-                            name="produced"
-                            value = "0.00"
-                            autocomplete="off"
-                            class = "numeric_dotInput"
-                            id = "add_modal_produced"
-                        >
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span>[2]</span> Утвержденная норма на единицу продукции
-                    </td>
-                    <td>
-                        <input                 
-                            type="text"
-                            name="Consumed_Quota"
-                            value = "0.00"
-                            autocomplete="off"
-                            class = "numeric_dotInput"
-                            id = "add_modal_Consumed_Quota"
-                        >
-                    </td>
-                </tr>
-                <tr>
-                    <td><span>[3]</span> Израсходовано на единицу продукции фактически</td>
-                    <td>
-                        <input                 
-                            type="text"
-                            name="Consumed_Fact"
-                            value = "0.00"
-                            style = "color: rgb(132, 132, 132);"
-                            id = "add_modal_Consumed_Fact"
-                            readonly
-                        >
-                    </td>
-                </tr>
-                <tr>
-                    <td class = ""><span>[4]</span> Израсходовано на всю производственную продукцию по действующей норме</td>
-                    <td>
-                        <input                 
-                            type="text"
-                            name="Consumed_Total_Quota"
-                            value = "0.00"
-                            style = "color: rgb(132, 132, 132);"
-                            id = "add_modal_Consumed_Total_Quota"
-                            readonly
-                        >
-                    </td>
-                </tr>
-                <tr>
-                    <td><span>[5]</span> Израсходовано на всю производственную продукцию фактически</td>
-                    <td>
-                        <input                 
-                            type="text"
-                            name="Consumed_Total_Fact"
-                            value = "0.00"
-                            autocomplete="off"
-                            class = "numeric_dotInput"
-                            id = "add_modal_Consumed_Total_Fact"
-                        >
-                    </td>
-                </tr>
-                <tr>
-                    <td>Примечание</td>
-                    <td>
-                        <input
-                            style = "width: 400px; text-align: left;"          
-                            type="text"
-                            name="note"
-                            autocomplete="off"
-                            id = "add_modal_note"
-                        >
-                        <input                 
-                            type="hidden"
-                            value = "{{current_version.id}}"
-                            name="current_version"
-                            readonly
-                        >
-                        <input                 
-                            type="hidden"
-                            id = "add_id_product"
-                            name="add_id_product"
-                            readonly
-                        >
-                        <input type="hidden" value="3" name="section_number" id="section_number" readonly>
-                    </td>
-                </tr>
-            </table>    
-            <button 
-                type = "submit" 
-                class = "blue_button"
-                >Добавить
-            </button>              
-        </form>   
-    </div>
-</div>
+
 <div id="DirUnitModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -537,14 +309,48 @@
     </div>
 </div>
 
-<div id="contextmenufuel" class="white-panel">
-    <button id="link_changefuel_modal">
-        <span>Редактировать</span>
-    </button>
-    <button id="remove_section">
-        <span>Удалить</span>
-    </button>
-</div> 
+<div id="RespondentModal" class="modal">
+    <div class="modal-content">
+        <div class = "modal-header">
+            <h3 class = "change-position">Респондент</h3>
+            <a class="close" id = "CloseRespondent">&times;</a>
+        </div>
+        <div class="spravochniki_area">
+            <table class = "sectionsModal-table">
+                <tr>
+                    <td>Респондент</td>
+                    <td>    
+                        <input 
+                            type="text" 
+                            value = "{{current_version.fio}}"
+                            readonly
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <td>Номер телефона</td>
+                    <td>
+                        <input                 
+                            type="text"
+                            value = "{{current_version.telephone}}"
+                            readonly
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <td>E-mail</td>
+                    <td>
+                        <input                 
+                            type="text"
+                            value = "{{current_version.email}}"
+                            readonly
+                        >
+                    </td>
+                </tr>
+            </table>       
+        </div>
+    </div>
+</div>
 
-<script src="{{ url_for('static', filename='js/section.js') }}"></script>
+<script src="{{ url_for('static', filename='js/audit_section.js') }}"></script>
 {% endblock %}

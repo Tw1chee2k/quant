@@ -18,7 +18,7 @@ def owner_only(f):
             flash('Версия отчета не найдена.', 'error')
             return redirect(url_for('views.report_area', user=current_user))
         report = version.report
-        if report.user_id != current_user.id and current_user.type != 'Администратор':
+        if report.user_id != current_user.id and current_user.type != 'Администратор' and current_user.type != 'Аудитор':
             flash('Недостаточно прав для доступа к этой версии', 'error')
             return redirect(url_for('views.report_area', user=current_user))
         return f(*args, **kwargs)
@@ -162,8 +162,6 @@ def beginPage():
             unit = DirUnit(IdUnit=unit_data[0], CodeUnit=unit_data[1], NameUnit=unit_data[2])
             db.session.add(unit)
         db.session.commit()
-    
-    
     if DirProduct.query.count() == 0:     
         products_data = [
             (1, '0010', 'Электроэнергия, отпущенная электростанциями, работающими на котельно-печном топливе', True, False, False, 1, None, None),
@@ -596,8 +594,6 @@ def report_fuel(id):
     curent_report = Report.query.filter_by(id=current_version.report_id).first()
     
     sections = Sections.query.filter_by(id_version=current_version.id, section_number=1).all()
-    specific_codes = ['9001', '9010', '9100']
-
 
     if not sections:
         sections_data = [
@@ -689,7 +685,6 @@ def report_electro(id):
     curent_report = Report.query.filter_by(id=current_version.report_id).first()
     
     sections = Sections.query.filter_by(id_version=current_version.id, section_number=3).all()
-    specific_codes = ['9001', '9010', '9100']
 
 
     if not sections:
@@ -878,4 +873,59 @@ def audit_to_delete():
                            to_deleteReports_count=to_deleteReports_count)
 
 
+@views.route('/audit/fuel/<int:id>')
+@login_required
+def audit_fuel(id):
+    dirUnit = DirUnit.query.filter_by().all()
+    dirProduct = DirProduct.query.filter_by().all()
 
+    current_version = Version_report.query.filter_by(id=id).first()
+    curent_report = Report.query.filter_by(id=current_version.report_id).first()
+
+    sections = Sections.query.filter_by(id_version=current_version.id, section_number=1).order_by(desc(Sections.id)).all()
+    return render_template('audit_fuel.html', 
+        sections=sections,              
+        dirUnit=dirUnit,
+        dirProduct=dirProduct,
+        user=current_user, 
+        curent_report=curent_report,
+        current_version=current_version
+    )
+
+@views.route('/audit/heat/<int:id>')
+@login_required
+def audit_heat(id):
+    dirUnit = DirUnit.query.filter_by().all()
+    dirProduct = DirProduct.query.filter_by().all()
+
+    current_version = Version_report.query.filter_by(id=id).first()
+    curent_report = Report.query.filter_by(id=current_version.report_id).first()
+
+    sections = Sections.query.filter_by(id_version=current_version.id, section_number=2).order_by(desc(Sections.id)).all()
+    return render_template('audit_heat.html', 
+        sections=sections,              
+        dirUnit=dirUnit,
+        dirProduct=dirProduct,
+        user=current_user, 
+        curent_report=curent_report,
+        current_version=current_version
+    )
+
+@views.route('/audit/electro/<int:id>')
+@login_required
+def audit_electro(id):
+    dirUnit = DirUnit.query.filter_by().all()
+    dirProduct = DirProduct.query.filter_by().all()
+
+    current_version = Version_report.query.filter_by(id=id).first()
+    curent_report = Report.query.filter_by(id=current_version.report_id).first()
+
+    sections = Sections.query.filter_by(id_version=current_version.id, section_number=3).order_by(desc(Sections.id)).all()
+    return render_template('audit_electro.html', 
+        sections=sections,              
+        dirUnit=dirUnit,
+        dirProduct=dirProduct,
+        user=current_user, 
+        curent_report=curent_report,
+        current_version=current_version
+    )

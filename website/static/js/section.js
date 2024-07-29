@@ -102,16 +102,6 @@ document.addEventListener('DOMContentLoaded', function() {
             var inputs = document.querySelectorAll('#changefuel_modal input[type="text"]');
             var isOtherConsumption = productName === "Прочее потребление";
             var is7000 = productName === "Предельный уровень потребления (объекты непроизводственного характера, коммунально-бытового назначения и другие)";
-            
-            var is0020 = productName === "Теплоэнергия, отпущенная электростанциями и районными котельными";
-            var is0021 = productName === "Теплоэнергия, отпущенная электростанциями и районными котельными (в том числе отпущенная районными котельными)";
-            var is0024 = productName === "Теплоэнергия, отпущенная промышленно-производственными котельными производительностью 10 Гкал/час и более";
-            var is0025 = productName === "Теплоэнергия, отпущенная промышленно-производственными котельными производительностью от 0,5 до 10 Гкал/час";
-            var is0026 = productName === "Теплоэнергия, отпущенная отопительными котельными производительностью 10 Гкал/час  и более";
-            var is0027 = productName === "Теплоэнергия, отпущенная отопительными котельными производительностью от 0,5 до 10 Гкал/час";
-            var is0030 = productName === "Теплоэнергия, отпущенная отопительно-производственными котельными, производительностью 10 Гкал/час и более";
-            var is0031 = productName === "Теплоэнергия, отпущенная отопительно-производственными котельными производительностью от 0,5 до 10 Гкал/час";
-
 
             inputs.forEach(function(input, index) {
                 if (isOtherConsumption) {
@@ -136,8 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                     }
                 }
-
-
                 else {
                     if (index === 0 || index === 1 || index === 4 || index === 5) {
                         input.style.color = "";
@@ -149,15 +137,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         input.style.color = "";
                         input.readOnly = false;
                     }
-                }
-                
+                }            
             });
 
             changefuel_modal.style.display = 'block';
         }
     }
     
-
     var link_addSection_modal = document.querySelector('[data-action="link_addSection_modal"]');
     var addSection_modal = document.getElementById('addSection_modal');
     var close_addSection_modal = addSection_modal.querySelector('.close');
@@ -177,6 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
             addSection_modal.style.display = 'none';
         }
     });
+
     var nameOfProductInput = document.querySelector('input[name="name_of_product"]');
     var add_id_productInput = document.querySelector('input[name="add_id_product"]');
     var chooseProductArea = document.querySelector('.choose-product_area');
@@ -275,7 +262,6 @@ document.querySelector('input[name="search_product"]').addEventListener('input',
         chooseProductArea.style.display = 'none';
     }
 
-    var hasResults = false;
     Array.from(chooseProdTableBody.querySelectorAll('tr')).forEach(function(row) {
         var codeProduct = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
         var productName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
@@ -286,9 +272,6 @@ document.querySelector('input[name="search_product"]').addEventListener('input',
             row.style.display = 'none';
         }
     });
-
-
-
 });
 
 document.addEventListener('click', function(event) {
@@ -299,7 +282,6 @@ document.addEventListener('click', function(event) {
     if (!chooseProductArea.contains(event.target) && event.target !== nameOfProductInput) {
         search_productInput.value = '';
         chooseProductArea.style.display = 'none';
-        
     }
 });
 
@@ -307,7 +289,6 @@ document.addEventListener('click', function(event) {
 document.querySelector('#chooseProdTableBody').addEventListener('click', function(event) {
     var selectedRow = event.target.closest('tr');
     var productName = selectedRow.querySelector('td:nth-child(2)').textContent;
-    
     var is7000 = productName === "Предельный уровень потребления (объекты непроизводственного характера, коммунально-бытового назначения и другие)";
     var is0020 = productName === "Теплоэнергия, отпущенная электростанциями и районными котельными";
     var is0021 = productName === "Теплоэнергия, отпущенная электростанциями и районными котельными (в том числе отпущенная районными котельными)";
@@ -317,8 +298,6 @@ document.querySelector('#chooseProdTableBody').addEventListener('click', functio
     var is0027 = productName === "Теплоэнергия, отпущенная отопительными котельными производительностью от 0,5 до 10 Гкал/час";
     var is0030 = productName === "Теплоэнергия, отпущенная отопительно-производственными котельными, производительностью 10 Гкал/час и более";
     var is0031 = productName === "Теплоэнергия, отпущенная отопительно-производственными котельными производительностью от 0,5 до 10 Гкал/час";
-
-
 
     if (is7000) {
         var inputs = document.querySelectorAll('.sectionsModal-table input');
@@ -344,19 +323,16 @@ document.querySelector('#chooseProdTableBody').addEventListener('click', functio
                 input.readOnly = true;
                 if (inputName !== 'name_of_product' && inputName !== 'oked'){
                     input.style.color = "rgb(132, 132, 132)";
-                    input.value = '0.00';
-                    
+                    input.value = '0.00';     
                 }
                 else if(inputName === 'oked'){
-                    input.readOnly = true;
-                    
+                    input.readOnly = true;  
                     input.value = '';
                     input.style.color = "rgb(132, 132, 132)";
                 }
             } else {
                 input.readOnly = false;
-                input.style.color = "";
-                
+                input.style.color = "";   
             }   
         });
     } 
@@ -374,55 +350,13 @@ document.querySelector('#chooseProdTableBody').addEventListener('click', functio
                 input.readOnly = false;
                 input.style.color = "";
             }
-
         });
     }
 });
-
 
 document.getElementById('control-report-btn').addEventListener('click', function() {
     document.getElementById('control-report-form').submit();
 });
 
-let sortOrder = 'asc';
 
-function sortTable() {
-    var table, rows, switching, i, x, y, shouldSwitch;
-    table = document.querySelector(".table_report-area tbody");
-    switching = true;
-    while (switching) {
-        switching = false;
-        rows = table.rows;
-        for (i = 0; i < (rows.length - 3 - 1); i++) {
-            shouldSwitch = false;
-            var input1 = rows[i].querySelector('input[name="row_total_differents"]');
-            var input2 = rows[i + 1].querySelector('input[name="row_total_differents"]');
-            
-            if (input1 && input2) {
-                x = input1.value;
-                y = input2.value;
-                if (sortOrder === 'asc') {
-                    if (parseFloat(x) > parseFloat(y)) {
-                        shouldSwitch = true;
-                        break;
-                    }
-                } else {
-                    if (parseFloat(x) < parseFloat(y)) {
-                        shouldSwitch = true;
-                        break;
-                    }
-                }
-            } else {
-                console.error("One of the inputs is missing. Check the 'name' attribute.");
-            }
-        }
-        if (shouldSwitch) {
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-        } else {
-            sortOrder = (sortOrder === 'asc') ? 'desc' : 'asc';
-        }
-    }
-    console.log('end');
-}
 

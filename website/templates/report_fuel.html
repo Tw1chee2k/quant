@@ -8,8 +8,8 @@
             <label for="tab1" class="report-area_menu-name">Панель управления</label> 
             <div class="content-podmenu">
                 <nav>
-                    <ul>
-                        <section>
+                    <ul> 
+                        <section>    
                             <div class = "functions_menu">
                                 <li data-action="link_addSection_modal">
                                     <img src="{{ url_for('static', filename='img/icon_new_file.png')}}" alt="">
@@ -19,7 +19,7 @@
                             <a class="functions_menu_name">
                                 Продукция
                             </a>
-                        </section>
+                        </section>           
                         <section>
                             <div class = "functions_menu">
                                 <li onclick="window.location.href='/report_area/fuel/{{current_version.id}}'" class = "activefunctions_menu">         
@@ -31,7 +31,7 @@
                                     <a>Тепло</a>
                                 </li>
 
-                                <li onclick="window.location.href='/report_area/electro/{{current_version.id}}'">           
+                                <li onclick="window.location.href='/report_area/electro/{{current_version.id}}'"  >           
                                     <img src="{{ url_for('static', filename='img/Electro.png')}}" alt="">
                                     <a>Электро</a>   
                                 </li>  
@@ -41,12 +41,15 @@
                             </a>
                         </section>
                         <section>
-                            <div class = "functions_menu">     
-                          
-                                <li >           
+                            <div class = "functions_menu">                         
+                                <form style = "display: none;" id = "export-table-form" action="/export_table" method="post">
+                                    <input type = "hidden" name = "version_id" value = "{{current_version.id}}" readonly>
+                                    <input type = "hidden" name = "numb_section" value = "1" readonly>
+                                </form>
+                                <li id = "export-table-btn">           
                                     <img src="{{ url_for('static', filename='img/icon_excel.png')}}" alt="">
                                     <a>Экспорт</a>   
-                                </li>  
+                                </li>   
                                 <form id="control-report-form" action="/control_version/{{current_version.id}}" method="POST" style="display: none;">
                                 </form>
                                 <li id="control-report-btn">           
@@ -59,7 +62,7 @@
                             </a>
                         </section>
                         <section>
-                            <div class = "functions_menu">             
+                            <div class = "functions_menu">                         
                                 <li onclick="sortTable()">           
                                     <img src="{{ url_for('static', filename='img/icon_sort.png')}}" alt="">
                                     <a>Сортировка</a>   
@@ -653,6 +656,8 @@
         </div>
     </div>
 </div>
+
+
 <div id="contextmenufuel" class="white-panel">
     <button id = "link_changefuel_modal">
         <span>Редактировать</span>
@@ -661,5 +666,6 @@
         <span>Удалить</span>
     </button>
 </div>
+ 
 <script src="{{ url_for('static', filename='js/section.js') }}"></script>
 {% endblock %}

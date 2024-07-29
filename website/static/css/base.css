@@ -17,7 +17,6 @@ html::-webkit-scrollbar {
 }
   
 html::-webkit-scrollbar-track {
-   
     border-radius: 10px;
 }
 
@@ -38,21 +37,15 @@ body.dark-mode {
     background-color: #333; 
     color: #fff; 
 }
+
 body.dimmed {
-    background-color: rgba(0, 0, 0, 0.5);
-    transition: background-color 0.3s;
+    background-color: rgba(109, 109, 109, 0.5); /* Полупрозрачный черный фон */
+    backdrop-filter: blur(5px); /* Размытие фона */
+    transition: background-color 0.3s, backdrop-filter 0.3s; /* Плавный переход */
 }
 
-.dimmed-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    pointer-events: none;
-    transition: background 0.3s;
+.dragging {
+    opacity: 0.5;
 }
 
 :root {
@@ -992,16 +985,8 @@ footer {
 }
   
 .message_cont::-webkit-scrollbar-thumb {
-    background-color:rgb(131, 131, 131); 
+    background-color:#d3d3d3;
     border-radius: 5px;
-}
-
-.message_cont::-webkit-scrollbar-track {
-    background-color: rgb(247, 247, 247);
-}
-
-.dark-mode .message_cont::-webkit-scrollbar-track {
-    background-color: #000000;
 }
 
 .message_cont .mes{
@@ -1016,7 +1001,6 @@ footer {
 
 .dark-mode .message_cont .mes{
     background-color:  #252525;
-
     border-bottom: 2px solid #333333;
 }
 
@@ -1029,7 +1013,6 @@ footer {
 .message_cont .mes .text_mes{
     font-size: 16px;
     /* color:#00ca00; */
-
     font-weight: 500;
 }
 
@@ -1059,10 +1042,10 @@ footer {
     /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
     padding: 20px 0;
     color: black;    
-    width: auto;
+    width: 300px;
     height: 100%;    
     min-height: 100vh;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .dark-mode	.profile_navigation {
@@ -1076,7 +1059,7 @@ footer {
     justify-content: start;
     list-style-type: none;
     cursor: pointer;
-    padding: 10px 50px;
+    padding: 10px 0 10px 50px;
     white-space: nowrap;
     height: 25px;
     font-weight: 500;  
@@ -1098,7 +1081,7 @@ footer {
     content: '';
     position: absolute;
     top: 0;
-    left: 13%; 
+    left: 10%; 
     transform: translateX(-50%); 
     width: 3px;
     border: none;
@@ -1332,6 +1315,7 @@ footer {
     width: 65px;    
     padding: 15px;
     cursor: pointer;
+    
 }
 
 .activefunctions_menu{
@@ -1964,7 +1948,7 @@ th .resizer {
 }
 
 .dark-mode .spravochniki_area {
-    background-color:#4d4d4d;
+    /* background-color:#4d4d4d; */
 }
 
 .spravochniki_area::-webkit-scrollbar {
@@ -2015,6 +1999,18 @@ th .resizer {
     padding: 0 10px;
     margin-right: 20px;
     text-align: right;
+    font-size: 12px; 
+    border-radius: 5px;
+    border: 1px solid rgb(220, 238, 255);
+    font-weight: 500; 
+}
+
+#RespondentModal .sectionsModal-table input{
+    height: 26px;  
+    width: 200px;
+    padding: 0 10px;
+    margin: 0 20px;
+    text-align: left;
     font-size: 12px; 
     border-radius: 5px;
     border: 1px solid rgb(220, 238, 255);

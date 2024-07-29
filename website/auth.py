@@ -1,17 +1,34 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
+# Основные модули Flask
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, send_file
+from flask_login import login_user, logout_user, current_user, login_required, LoginManager
+
+# Модули SQLAlchemy и модели
 from .models import User, Organization, Report, Version_report, DirUnit, DirProduct, Sections, Ticket, Message
 from . import db
-from flask_login import login_user, logout_user, current_user, LoginManager, login_required
 from sqlalchemy import func
+from sqlalchemy import asc
+from sqlalchemy import desc
+
+# Модули для работы с паролями
 from werkzeug.security import check_password_hash, generate_password_hash
+
+# Модули для отправки электронной почты
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+
+# Модули для работы с датами и временем
 from datetime import datetime, timedelta
+
+# Модули для обработки данных и чисел
 import re
-import random
-import string
 from decimal import Decimal, InvalidOperation
+
+# Модули для работы с Excel
+from flask import send_file
+from openpyxl import Workbook
+from openpyxl.styles import Font, Alignment, Border, Side
+from io import BytesIO
 
 auth = Blueprint('auth', __name__)
 login_manager = LoginManager()
@@ -724,4 +741,128 @@ def change_category_report():
             elif link_return == 'Готов к удалению':
                 return redirect(url_for('views.audit_to_delete'))
 
-            
+@auth.route('/export_table', methods=['POST'])
+def export_table():
+    if request.method == 'POST':
+        version_id = int(request.form.get('version_id'))
+        numb_section = int(request.form.get('numb_section'))
+        
+        sections = Sections.query.filter_by(id_version=version_id, section_number=numb_section).order_by(desc(Sections.id)).all()
+        unit_header_one_text = ''
+        unit_header_all_text = ''
+
+        if numb_section == 1:
+            unit_header_one_text = 'кг у.т.'
+            unit_header_all_text = 'т у.т.'
+        elif numb_section == 2:
+            unit_header_one_text = 'Мкал'
+            unit_header_all_text = 'Гкал'
+        else:
+            unit_header_one_text = 'кВтч'
+            unit_header_all_text = 'тыс.кВтч'
+
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Table"
+
+        # Настройка заголовков
+        merged_cells = {
+            'A1:A2': "Наименование вида продукции (работ услуг)",
+            'B1:B2': "Код строки",
+            'C1:C2': "Код по ОКЭД",
+            'D1:D2': "Единица измерения",
+            'E1:E2': "Произведено продукции (работ, услуг) за отчетный период",
+            'F1:G1': f"Израсходовано на единицу продукции (работы, услуги) за отчетный период, {unit_header_one_text}",
+            'H1:J1': f"Израсходовано на всю произведенную продукцию (работу, услугу) за отчетный период,  {unit_header_all_text}",
+            'K1:K2': "Примечание",
+            'J1': "Экономия(-), перерасход(+)",
+            'F2': "по утвержденной норме (предельному уровню)",
+            'G2': "фактически",
+            'H2': "по утвержденной норме (предельному уровню)",
+            'I2': "фактически",
+            'J2': "Экономия(-), перерасход(+)",
+            'A3': "A",
+            'B3': "Б",
+            'C3': "В",
+            'D3': "Г",
+            'E3': "1",
+            'F3': "2",
+            'G3': "3",
+            'H3': "4",
+            'I3': "5",
+            'J3': "6",
+            'K3': "7"
+        }
+
+
+        font = Font(name='Times New Roman', size=12)
+        alignment = Alignment(wrap_text=True, vertical='center', horizontal='center')
+        border = Border(
+            left=Side(border_style="thin"),
+            right=Side(border_style="thin"),
+            top=Side(border_style="thin"),
+            bottom=Side(border_style="thin")
+        )
+
+
+        for cell_range, text in merged_cells.items():
+            top_left_cell = cell_range.split(':')[0]
+            ws[top_left_cell] = text
+            ws[top_left_cell].font = font
+            ws[top_left_cell].alignment = alignment
+            ws[top_left_cell].border = border
+
+        for cell_range in merged_cells.keys():
+            ws.merge_cells(cell_range)
+
+        column_widths = {
+            'A': 30,
+            'B': 15,
+            'C': 15,
+            'D': 20,
+            'E': 50,
+            'F': 40,
+            'G': 40,
+            'H': 40,
+            'I': 40,
+            'J': 30,
+            'K': 20
+        }
+        row_heights = {
+            1: 30,
+            2: 30,
+            3: 25
+        }
+
+        for col, width in column_widths.items():
+            ws.column_dimensions[col].width = width
+
+        for row, height in row_heights.items():
+            ws.row_dimensions[row].height = height
+
+
+        row_index = 4  # с 4-й строки, чтобы не перезаписать заголовки
+        for section in sections:
+            ws[f'A{row_index}'] = section.product.NameProduct
+            ws[f'B{row_index}'] = section.code_product
+            ws[f'C{row_index}'] = section.Oked
+            ws[f'D{row_index}'] = section.product.unit.NameUnit
+            ws[f'E{row_index}'] = section.produced
+            ws[f'F{row_index}'] = section.Consumed_Quota
+            ws[f'G{row_index}'] = section.Consumed_Fact
+            ws[f'H{row_index}'] = section.Consumed_Total_Quota
+            ws[f'I{row_index}'] = section.Consumed_Total_Fact
+            ws[f'J{row_index}'] = section.total_differents
+            ws[f'K{row_index}'] = section.note
+
+            for col in column_widths.keys():
+                cell = ws[f'{col}{row_index}']
+                cell.border = border
+
+            row_index += 1
+
+        output = BytesIO()
+        wb.save(output)
+        output.seek(0)
+        
+        return send_file(output, as_attachment=True, download_name='table_report.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
