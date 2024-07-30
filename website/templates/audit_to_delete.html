@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Для загрузки{% endblock %}
+{% block title %}Для удаления{% endblock %}
 {% block content %}
 
 <div class="audit-area_page">
@@ -10,6 +10,17 @@
             <div class="content-podmenu">
                 <nav>
                     <ul>
+                        <section>    
+                            <div class = "functions_menu">
+                                <li onclick="window.location.href='/audit/all'">
+                                    <img src="{{ url_for('static', filename='img/icon_reports.png')}}" alt="">
+                                    <a></a>
+                                </li>
+                            </div>
+                            <a class="functions_menu_name">
+                                Все отчеты
+                            </a>
+                        </section>
                         <section>
                             <div class="functions_menu">
                                 <li data-action="not_viewed" onclick="window.location.href='/audit/not_viewed'">
@@ -53,7 +64,14 @@
             </div>
         </div>
     </div>
-    <div class="report-area" style = "margin-top: 180px;">
+    <div class = "rotation-fromareas" >
+        <div class = "rotation-fromareas_info" style = "margin: 175px 0 10px 82px;"> 
+            <span>
+                <a class = "hover_a" href="">Количество: {{to_deleteReports_count}}</a>
+            </span>
+        </div>
+    </div>
+    <div class="report-area">
         <table class="table_report-area">
             <thead class="order-table_titels">
                 <tr>

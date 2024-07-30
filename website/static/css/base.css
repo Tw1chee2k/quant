@@ -48,7 +48,7 @@ body.dimmed {
     opacity: 0.5;
 }
 
-:root {
+/* :root {
     --color1: rgb(238, 246, 253);
     --color2: rgba(0, 128, 255, 0.6);
     --color3: rgb(216, 236, 255);
@@ -76,7 +76,7 @@ body.dimmed {
     background: linear-gradient(615deg, var(--color4), var(--color5), var(--color6));
     animation: gradient-animation-dark 15s ease infinite;  
     opacity: 1;
-}
+} */
 
 @keyframes gradient-animation {
     0% {
@@ -114,6 +114,14 @@ select:focus{
     outline: none ;
 }
 
+input[type="text"]:-webkit-autofill,
+input[type="email"]:-webkit-autofill {
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255) !important; /* Прозрачный фон */
+    -webkit-box-shadow: 0 0 0 100px rgb(255, 255, 255) inset; /* Убирает тень и фон */
+}
+
+    
 input[type = "checkbox"]:disabled{
     background-color: #028dff;
 }
@@ -128,7 +136,7 @@ input::-webkit-input-placeholder {  color: rgb(56, 56, 56); }
     color: white;
     width: 270px;
     height: 40px;
-    border-radius: 5px;
+    border-radius: 3px;
     font-weight: 600;
     border: none;
     cursor: pointer;
@@ -148,96 +156,128 @@ input::-webkit-input-placeholder {  color: rgb(56, 56, 56); }
     background-color:rgb(41, 109, 101);
 }
 
-/*----------them----------------------*/
-.theme-toggle {
-    cursor: pointer;
-    margin-left: 40px;
+.icon_white{
+    display: none;
 }
-
-.theme-img {
-    width: 27px;
-    height: 27px;
+.dark-mode .icon_white{
+    display: block;
 }
-
-.dark-mode .theme-img.light-mode {
+.icon_black{
+    display: block;
+}
+.dark-mode .icon_black{
     display: none;
 }
 
-.light-mode .theme-img.dark-mode {
+
+.img_white{
+    display: none;
+}
+.dark-mode .img_white{
+    display: block;
+}
+.img_black{
+    display: block;
+}
+.dark-mode .img_black{
     display: none;
 }
 /*--------------------------------*/
 
 
-/*--------------------------------*/
+/*header*/
 header {
     display: flex;
     justify-content: space-between;
+    text-align: center;
     align-items: center;
-    /* background-color: transparent; */
-    /* background-color: white; */
-    color: black;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    text-align: center;
     z-index: 100;
-    font-weight: 500;
+    background-color: white;
     transition: background-color 0.3s ease;  
+    height: 60px;
+    width: 100%;  
 }
 
 .dark-mode header{
     color: white;
-    /* background-color: #252525; */
+    
+    background-color: #252525;
 }
 
-header .center-content nav {
+header nav {
     cursor: pointer;
-    font-size: 17px;
+    font-size: 16px;
     margin: 15px auto; 
-    max-width: 600px;
+    max-width: 600px;    
+    font-weight: 500;
 }
 
 header nav ul {
     display: flex;
     align-items: center;
-    justify-content: center;
     list-style: none;
     text-align: center;
+    justify-content: center;
     margin: 0;
 }
 
-header .center-content nav ul {
-    margin: 0 20px;
+.header-left, .header-right {
+    flex: 1;
+    text-align: center;
 }
 
-header .center-content nav ul li {
+.header-left{
+    text-align: left;
+    padding: 0 0 0 40px;
+}
+
+.header-left img{
+
+}
+
+.header-left a{
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-size: 17px;
+}
+
+.header-right {
+    text-align: right;
+    padding: 0 40px 0 0;
+}
+
+.header-center {
+    flex: 2;
+    text-align: center;
+    justify-content: center;
+}
+
+.header-center nav ul li {
     margin: 0 20px; 
     transition: color 0.3s ease;
 }
 
-header .center-content nav ul li:hover {
-    color: #61b8ff; 
-    
+.header-center nav ul li:hover {
+    color: #61b8ff;  
 }
 
-.dark-mode header .center-content nav ul li:hover {
+.dark-mode .header-center nav ul li:hover {
     color: rgb(43, 236, 214); 
 }
 
-header .right-content nav ul li {
-    margin: 0 50px 0 20px; 
+.header img{
+    width: 30px;
+    height: auto;
+    cursor: pointer;
 }
 
-main {
-    width: 100%;
-    min-height: 100vb;
-}
-
-/* Основные стили для hoverPanel */
-.hoverPanel {
+/* user_hover_navigation */
+.user_hover_navigation {
     position: absolute;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -251,19 +291,19 @@ main {
     z-index: 100;
 }
 
-.dark-mode .hoverPanel {
+.dark-mode .user_hover_navigation {
     background-color: #252525;
     box-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-.hoverPanel.show {
+.user_hover_navigation.show {
     opacity: 1;
     top: 40px;
     visibility: visible; 
     transition: opacity 0.5s ease, top 0.5s ease; 
 }
 
-.hoverPanel.hidden {
+.user_hover_navigation.hidden {
     opacity: 0;
     visibility: hidden; 
     transition: opacity 0.5s ease, top 0.5s ease, visibility 0s 0.5s;
@@ -280,28 +320,7 @@ main {
     cursor: pointer;
 }
 
-.user-container .icon_white{
-    display:none;
-}
-
-.dark-mode .icon_white{
-    display:block;
-}
-
-.user-container .icon_black{
-    display:block;
-}
-
-.dark-mode .icon_black{
-    display:none;
-}
-
-.user-container:hover .hoverPanel,
-.hoverPanel:hover {
-    display: block;
-}
-
-.hoverPanel button {
+.user_hover_navigation button {
     border: none;
     background-color: white;
     color: black;
@@ -313,28 +332,28 @@ main {
     cursor: pointer;
 }
 
-
-.dark-mode .hoverPanel_account,
-.dark-mode .hoverPanel_logout{
+.dark-mode .user_hover_navigation_account,
+.dark-mode .user_hover_navigation_logout{
     background-color:  #252525;
     color: rgb(255, 255, 255);
 }
 
-.hoverPanel button:focus {
-    outline: none;   
-}
-
-.hoverPanel button:hover {
+.user_hover_navigation button:hover {
     transition: background-color 0.3s ease;
     background-color: rgb(221, 221, 221);
 }
 
-.dark-mode .hoverPanel_account:hover,
-.dark-mode .hoverPanel_logout:hover{
+.dark-mode .user_hover_navigation_account:hover,
+.dark-mode .user_hover_navigation_logout:hover{
     transition: background-color 0.3s ease;
     background-color: rgb(29, 29, 29);
 }
+/*header end*/
 
+main {
+    width: 100%;
+    min-height: 100vb;
+}
 footer {
     display: flex; 
     flex-direction: row;
@@ -415,19 +434,25 @@ footer {
 /*-----------------------mes*/
 .custom-alert {
     position: fixed;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     bottom: 40px;
     right: -500px;
-    max-width: 400px;
-
-    font-size: 16px;
-    padding: 20px 30px;
+    width: 384px;
+    max-width: calc(-48px + 100vw);
+    padding: 16px 24px;
     z-index: 100;
     opacity: 0;
-    transition: opacity 0.5s ease, right 0.5s ease;
-    border-radius: 10px;
-    color: #ffffff;
+    border-radius: 2px;
     border: 0;
-    overflow: hidden;
+    overflow: hidden;  
+    transition: opacity 0.5s ease, right 0.5s ease;
+}
+
+.dark-mode .custom-alert {
+    background: #252525
+
 }
 
 .custom-alert.show {
@@ -439,18 +464,32 @@ footer {
     opacity: 0; 
 }
 
-.custom-alert p {
-    text-align: left;
-    font-weight: 600;
-    font-size: 16px;
-    margin: 0;
-    padding-bottom: 7px;
+.custom-alert img{
+    position: absolute;
+    width: 30px;
+    height: auto;
+    top: 10px;
+    left: 20px;
 }
+
+.p_message_cont{
+    text-align: left;
+    font-weight: 500;
+    font-size: 14px;
+    margin: 0;
+    padding: 0 0 7px 40px;
+    color: black;  
+}
+
+.dark-mode .p_message_cont{
+    color: rgb(255, 255, 255);  
+}
+
 
 .notif-progress {
     width: 0;
-    height: 10px;
-    background: rgba(255,255,255,0.5);
+    height: 7px;
+    background: rgba(175, 175, 175, 0.5);
     position: absolute;
     bottom: 5px;
     left: 3%;
@@ -464,11 +503,11 @@ footer {
 }
 
 .alert-danger {
-    background: #cf0000;
+    background: #ffffff;
 }
 
 .alert-success {
-    background: #00B16A;
+    background: #ffffff;
 }
 /*-----------------------mes end*/
 
@@ -515,7 +554,8 @@ footer {
 }
 
 .dark-mode .link_cont a:hover{
-    color: rgb(0, 112, 99);
+    /* color: rgb(0, 112, 99); */
+    color: rgb(0, 194, 171);
     transition: color 0.3s ease;
 }
 
@@ -525,7 +565,8 @@ footer {
 }
 
 .dark-mode .link_cont .active{
-    color: rgb(0, 112, 99);
+    /* color: rgb(0, 112, 99); */
+    color: rgb(0, 194, 171);
 }
 
 .aftorization_data{
@@ -864,8 +905,8 @@ footer {
     font-size: 30px;
     font-weight: 600;
     color: rgb(255, 255, 255);
-    height: 110px;
-    width: 1024px;
+    height: 136px;
+    width: 1150px;
     background-image: url('../img/begin_name1.png');
     text-shadow: 1px 1px 2px black;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0);
@@ -875,16 +916,15 @@ footer {
 .account_cont .account_functions{
     display: flex;
     flex-direction: row;
-    padding-top: 100px;
-    width: 100%;
-    justify-content: center;
+    padding-top: 47px;
+    width: 1150px;
+    justify-content: space-between;
 }
 
 .account_cont .account_functions .account_links{
     display: flex;
     flex-direction: column;
     text-align: left;
-    padding-right: 10%;
 }
 
 .account_buttons{
@@ -897,8 +937,8 @@ footer {
     width: 474px;
     height: 82px;
     font-weight: 600;
-    border-radius: 10px;
-    margin: 15px 7px 12px 7px;
+    border-radius: 2px;
+    margin: 10px 0;
     padding: 0 20px;
     font-size: 15px;
     transition: color 0.3s ease;
@@ -950,11 +990,11 @@ footer {
     height: 52px;
     font-weight: 600;
     border-radius: 0;
-    margin: 15px 0 0 0;
     padding: 0 20px;
     font-size: 15px;
     transition: color 0.3s ease;
     border-bottom: 2px solid #dfdfdf;
+
 }
 
 .dark-mode .account_messageArea{
@@ -978,6 +1018,7 @@ footer {
     height: auto;
     max-height: 280px; 
     overflow-y: auto; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
   
 .message_cont::-webkit-scrollbar {
@@ -1024,13 +1065,62 @@ footer {
 
 /*profile_common.css begin*/
 .profile_page{
+    margin-top: 60px; 
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.rotation-fromareas{
+    margin: 0;
+    width: 100%;
+}
+
+.rotation-fromareas_info {
     display: flex;
     flex-direction: row;
-    padding-top: 200px;
-    color: rgb(0, 0, 0);
-    width: 100%;
-    align-items: flex-start;
+    justify-content: left;
+    margin: 64px 0 64px 82px;
+}
 
+.rotation-fromareas_info span {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.rotation-fromareas_info span img{
+    width: 15px;
+    height: auto;   
+    margin: auto;
+}
+
+.rotation-fromareas_info span a{
+    font-weight: 500;
+    text-decoration: none; 
+    font-size: 16px;
+    color: black;
+}
+
+.dark-mode  .rotation-fromareas_info span a{
+    color: rgb(255, 255, 255);
+}
+
+.hover_a:hover {
+    transition: color 0.3s ease;
+    cursor: pointer;   
+    color: #61b8ff;
+}
+
+.dark-mode .hover_a:hover {
+    color: rgb(43, 236, 214); 
+}
+
+.contener_row{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 }
 
 /*profil_header*/
@@ -1039,19 +1129,14 @@ footer {
     flex-direction: column;
     text-align: left;
     background-color: rgba(238, 238, 238, 0.507);
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
-    padding: 20px 0;
-    color: black;    
+    padding: 20px 0; 
     width: 300px;
     height: 100%;    
     min-height: 100vh;
-    font-size: 15px;
 }
 
 .dark-mode	.profile_navigation {
     background-color:  #252525; 
-    /* box-shadow: 0 0 1px rgba(255, 255, 255, 0.1);  */
-    color: white;
 }
 
 .profile_navigation li {
@@ -1059,7 +1144,9 @@ footer {
     justify-content: start;
     list-style-type: none;
     cursor: pointer;
-    padding: 10px 0 10px 50px;
+    font-size: 14px;
+    padding: 7px 0 7px 50px;
+    margin-bottom: 10px;
     white-space: nowrap;
     height: 25px;
     font-weight: 500;  
@@ -1067,6 +1154,17 @@ footer {
     position: relative;
     align-items: center;
 }
+
+/*them*/
+.dark-mode .theme-img.light-mode {
+    display: none;
+}
+
+.light-mode .theme-img.dark-mode {
+    display: none;
+}
+
+/*them end*/
 
 .profile_navigation li:hover {
     background-color: rgb(223, 223, 223);
@@ -1089,26 +1187,9 @@ footer {
     background-color: #028dff; 
 }
 
-
 .dark-mode .profile_navigation li.active_li::before {
     background-color: rgb(43, 236, 214); 
 }
-
-.profile_navigation li img{
-    padding: 0 15px;
-    width: 34px;
-    height: auto;
-    display: none;
-}
-
-.dark-mode .profile_navigation li img{
-    display: none;
-}
-
-.count_reports{
-    padding: 0 0 0 15px;
-}
-
 /*profil_header end*/
 
 /*panel begin*/
@@ -1120,13 +1201,11 @@ footer {
     flex-direction: column;
     top: 0;
     color: black;
-
 }
 
 .dark-mode .personal-info_area{
     color: rgb(255, 255, 255);
 }
-
 
 .profile_page .personal-info_area table, 
 .profile_page .personal-info_area tr, 
@@ -1152,29 +1231,44 @@ footer {
     display: inline-block;
 }
 
+/* .profile_page .personal-info_area td span:hover{
+    border: 1px solid rgb(255, 255, 255);   
+} */
+
+/* .profile_page .personal-info_area td span{
+    border: 1px solid rgb(217, 217, 217);   
+    padding: 10px 0;
+    border-radius: 2px;    
+    margin-left: 50px;    
+
+} */
+
+
 .profile_page .personal-info_area td input{
-    width: 500px;
+    width: 500px; 
+    border: 1px solid rgb(217, 217, 217);  
+    border-radius: 2px;    
     font-size: 14px;
-    margin-left: 50px;
     padding: 0 15px;
-    height: 40px;    
-    border-radius: 10px;
-    border: none;
-    box-shadow: 0 0 5px rgb(0, 0, 0, 0.1);
-    background-color:rgb(255, 255, 255);
-    font-weight: 500;
+    height: 40px;
+    font-weight: 500; 
+
+    margin-left: 50px;   
     transition: border-color 0.3s ease;
 }
 
 .dark-mode .profile_page .personal-info_area td input{
     color: rgb(255, 255, 255);
     background-color:#4d4d4d;
-    box-shadow: 0 0 2px rgba(255, 255, 255, 0.1);
+    border: 1px solid rgb(121, 121, 121);  
 }
 
+.profile_page .personal-info_area td input:hover {
+    border: 1px solid #259dff; 
+}
 
-.profile_page .personal-info_area td input:focus{
-    border: 2px solid #028dff;
+.profile_page .personal-info_area td input:focus {
+    border: 1px solid  #028dff; 
 }
 
 .clear-btn {
@@ -1207,13 +1301,12 @@ footer {
 
 /*report_area.css begin*/
 .report-area_page{
-    margin-top: 60px;
+    margin-top: 70px;
     height: 100vh;
 }
 
 .report-area_menu{
     display: flex;
-
     font-weight: 500;
     top: 0;
     left: 0;
@@ -1242,7 +1335,6 @@ footer {
     font-size: 16px;
     padding: 7px 15px;
 }
-
 
 .content-podmenu {
     position: absolute;
@@ -1405,75 +1497,9 @@ footer {
     background-color: rgb(59, 59, 59);
 }
 
-.rotation-fromareas{
-    margin-top: 160px;
-}
 
-.rotation-fromareas nav ul {
-    display: flex;
-    flex-direction: row;
-    color: black;   
-    text-align: center;
-    align-items: center;
-    justify-content: left;
-    margin-left: 50px;
-}
 
-.rotation-fromareas nav ul li {
-    list-style: none;
-    text-align: center;
-    align-items: center;
-    justify-content: center; 
-    font-weight: 500;
-    display: flex; 
-    margin: 0 7px;
-    height: 100%; 
-    color: rgb(0, 0, 0);
-}
 
-.dark-mode .rotation-fromareas nav ul li {
-    color: rgb(255, 255, 255);
-}
-
-.rotation-fromareas nav ul li img {
-    width:15px;
-    height: 15px;   
-    margin: auto;
-}
-
-.icon_arroy{
-    display: block;
-}
-
-.dark-mode .icon_arroy{
-    display: none;
-}
-
-.icon_arroy_dark{
-    display: none; 
-}
-
-.dark-mode .icon_arroy_dark{
-    display: block; 
-}
-
-.linkto_report:hover {
-    color: #61b8ff;
-    transition: color 0.3s ease;
-    cursor: pointer;
-}
-
-.dark-mode .linkto_report:hover {
-    color: rgb(43, 236, 214); 
-    transition: color 0.3s ease;
-    cursor: pointer;
-}
-
-.dop_version_info{
-    padding-top: 7px;
-    font-size: 12px;
-  
-}
 
 
 .report-area {

@@ -1,23 +1,41 @@
 {% extends "base.html" %}
 
-{% block title %}Профиль{% endblock %}
+{% block title %}Профиль пользователя{% endblock %}
 
 {% block content %}
 
-
-
 <div class="profile_page">
-    <nav class = "profile_navigation ">
-        <li class="active_li" onclick="window.location.href='/profile/common'">
-            Общее
-        </li>
-        <li onclick="window.location.href='/profile/password'">Конфиденциальность</li>
-        {% if user.is_authenticated and user.type == 'Admin'%}
-        {% endif %}
-        <li onclick="window.location.href='/logout'">Выйти</li>
-    </nav>
-    <div class="personal-info_area">
-        {%if user.type == 'Администратор'%}
+    <div class = "rotation-fromareas">
+        <div class = "rotation-fromareas_info"> 
+            <span>
+                <a class = "hover_a" href="/account">Личный кабинет</a>
+            </span>
+            <span> 
+                <img class = "img_black" src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
+                <img class = "img_white" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
+            </span>
+            <span>
+                <a>Профиль пользователя</a>
+            </span>
+        </div>
+    </div>
+
+    <div class="contener_row">
+        <nav class = "profile_navigation ">
+            <li class="active_li" onclick="window.location.href='/profile/common'">
+                Общее
+            </li>
+            <li onclick="window.location.href='/profile/password'">Конфиденциальность</li>
+            {% if user.is_authenticated and user.type == 'Admin'%}
+            {% endif %}
+            <li class="theme-toggle" id="theme-toggle">
+               <a class="theme-img light-mode">Светлая тема</a>
+               <a class="theme-img dark-mode">Темная тема</a>
+               
+            </li>
+            <li onclick="window.location.href='/logout'">Выйти</li>
+        </nav>
+        <div class="personal-info_area">
             <form action="/profile/common" method="POST">
                 <table>
                     <tr>
@@ -25,8 +43,10 @@
                         <td><input style = "margin-bottom: 80px;" type="text" value="{{user.type}}" disabled></td>
                     </tr>
                     <tr>
-                        <td><span >E-mail</span></td>
-                        <td><input type="text" value="{{user.email}}" disabled></td>
+                        <td>E-mail</td>
+                        <td>                        
+                            <input type="text" value="{{user.email}}" disabled>
+                        </td>
                     </tr>
                     <tr>
                         <td>ФИО</td>
@@ -78,53 +98,10 @@
                     Сохранить изменения
                 </button>
             </form>
-        {%else%}
-            <table>
-                <tr>
-                    <td style = "padding-bottom: 94px;">Тип пользователя</div></td>
-                    <td><input style = "margin-bottom: 80px;" type="text" value="{{user.type}}" disabled></td>
-                </tr>
-                <tr>
-                    <td><span >E-mail</span></td>
-                    <td><input type="text" value="{{user.email}}" disabled></td>
-                </tr>
-                <tr>
-                    <td>ФИО</td>
-                    <td>
-                        <input type="text" name = "fio" value="{{user.fio}}" disabled>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Номер телефона</td>
-                    <td>
-                        <input type="text" name = "telephone" value="{{user.telephone}}" disabled>
-                    </td>
-                </tr>
-                <tr>
-                    <td style = "padding-top: 80px;">Организация</td>
-                    <td>
-                        <input style = "margin-top: 80px;" type="text" name = "organization_full_name" value="{{organization.full_name}}" disabled>
-                    </td>
-                </tr>
-                <tr>
-                    <td>ОКПО</td>
-                    <td>
-                        <input type="text" value="{{organization.okpo}}" name = "okpo" class = "numericInput" maxlength="12" disabled>
-                    </td>
-                </tr>
-                <tr>
-                    <td>УНП</td>
-                    <td>
-                        <input type="text" class = "numericInput" name = "ynp" value="{{organization.ynp}}" maxlength="9" disabled>
-                    </td>
-                </tr>
-            </table>
-        {%endif%}
+        </div>
     </div>
 </div>
 <script>
-
-
 </script>
 {% endblock %}
 

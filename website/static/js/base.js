@@ -25,42 +25,26 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
     
-    const header = document.querySelector('.fixed-header');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 0) {
-            if (currentTheme === 'dark') {
-                header.style.backgroundColor = '#252525';
-           
-            }
-            else{
-                header.style.backgroundColor = 'white';
-                // header.style.color = 'black';
-            }
-        } else {
-            header.style.backgroundColor = 'transparent';
-            // header.style.color = 'white';
-        }
-    });
+    
 
-    const themeToggle = document.getElementById('theme-toggle');
-    const body = document.body;
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    
-    if (currentTheme === 'dark') {
-        body.classList.add('dark-mode');
-    } else {
-        body.classList.add('light-mode');
-    }
-    
-    themeToggle.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
-        body.classList.toggle('light-mode');
-    
-        let theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
-        localStorage.setItem('theme', theme);
-        location.reload();
-    });
-    
+    // const themeToggle = document.getElementById('theme-toggle');
+    // const header = document.querySelector('.fixed-header');
+    // window.addEventListener('scroll', () => {
+    //     if (window.scrollY > 0) {
+    //         if (themeToggle === 'dark') {
+    //             header.style.backgroundColor = '#252525';
+           
+    //         }
+    //         else{
+    //             header.style.backgroundColor = 'white';
+    //             // header.style.color = 'black';
+    //         }
+    //     } else {
+    //         header.style.backgroundColor = 'transparent';
+    //         // header.style.color = 'white';
+    //     }
+    // });
+
     (function() {
         var alertBox = document.querySelector('.custom-alert');
         if (alertBox) {
@@ -80,49 +64,47 @@ document.addEventListener('DOMContentLoaded', function () {
     })();
     
 
-    (function() {
-        var userImgs = document.querySelectorAll('.icon_black, .icon_white');
-        var hoverPanel = document.querySelector('.hoverPanel');
-        var timeoutId;
-    
-        function showhoverPanel() {
-            if (hoverPanel) {
-                hoverPanel.classList.remove('hidden');
-                hoverPanel.classList.add('show');
-            }
+    const userImgs = document.querySelectorAll('.icon_black, .icon_white');
+    const user_hover_navigation = document.getElementById('user_hover_navigation');
+    let timeoutId;
+
+    function showUserHoverNavigation() {
+        if (user_hover_navigation) {
+            user_hover_navigation.classList.remove('hidden');
+            user_hover_navigation.classList.add('show');
         }
-    
-        function hidehoverPanel() {
-            if (hoverPanel) {
-                hoverPanel.classList.remove('show');
-                hoverPanel.classList.add('hidden');
-            }
+    }
+
+    function hideUserHoverNavigation() {
+        if (user_hover_navigation) {
+            user_hover_navigation.classList.remove('show');
+            user_hover_navigation.classList.add('hidden');
         }
-    
-        function setupEventListeners(element) {
-            element.addEventListener('mouseenter', function() {
-                clearTimeout(timeoutId);
-                showhoverPanel();
-            });
-    
-            element.addEventListener('mouseleave', function() {
-                timeoutId = setTimeout(hidehoverPanel, 1000); // Задержка перед началом скрытия
-            });
-        }
-    
-        if (userImgs.length > 0 && hoverPanel) {
-            userImgs.forEach(setupEventListeners);
-    
-            hoverPanel.addEventListener('mouseenter', function() {
-                clearTimeout(timeoutId);
-                showhoverPanel();
-            });
-    
-            hoverPanel.addEventListener('mouseleave', function() {
-                timeoutId = setTimeout(hidehoverPanel, 1000); // Задержка перед началом скрытия
-            });
-        }
-    })();
+    }
+
+    function setupEventListeners(element) {
+        element.addEventListener('mouseenter', function() {
+            clearTimeout(timeoutId);
+            showUserHoverNavigation();
+        });
+
+        element.addEventListener('mouseleave', function() {
+            timeoutId = setTimeout(hideUserHoverNavigation, 1000);
+        });
+    }
+
+    if (userImgs.length > 0 && user_hover_navigation) {
+        userImgs.forEach(setupEventListeners);
+
+        user_hover_navigation.addEventListener('mouseenter', function() {
+            clearTimeout(timeoutId);
+            showUserHoverNavigation();
+        });
+
+        user_hover_navigation.addEventListener('mouseleave', function() {
+            timeoutId = setTimeout(hideUserHoverNavigation, 1000);
+        });
+    }
     
 
 
@@ -227,9 +209,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
-document.getElementById('export-table-btn').addEventListener('click', function() {
-    document.getElementById('export-table-form').submit();
-});
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const table = document.querySelector('.table_report-area');
@@ -308,4 +288,5 @@ function sortTable() {
         }
     }
     console.log('end');
+    
 }

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Не просмотренные{% endblock %}
+{% block title %}Все отчеты{% endblock %}
 {% block content %}
 
 <div class="audit-area_page">
@@ -12,7 +12,7 @@
                     <ul>
                         <section>    
                             <div class = "functions_menu">
-                                <li onclick="window.location.href='/audit/all'">
+                                <li onclick="window.location.href='/audit/all'" class = "activefunctions_menu">
                                     <img src="{{ url_for('static', filename='img/icon_reports.png')}}" alt="">
                                     <a></a>
                                 </li>
@@ -23,7 +23,7 @@
                         </section>
                         <section>
                             <div class="functions_menu">
-                                <li data-action="not_viewed" onclick="window.location.href='/audit/not_viewed'" class = "activefunctions_menu">
+                                <li data-action="not_viewed" onclick="window.location.href='/audit/not_viewed'">
                                     <img src="{{ url_for('static', filename='img/not_read_report.png') }}" alt="">
                                     <a>Не просмотр.</a>
                                 </li>
@@ -31,7 +31,7 @@
                                     <img src="{{ url_for('static', filename='img/remarks_report.png') }}" alt="">
                                     <a>Есть замечание</a>
                                 </li>
-                                <li data-action="to_download" onclick="window.location.href='/audit/to_download'" >
+                                <li data-action="to_download" onclick="window.location.href='/audit/to_download'">
                                     <img src="{{ url_for('static', filename='img/for_downloade_report.png') }}" alt="">
                                     <a>Готов к загрузке</a>
                                 </li>
@@ -67,7 +67,7 @@
     <div class = "rotation-fromareas" >
         <div class = "rotation-fromareas_info" style = "margin: 175px 0 10px 82px;"> 
             <span>
-                <a class = "hover_a" href="">Количество: {{not_viewedReports_count}}</a>
+                <a class = "hover_a" href="">Количество: {{all_count}}</a>
             </span>
         </div>
     </div>
@@ -99,6 +99,7 @@
                         <td>
                             <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
                         </td>
+
                         <td></td>
                         <td>
                             <input type="text" id="report_year" value="{{ row.year }}" readonly>
@@ -111,6 +112,8 @@
                                 {% for version in row.versions %}
                                     {% if version.status == 'Отправлено' %}
                                         <input type="text" id="report_category_{{ version.id }}" value="Не просмотренно" readonly>
+                                    {%else%}
+                                    <input type="text" id="report_category_{{ version.id }}" value="{{version.status}}" readonly>
                                     {% endif %}
                                 {% endfor %}
                             {% else %}
@@ -123,7 +126,7 @@
                     <tr>
                         <td></td>
                         <td colspan="12">
-                            <input type="text" value="Отчеты отсутствуют" style = "padding: 10px 20px; font-size: 14px;" readonly>
+                            <input type="text" value="Отчеты отсутствуют" style = "padding: 10px 20px; font-size: 14    px;" readonly>
                         </td>
                     </tr>
                 {% endif %}

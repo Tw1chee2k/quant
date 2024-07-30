@@ -7,66 +7,66 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 
     <title>{% block title %}Base{% endblock %}</title>
+    <script>
+      (function() {
+          const currentTheme = localStorage.getItem('theme') || 'light';
+          document.body.classList.add(currentTheme === 'dark' ? 'dark-mode' : 'light-mode');
+      })();
+  </script>
   </head>
   <body>  
 
     <header class="fixed-header">
-      <div class="left-content">
-        <div class="theme-toggle" id="theme-toggle">
-          <img src="{{ url_for('static', filename='img/icon_night.png') }}" alt="Light Mode" class="theme-img light-mode">
-          <img src="{{ url_for('static', filename='img/icon_day.png') }}" alt="Dark Mode" class="theme-img dark-mode">
+      <div class="header-left">
+          <img src="" alt="Erespondent">
+         <a href="/">Erespondent-Online</a>
       </div>
-      </div>
-      <div class="center-content">
+      <div class="header-center">
         <nav>
           <ul>
               <li onclick="window.location.href='/'">Главная</li>
-
-
               <li onclick="window.location.href=''">Новости</li>
               <li onclick="window.location.href=''" >Контакты</li>
               <li onclick="window.location.href=''" >Помощь</li>
           </ul>
         </nav>
       </div>
-      <div class="right-content">
-        <nav>
-          <ul>
-            <li>
-              {% if user.is_authenticated %}
-              <div class="user-container">
-                  <img 
-                    onclick="window.location.href='/account'" 
-        
-                    class = "icon_white"
-                    src="{{ url_for('static', filename='img/icon_white-user.png')}}" 
-                    alt="">
-                  <img 
-                    onclick="window.location.href='/account'" 
-                  
-                    class = "icon_black"
-                    src="{{ url_for('static', filename='img/icon_black-user.png')}}" alt="">
+      <div class="header-right">
+        {% if user.is_authenticated %}
+        <div class="user-container">
+            <img 
+              onclick="window.location.href='/account'" 
+              class = "icon_white"
+              src="{{ url_for('static', filename='img/icon_white-user.png')}}" 
+              alt="">
+            <img 
+              onclick="window.location.href='/account'" 
+              class = "icon_black"
+              src="{{ url_for('static', filename='img/icon_black-user.png')}}" alt="">
+            <div id="user_hover_navigation" class="user_hover_navigation">
+                <button class = "user_hover_navigation_account" onclick="window.location.href='/account'">Личный кабинет</button>
+                <button class = "user_hover_navigation_logout" onclick="window.location.href='/logout'">Выйти</button>
+            </div>
+        </div>
+        {% else %}
 
-                  <div id="hoverPanel" class="hoverPanel">
-                      <button class = "hoverPanel_account" onclick="window.location.href='/account'">Личный кабинет</button>
-                      <button class = "hoverPanel_logout" onclick="window.location.href='/logout'">Выйти</button>
-                  </div>
-              </div>
-              {% else %}
-
-              {% endif %}
-          </li>
-          </ul>
-        </nav>
+        {% endif %}
       </div>
     </header>
-
     <main> 
       {% with messages = get_flashed_messages(with_categories=true) %} 
         {% if messages %}
           {% for category, message in messages %}
             <div class="alert {% if category == 'error' %}alert-danger{% else %}alert-success{% endif %} alert-dismissable fade show custom-alert" role="alert">
-              <p> {{ message }} </p>
+              {% if category == 'error' %}
+                <img src="{{ url_for('static', filename='img/error.png')}}" alt="">
+              {% else %}
+                <img src="{{ url_for('static', filename='img/succes.png')}}" alt="">
+              {% endif %}
+              <div class = "p_message_cont">
+                <p style = "font-weight: 600; padding-bottom: 5px;">{{category}}</p>
+                <p> {{ message }} </p>
+              </div>
               <div class="notif-progress"></div>
             </div>
           {% endfor %}
@@ -81,8 +81,27 @@
 
     {% block javascript %}
     <script>
-      
-    </script>      
+            document.addEventListener('DOMContentLoaded', function() {
+                const themeToggle = document.getElementById('theme-toggle');
+                const body = document.body;
+                const currentTheme = localStorage.getItem('theme') || 'light';
+
+                if (currentTheme === 'dark') {
+                    body.classList.add('dark-mode');
+                } else {
+                    body.classList.add('light-mode');
+                }
+
+                themeToggle.addEventListener('click', () => {
+                    body.classList.toggle('dark-mode');
+                    body.classList.toggle('light-mode');
+
+                    const theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+                    localStorage.setItem('theme', theme);
+                    location.reload();
+                });
+            });
+        </script>    
       <script src="{{ url_for('static', filename='js/base.js') }}"></script>
 
     {% endblock %}

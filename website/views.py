@@ -737,7 +737,46 @@ def count_reports():
         Version_report.sent == True,
         Version_report.status == 'Готов к удалению'
     ).count()
-    return not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count
+    all_count = Report.query.join(Version_report).filter(
+        Version_report.sent == True,
+        # Version_report.status == 'Готов к удалению'
+    ).count()
+    return not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count
+
+@views.route('/audit/all')
+@login_required
+def audit_all():
+    report = Report.query.join(Version_report).filter(
+        Version_report.sent == True,
+        # Version_report.status == 'Отправлено'
+    ).all()
+
+    for i in report:
+        i.versions = [version for version in i.versions if version.sent]
+
+    tickets = Ticket.query.all()
+    organizations = Organization.query.all()
+    dir_units = DirUnit.query.all()
+    dir_products = DirProduct.query.all()
+
+    for row in dir_products:
+        current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
+        row.IdUnit = current_unit.NameUnit
+
+    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count = count_reports()
+    return render_template('audit_all.html', 
+                           tickets=tickets, 
+                           report=report, 
+                           user=current_user, 
+                           dir_units=dir_units, 
+                           dir_products=dir_products, 
+                           organizations=organizations,
+                           all_count=all_count,
+                           not_viewedReports_count=not_viewedReports_count,
+                           remarksReports_count=remarksReports_count,
+                           to_downloadReports_count=to_downloadReports_count,
+                           to_deleteReports_count=to_deleteReports_count
+                           )
 
 @views.route('/audit/not_viewed')
 @login_required
@@ -759,7 +798,7 @@ def audit_not_viewed():
         current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
         row.IdUnit = current_unit.NameUnit
 
-    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count = count_reports()
+    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count = count_reports()
     return render_template('audit_not_viewed.html', 
                            tickets=tickets, 
                            report=report, 
@@ -767,6 +806,7 @@ def audit_not_viewed():
                            dir_units=dir_units, 
                            dir_products=dir_products, 
                            organizations=organizations,
+                           all_count=all_count,
                            not_viewedReports_count=not_viewedReports_count,
                            remarksReports_count=remarksReports_count,
                            to_downloadReports_count=to_downloadReports_count,
@@ -793,7 +833,7 @@ def audit_remarks():
         current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
         row.IdUnit = current_unit.NameUnit
 
-    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count = count_reports()
+    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count = count_reports()
     return render_template('audit_remarks.html', 
                            tickets=tickets, 
                            report=report, 
@@ -801,6 +841,7 @@ def audit_remarks():
                            dir_units=dir_units, 
                            dir_products=dir_products, 
                            organizations=organizations,
+                           all_count=all_count,
                            not_viewedReports_count=not_viewedReports_count,
                            remarksReports_count=remarksReports_count,
                            to_downloadReports_count=to_downloadReports_count,
@@ -826,7 +867,7 @@ def audit_to_download():
         current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
         row.IdUnit = current_unit.NameUnit
 
-    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count = count_reports()
+    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count = count_reports()
     return render_template('audit_to_download.html', 
                            tickets=tickets, 
                            report=report, 
@@ -834,6 +875,7 @@ def audit_to_download():
                            dir_units=dir_units, 
                            dir_products=dir_products, 
                            organizations=organizations,
+                           all_count=all_count,
                            not_viewedReports_count=not_viewedReports_count,
                            remarksReports_count=remarksReports_count,
                            to_downloadReports_count=to_downloadReports_count,
@@ -859,7 +901,7 @@ def audit_to_delete():
         current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
         row.IdUnit = current_unit.NameUnit
 
-    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count = count_reports()
+    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count = count_reports()
     return render_template('audit_to_delete.html', 
                            tickets=tickets, 
                            report=report, 
@@ -867,11 +909,11 @@ def audit_to_delete():
                            dir_units=dir_units, 
                            dir_products=dir_products, 
                            organizations=organizations,
+                           all_count=all_count,
                            not_viewedReports_count=not_viewedReports_count,
                            remarksReports_count=remarksReports_count,
                            to_downloadReports_count=to_downloadReports_count,
                            to_deleteReports_count=to_deleteReports_count)
-
 
 @views.route('/audit/fuel/<int:id>')
 @login_required
@@ -929,3 +971,4 @@ def audit_electro(id):
         curent_report=curent_report,
         current_version=current_version
     )
+

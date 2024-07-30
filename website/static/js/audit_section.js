@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
+    
+    
     var fuelRows = document.querySelectorAll('.fuel_row');
     var previousfuelRow = null;
     var selectedfuelId = null;
@@ -97,3 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+document.getElementById('export-table-btn').addEventListener('click', function() {
+    document.getElementById('export-table-form').submit();
+});

@@ -104,28 +104,26 @@
         </div>
     </div>
     
-    <div class = "rotation-fromareas">
-        <nav>
-            <ul>
-                <li onclick="window.location.href='/audit/not_viewed'" class = "linkto_report">
-                    Просмотр отчетов
-                </li>
-                <li>
-                    <img class = "icon_arroy" src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
-                    <img class = "icon_arroy_dark" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
-                </li>
-                <li>Тепло ({{curent_report.id}}, {{current_version.id}})</li> 
-            </ul>
-            <ul>
-                <li>
-                    <a class = "dop_version_info">ОКПО: "{{curent_report.okpo}}", 
+    <div class = "rotation-fromareas" >
+        <div class = "rotation-fromareas_info" style = "margin: 160px 0 10px 82px;"> 
+            <span>
+                <a class = "hover_a" href="/audit/not_viewed">Отчеты</a>
+            </span>
+            <span>  
+                <img class = "img_black" src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
+                <img class = "img_white" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
+            </span>
+            <span>
+                <a>Тепло ({{curent_report.id}}, {{current_version.id}})</a>
+            </span>
+            <span>
+                <a style = "font-size: 12px;">ОКПО: "{{curent_report.okpo}}", 
                     УНП: "{{curent_report.organization_name.ynp}}", 
-                    Название предприятия: "{{curent_report.organization_name}}", 
+                    Наименование предприятия: "{{curent_report.organization_name}}", 
                     Год: {{curent_report.year}}, 
-                    Квартал: {{curent_report.quarter}} </a>
-                </li> 
-            </ul>
-        </nav>
+                    Квартал: {{curent_report.quarter}}. </a>
+            </span>
+        </div>
     </div>
     <div class = "report-area">
         <table class = "table_report-area">
