@@ -95,8 +95,40 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     /*end*/
 
+    var addCommentModal = document.getElementById('addCommentModal');
+    var addCommentLink = document.getElementById('addCommentLink');
+    var CloseaddComment = document.getElementById('CloseaddComment');
+    addCommentLink.addEventListener('click', function() {
+        addCommentModal.style.display = 'block';
+    });
+
+    CloseaddComment.addEventListener('click', function() {
+        addCommentModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target == addCommentModal) {
+            addCommentModal.style.display = 'none';
+        }
+    });
 
 
+    var showCommentsModal = document.getElementById('showCommentsModal');
+    var showCommentsLink = document.getElementById('showCommentsLink');
+    var CloseshowComments = document.getElementById('CloseshowComments');
+    showCommentsLink.addEventListener('click', function() {
+        showCommentsModal.style.display = 'block';
+    });
+
+    CloseshowComments.addEventListener('click', function() {
+        showCommentsModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target == showCommentsModal) {
+            showCommentsModal.style.display = 'none';
+        }
+    });
 });
 
 document.getElementById('export-table-btn').addEventListener('click', function() {

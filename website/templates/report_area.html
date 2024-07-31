@@ -204,26 +204,25 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {%if tickets%}  
-                                                        {% for tickets in ticket %}
+                                                    {% if rows.tickets %}
+                                                    {% for ticket in rows.tickets %}
                                                         <tr class="row_with_cheks">
-                                                            <td>
-                                                                <input type = "text" value = "{{ tickets.begin_time }}" readonly>
+                                                            <td>    
+                                                                <input type="text" value="{{ ticket.begin_time }}" readonly>
                                                             </td>
                                                             <td>
-                                                                <input type = "text" value = "{{ tickets.luck }}" readonly>
+                                                                <input type="text" value="{{ ticket.luck }}" readonly>
                                                             </td>
                                                             <td>
-                                                                <input type = "text" value = "{{ tickets.note }}" readonly>
+                                                                <input type="text" value="{{ ticket.note }}" readonly>
                                                             </td>
                                                         </tr>
-                                                        {% endfor %}
-                                                    {%else%}
+                                                    {% endfor %}
+                                                {% else %}
                                                     <tr class="row_with_cheks">
                                                         <td colspan="3">Нет данных</td>
                                                     </tr>
-                                                    
-                                                    {%endif%}
+                                                {% endif %}
                                                 </tbody>
                                             </table>
                                         </td>

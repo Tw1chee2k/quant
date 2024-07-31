@@ -110,7 +110,8 @@ body.dimmed {
 
 input:focus,
 button:focus,
-select:focus{
+select:focus,
+textarea:focus{
     outline: none ;
 }
 
@@ -197,7 +198,7 @@ header {
     left: 0;
     z-index: 100;
     background-color: white;
-    transition: background-color 0.3s ease;  
+    /* transition: background-color 0.3s ease;   */
     height: 60px;
     width: 100%;  
 }
@@ -259,7 +260,7 @@ header nav ul {
 
 .header-center nav ul li {
     margin: 0 20px; 
-    transition: color 0.3s ease;
+    /* transition: color 0.3s ease; */
 }
 
 .header-center nav ul li:hover {
@@ -355,6 +356,7 @@ main {
     min-height: 100vb;
 }
 footer {
+    margin-top: 100px;
     display: flex; 
     flex-direction: row;
     align-items: center;
@@ -781,106 +783,160 @@ footer {
 }
 
 /* Контейнер с количеством пользователей, организац...*/
-.statistic_cont {
+
+.statistics-row {
+    max-width: 100%;
+    height: 594px;
+    background-color: rgb(196, 196, 196);
     display: flex;
-    align-items: center;
+    flex-direction: row;
     justify-content: center;
-    position: relative;
-    background-color: rgb(247, 247, 247);
-    white-space: nowrap;
-    width: 100%;
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1); 
 }
 
-.dark-mode .statistic_cont {
-    background-color:#333;
+.dark-mode .statistics-row {
+
     color: white;
 }
 
-.statistic_cont .item_stat {
+.statistics-row-left{
+    width: 870px;
+    height: auto;
+}
+
+.statistics-row-left img{
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.statistics-row-right{
+    width: 555px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-color:rgb(247, 247, 247);
+    justify-content: center;
+    margin-right: 90px;
+}
+
+.dark-mode .statistics-row-right {
+    background-color:#333;
+}
+
+
+.item_stat{
     display: flex;
     flex-direction: column;
     text-align: center;
-    align-items: center;
-    margin: 25px;
 }
 
-.statistic_cont .item_stat .item_statName{
-    font-size: 19px;    
+.stat_count{
+    font-size: 50px;    
     color: #028dff;   
     font-weight: 600;
 }
 
-.dark-mode .statistic_cont .item_statName{
-    color: rgb(78, 177, 165);
+.stat_name{
+    font-size: 16px;
+    color: #555555;    
+    font-weight: 500;
 }
+/* end*/
 
-.statistic_cont .item_stat .stat_count{
- 
-    font-size: 32px;
-    font-weight: 400;
+/* news_row */
 
-}
-.statistic_cont .item_stat img{
-    width: 44px; 
-    height: 44px;
-    margin: 10px;
-}
-/* Контейнер с количеством пользователей, организац... end*/
-
-/* Новости */
-
-.cont_news_main_page{
-    min-height: 60vb;
+.news-row {
+    max-width: 100%;
+    height: 600px;
     background-color: #028dff;
-    display:flex;
+    display: flex;
+    flex-direction: row;
     justify-content: center;
-    text-align: center;
 }
 
-.dark-mode .cont_news_main_page {
+.dark-mode .news-row {
     background-color:rgb(84, 146, 139);
 }
 
-
-.cont_news_main_page .white_news_cont{
-    background-color: rgb(247, 247, 247);
-    min-width: 1400px;
-    max-width: 1400px;
+.news-row-left{
+    width: 555px;
+    height: auto;
     display: flex;
-    justify-content: center;
-    padding-top: 100px;
+    flex-direction: column;
+    margin-left: 40px;
+    padding: 40px 60px;
+    justify-content: start;
+    background-color:rgb(247, 247, 247);
 }
 
-.dark-mode .white_news_cont{
-    background-color: #333;
-    color:rgb(255, 255, 255);
+.dark-mode .news-row-left {
+    background-color:#333;
+    color: white;
 }
 
-.name_news_text{
-    font-weight: 500;
-    font-size: 20px;
+.news-row-right{
+    width: 670px;
+    height: auto;
 }
 
-.heading_news_text{
+.news-row-right img{
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.item_news{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.news_name{
+    font-size: 19px;
+    color: #028dff;   
     font-weight: 600;
+    padding-bottom: 40px;
+}
+
+.item_news .first_p{
     font-size: 24px;
+    padding-bottom: 30px;
+    font-weight: 600;
+    line-height: 33px;
 }
 
-.news_text{
-   
-    font-weight: 400;
-    font-size: 23px;
+.item_news .second_p{
+    font-size: 19px;
+    padding-bottom: 30px;
+    font-weight: 500;
+    line-height: 27px;
 }
 
-.cont_news_main_page .white_news_cont .left_news_cont{
-    min-width: 700px;
+/* news_row end*/
+
+
+.hz-row {
+    max-width: 100%;
+    height: 400px;
+    background-color:rgb(247, 247, 247);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
-.cont_news_main_page .white_news_cont .right_news_cont{
-    min-width: 700px;
+.dark-mode .hz-row {
+    background-color:#333;
+    color: white;
 }
-/* Новости end*/
+
+
+
+
+
+
+
 
 /*beginPage.css end*/
 
@@ -1085,8 +1141,8 @@ footer {
 
 .rotation-fromareas_info span {
     display: flex;
-    text-align: center;
-    align-items: center;
+
+    align-items: end;
     margin: 0 10px;
 }
 
@@ -1316,7 +1372,7 @@ footer {
     padding: 5px 10px;
     margin: 0;    
     display: inline-block;    
-    transition: background-color 0.3s ease, color 0.3s ease;
+    /* transition: background-color 0.3s ease, color 0.3s ease; */
     cursor: pointer;
 }
 
@@ -1937,6 +1993,7 @@ th .resizer {
     vertical-align: middle;
     text-align: center;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .change-position{
@@ -2034,6 +2091,7 @@ th .resizer {
 #RespondentModal .sectionsModal-table input{
     height: 26px;  
     width: 200px;
+    max-width: 200px;
     padding: 0 10px;
     margin: 0 20px;
     text-align: left;
@@ -2042,6 +2100,29 @@ th .resizer {
     border: 1px solid rgb(220, 238, 255);
     font-weight: 500; 
 }
+
+#addCommentModal .sectionsModal-table input,
+#addCommentModal .sectionsModal-table textarea{
+    height: 26px;  
+    width: 300px;
+    max-width: 300px;
+    padding: 0 10px;
+    margin: 0 20px;
+    text-align: left;
+    font-size: 12px; 
+    border-radius: 5px;
+    border: 1px solid rgb(220, 238, 255);
+    font-weight: 500; 
+}
+
+#addCommentModal .sectionsModal-table textarea{
+    margin-top: 5px;
+    min-width: 300px;
+    min-height: 130px;  
+    padding: 10px;
+}
+
+
 
 .sectionsModal-table input:required-invalid{
     border: 2px solid red;

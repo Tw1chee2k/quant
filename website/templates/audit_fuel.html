@@ -11,13 +11,13 @@
                     <ul>          
                         <section>    
                             <div class = "functions_menu">
-                                <li >
-                                    <img src="{{ url_for('static', filename='img/icon_new_file.png')}}" alt="">
-                                    <a>Добавить</a>
+                                <li id = "addCommentLink">
+                                    <img src="{{ url_for('static', filename='img/icon_send.png')}}" alt="">
+                                    <a>Отправить</a>
                                 </li>
                             </div>
                             <a class="functions_menu_name">
-                                Коммент.
+                                Сообщение
                             </a>
                         </section>
                         <section>
@@ -26,7 +26,7 @@
                                     <img src="{{ url_for('static', filename='img/icon_profile.png')}}" alt="">
                                     <a>Респондент</a>   
                                 </li>  
-                                <li>           
+                                <li id = "showCommentsLink">           
                                     <img src="{{ url_for('static', filename='img/komments.png')}}" alt="">
                                     <a>Коммент.</a>   
                                 </li>
@@ -407,5 +407,89 @@
         </div>
     </div>
 </div>
+<div id="addCommentModal" class="modal">
+    <div class="modal-content">
+        <div class = "modal-header">
+            <h3 class = "change-position">Сообщение респонденту</h3>
+            <a class="close" id = "CloseaddComment">&times;</a>
+        </div>
+        <div class="spravochniki_area">
+            <form method="POST" action="/send_comment">
+                <table class = "sectionsModal-table">
+                    <tr>
+                        <td>Кому</td>
+                        <td>
+                            <input                 
+                                type="text"
+                                name = "resp_email"
+                                value = "{{current_version.email}}"
+                                readonly
+                            >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Текст</td>
+                        <td>
+                            <textarea                 
+                                type="text"
+                                value = ""
+                                name = "text"
+                            >
+                            </textarea>
+                        </td>
+                    </tr>
+                </table>  
+                <input type = "hidden" name = "version_id" value = "{{current_version.id}}">  
+                <button 
+                    type = "submit" 
+                    class = "blue_button">
+                    Отправить
+                </button>      
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="showCommentsModal" class="modal">
+    <div class="modal-content">
+        <div class = "modal-header">
+            <h3 class = "change-position">Коментарии</h3>
+            <a class="close" id = "CloseshowComments">&times;</a>
+        </div>
+        <div class="spravochniki_area">
+            <table class="table_report-area">
+                <thead class="order-table_titels">
+                    <tr>  
+                        <th class="resizable" style = "white-space: nowrap;">Время создания<div class="resizer"></div></th>
+                        <th class="resizable" style = "white-space: nowrap;">лак<div class="resizer"></div></th>
+                        <th class="resizable" style = "white-space: nowrap;">Текст<div class="resizer"></div></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if tickets%}
+                        {% for row in tickets %}
+                            <tr>
+                                <td>
+                                    <input type = "text" value = "{{ row.begin_time }}"  style = "width: 30px;" readonly>
+                                </td>
+                                <td>
+                                    <input type = "text" value = "{{ row.luck }}" style = "width: 30px;" readonly>
+                                </td>
+                                <td>
+                                    <input type = "text" value = "{{ row.note }}" style = "min-width: 400px;" readonly>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {%else%}
+                        <td colspan="3">
+                            <input type = "text" value = "Комментариев пока что нет" style = "min-width: 300px;"  readonly>
+                        </td>
+                    {%endif%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 <script src="{{ url_for('static', filename='js/audit_section.js') }}"></script>
 {% endblock %}

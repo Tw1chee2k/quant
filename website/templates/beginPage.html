@@ -23,35 +23,44 @@
 
 
 
-<div class="statistic_cont">
-    <div class="item_stat">
-        <a class = "item_statName">Предприятий</a>
-        <img src="{{ url_for('static', filename='img/organization.png')}}" alt="организаций">
-        <div class = "stat_count">{{organization_data}}</div>
+<div class="statistics-row">
+    <div class = "statistics-row-left">
+        <img src="{{ url_for('static', filename='img/stats.jpg')}}" alt="">
     </div>
-    <div class="item_stat">
-        <a class = "item_statName">Отчетов</a>
-        <img src="{{ url_for('static', filename='img/icon_reports.png')}}" alt="обращений">
-        <div class = "stat_count">{{report_data}}</div>
-    </div>
-    <div class="item_stat">
-        <a class = "item_statName">Респондентов</a>
-        <img src="{{ url_for('static', filename='img/people.png')}}" alt="Граждан">
-        <div class = "stat_count">{{user_data}}</div>
+    <div class = "statistics-row-right">
+        <div class="item_stat">  
+            <div class = "stat_count">{{organization_data}}</div>
+            <a class = "stat_name">Предприятий</a>
+        </div>
+
+        <div class="item_stat">
+            <div class = "stat_count">{{report_data}}</div>
+            <a class = "stat_name">Отчетов</a>
+        </div>
+
+        <div class="item_stat">
+            <div class = "stat_count">{{user_data}}</div>
+            <a class = "stat_name">Респондентов</a>
+        </div>
     </div>
 </div>
-
-<div class = "cont_news_main_page">
-    <div class = "white_news_cont">
-        <div class = "left_news_cont">
-            <span class = "name_news_text">Новости</span>
-            <div class = "heading_news_text">Заголовок новости</div>
-            <div class = "">Текст новости</div>
-        </div>
-        <div class = "right_news_cont">
-            <img src="{{ url_for('static', filename='img/')}}" alt="Картинка новости">
+<div class="news-row">
+    <div class = "news-row-left">
+        <div class="item_news">  
+            <a class = "news_name">Новости</a>
+            <p class = "first_p">..2024 будет проведено обновление системы учёта и обработки отчетов!</p>
+            <p class = "second_p">Уважаемые пользователи обработки отчетов! 
+                18.07.2024 будет проведено обновление системы. 
+                В связи с этим некоторые возможности системы будут недоступны 
+                с 20:00 до 21:30 18.07.2024.</p>
         </div>
     </div>
+    <div class = "news-row-right">
+         <img src="{{ url_for('static', filename='img/.png')}}" alt="">
+    </div>
+</div>
+<div class="hz-row">
+    
 </div>
 
 {% endblock %}

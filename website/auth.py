@@ -741,6 +741,47 @@ def change_category_report():
             elif link_return == 'Готов к удалению':
                 return redirect(url_for('views.audit_to_delete'))
 
+
+@auth.route('/send_comment', methods=['POST'])
+def send_comment():
+    if request.method == 'POST':
+        version_id = request.form.get('version_id')
+        resp_email = request.form.get('resp_email')
+        text = request.form.get('text')
+        cleaned_text = ' '.join(text.split())
+
+        current_version = Version_report.query.filter_by(id=version_id).first()
+
+        if current_version:
+            new_comment = Ticket(
+                # begin_time = 
+                # luck = 
+                note = cleaned_text,
+                version_report_id = current_version.id
+            )
+
+            db.session.add(new_comment)
+            db.session.commit()
+
+            flash('Комментарий создан', 'success')
+        else:
+            flash('Версия не найдена', 'error')
+
+        return redirect(url_for('views.audit_to_delete'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @auth.route('/export_table', methods=['POST'])
 def export_table():
     if request.method == 'POST':

@@ -24,8 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
             input.style.width = input.originalWidth;
         }
     }
-    
-    
 
     // const themeToggle = document.getElementById('theme-toggle');
     // const header = document.querySelector('.fixed-header');

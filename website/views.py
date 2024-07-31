@@ -561,27 +561,33 @@ def profile_password():
 def relod_password():
     return render_template('relod_password.html', user=current_user)
 
+
 @views.route('/report_area')
 @login_required
 def report_area():
-    ticket = Ticket.query.filter_by().all()
     report = Report.query.filter_by(user_id=current_user.id).all()
-    organization = Organization.query.filter_by(id = current_user.organization.id).all()
     version = Version_report.query.filter_by().all()
+
+    for rep in report:
+        rep.versions = Version_report.query.filter_by(report_id=rep.id).all()
+        for version in rep.versions:
+            version.tickets = Ticket.query.filter_by(version_report_id=version.id).all()
+
+    organization = Organization.query.filter_by(id=current_user.organization.id).all()
     
     dirUnit = DirUnit.query.filter_by().all()
-    dirProduct = DirProduct.query.filter_by().all()  
-    for row in dirProduct: 
-        current_unit = DirUnit.query.filter_by(IdUnit = row.IdUnit).first()
+    dirProduct = DirProduct.query.filter_by().all()
+    
+    for row in dirProduct:
+        current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
         row.IdUnit = current_unit.NameUnit
-         
-    return render_template('report_area.html', 
-                           ticket = ticket, 
-                           report=report, 
-                           user=current_user, 
-                           dirUnit=dirUnit, 
-                           dirProduct=dirProduct, 
-                           organization=organization, 
+
+    return render_template('report_area.html',
+                           report=report,
+                           user=current_user,
+                           dirUnit=dirUnit,
+                           dirProduct=dirProduct,
+                           organization=organization,
                            version=version)
 
 @views.route('/report_area/fuel/<int:id>')
@@ -924,6 +930,9 @@ def audit_fuel(id):
     current_version = Version_report.query.filter_by(id=id).first()
     curent_report = Report.query.filter_by(id=current_version.report_id).first()
 
+
+    tickets = Ticket.query.filter_by(version_report_id = current_version.id).all()
+
     sections = Sections.query.filter_by(id_version=current_version.id, section_number=1).order_by(desc(Sections.id)).all()
     return render_template('audit_fuel.html', 
         sections=sections,              
@@ -931,7 +940,8 @@ def audit_fuel(id):
         dirProduct=dirProduct,
         user=current_user, 
         curent_report=curent_report,
-        current_version=current_version
+        current_version=current_version,
+        tickets=tickets
     )
 
 @views.route('/audit/heat/<int:id>')
