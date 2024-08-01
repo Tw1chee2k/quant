@@ -24,24 +24,26 @@ document.addEventListener('DOMContentLoaded', function () {
             input.style.width = input.originalWidth;
         }
     }
+    
 
-    // const themeToggle = document.getElementById('theme-toggle');
-    // const header = document.querySelector('.fixed-header');
-    // window.addEventListener('scroll', () => {
-    //     if (window.scrollY > 0) {
-    //         if (themeToggle === 'dark') {
-    //             header.style.backgroundColor = '#252525';
-           
-    //         }
-    //         else{
-    //             header.style.backgroundColor = 'white';
-    //             // header.style.color = 'black';
-    //         }
-    //     } else {
-    //         header.style.backgroundColor = 'transparent';
-    //         // header.style.color = 'white';
-    //     }
-    // });
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    const currentTheme = localStorage.getItem('theme') || 'light';
+
+    if (currentTheme === 'dark') {
+        body.classList.add('dark-mode');
+    } else {
+        body.classList.add('light-mode');
+    }
+
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        body.classList.toggle('light-mode');
+
+        const theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+        localStorage.setItem('theme', theme);
+        // location.reload();
+    });
 
     (function() {
         var alertBox = document.querySelector('.custom-alert');
@@ -166,11 +168,6 @@ document.addEventListener('DOMContentLoaded', function () {
             this.select();
         });
     });
-    
-    
-
-
-
 });
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -206,8 +203,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 });
-
-
 
 document.addEventListener('DOMContentLoaded', function() {
     const table = document.querySelector('.table_report-area');

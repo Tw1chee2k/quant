@@ -726,6 +726,7 @@ def report_electro(id):
         current_version=current_version
     )
 
+
 def count_reports():
     not_viewedReports_count = Report.query.join(Version_report).filter(
         Version_report.sent == True,
@@ -749,69 +750,42 @@ def count_reports():
     ).count()
     return not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count
 
-@views.route('/audit/all')
+@views.route('/audit_area')
 @login_required
-def audit_all():
-    report = Report.query.join(Version_report).filter(
+def audit_area():
+    report_all_sent = Report.query.join(Version_report).filter(
         Version_report.sent == True,
         # Version_report.status == 'Отправлено'
     ).all()
 
-    for i in report:
-        i.versions = [version for version in i.versions if version.sent]
-
-    tickets = Ticket.query.all()
-    organizations = Organization.query.all()
-    dir_units = DirUnit.query.all()
-    dir_products = DirProduct.query.all()
-
-    for row in dir_products:
-        current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
-        row.IdUnit = current_unit.NameUnit
-
-    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count = count_reports()
-    return render_template('audit_all.html', 
-                           tickets=tickets, 
-                           report=report, 
-                           user=current_user, 
-                           dir_units=dir_units, 
-                           dir_products=dir_products, 
-                           organizations=organizations,
-                           all_count=all_count,
-                           not_viewedReports_count=not_viewedReports_count,
-                           remarksReports_count=remarksReports_count,
-                           to_downloadReports_count=to_downloadReports_count,
-                           to_deleteReports_count=to_deleteReports_count
-                           )
-
-@views.route('/audit/not_viewed')
-@login_required
-def audit_not_viewed():
-    report = Report.query.join(Version_report).filter(
+    report_not_read = Report.query.join(Version_report).filter(
         Version_report.sent == True,
         Version_report.status == 'Отправлено'
     ).all()
 
-    for i in report:
-        i.versions = [version for version in i.versions if version.sent]
+    report_remarks = Report.query.join(Version_report).filter(
+        Version_report.sent == True,
+        Version_report.status == 'Есть замечания'
+    ).all()
 
-    tickets = Ticket.query.all()
-    organizations = Organization.query.all()
-    dir_units = DirUnit.query.all()
-    dir_products = DirProduct.query.all()
+    report_to_down = Report.query.join(Version_report).filter(
+        Version_report.sent == True,
+        Version_report.status == 'Готов к загрузке'
+    ).all()
 
-    for row in dir_products:
-        current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
-        row.IdUnit = current_unit.NameUnit
+    report_to_del = Report.query.join(Version_report).filter(
+        Version_report.sent == True,
+        Version_report.status == 'Готов к удалению'
+    ).all()
 
     not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count = count_reports()
-    return render_template('audit_not_viewed.html', 
-                           tickets=tickets, 
-                           report=report, 
+    return render_template('audit_area.html', 
                            user=current_user, 
-                           dir_units=dir_units, 
-                           dir_products=dir_products, 
-                           organizations=organizations,
+                           report_all_sent=report_all_sent,
+                           report_not_read=report_not_read,
+                           report_remarks=report_remarks,
+                           report_to_down=report_to_down,
+                           report_to_del=report_to_del,
                            all_count=all_count,
                            not_viewedReports_count=not_viewedReports_count,
                            remarksReports_count=remarksReports_count,
@@ -819,123 +793,26 @@ def audit_not_viewed():
                            to_deleteReports_count=to_deleteReports_count
                            )
 
-@views.route('/audit/remarks')
+@views.route('/audit/report/<int:id>')
 @login_required
-def audit_remarks():
-    report = Report.query.join(Version_report).filter(
-        Version_report.sent == True,
-        Version_report.status == 'Есть замечания'
-    ).all()
-
-    for i in report:
-        i.versions = [version for version in i.versions if version.sent]
-
-    tickets = Ticket.query.all()
-    organizations = Organization.query.all()
-    dir_units = DirUnit.query.all()
-    dir_products = DirProduct.query.all()
-
-    for row in dir_products:
-        current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
-        row.IdUnit = current_unit.NameUnit
-
-    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count = count_reports()
-    return render_template('audit_remarks.html', 
-                           tickets=tickets, 
-                           report=report, 
-                           user=current_user, 
-                           dir_units=dir_units, 
-                           dir_products=dir_products, 
-                           organizations=organizations,
-                           all_count=all_count,
-                           not_viewedReports_count=not_viewedReports_count,
-                           remarksReports_count=remarksReports_count,
-                           to_downloadReports_count=to_downloadReports_count,
-                           to_deleteReports_count=to_deleteReports_count)
-
-@views.route('/audit/to_download')
-@login_required
-def audit_to_download():
-    report = Report.query.join(Version_report).filter(
-        Version_report.sent == True,
-        Version_report.status == 'Готов к загрузке'
-    ).all()
-
-    for i in report:
-        i.versions = [version for version in i.versions if version.sent]
-
-    tickets = Ticket.query.all()
-    organizations = Organization.query.all()
-    dir_units = DirUnit.query.all()
-    dir_products = DirProduct.query.all()
-
-    for row in dir_products:
-        current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
-        row.IdUnit = current_unit.NameUnit
-
-    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count = count_reports()
-    return render_template('audit_to_download.html', 
-                           tickets=tickets, 
-                           report=report, 
-                           user=current_user, 
-                           dir_units=dir_units, 
-                           dir_products=dir_products, 
-                           organizations=organizations,
-                           all_count=all_count,
-                           not_viewedReports_count=not_viewedReports_count,
-                           remarksReports_count=remarksReports_count,
-                           to_downloadReports_count=to_downloadReports_count,
-                           to_deleteReports_count=to_deleteReports_count)
-
-@views.route('/audit/to_delete')
-@login_required
-def audit_to_delete():
-    report = Report.query.join(Version_report).filter(
-        Version_report.sent == True,
-        Version_report.status == 'Готов к удалению'
-    ).all()
-
-    for i in report:
-        i.versions = [version for version in i.versions if version.sent]
-
-    tickets = Ticket.query.all()
-    organizations = Organization.query.all()
-    dir_units = DirUnit.query.all()
-    dir_products = DirProduct.query.all()
-
-    for row in dir_products:
-        current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
-        row.IdUnit = current_unit.NameUnit
-
-    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count = count_reports()
-    return render_template('audit_to_delete.html', 
-                           tickets=tickets, 
-                           report=report, 
-                           user=current_user, 
-                           dir_units=dir_units, 
-                           dir_products=dir_products, 
-                           organizations=organizations,
-                           all_count=all_count,
-                           not_viewedReports_count=not_viewedReports_count,
-                           remarksReports_count=remarksReports_count,
-                           to_downloadReports_count=to_downloadReports_count,
-                           to_deleteReports_count=to_deleteReports_count)
-
-@views.route('/audit/fuel/<int:id>')
-@login_required
-def audit_fuel(id):
+def audit_report(id):
     dirUnit = DirUnit.query.filter_by().all()
     dirProduct = DirProduct.query.filter_by().all()
 
     current_version = Version_report.query.filter_by(id=id).first()
     curent_report = Report.query.filter_by(id=current_version.report_id).first()
 
-
     tickets = Ticket.query.filter_by(version_report_id = current_version.id).all()
 
-    sections = Sections.query.filter_by(id_version=current_version.id, section_number=1).order_by(desc(Sections.id)).all()
-    return render_template('audit_fuel.html', 
-        sections=sections,              
+    sections_fuel = Sections.query.filter_by(id_version=current_version.id, section_number=1).order_by(desc(Sections.id)).all()
+    sections_heat = Sections.query.filter_by(id_version=current_version.id, section_number=2).order_by(desc(Sections.id)).all()
+    sections_electro = Sections.query.filter_by(id_version=current_version.id, section_number=3).order_by(desc(Sections.id)).all()
+
+    return render_template('audit_report.html', 
+        sections_fuel=sections_fuel,   
+        sections_heat=sections_heat,  
+        sections_electro=sections_electro,      
+
         dirUnit=dirUnit,
         dirProduct=dirProduct,
         user=current_user, 
@@ -943,42 +820,3 @@ def audit_fuel(id):
         current_version=current_version,
         tickets=tickets
     )
-
-@views.route('/audit/heat/<int:id>')
-@login_required
-def audit_heat(id):
-    dirUnit = DirUnit.query.filter_by().all()
-    dirProduct = DirProduct.query.filter_by().all()
-
-    current_version = Version_report.query.filter_by(id=id).first()
-    curent_report = Report.query.filter_by(id=current_version.report_id).first()
-
-    sections = Sections.query.filter_by(id_version=current_version.id, section_number=2).order_by(desc(Sections.id)).all()
-    return render_template('audit_heat.html', 
-        sections=sections,              
-        dirUnit=dirUnit,
-        dirProduct=dirProduct,
-        user=current_user, 
-        curent_report=curent_report,
-        current_version=current_version
-    )
-
-@views.route('/audit/electro/<int:id>')
-@login_required
-def audit_electro(id):
-    dirUnit = DirUnit.query.filter_by().all()
-    dirProduct = DirProduct.query.filter_by().all()
-
-    current_version = Version_report.query.filter_by(id=id).first()
-    curent_report = Report.query.filter_by(id=current_version.report_id).first()
-
-    sections = Sections.query.filter_by(id_version=current_version.id, section_number=3).order_by(desc(Sections.id)).all()
-    return render_template('audit_electro.html', 
-        sections=sections,              
-        dirUnit=dirUnit,
-        dirProduct=dirProduct,
-        user=current_user, 
-        curent_report=curent_report,
-        current_version=current_version
-    )
-

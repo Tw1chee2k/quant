@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /*end*/
 
     /*кнопка для отображения квитанций отчета*/
-    var showCheksButtons = document.querySelectorAll('.show-cheks_button');   
+    var showCheksButtons = document.querySelectorAll('.show-tickets_button');   
     showCheksButtons.forEach(function(button) {
         button.addEventListener('click', function(event) {
             event.stopPropagation();

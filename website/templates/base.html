@@ -45,6 +45,12 @@
               src="{{ url_for('static', filename='img/icon_black-user.png')}}" alt="">
             <div id="user_hover_navigation" class="user_hover_navigation">
                 <button class = "user_hover_navigation_account" onclick="window.location.href='/account'">Личный кабинет</button>
+                <div class="theme-toggle" id="theme-toggle">
+                  <button class="theme-img light-mode">Темная тема</button>
+                  <button class="theme-img dark-mode">Светлая тема</button>
+                </div>
+
+                
                 <button class = "user_hover_navigation_logout" onclick="window.location.href='/logout'">Выйти</button>
             </div>
         </div>
@@ -81,29 +87,9 @@
 
     {% block javascript %}
     <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const themeToggle = document.getElementById('theme-toggle');
-                const body = document.body;
-                const currentTheme = localStorage.getItem('theme') || 'light';
 
-                if (currentTheme === 'dark') {
-                    body.classList.add('dark-mode');
-                } else {
-                    body.classList.add('light-mode');
-                }
-
-                themeToggle.addEventListener('click', () => {
-                    body.classList.toggle('dark-mode');
-                    body.classList.toggle('light-mode');
-
-                    const theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
-                    localStorage.setItem('theme', theme);
-                    location.reload();
-                });
-            });
         </script>    
       <script src="{{ url_for('static', filename='js/base.js') }}"></script>
-
     {% endblock %}
 
 

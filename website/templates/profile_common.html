@@ -28,11 +28,7 @@
             <li onclick="window.location.href='/profile/password'">Конфиденциальность</li>
             {% if user.is_authenticated and user.type == 'Admin'%}
             {% endif %}
-            <li class="theme-toggle" id="theme-toggle">
-               <a class="theme-img light-mode">Светлая тема</a>
-               <a class="theme-img dark-mode">Темная тема</a>
-               
-            </li>
+
             <li onclick="window.location.href='/logout'">Выйти</li>
         </nav>
         <div class="personal-info_area">

@@ -1,6 +1,27 @@
 document.addEventListener('DOMContentLoaded', function() {
+   
+    const sectionLinks = document.querySelectorAll('[data-section]');
     
-    
+    sectionLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            const sectionId = this.getAttribute('data-section').replace('link', 'table');
+            sectionLinks.forEach(item => {
+                item.classList.remove('activefunctions_menu');
+            });
+
+            this.classList.add('activefunctions_menu');
+
+            document.querySelectorAll('.report-area > div').forEach(div => {
+                div.style.display = 'none';
+            });
+
+            const sectionToShow = document.getElementById(sectionId);
+            if (sectionToShow) {
+                sectionToShow.style.display = 'block';
+            }
+        });
+    });
+
     var fuelRows = document.querySelectorAll('.fuel_row');
     var previousfuelRow = null;
     var selectedfuelId = null;
@@ -134,3 +155,5 @@ document.addEventListener('DOMContentLoaded', function() {
 document.getElementById('export-table-btn').addEventListener('click', function() {
     document.getElementById('export-table-form').submit();
 });
+
+

@@ -14,7 +14,7 @@
         {% if user.is_authenticated and user.type != 'Аудитор'%}
             <button onclick="window.location.href='/report_area'" type="" class = "blue_button">Подать отчет</button>
         {% elif user.is_authenticated and user.type == 'Аудитор' %}
-            <button onclick="window.location.href='/audit/not_viewed'" type="" class = "blue_button">Просмотр отчетов</button>        
+            <button onclick="window.location.href='/audit_area'" type="" class = "blue_button">Просмотр отчетов</button>        
         {% else %}
             <button onclick="window.location.href='/login'" type="" class = "blue_button">Войти</button>
         {% endif %}

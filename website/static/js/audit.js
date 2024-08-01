@@ -9,6 +9,35 @@ document.addEventListener('DOMContentLoaded', function () {
     var reportIdInput = document.getElementById('report-id-input');
     var actionInput = document.getElementById('action-input');
 
+
+    document.querySelectorAll('#status-reportList li').forEach(item => {
+        item.addEventListener('click', function() {
+            // Получаем действие из атрибута data-action
+            const action = this.getAttribute('data-action');
+            
+            // Скрываем все контейнеры
+            document.querySelectorAll('.report-area > div').forEach(container => {
+                container.style.display = 'none';
+            });
+            
+            // Показываем соответствующий контейнер
+            const activeContainer = document.getElementById(action);
+            if (activeContainer) {
+                activeContainer.style.display = 'block';
+            }
+            
+            // Удаляем класс 'activefunctions_menu' у всех элементов списка
+            document.querySelectorAll('#status-reportList li').forEach(li => {
+                li.classList.remove('activefunctions_menu');
+            });
+            
+            // Добавляем класс 'activefunctions_menu' к элементу, по которому кликнули
+            this.classList.add('activefunctions_menu');
+        });
+    });
+
+
+
     function hideContextMenu() {
         contextMenuReport.style.display = 'none';
     }
@@ -72,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         row.addEventListener('dblclick', function() {
             var reportId = this.dataset.id;
-            var url = "/audit/fuel/" + reportId;
+            var url = "/audit/report/" + reportId;
             window.location.href = url;
         });
     });

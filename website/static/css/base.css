@@ -247,6 +247,10 @@ header nav ul {
     font-size: 17px;
 }
 
+.dark-mode .header-left a{
+    color: rgb(255, 255, 255);
+}
+
 .header-right {
     text-align: right;
     padding: 0 40px 0 0;
@@ -349,6 +353,39 @@ header nav ul {
     transition: background-color 0.3s ease;
     background-color: rgb(29, 29, 29);
 }
+
+
+/*them*/
+.theme-toggle button{
+    background-color: #ffffff;
+    color: black;
+}
+
+.dark-mode .theme-toggle button{
+    background-color: #252525;
+    color: white;
+}
+
+.theme-toggle button:hover {
+    transition: background-color 0.3s ease;
+    background-color: rgb(221, 221, 221);
+}
+
+.dark-mode .theme-toggle button:hover,
+.dark-mode .theme-toggle button:hover{
+    transition: background-color 0.3s ease;
+    background-color: rgb(29, 29, 29);
+}
+
+.dark-mode .theme-img.light-mode {
+    display: none;
+}
+
+.light-mode .theme-img.dark-mode {
+    display: none;
+}
+
+/*them end*/
 /*header end*/
 
 main {
@@ -1211,16 +1248,6 @@ footer {
     align-items: center;
 }
 
-/*them*/
-.dark-mode .theme-img.light-mode {
-    display: none;
-}
-
-.light-mode .theme-img.dark-mode {
-    display: none;
-}
-
-/*them end*/
 
 .profile_navigation li:hover {
     background-color: rgb(223, 223, 223);
@@ -1463,7 +1490,6 @@ footer {
     width: 65px;    
     padding: 15px;
     cursor: pointer;
-    
 }
 
 .activefunctions_menu{
@@ -1560,10 +1586,10 @@ footer {
 
 .report-area {
     margin-top: 20px;
-    margin-bottom: 5px;    
+    margin-bottom: 200px;    
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     overflow-x: auto;
 }
 
@@ -1581,12 +1607,13 @@ footer {
 .table_report-area {
     border: none;
     width: auto;
-    background-color: #ffffff;
     font-size: 12px;
     display: block;
     border-spacing: 0px;
     border-collapse: collapse;
     height: max-content;
+    background-color: #ffffff;
+
 }
  
 .dark-mode .table_report-area {
@@ -1614,7 +1641,7 @@ footer {
 }
 
 .order-table_titels tr th:last-child {
-    width: 0;
+    width: 4000vb;
 }
 
 .order-table_titels tr th {
@@ -1655,9 +1682,7 @@ th .resizer {
 }
 
 .dark-mode .table_report-area input{            
-    background-color: #4d4d4d;
     color: rgb(255, 255, 255);
-
 }
 
 .table_report-area tr td{
@@ -1665,6 +1690,7 @@ th .resizer {
     text-align: left;             
     font-size: 12px;
     border: 1px solid #dddddd;
+    cursor: pointer;
 }
 
 .dark-mode .table_report-area tr th,
@@ -1758,18 +1784,18 @@ th .resizer {
 /*-----------------vers end*/
 /*-----------------ticket begin*/
 
-.check_row {
+.tickets_row {
     display: none;
     opacity: 0;
     transition: opacity 0.2s ease;
 }
 
-.check_row.show {
+.tickets_row.show {
     display: table-row;
     opacity: 1;
 }
 
-.dark-mode .check_row{
+.dark-mode .tickets_row{
     background-color:#333; 
 }
 
@@ -1782,14 +1808,14 @@ th .resizer {
     background-color:#333;
 }
 
-.text_cheks{
+.text_tickets{
     padding: 5px 0 5px 30px;
     font-size: 12px;
     font-weight: 600;
     text-align: left;
 }
 
-.cheks_table{
+.tickets_table{
     margin: 0 0 10px 30px;
     font-size: 12px;
     table-layout: fixed;  
@@ -1800,11 +1826,11 @@ th .resizer {
     border: none;
 }
 
-.dark-mode .cheks_table{
+.dark-mode .tickets_table{
     background-color: #4d4d4d;
 }
 
-.show-cheks_button{
+.show-tickets_button{
     display: flex;
     justify-content: center;
     border: none;
@@ -1834,13 +1860,13 @@ th .resizer {
     display: none;
 }
 
-.show-cheks_button img{
+.show-tickets_button img{
     width: 15px;
     transform: rotate(45deg);
     transition: transform 0.5s;
 }
 
-.show-cheks_button img.rotated {
+.show-tickets_button img.rotated {
     transform: rotate(-90deg);
 }
 
@@ -1853,49 +1879,17 @@ th .resizer {
 
 /*-----------------change input end*/
 
-.report_row,
-.report_row td,
-.report_row td input {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none; 
-    -ms-user-select: none;
-}
-
-.version-row,
-.version-row td,
-.version-row td input {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none; 
-    -ms-user-select: none;
-}
-
-.check-row,
-.check-row td,
-.check-row td input {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none; 
-    -ms-user-select: none;
-}
-
-
 /*active-report*/
 .active-report,
 .active-input,
 .active-report_version{
     background-color:#def0ff;
-
 }
 
 .dark-mode .active-report,
 .dark-mode .active-input,
 .dark-mode .active-report_version{
-    background-color:rgb(86, 112, 110);
+    background-color:rgb(86, 112, 110) ;
 }
 /*active-report end*/
 
@@ -2218,5 +2212,7 @@ th .resizer {
     margin-top: 60px;
     height: 100vh;
 }
+
+
 
 /*audit page end*/

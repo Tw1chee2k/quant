@@ -717,7 +717,6 @@ def change_category_report():
     status_itog = None
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=report_id).first()
-        link_return = current_version.status
         if current_version:
             if action == 'not_viewed':
                 status_itog = 'Отправлено'
@@ -732,15 +731,7 @@ def change_category_report():
             db.session.commit()
 
             flash('Отчет был перемещен', 'success')
-            if link_return == 'Отправлено':
-                return redirect(url_for('views.audit_not_viewed'))
-            elif link_return == 'Есть замечания':
-                return redirect(url_for('views.audit_remarks'))
-            elif link_return == 'Готов к загрузке':
-                return redirect(url_for('views.audit_to_download'))
-            elif link_return == 'Готов к удалению':
-                return redirect(url_for('views.audit_to_delete'))
-
+            return redirect(url_for('views.audit'))
 
 @auth.route('/send_comment', methods=['POST'])
 def send_comment():
@@ -767,20 +758,7 @@ def send_comment():
         else:
             flash('Версия не найдена', 'error')
 
-        return redirect(url_for('views.audit_to_delete'))
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return redirect(url_for('views.audit_report', id = version_id))
 
 @auth.route('/export_table', methods=['POST'])
 def export_table():

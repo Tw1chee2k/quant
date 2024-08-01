@@ -136,15 +136,14 @@
                     <th class="resizable" colspan="2">Израсходовано на единицу продукции (работы, услуги) за отчетный период, Мкал<div class="resizer"></div></th>
                     <th class="resizable" colspan="3">Израсходовано на всю произведенную продукцию (работу, услугу) за отчетный период, Гкал<div class="resizer"></div></th>
                     <th class="resizable" rowspan="2">Примечание<div class="resizer"></div></th>
-                    <th colspan="2"></th>
+                    <th rowspan="2"></th>
                 </tr>
                 <tr>
                     <th class="resizable">по утвержденной норме (предельному уровню)<div class="resizer"></div></th>
                     <th class="resizable">фактически<div class="resizer"></div></th>
                     <th class="resizable">по утвержденной норме (предельному уровню)<div class="resizer"></div></th>
                     <th class="resizable">фактически<div class="resizer"></div></th>
-                    <th class="resizable">Экономия(-), перерасход(+)<div class="resizer"></div></th>
-                    <th colspan="2"></th>
+                    <th class="resizable" style = "width: 80px;">Экономия(-), перерасход(+)<div class="resizer"></div></th> 
                 </tr>
                 <tr>
                     <th></th>
@@ -159,7 +158,7 @@
                     <th class="resizable">5<div class="resizer"></div></th>
                     <th class="resizable">6<div class="resizer"></div></th>
                     <th class="resizable">7<div class="resizer"></div></th>
-                    <th colspan="2"></th>
+                    <th rowspan="2"></th>
                 </tr>
             </thead>
             <tbody>
@@ -264,7 +263,8 @@
                             value = "{{ row.note }}" 
                             readonly
                         >
-                    </td>           
+                    </td>  
+                    <td colspan="2"></td>          
                 </tr>   
                 {%endfor%}
             </tbody>
@@ -337,8 +337,9 @@
                         <input 
                             type="text" 
                             name="Consumed_Fact" 
-                            id="modal_Consumed_Fact" 
+                            id="modal_Consumed_Fact"
                             style="color: rgb(132, 132, 132);" 
+                            class = "numeric_dotInput"
                             readonly
                         >
                     </td>
@@ -351,6 +352,7 @@
                             name="Consumed_Total_Quota" 
                             id="modal_Consumed_Total_Quota" 
                             style="color: rgb(132, 132, 132);" 
+                            class = "numeric_dotInput"
                             readonly
                         >
                     </td>
@@ -500,6 +502,7 @@
                             value = "0.00"
                             style = "color: rgb(132, 132, 132);"
                             id = "add_modal_Consumed_Fact"
+                            class = "numeric_dotInput"
                             readonly
                         >
                     </td>
@@ -513,6 +516,7 @@
                             value = "0.00"
                             style = "color: rgb(132, 132, 132);"
                             id = "add_modal_Consumed_Total_Quota"
+                            class = "numeric_dotInput"
                             readonly
                         >
                     </td>
@@ -571,12 +575,12 @@
             <h3 class = "change-position">Единицы измерения</h3>
             <a class="close" id = "CloseDirUnit">&times;</a>
         </div>
-        <div class="">
+        <div class="spravochniki_area">
             <table class="table_report-area">
                 <thead class="order-table_titels">
                     <tr>  
                         <th class="resizable" style = "white-space: nowrap;">Код единицы измерения<div class="resizer"></div></th>
-                        <th class="resizable" style = "white-space: nowrap;">Название единицы измерения<div class="resizer"></div></th>
+                        <th class="resizable" style = "white-space: nowrap; max-width: 200px;">Название единицы измерения<div class="resizer"></div></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -602,7 +606,7 @@
             <h3 class = "change-position">Виды продукции</h3>
             <a class="close" id = "CloseDirProduct">&times;</a>
         </div>
-        <div class="">
+        <div class="spravochniki_area">
             <table class="table_report-area" style = "width: 100%;">
                 <thead class="order-table_titels">
                     <tr>

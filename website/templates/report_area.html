@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Подать отчет{% endblock %}
+{% block title %}Отчеты{% endblock %}
 {% block content %}
 
 <div class="report-area_page">
@@ -77,10 +77,10 @@
                 <tr>
                     <th></th>
                     <th></th>
-                    <th class="resizable" style="width: 80px;">ОКПО<div class="resizer"></div></th>
-                    <th class="resizable" style="white-space: nowrap;">Наименование предприятия<div class="resizer"></div></th>
-                    <th class="resizable" style="width: 80px;">Год<div class="resizer"></div></th>
-                    <th class="resizable" style="width: 80px;">Квартал<div class="resizer"></div></th>
+                    <th class="resizable" style="min-width: 120px;">ОКПО<div class="resizer"></div></th>
+                    <th class="resizable" style="white-space: nowrap; min-width: 320px;">Наименование предприятия<div class="resizer"></div></th>
+                    <th class="resizable" style="min-width: 80px;">Год<div class="resizer"></div></th>
+                    <th class="resizable" style="min-width: 80px;">Квартал<div class="resizer"></div></th>
                     <th></th>
                 </tr>
             </thead>
@@ -143,7 +143,6 @@
                                         <th></th>
                                         <th class="resizable" style ="white-space: nowrap; width: 100px;">Дата начала<div class="resizer"></div></th>
                                         <th class="resizable" style="white-space: nowrap; width: 100px;">Дата изменения<div class="resizer"></div></th>
-                                        
                                         <th class="resizable" >Статус<div class="resizer"></div></th>
                                         <th class="resizable" style="white-space: nowrap; width: 100px;">Дата согласования<div class="resizer"></div></th>
                                         <th class="resizable" style="white-space: nowrap; width: 200px;">ФИО<div class="resizer"></div></th>
@@ -155,7 +154,7 @@
                                     {% for rows in row.versions %}
                                     <tr class="version-row" data-id="{{ rows.id }}">
                                         <td>
-                                            <button class="show-cheks_button">  
+                                            <button class="show-tickets_button">  
                                                 <img src="{{ url_for('static', filename='img/close_white.png')}}" class = "close_white" alt="">
                                                 <img src="{{ url_for('static', filename='img/close_black.png')}}" class = "close_black" alt="">
                                             </button>
@@ -192,21 +191,28 @@
                                             <input type = "text" value = "{{ rows.email }}" readonly>
                                         </td> 
                                     </tr>
-                                    <tr class="check_row">
+                                    <tr class="tickets_row">
                                         <td colspan="22" class = "check_cont">
-                                            <div class="text_cheks">--Квитанции--</div>
-                                            <table class="cheks_table">
+                                            <div class="text_tickets">--Квитанции--</div>
+                                            <table class="tickets_table">
                                                 <thead class="order-table_titels">
                                                     <tr>
-                                                        <th class="resizable" style="white-space: nowrap;">Дата выдачи<div class="resizer"></div></th>
-                                                        <th class="resizable">Успех<div class="resizer"></div></th>
-                                                        <th class="resizable">Описание<div class="resizer"></div></th>
+                                                        <th></th>
+                                                        <th class="resizable" style ="white-space: nowrap; width: 100px;">Дата выдачи<div class="resizer"></div></th>
+                                                        <th class="resizable" style ="white-space: nowrap; width: 100px;">Успех<div class="resizer"></div></th>
+                                                        <th class="resizable" style ="white-space: nowrap; width: 400px;">Описание<div class="resizer"></div></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {% if rows.tickets %}
                                                     {% for ticket in rows.tickets %}
-                                                        <tr class="row_with_cheks">
+                                                        <tr class="row_with_tickets">
+                                                            <td>
+                                                                <button class="show-tickets_button">  
+                                                                    <img src="{{ url_for('static', filename='img/close_white.png')}}" class = "close_white" alt="">
+                                                                    <img src="{{ url_for('static', filename='img/close_black.png')}}" class = "close_black" alt="">
+                                                                </button>
+                                                            </td>
                                                             <td>    
                                                                 <input type="text" value="{{ ticket.begin_time }}" readonly>
                                                             </td>
@@ -219,7 +225,7 @@
                                                         </tr>
                                                     {% endfor %}
                                                 {% else %}
-                                                    <tr class="row_with_cheks">
+                                                    <tr class="row_with_tickets">
                                                         <td colspan="3">Нет данных</td>
                                                     </tr>
                                                 {% endif %}
@@ -426,9 +432,5 @@
     </form>
 </div>
 
-
 <script src="{{ url_for('static', filename='js/report_area.js') }}"></script>
-<script>
-    
-</script>
 {% endblock %}
