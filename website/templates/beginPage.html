@@ -33,7 +33,7 @@
             <a class = "stat_name">Предприятий</a>
         </div>
 
-        <div class="item_stat">
+        <div class="item_stat" style = "padding: 50px 0;">
             <div class = "stat_count">{{report_data}}</div>
             <a class = "stat_name">Отчетов</a>
         </div>
@@ -43,6 +43,9 @@
             <a class = "stat_name">Респондентов</a>
         </div>
     </div>
+</div>
+<div class="hz-row">
+    
 </div>
 <div class="news-row">
     <div class = "news-row-left">
@@ -56,11 +59,9 @@
         </div>
     </div>
     <div class = "news-row-right">
-         <img src="{{ url_for('static', filename='img/.png')}}" alt="">
+         <img src="{{ url_for('static', filename='img/errors.jpg')}}" alt="">
     </div>
 </div>
-<div class="hz-row">
-    
-</div>
+
 
 {% endblock %}

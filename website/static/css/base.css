@@ -48,7 +48,7 @@ body.dimmed {
     opacity: 0.5;
 }
 
-/* :root {
+:root {
     --color1: rgb(238, 246, 253);
     --color2: rgba(0, 128, 255, 0.6);
     --color3: rgb(216, 236, 255);
@@ -76,7 +76,7 @@ body.dimmed {
     background: linear-gradient(615deg, var(--color4), var(--color5), var(--color6));
     animation: gradient-animation-dark 15s ease infinite;  
     opacity: 1;
-} */
+}
 
 @keyframes gradient-animation {
     0% {
@@ -398,17 +398,14 @@ footer {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    background-color: #028dff;
-    color:white;
-    /* backdrop-filter: blur(10px);
+    background-color: #ffffff;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    background: rgba(255, 255, 255, 0.2); */
     width: 100%;
     font-weight: 500;
 }
   
 .dark-mode footer {
-    background-color:rgb(84, 146, 139);
+    background-color: #252525; 
 }
 
 .footer_cont{
@@ -594,7 +591,7 @@ footer {
 
 .dark-mode .link_cont a:hover{
     /* color: rgb(0, 112, 99); */
-    color: rgb(0, 194, 171);
+    color: rgb(0, 116, 102);
     transition: color 0.3s ease;
 }
 
@@ -605,7 +602,7 @@ footer {
 
 .dark-mode .link_cont .active{
     /* color: rgb(0, 112, 99); */
-    color: rgb(0, 194, 171);
+    color: rgb(0, 116, 102);
 }
 
 .aftorization_data{
@@ -824,15 +821,15 @@ footer {
 .statistics-row {
     max-width: 100%;
     height: 594px;
-    background-color: rgb(196, 196, 196);
+    background-color: #028dff; 
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
 .dark-mode .statistics-row {
+    background-color:rgb(84, 146, 139);
 
-    color: white;
 }
 
 .statistics-row-left{
@@ -859,6 +856,7 @@ footer {
 
 .dark-mode .statistics-row-right {
     background-color:#333;
+
 }
 
 
@@ -874,11 +872,20 @@ footer {
     font-weight: 600;
 }
 
+.dark-mode .stat_count{
+    color: rgb(0, 194, 171);
+}
+
 .stat_name{
     font-size: 16px;
     color: #555555;    
     font-weight: 500;
 }
+
+.dark-mode .stat_name{
+    color: rgb(231, 231, 231);
+}
+
 /* end*/
 
 /* news_row */
@@ -886,14 +893,14 @@ footer {
 .news-row {
     max-width: 100%;
     height: 600px;
-    background-color: #028dff;
+    /* background-color: #028dff; */
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
 .dark-mode .news-row {
-    background-color:rgb(84, 146, 139);
+    /* background-color:rgb(84, 146, 139); */
 }
 
 .news-row-left{
@@ -937,6 +944,10 @@ footer {
     padding-bottom: 40px;
 }
 
+.dark-mode .news_name{
+    color: rgb(0, 194, 171);
+}
+
 .item_news .first_p{
     font-size: 24px;
     padding-bottom: 30px;
@@ -956,11 +967,12 @@ footer {
 
 .hz-row {
     max-width: 100%;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1); 
     height: 400px;
     background-color:rgb(247, 247, 247);
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: center;    
 }
 
 .dark-mode .hz-row {
