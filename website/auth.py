@@ -731,7 +731,7 @@ def change_category_report():
             db.session.commit()
 
             flash('Отчет был перемещен', 'success')
-            return redirect(url_for('views.audit'))
+            return redirect(url_for('views.report_area'))
 
 @auth.route('/send_comment', methods=['POST'])
 def send_comment():
