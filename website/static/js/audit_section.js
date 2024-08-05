@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    var fuelRows = document.querySelectorAll('.fuel_row');
+    var fuelRows = document.querySelectorAll('.section_row');
     var previousfuelRow = null;
     var selectedfuelId = null;
 

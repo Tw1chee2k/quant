@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     var reportRows = document.querySelectorAll('.report_row');
-    var navigationItems = document.querySelectorAll('.content-podmenu li');
+    var navigationItems = document.querySelectorAll('.profile_navigation li');
     var sortButton = document.querySelector('.functions_menu li[onclick="sortTable()"]');
     var previousReportRow = null;
     var selectedReportId = null;
@@ -20,19 +20,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 container.style.display = 'none';
             });
             
-            // Показываем соответствующий контейнер
+
             const activeContainer = document.getElementById(action);
             if (activeContainer) {
                 activeContainer.style.display = 'block';
             }
             
-            // Удаляем класс 'activefunctions_menu' у всех элементов списка
+
             document.querySelectorAll('#status-reportList li').forEach(li => {
-                li.classList.remove('activefunctions_menu');
+                li.classList.remove('active_li');
             });
             
-            // Добавляем класс 'activefunctions_menu' к элементу, по которому кликнули
-            this.classList.add('activefunctions_menu');
+            this.classList.add('active_li');
         });
     });
 
@@ -101,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         row.addEventListener('dblclick', function() {
             var reportId = this.dataset.id;
-            var url = "/audit/report/" + reportId;
+            var url = "/audit_area/report/" + reportId;
             window.location.href = url;
         });
     });

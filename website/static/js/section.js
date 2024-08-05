@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var fuelRows = document.querySelectorAll('.fuel_row');
+    var fuelRows = document.querySelectorAll('.section_row');
     var previousfuelRow = null;
     var selectedfuelId = null;
     var contextmenufuel = document.getElementById('contextmenufuel');
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function openModal() {
-        var activeRow = document.querySelector('.fuel_row.active-report');
+        var activeRow = document.querySelector('.section_row.active-report');
         if (activeRow) {
             var productName = activeRow.querySelector('.product-name_fuel').value;
             document.getElementById('modal_product_name').value = productName;
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     remove_section.addEventListener('click', function() {
-        var activefuel = document.querySelector('.fuel_row.active-report');
+        var activefuel = document.querySelector('.section_row.active-report');
         if (activefuel !== null) {
             var fuelId = activefuel.dataset.id;
             Remove_fuel(fuelId);
@@ -300,7 +300,7 @@ document.querySelector('#chooseProdTableBody').addEventListener('click', functio
     var is0031 = productName === "Теплоэнергия, отпущенная отопительно-производственными котельными производительностью от 0,5 до 10 Гкал/час";
 
     if (is7000) {
-        var inputs = document.querySelectorAll('.sectionsModal-table input');
+        var inputs = document.querySelectorAll('.modal_table input');
         inputs.forEach(function(input) {
             var inputName = input.getAttribute('name');
             if (inputName !== 'oked' && inputName !== 'Consumed_Total_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note' && inputName !== 'current_version' &&  inputName !== 'add_id_product' &&  inputName !== 'search_product' &&  inputName !== 'section_number') {
@@ -316,7 +316,7 @@ document.querySelector('#chooseProdTableBody').addEventListener('click', functio
         });
     }
     else if (is0020 || is0021 || is0024 || is0025 || is0026 || is0027 || is0030 || is0031){
-        var inputs = document.querySelectorAll('.sectionsModal-table input');
+        var inputs = document.querySelectorAll('.modal_table input');
         inputs.forEach(function(input) {
             var inputName = input.getAttribute('name');
             if (inputName !== 'Consumed_Total_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note' && inputName !== 'current_version' &&  inputName !== 'add_id_product' &&  inputName !== 'search_product' &&  inputName !== 'section_number') {
@@ -337,7 +337,7 @@ document.querySelector('#chooseProdTableBody').addEventListener('click', functio
         });
     } 
     else {
-        var inputs = document.querySelectorAll('.sectionsModal-table input');
+        var inputs = document.querySelectorAll('.modal_table input');
         inputs.forEach(function(input) {
             var inputName = input.getAttribute('name');
             if (inputName !== 'oked' && inputName !== 'produced' && inputName !== 'Consumed_Quota' && inputName !== 'Consumed_Total_Fact' && inputName !== 'note' && inputName !== 'current_version' &&  inputName !== 'add_id_product' &&  inputName !== 'search_product' &&  inputName !== 'section_number') {

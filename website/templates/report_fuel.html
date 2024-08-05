@@ -130,8 +130,8 @@
                 <tr>
                     <th class="resizable" rowspan="2"></th>
                     <th class="resizable" style = "white-space: nowrap;" rowspan="2">Наименование вида продукции (работ услуг)<div class="resizer"></div></th>
-                    <th class="resizable" rowspan="2">Код строки<div class="resizer"></div></th>
-                    <th class="resizable" rowspan="2">Код по ОКЭД<div class="resizer"></div></th>
+                    <th class="resizable" rowspan="2" style = "white-space: nowrap;">Код строки<div class="resizer"></div></th>
+                    <th class="resizable" rowspan="2" style = "white-space: nowrap;">Код по ОКЭД<div class="resizer"></div></th>
                     <th class="resizable" rowspan="2">Единица измерения<div class="resizer"></div></th>
                     <th class="resizable" rowspan="2">Произведено продукции (работ, услуг) за отчетный период<div class="resizer"></div></th>
                     <th class="resizable" colspan="2">Израсходовано на единицу продукции (работы, услуги) за отчетный период, кг у.т.<div class="resizer"></div></th>
@@ -164,7 +164,7 @@
             </thead>
             <tbody>
                 {% for row in sections %}
-                <tr class = "fuel_row" data-id="{{ row.id }}" >
+                <tr class = "section_row" data-id="{{ row.id }}" >
                     <td>
                         <input 
                             type = "hidden" 
@@ -279,7 +279,7 @@
             <a id = "close_changefuel_modal" class="close">&times;</a>
         </div>
         <form method="POST" action="/change_section">
-            <table class="sectionsModal-table">
+            <table class="modal_table">
                 <tr>
                     <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
                     <td>
@@ -407,7 +407,7 @@
             <a class="close">&times;</a>
         </div>
         <form method="POST" action="/add_section_param">
-            <table class = "sectionsModal-table">
+            <table class = "modal_table">
                 <tr>
                     <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
                     <td>
@@ -420,7 +420,7 @@
                             
                             <div class="tableForChoose">
                                 <table class="table_report-area">
-                                    <thead class = "order-table_titels" style = "width: 100%;">
+                                    <thead class = "order-table_titels">
                                         <tr>
                                             <th>Код продукта</th>
                                             <th>Наименование продукта</th>
@@ -435,7 +435,7 @@
                                             {% for row in dirProduct %}
                                                 <tr data-id="{{ row.id }}">
                                                     <td>{{row.CodeProduct}}</td>
-                                                    <td style="text-align: left;">{{row.NameProduct}}</td>
+                                                    <td style=" text-align: left;">{{row.NameProduct}}</td>
                                                     <td>{{row.unit.NameUnit}}</td>
                                                     <td style="display:none;">{{row.IdProduct}}</td>
                                                 </tr>
@@ -598,7 +598,6 @@
         </div>
     </div>
 </div>
-
 <div id="DirProductModal" class="modal">
     <div class="modal-content">
         <div class = "modal-header">
@@ -657,8 +656,6 @@
         </div>
     </div>
 </div>
-
-
 <div id="contextmenufuel" class="white-panel">
     <button id = "link_changefuel_modal">
         <span>Редактировать</span>

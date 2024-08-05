@@ -529,6 +529,10 @@ def beginPage():
                            report_data = report_data
                            )
 
+@views.route('/not_found')
+def not_found():
+    return render_template('not_found.html')
+
 @views.route('/sign')
 def sign():
     return render_template('sign.html', user=current_user)
@@ -540,7 +544,8 @@ def login():
 @views.route('/account')
 @login_required
 def account():
-    messages = Message.query.filter_by(user = current_user).all()
+    messages = Message.query.filter_by(user=current_user).order_by(Message.id.desc()).all()
+
     return render_template('account.html', 
                            user=current_user, 
                            messages=messages)
@@ -560,7 +565,6 @@ def profile_password():
 @views.route('/relod_password')
 def relod_password():
     return render_template('relod_password.html', user=current_user)
-
 
 @views.route('/report_area')
 @login_required
@@ -726,7 +730,6 @@ def report_electro(id):
         current_version=current_version
     )
 
-
 def count_reports():
     not_viewedReports_count = Report.query.join(Version_report).filter(
         Version_report.sent == True,
@@ -793,7 +796,7 @@ def audit_area():
                            to_deleteReports_count=to_deleteReports_count
                            )
 
-@views.route('/audit/report/<int:id>')
+@views.route('/audit_area/report/<int:id>')
 @login_required
 def audit_report(id):
     dirUnit = DirUnit.query.filter_by().all()

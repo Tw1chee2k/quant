@@ -1119,7 +1119,7 @@ footer {
 }
 
 .message_cont{
-    width: 100%;
+    width: 514px;
     height: auto;
     max-height: 280px; 
     overflow-y: auto; 
@@ -1151,13 +1151,14 @@ footer {
 }
 
 .message_cont .mes .time_mes{
-    font-size: 14px;
+    font-size: 12px;
     color: rgb(134, 134, 134);
     padding-bottom: 3px;
+    font-weight: 600;
 }
 
 .message_cont .mes .text_mes{
-    font-size: 16px;
+    font-size: 14px;
     /* color:#00ca00; */
     font-weight: 500;
 }
@@ -1230,14 +1231,19 @@ footer {
 
 /*profil_header*/
 .profile_navigation {
+    position: fixed;
     display: flex;
     flex-direction: column;
     text-align: left;
     background-color: rgba(238, 238, 238, 0.507);
     padding: 20px 0; 
     width: 300px;
-    height: 100%;    
-    min-height: 100vh;
+    min-width: 300px;
+    height: auto;   
+    margin: 0 20px;
+    border-radius: 5px;
+
+
 }
 
 .dark-mode	.profile_navigation {
@@ -1246,11 +1252,11 @@ footer {
 
 .profile_navigation li {
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     list-style-type: none;
     cursor: pointer;
     font-size: 14px;
-    padding: 7px 0 7px 50px;
+    padding: 7px 30px 7px 50px;
     margin-bottom: 10px;
     white-space: nowrap;
     height: 25px;
@@ -1460,7 +1466,7 @@ footer {
     display: flex;
     background-color: #ffffff;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -1531,7 +1537,7 @@ footer {
 
 .content-podmenu nav ul li a{
     font-size: 13px;
-    padding-top: 2px;
+    padding-top: 7px;
 }
 
 
@@ -1599,9 +1605,9 @@ footer {
 .report-area {
     margin-top: 20px;
     margin-bottom: 200px;    
-    width: 100%;
+
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     overflow-x: auto;
 }
 
@@ -1633,27 +1639,15 @@ footer {
 }    
 
 .order-table_titels {
-    text-align: center;
     color: rgb(0, 0, 0);
     font-weight: 600;
+    width: 100%;
     background-color:rgba(231, 231, 231, 0.507);
 }
 
 .dark-mode .order-table_titels {
     background-color:  #252525;
     color: rgb(204, 204, 204);
-}
-
-.order-table_titels tr th:first-child {
-    width: 0;
-}
-
-.order-table_titels tr th:nth-child(2) {
-    width: 0;
-}
-
-.order-table_titels tr th:last-child {
-    width: 4000vb;
 }
 
 .order-table_titels tr th {
@@ -1663,7 +1657,26 @@ footer {
     position: relative;
     min-width: min-content;
     border: 1px solid #dddddd;
+}
 
+.order-table_titels tr th:first-child,
+.order-table_titels tr td:first-child {
+    width: 10px;
+}
+
+.order-table_titels tr th:nth-child(2),
+.order-table_titels tr td:nth-child(2){
+    min-width: 10px;
+}
+
+.order-table_titels tr th:nth-child(3),
+.order-table_titels tr td:nth-child(3){
+    min-width: 40px;
+}
+
+.order-table_titels tr th:last-child,
+.order-table_titels tr td:last-child{
+    width: 1000vb;
 }
 
 
@@ -2027,8 +2040,6 @@ th .resizer {
 .spravochniki_area {
     margin-top: 10px;
     max-height: 400px;
-
-
     margin-bottom: 5px;    
     width: 100%;
     display: flex;
@@ -2041,8 +2052,8 @@ th .resizer {
 }
 
 .spravochniki_area::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
+    width: 5px;
+    height: 5px;
 }
   
 .spravochniki_area::-webkit-scrollbar-track {
@@ -2060,9 +2071,9 @@ th .resizer {
 
 
 /*sections page begin*/
-.fuel_row,
-.fuel_row td,
-.fuel_row td input {
+.section_row,
+.section_row td,
+.section_row td input {
     cursor: pointer;
     user-select: none;
     -webkit-user-select: none; 
@@ -2070,45 +2081,44 @@ th .resizer {
     -ms-user-select: none; 
 }
 
-.sectionsModal-table{
+.modal_table{
     width: 100%; 
-    margin-top: 20px;
+
 }
 
-.sectionsModal-table td{
+.modal_table td{
     height: 34px;
     font-size: 12px; 
     font-weight: 500;   
     text-align: left;
 }
 
-.sectionsModal-table input{
+.modal_table input{
     height: 26px;  
     width: 100px;
     padding: 0 10px;
-    margin-right: 20px;
+    margin: 0 20px;
     text-align: right;
     font-size: 12px; 
     border-radius: 5px;
-    border: 1px solid rgb(220, 238, 255);
+    border: 1px solid rgb(217, 217, 217);  
     font-weight: 500; 
 }
 
-#RespondentModal .sectionsModal-table input{
-    height: 26px;  
+.dark-mode .modal_table input{
+    color: rgb(255, 255, 255);
+    background-color: #4d4d4d;
+    border: 1px solid rgb(121, 121, 121);  
+}
+
+
+#RespondentModal .modal_table input{
     width: 200px;
-    max-width: 200px;
-    padding: 0 10px;
-    margin: 0 20px;
     text-align: left;
-    font-size: 12px; 
-    border-radius: 5px;
-    border: 1px solid rgb(220, 238, 255);
-    font-weight: 500; 
 }
 
-#addCommentModal .sectionsModal-table input,
-#addCommentModal .sectionsModal-table textarea{
+#addCommentModal .modal_table input,
+#addCommentModal .modal_table textarea{
     height: 26px;  
     width: 300px;
     max-width: 300px;
@@ -2117,24 +2127,29 @@ th .resizer {
     text-align: left;
     font-size: 12px; 
     border-radius: 5px;
-    border: 1px solid rgb(220, 238, 255);
+    border: 1px solid rgb(217, 217, 217);  
     font-weight: 500; 
 }
 
-#addCommentModal .sectionsModal-table textarea{
+#addCommentModal .modal_table textarea{
     margin-top: 5px;
     min-width: 300px;
     min-height: 130px;  
     padding: 10px;
 }
 
+.dark-mode #addCommentModal .modal_table input,
+.dark-mode #addCommentModal .modal_table textarea{
+    color: rgb(255, 255, 255);
+    background-color: #4d4d4d;
+    border: 1px solid rgb(121, 121, 121);  
+}
 
-
-.sectionsModal-table input:required-invalid{
+.modal_table input:required-invalid{
     border: 2px solid red;
 }
 
-.sectionsModal-table span{
+.modal_table span{
     font-weight: 600;
 }
 
@@ -2160,7 +2175,7 @@ th .resizer {
     text-align: center;
     align-items: center;
     justify-content: left;
-    margin-left: 20px;
+    margin: 10px;
 }
 
 .choose-product_area .table_report-area thead {
@@ -2177,7 +2192,7 @@ th .resizer {
 }
 
 .table_body_container::-webkit-scrollbar {
-    width: 7px;
+    width: 5px;
 }
   
 .table_body_container::-webkit-scrollbar-track {
@@ -2194,11 +2209,11 @@ th .resizer {
     width: 180px;
 }
 
-.sectionsModal-table .table_report-area tr:hover{
+.modal_table .table_report-area tr:hover{
     background-color: #ebebeb;
 }
 
-.dark-mode .sectionsModal-table .table_report-area tr:hover{
+.dark-mode .modal_table .table_report-area tr:hover{
     background-color: #6e6e6e;
 }
 
@@ -2225,6 +2240,18 @@ th .resizer {
     height: 100vh;
 }
 
+.audit-area{
+    display: flex; 
+    flex-direction: row;
+}
 
 
+.audit-area_page .profile_navigation{
+    margin-top: 180px;
+}
+
+
+.audit-area_page .report-area{
+    margin: 180px 0 0 350px;
+}
 /*audit page end*/

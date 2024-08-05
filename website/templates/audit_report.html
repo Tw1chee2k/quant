@@ -107,7 +107,7 @@
     <div class = "rotation-fromareas" >
         <div class = "rotation-fromareas_info" style = "margin: 160px 0 10px 82px;"> 
             <span>
-                <a class = "hover_a" href="/audit/not_viewed">Отчеты</a>
+                <a class = "hover_a" href="/audit_area">Отчеты</a>
             </span>
             <span> 
                 <img class = "img_black" src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
@@ -133,8 +133,8 @@
                     <tr>
                         <th class="resizable" rowspan="2"></th>
                         <th class="resizable" style = "white-space: nowrap;" rowspan="2">Наименование вида продукции (работ услуг)<div class="resizer"></div></th>
-                        <th class="resizable" rowspan="2">Код строки<div class="resizer"></div></th>
-                        <th class="resizable" rowspan="2">Код по ОКЭД<div class="resizer"></div></th>
+                        <th class="resizable" rowspan="2" style = "white-space: nowrap;">Код строки<div class="resizer"></div></th>
+                        <th class="resizable" rowspan="2" style = "white-space: nowrap;">Код по ОКЭД<div class="resizer"></div></th>
                         <th class="resizable" rowspan="2">Единица измерения<div class="resizer"></div></th>
                         <th class="resizable" rowspan="2">Произведено продукции (работ, услуг) за отчетный период<div class="resizer"></div></th>
                         <th class="resizable" colspan="2">Израсходовано на единицу продукции (работы, услуги) за отчетный период, кг у.т.<div class="resizer"></div></th>
@@ -167,7 +167,7 @@
                 </thead>
                 <tbody>
                     {% for row in sections_fuel %}
-                    <tr class = "fuel_row" data-id="{{ row.id }}" >
+                    <tr class = "section_row" data-id="{{ row.id }}" >
                         <td>
                             <input 
                                 type = "hidden" 
@@ -281,8 +281,8 @@
                     <tr>
                         <th class="resizable" rowspan="2"></th>
                         <th class="resizable" style = "white-space: nowrap;" rowspan="2">Наименование вида продукции (работ услуг)<div class="resizer"></div></th>
-                        <th class="resizable" rowspan="2">Код строки<div class="resizer"></div></th>
-                        <th class="resizable" rowspan="2">Код по ОКЭД<div class="resizer"></div></th>
+                        <th class="resizable" rowspan="2" style = "white-space: nowrap;">Код строки<div class="resizer"></div></th>
+                        <th class="resizable" rowspan="2" style = "white-space: nowrap;">Код по ОКЭД<div class="resizer"></div></th>
                         <th class="resizable" rowspan="2">Единица измерения<div class="resizer"></div></th>
                         <th class="resizable" rowspan="2">Произведено продукции (работ, услуг) за отчетный период<div class="resizer"></div></th>
                         <th class="resizable" colspan="2">Израсходовано на единицу продукции (работы, услуги) за отчетный период, Мкал<div class="resizer"></div></th>
@@ -315,7 +315,7 @@
                 </thead>
                 <tbody>
                     {% for row in sections_heat %}
-                    <tr class = "fuel_row" data-id="{{ row.id }}" >
+                    <tr class = "section_row" data-id="{{ row.id }}" >
                         <td>
                             <input 
                                 type = "hidden" 
@@ -429,8 +429,8 @@
                     <tr>
                         <th class="resizable" rowspan="2"></th>
                         <th class="resizable" style="white-space: nowrap;" rowspan="2">Наименование вида продукции (работ услуг)<div class="resizer"></div></th>
-                        <th class="resizable" rowspan="2">Код строки<div class="resizer"></div></th>
-                        <th class="resizable" rowspan="2">Код по ОКЭД<div class="resizer"></div></th>
+                        <th class="resizable" rowspan="2" style = "white-space: nowrap;">Код строки<div class="resizer"></div></th>
+                        <th class="resizable" rowspan="2" style = "white-space: nowrap;">Код по ОКЭД<div class="resizer"></div></th>
                         <th class="resizable" rowspan="2">Единица измерения<div class="resizer"></div></th>
                         <th class="resizable" rowspan="2">Произведено продукции (работ, услуг) за отчетный период<div class="resizer"></div></th>
                         <th class="resizable" colspan="2">Израсходовано на единицу продукции (работы, услуги) за отчетный период, кВтч<div class="resizer"></div></th>
@@ -463,7 +463,7 @@
                 </thead>
                 <tbody>
                     {% for row in sections_electro %}
-                    <tr class = "fuel_row" data-id="{{ row.id }}" >
+                    <tr class = "section_row" data-id="{{ row.id }}" >
                         <td>
                             <input type = "hidden" name = "id_fuel" value = "{{ row.id }}" readonly></td>
                         <td>
@@ -611,7 +611,7 @@
             <a class="close" id = "CloseRespondent">&times;</a>
         </div>
         <div class="spravochniki_area">
-            <table class = "sectionsModal-table">
+            <table class = "modal_table">
                 <tr>
                     <td>Респондент</td>
                     <td>    
@@ -655,7 +655,7 @@
         </div>
         <div class="spravochniki_area">
             <form method="POST" action="/send_comment">
-                <table class = "sectionsModal-table">
+                <table class = "modal_table">
                     <tr>
                         <td>Кому</td>
                         <td>
