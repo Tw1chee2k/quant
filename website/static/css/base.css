@@ -44,9 +44,6 @@ body.dimmed {
     transition: background-color 0.3s, backdrop-filter 0.3s; /* Плавный переход */
 }
 
-.dragging {
-    opacity: 0.5;
-}
 
 :root {
     --color1: rgb(238, 246, 253);
@@ -1907,13 +1904,15 @@ th .resizer {
 /*active-report*/
 .active-report,
 .active-input,
-.active-report_version{
+.active-report_version,
+.active-ticket{
     background-color:#def0ff;
 }
 
 .dark-mode .active-report,
 .dark-mode .active-input,
-.dark-mode .active-report_version{
+.dark-mode .active-report_version,
+.dark-mode .active-ticket{
     background-color:rgb(86, 112, 110) ;
 }
 /*active-report end*/
@@ -2254,4 +2253,16 @@ th .resizer {
 .audit-area_page .report-area{
     margin: 180px 0 0 350px;
 }
+
+.dragging {
+    opacity: 0.5;
+
+}
+
+.count-img{
+    width: 33px; 
+    height: auto;
+    opacity: 0.9;
+}
+
 /*audit page end*/

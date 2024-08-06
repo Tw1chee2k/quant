@@ -7,25 +7,38 @@
     </div>
     <div class = "account_functions">
         <div class = "account_links">
-            <button class = "account_buttons" {%if user.type == 'Аудитор'%} onclick="window.location.href='/audit_area'"{%else%} onclick="window.location.href='/report_area'"{%endif%}>
-                <img src="{{ url_for('static', filename='img/icon_reports.png')}}"  alt="">
-                <span>Отчеты</span>
-            </button>
+
+            {%if user.type == 'Администратор' or user.type == 'Респондент'%}
+                <button class = "account_buttons" {%if user.type == 'Аудитор'%} onclick="window.location.href='/audit_area'"{%else%} onclick="window.location.href='/report_area'"{%endif%}>
+                    <img src="{{ url_for('static', filename='img/icon_reports.png')}}"  alt="">
+                    <span>Отчеты</span>
+                </button>
+            {%else%}
+            {%endif%}
+
+            {%if user.type == 'Администратор' or user.type == 'Аудитор'%}
+                <button class = "account_buttons" onclick="window.location.href='/audit_area'">
+                    <img src="{{ url_for('static', filename='img/audit_icon.png')}}"  alt="">
+                    <span>Аудит</span>
+                </button>
+            {%else%}
+            {%endif%}
+
             <button class = "account_buttons" onclick="window.location.href='/profile/common'">
                 <img src="{{ url_for('static', filename='img/icon_profile.png')}}"  alt="">
                 <span>Мой профиль</span>
             </button>
+
             {%if user.type == 'Администратор'%}
-            <button class = "account_buttons" onclick="window.location.href='/admin'">
-                <img src="{{ url_for('static', filename='img/icon_admin-panel.png')}}"  alt="">
-                <span>Админ-панель</span>
-            </button>
-            <button class = "account_buttons" onclick="window.location.href='/audit_area'">
-                <img src="{{ url_for('static', filename='img/audit_icon.png')}}"  alt="">
-                <span>Аудит</span>
-            </button>
+                <button class = "account_buttons" onclick="window.location.href='/admin'">
+                    <img src="{{ url_for('static', filename='img/icon_admin-panel.png')}}"  alt="">
+                    <span>Админ-панель</span>
+                </button>
             {%else%}
             {%endif%}
+
+
+
         </div>
         <div class = "account_messages">
             <div class = "account_messageArea">

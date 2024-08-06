@@ -57,10 +57,12 @@
                         </section>
                         <section>
                             <div class="functions_menu">
-                                <li onclick="openNewWindow('/report')">
+                                <li id = "PrintTicketButton">
                                     <img src="{{ url_for('static', filename='img/icon_print_file.png') }}" alt="">
                                     <a>Печать</a>
                                 </li>
+                                <form id="print-ticket-form" action="" method="POST" style="display: none;">
+                                </form>
                             </div>
                             <a class="functions_menu_name">
                                 Квитанция
@@ -206,7 +208,7 @@
                                                 <tbody>
                                                     {% if rows.tickets %}
                                                     {% for ticket in rows.tickets %}
-                                                        <tr class="row_with_tickets">
+                                                        <tr class="ticket-row">
                                                             <td>
                                                                 <button class="show-tickets_button">  
                                                                     <!-- <img src="{{ url_for('static', filename='img/close_white.png')}}" class = "close_white" alt="">
@@ -226,7 +228,7 @@
                                                     {% endfor %}
                                                 {% else %}
                                                     <tr class="row_with_tickets">
-                                                        <td colspan="3">Нет данных</td>
+                                                        <td colspan="5">Нет данных</td>
                                                     </tr>
                                                 {% endif %}
                                                 </tbody>

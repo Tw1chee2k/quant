@@ -31,23 +31,37 @@
         <ul id="status-reportList">
             <li data-action="not_viewed" class="active_li">
                 <a>Не просмотренные</a>
-                <a class = "count_reporst">{{not_viewedReports_count}}</a>
+                <a class="count_reporst">
+                    <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display: none;">
+                    <span class="count-text">{{not_viewedReports_count}}</span>
+                </a>
             </li>
-            <li data-action="remarks">       
+            <li data-action="remarks">
                 <a>Есть замечания</a>
-                <a class = "count_reporst">{{remarksReports_count}}</a>
+                <a class="count_reporst">
+                    <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display:none;">
+                    <span class="count-text">{{remarksReports_count}}</span>
+                </a>
             </li>
-            <li data-action="to_download">  
+            <li data-action="to_download">
                 <a>Готов к загрузке</a>
-                <a class = "count_reporst">{{to_downloadReports_count}}</a>
+                <a class="count_reporst">
+                    <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display:none;">
+                    <span class="count-text">{{to_downloadReports_count}}</span>
+                </a>
             </li>
             <li data-action="to_delete">
                 <a>Готов к удалению</a>
-                <a class = "count_reporst">{{to_deleteReports_count}}</a>
+                <a class="count_reporst">
+                    <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display:none;">
+                    <span class="count-text">{{to_deleteReports_count}}</span>
+                </a>
             </li>
-            <li style = "margin-top: 40px;" data-action="all_reports">
+            <li style="margin-top: 40px;" data-action="all_reports">
                 <a>Все отчеты</a>
-                <a class = "count_reporst">{{all_count}}</a>
+                <a class="count_reporst">
+                    <span>{{all_count}}</span>
+                </a>
             </li>
             <form id="change-category-form" style="display: none;" method="post" action="/change_category_report">
                 <input type="hidden" name="reportId" id="report-id-input">

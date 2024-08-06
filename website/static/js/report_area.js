@@ -1,30 +1,40 @@
 document.addEventListener('DOMContentLoaded', function () {
     var reportRows = document.querySelectorAll('.report_row');
     var versionRows = document.querySelectorAll('.version-row');
+    var ticketRows = document.querySelectorAll('.ticket-row');
+    
     var previousReportRow = null;
     var previousVersionRow = null;
+
+    var previousTicketRow = null;
     var selectedReportId = null;
+
     var selectedVersionId = null;
+    var selectedTicketId = null;
+
     var contextMenuReport = document.getElementById('contextMenu_report');
     var contextMenuVersion = document.getElementById('contextMenu_version');
 
     reportRows.forEach(function(row) {
     row.addEventListener('click', function() {
         contextMenuVersion.style.display = 'none';
-
         versionRows.forEach(function(versionRow) {
             versionRow.classList.remove('active-report_version');
-
+        });
+        ticketRows.forEach(function(ticketRow) {
+            ticketRow.classList.remove('active-ticket');
         });
         activeRow = null;
-        updateButtonStyle(false, false, false, false) 
+
+        updateVersionButtonStyle(false, false, false, false);         
+        updateTicketButtonStyle(false);
         if (this.dataset.id) {
             selectedReportId = this.dataset.id;
-
             if (this.classList.contains('active-report')) {
                 this.classList.remove('active-report');
                 previousReportRow = null;
-                updateButtonStyle(false, false, false, false);
+                updateVersionButtonStyle(false, false, false, false);
+                updateTicketButtonStyle(false);
             } else {
                 if (previousReportRow !== null) {
                     previousReportRow.classList.remove('active-report');
@@ -35,10 +45,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    
     row.addEventListener('dblclick', function() {
         contextMenuVersion.style.display = 'none';
-
         var versionsRow = this.nextElementSibling.nextElementSibling;
         if (versionsRow.style.display === 'none' || versionsRow.style.display === '') {
             versionsRow.style.display = 'table-row';
@@ -91,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
     row.addEventListener('click', function() {
         contextMenuVersion.style.display = 'none';
 
-        reportRowsRows.forEach(function(versionRow) {
+        reportRowsd.forEach(function(versionRow) {
             versionRow.classList.remove('active-report');
         });
 
@@ -110,6 +118,29 @@ document.addEventListener('DOMContentLoaded', function () {
                 previousVersionRow = this;
             }
         }
+    });
+
+    ticketRows.forEach(function(row) {
+        row.addEventListener('click', function() {
+            reportRowsd.forEach(function(ticketRow) {
+                ticketRow.classList.remove('active-ticket');
+            });
+            if (this.dataset.id) {
+                selectedTicketId = this.dataset.id;
+    
+                if (this.classList.contains('active-ticket')) {
+                    this.classList.remove('active-ticket');
+                    previousTicketRow = null;
+    
+                } else {
+                    if (previousTicketRow !== null) {
+                        previousTicketRow.classList.remove('active-ticket');
+                    }
+                    this.classList.add('active-ticket');
+                    previousTicketRow = this;
+                }
+            }
+        });
     });
 
     row.addEventListener('contextmenu', function(event) {
@@ -362,7 +393,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var exportVersionButton = document.getElementById('export_versionButton');
     var exportForm = document.getElementById('export-version-form');
 
-    function updateButtonStyle(agreedActive, controlActive, sentActive, exportActive) {
+    function updateVersionButtonStyle(agreedActive, controlActive, sentActive, exportActive) {
         if (agreedActive) {
             agreedVersionButton.style.opacity = '1';
             agreedVersionButton.style.cursor = 'pointer';
@@ -408,15 +439,11 @@ document.addEventListener('DOMContentLoaded', function () {
             exportVersionButton.querySelector('img').style.filter = 'grayscale(100%)';
             exportVersionButton.querySelector('a').style.filter = 'grayscale(100%)';
         }
-
-
     }
 
-    // Проверяем состояние при загрузке страницы
     var activeAgreedRow = document.querySelector('.version-row.active-report_version');
-    updateButtonStyle(activeAgreedRow !== null, activeAgreedRow !== null, activeAgreedRow !== null, activeAgreedRow !== null);
+    updateVersionButtonStyle(activeAgreedRow !== null, activeAgreedRow !== null, activeAgreedRow !== null, activeAgreedRow !== null);
 
-    // Обновляем стили кнопок при выборе версии
     var versionRows = document.querySelectorAll('.version-row');
     versionRows.forEach(function(row) {
         row.addEventListener('click', function() {
@@ -428,13 +455,68 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (isActive) {
                 activeAgreedRow = null;
-                updateButtonStyle(false, false, false, false);
+                updateVersionButtonStyle(false, false, false, false);
             } else {
                 this.classList.add('active-report_version');
                 activeAgreedRow = this;
-                updateButtonStyle(true, true, true, true);
+                updateVersionButtonStyle(true, true, true, true);
             }
         });
+    });
+
+
+    var PrintTicketButton = document.getElementById('PrintTicketButton');
+    var printForm = document.getElementById('print-ticket-form');
+
+    function updateTicketButtonStyle(printActive) {
+        if (printActive) {
+            PrintTicketButton.style.opacity = '1';
+            PrintTicketButton.style.cursor = 'pointer';
+            PrintTicketButton.querySelector('img').style.filter = 'none';
+            PrintTicketButton.querySelector('a').style.filter = 'none';
+        } else {
+            PrintTicketButton.style.opacity = '0.5';
+            PrintTicketButton.style.cursor = 'not-allowed';
+            PrintTicketButton.querySelector('img').style.filter = 'grayscale(100%)';
+            PrintTicketButton.querySelector('a').style.filter = 'grayscale(100%)';
+        }
+    }
+
+    var activePrintRow = document.querySelector('.ticket-row.active-ticket');
+    updateTicketButtonStyle(activePrintRow !== null);
+
+    var ticketRows = document.querySelectorAll('.ticket-row');
+    ticketRows.forEach(function(row) {
+        row.addEventListener('click', function() {
+            var isActive = this.classList.contains('active-ticket');
+
+            ticketRows.forEach(function(row) {
+                row.classList.remove('active-ticket');
+            });
+
+            if (isActive) {
+                activeAgreedRow = null;
+                updateTicketButtonStyle(false);
+            } else {
+                this.classList.add('active-ticket');
+                activeAgreedRow = this;
+                updateTicketButtonStyle(true);
+               
+            }
+        });
+    });
+
+    // Обработчик клика по кнопке "Печать"
+    PrintTicketButton.addEventListener('click', function(event) {
+        if (activePrintRow === null) {
+            event.preventDefault();
+        } else {
+            var ticketId = activePrintRow.dataset.id;
+            if (ticketId) {
+                printForm.action = '/' + ticketId;
+                printForm.submit();
+            }
+        }
     });
 
     // Обработчик клика по кнопке "Согласовать"
