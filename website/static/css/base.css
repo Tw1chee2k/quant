@@ -125,7 +125,7 @@ input[type = "checkbox"]:disabled{
 }
 
 input::-webkit-input-placeholder {  color: rgb(56, 56, 56); }
-.dark-mode input::-webkit-input-placeholder {  color: rgb(255, 255, 255); }
+.dark-mode input::-webkit-input-placeholder {  color: rgb(175, 175, 175); }
 
 .blue_button{
     font-size: 14px;
@@ -620,8 +620,6 @@ footer {
     margin-left: 12px;
 }
 
-
-
 .aftorization_data input,
 .persone_data input,
 .organization_data input{
@@ -644,8 +642,12 @@ footer {
     background: rgba(255, 255, 255, 0);
     border-bottom: 1px solid rgb(255, 255, 255);
     color: rgb(255, 255, 255);
-
 }
+
+
+.log_reg_form input::-webkit-input-placeholder {  color: rgb(0, 0, 0); }
+.dark-mode .log_reg_form input::-webkit-input-placeholder {  color: rgb(255, 255, 255); }
+
 
 .log_reg_form .remember_cont {
     border: none;
@@ -1484,9 +1486,50 @@ footer {
     flex-direction: row;
 }
 
-.functions_menu a{
-    /* white-space: nowrap; */
+#filtr_section{
+    display: none;
+    align-items: center;
+    vertical-align: middle;
+    text-align: center;
 }
+
+.filter_area{
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.filter_type{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px;
+    align-items: center;
+}
+
+.filter_type a{
+    padding-right: 15px;
+}
+
+.filter_type input{
+    height: 26px;  
+    width: 150px;
+    padding: 0 10px;
+
+    text-align: left;
+    font-size: 12px; 
+    border-radius: 2px;
+    border: 1px solid rgb(217, 217, 217);  
+    font-weight: 500; 
+}
+
+.dark-mode .filter_type input{
+    color: rgb(255, 255, 255);
+    background-color: #4d4d4d;
+    border: 1px solid rgb(121, 121, 121);  
+}
+
+
 
 
 .functions_menu_name{
@@ -1789,18 +1832,6 @@ th .resizer {
 
 .show-versions_button img.rotated {
     transform: rotate(-90deg);
-}
-
-.show-versions_button:hover{
-    /* background-color:#0072cf; */
-}
-
-.dark-mode .show-versions_button{
-    /* background-color:rgb(84, 146, 139); */
-}
-
-.dark-mode .show-versions_button:hover{
-    /* background-color:rgb(69, 105, 101); */
 }
 
 /*-----------------vers end*/

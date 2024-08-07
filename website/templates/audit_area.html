@@ -12,13 +12,43 @@
                     <ul>
                         <section>
                             <div class = "functions_menu">             
-                                <li >           
+                                <li>           
+                                    <img src="{{ url_for('static', filename='img/upload.png')}}" alt="">
+                                    <a>Отчит</a>   
+                                </li>  
+                            </div>  
+                            <a class="functions_menu_name">
+                                Загрузка
+                            </a>
+                        </section>
+                        <section>
+                            <div class = "functions_menu">             
+                                <li>           
                                     <img src="{{ url_for('static', filename='img/icon_sort.png')}}" alt="">
                                     <a>Сортировка</a>   
+                                </li>  
+                                <li id = "show-filter">           
+                                    <img src="{{ url_for('static', filename='img/filter.png')}}" alt="">
+                                    <a>Фильтр</a>   
                                 </li>  
                             </div>  
                             <a class="functions_menu_name">
                                 Таблица
+                            </a>
+                        </section>
+                        <section id = "filtr_section">
+                            <div class="filter_area">
+                                <div class="filter_type">                                
+                                    <a>ОКПО</a>  
+                                    <input type="text" id="okpo-filter" placeholder="Код ОКПО" value="">
+                                </div>
+                                <div class="filter_type">     
+                                    <a>Организация</a>  
+                                    <input type="text" id="organization-filter" placeholder="Организация" value=""> 
+                                </div>       
+                            </div>
+                            <a class="functions_menu_name">
+                                
                             </a>
                         </section>
                     </ul>

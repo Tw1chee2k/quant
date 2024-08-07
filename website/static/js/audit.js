@@ -9,6 +9,40 @@ document.addEventListener('DOMContentLoaded', function () {
     var reportIdInput = document.getElementById('report-id-input');
     var actionInput = document.getElementById('action-input');
 
+
+    var showFilterButton = document.getElementById('show-filter');
+    var filterSection = document.getElementById('filtr_section');
+
+    showFilterButton.addEventListener('click', function () {
+        if (filterSection.style.display === 'none' || filterSection.style.display === '') {
+            filterSection.style.display = 'block';
+        } else {
+            filterSection.style.display = 'none';
+        }
+    });
+
+    function filterTable() {
+        const okpoValue = document.getElementById('okpo-filter').value.toLowerCase();
+        const organizationValue = document.getElementById('organization-filter').value.toLowerCase();
+
+        document.querySelectorAll('.report_row').forEach(row => {
+            const okpoText = row.querySelector('#report_okpo') ? row.querySelector('#report_okpo').value.toLowerCase() : '';
+            const organizationText = row.querySelector('#report_organization_name') ? row.querySelector('#report_organization_name').value.toLowerCase() : '';
+
+            const okpoMatch = okpoText.includes(okpoValue);
+            const organizationMatch = organizationText.includes(organizationValue);
+
+            if (okpoMatch && organizationMatch) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    document.getElementById('okpo-filter').addEventListener('input', filterTable);
+    document.getElementById('organization-filter').addEventListener('input', filterTable);
+
     document.querySelectorAll('#status-reportList li').forEach(item => {
         item.addEventListener('click', function() {
             const action = this.getAttribute('data-action');         
@@ -47,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+    
     reportRows.forEach(function(row) {
         row.addEventListener('click', function() {
             if (this.dataset.id) {
@@ -91,8 +126,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             this.classList.add('active-report');
             previousReportRow = this;
-            
-    
         });
 
         row.addEventListener('dragend', function(event) {
@@ -117,14 +150,11 @@ document.addEventListener('DOMContentLoaded', function () {
             item.addEventListener('dragenter', function(event) {
                 event.preventDefault();
                 this.classList.add('dragging');
-                
-               
             });
 
             item.addEventListener('dragleave', function(event) {
                 event.preventDefault();
                 this.classList.remove('dragging');
-   
             });
 
             item.addEventListener('drop', function(event) {
@@ -154,5 +184,3 @@ document.addEventListener('DOMContentLoaded', function () {
 
     hideContextMenu();
 });
-
-

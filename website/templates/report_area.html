@@ -61,7 +61,7 @@
                                     <img src="{{ url_for('static', filename='img/icon_print_file.png') }}" alt="">
                                     <a>Печать</a>
                                 </li>
-                                <form id="print-ticket-form" action="" method="POST" style="display: none;">
+                                <form id="print-ticket-form" action="/print_ticket" method="POST" style="display: none;">
                                 </form>
                             </div>
                             <a class="functions_menu_name">
@@ -208,7 +208,7 @@
                                                 <tbody>
                                                     {% if rows.tickets %}
                                                     {% for ticket in rows.tickets %}
-                                                        <tr class="ticket-row">
+                                                        <tr class="ticket-row" data-id="{{ ticket.id }}">
                                                             <td>
                                                                 <button class="show-tickets_button">  
                                                                     <!-- <img src="{{ url_for('static', filename='img/close_white.png')}}" class = "close_white" alt="">

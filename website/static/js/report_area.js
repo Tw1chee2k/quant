@@ -506,18 +506,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Обработчик клика по кнопке "Печать"
-    PrintTicketButton.addEventListener('click', function(event) {
-        if (activePrintRow === null) {
-            event.preventDefault();
-        } else {
-            var ticketId = activePrintRow.dataset.id;
-            if (ticketId) {
-                printForm.action = '/' + ticketId;
-                printForm.submit();
-            }
-        }
-    });
+
 
     // Обработчик клика по кнопке "Согласовать"
     agreedVersionButton.addEventListener('click', function(event) {
@@ -572,7 +561,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-
+    
+    PrintTicketButton.addEventListener('click', function(event) {
+        var activePrintRow = document.querySelector('.ticket-row.active-ticket');
+        if (activePrintRow !== null) {
+            var ticketId = activePrintRow.dataset.id;
+            if (ticketId) {
+                printForm.action = '/print_ticket/' + ticketId;
+                printForm.submit();
+            }
+        } else {
+            event.preventDefault();
+        }
+    });
 
 
 });  
