@@ -261,7 +261,7 @@ header nav ul {
 
 .header-center nav ul li {
     margin: 0 20px; 
-    /* transition: color 0.3s ease; */
+    transition: color 0.3s ease;
 }
 
 .header-center nav ul li:hover {
@@ -331,7 +331,8 @@ header nav ul {
     padding: 10px 20px;
     text-align: start;
     align-items: start;
-    cursor: pointer;
+    cursor: pointer;    
+    transition: background-color 0.3s ease;
 }
 
 .dark-mode .user_hover_navigation_account,
@@ -341,7 +342,6 @@ header nav ul {
 }
 
 .user_hover_navigation button:hover {
-    transition: background-color 0.3s ease;
     background-color: rgb(221, 221, 221);
 }
 
@@ -473,7 +473,7 @@ footer {
     bottom: 40px;
     right: -500px;
     width: 384px;
-    max-width: calc(-48px + 100vw);
+    max-width: calc(-48px + 120vw);
     padding: 16px 24px;
     z-index: 100;
     opacity: 0;
@@ -553,25 +553,54 @@ footer {
     justify-content: center; 
 }
 
+.log_reg_contener{
+    display: flex;
+    flex-direction: row;     
+
+    border-radius: 5px;
+    /* border-top-left-radius: 0;
+    border-bottom-left-radius: 0;   */
+}
+
+.log_reg_info{
+    width: 400px;
+    background: rgb(255, 255, 255);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.log_reg_info a:first-of-type { 
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.log_reg_info a:last-of-type { 
+}
+
 .log_reg_form {
     /* background-color: rgb(255, 255, 255);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* margin-left: 500px; */
     background: rgba(255, 255, 255, 0.2);
     display: flex; 
     flex-direction: column;
     text-align: left;
     width: min-content;
-    padding: 25px;
-    border-radius: 10px;
+    padding: 25px;    
+    border-radius: 5px;
+    /* border-top-left-radius: 0;
+    border-bottom-left-radius: 0;     */
 }
 
 .link_cont{
     display: flex;
     flex-direction: row;
     text-transform: uppercase;
-    padding: 20px 0 50px 50px ;
+    padding: 20px 0 50px 20px ;
     cursor: pointer;
 }
 
@@ -662,31 +691,30 @@ footer {
 .remember_cont input[type='checkbox'] {
     margin: 0 10px;
     appearance: none; 
-    width: 14px; 
-    height: 14px; 
+    width: 15px; 
+    height: 15px; 
     border-radius: 50%;
     border: 1px solid rgb(134, 134, 134);
     background-color: rgb(255, 255, 255); 
     cursor: pointer;
-    transition: background-color 0.3s ease;  
+    transition: background-color 0.3s ease, border-color 0.3s ease;  
     vertical-align: middle;
 }
 
 .remember_cont input[type='checkbox']:checked  {
-    background-color: #007bff; 
-    border: 1px solid rgb(134, 134, 134);
+    background-color: rgb(212, 212, 212); 
+    border: 2px solid #007bff;
 }
 
 .dark-mode .remember_cont input[type='checkbox']:checked  {
-    background-color: rgb(0, 158, 140);
-    border: 1px solid rgb(134, 134, 134);
+    background-color: rgb(212, 212, 212); 
+    border: 2px solid rgb(0, 158, 140);
 }
 
 
 .log_buttons_area{
     display:flex;
     flex-direction: column;
-    text-align: center;
     align-items: center;
     width: 100%;
 }
@@ -701,21 +729,20 @@ footer {
     border-radius: 5px;
 }
 
-.log_reg_form .forgot_cont{
-    position: relative;
-    text-align: center;
+.forgot_cont{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .log_reg_form .forgot_cont a{
     color: rgb(0, 0, 0);
     font-size: 12px;
     cursor: pointer;
-    margin-top: 5px;
     font-weight: 500;
     transition: color 0.3s ease;
+    margin-top: 10px;
 }
+
 
 .dark-mode .log_reg_form .forgot_cont a{
     color: rgb(255, 255, 255);
@@ -1046,6 +1073,8 @@ footer {
     padding: 0 20px;
     font-size: 15px;
     transition: color 0.3s ease;
+    transition: background-color 0.3s ease, padding 0.3s ease;
+    cursor: pointer;
 }
 
 .dark-mode .account_buttons{
@@ -1055,13 +1084,11 @@ footer {
 }
   
 .account_buttons:hover{
-    background-color: #c4e8ff;
-
-    transition: background-color 0.3s ease;
+    background-color: #e6f6ff;
+    padding: 0 20px 0 30px;
 }
 
 .dark-mode .account_buttons:hover{
-    transition: background-color 0.3s ease;
     background-color: rgb(29, 29, 29);
 }
   
@@ -1185,7 +1212,7 @@ footer {
     display: flex;
     flex-direction: row;
     justify-content: left;
-    margin: 64px 0 64px 82px;
+    margin: 170px 0 10px 82px;
 }
 
 .rotation-fromareas_info span {
@@ -1234,7 +1261,10 @@ footer {
     display: flex;
     flex-direction: column;
     text-align: left;
-    background-color: rgba(238, 238, 238, 0.507);
+    background-color: rgba(255, 255, 255, 0.849);
+    /* background-color:#028dff; */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    border: none;
     padding: 20px 0; 
     width: 300px;
     min-width: 300px;
@@ -1260,19 +1290,21 @@ footer {
     white-space: nowrap;
     height: 25px;
     font-weight: 500;  
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease;
     position: relative;
     align-items: center;
 }
 
 
 .profile_navigation li:hover {
+    /* background-color: #0072cf; */
     background-color: rgb(223, 223, 223);
+    padding: 7px 30px 7px 60px;
 }
 
 .dark-mode .profile_navigation li:hover {
-    transition: background-color 0.3s ease;
     background-color: rgb(29, 29, 29);
+
 }
 
 .profile_navigation li.active_li::before {
@@ -1371,6 +1403,14 @@ footer {
     border: 1px solid  #028dff; 
 }
 
+.dark-mode .profile_page .personal-info_area td input:hover {
+    border: 1px solid rgb(0, 255, 225);
+}
+
+.dark-mode .profile_page .personal-info_area td input:focus {
+    border: 1px solid rgb(149, 253, 241);
+}
+
 .clear-btn {
     position: absolute;
     right: 15px;
@@ -1381,6 +1421,11 @@ footer {
     color: grey;
     font-size: 25px;
 }
+
+.dark-mode .clear-btn {
+    color: rgb(207, 207, 207);
+}
+
 
 .input-container:hover .clear-btn {
     display: block;
@@ -1393,6 +1438,7 @@ footer {
 .profile_page .personal-info_area form button{
     width: 200px;
 }
+
 /*panel end*/
 /*profile.css end*/
 
@@ -1463,7 +1509,7 @@ footer {
 
 .content-podmenu nav ul section{
     display: flex;
-    background-color: #ffffff;
+    background-color: #ffffff; 
     border: none;
     border-radius: 5px;
     flex-direction: column;
@@ -1473,17 +1519,20 @@ footer {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     font-size: 13px;
     padding: 5px;
+    height: 130px;
+    
 }
 
 .dark-mode .content-podmenu nav ul section {
     background-color:  #252525;
     box-shadow: 0 0 1px rgba(255, 255, 255, 0.1); 
-    color: white;
+    color: rgb(255, 255, 255);
 }   
 
 .functions_menu{
     display: flex; 
     flex-direction: row;
+    height: 110px;
 }
 
 #filtr_section{
@@ -1541,6 +1590,7 @@ footer {
 .content-podmenu nav ul li{
     margin: 0;
     display: flex;
+    border-radius: 5px;
     flex-direction: column;
     margin: 7px;
     align-items: center;
@@ -1548,6 +1598,7 @@ footer {
     width: 65px;    
     padding: 15px;
     cursor: pointer;
+    transition: background-color 0.3s ease, padding 0.3s ease;
 }
 
 .activefunctions_menu{
@@ -1562,8 +1613,9 @@ footer {
 
 .content-podmenu nav ul li:hover{
     background-color:#c4e8ff;
-    transition: background-color 0.2s ease;
-    border-radius: 5px;
+
+
+    padding: 20px 15px 15px 15px;
 }
 
 .dark-mode .content-podmenu nav ul li:hover{
@@ -1948,50 +2000,6 @@ th .resizer {
 }
 /*active-report end*/
 
-
-
-
-/*change report modal*/
-.change-report_table{
-    width: 100%; 
-    margin-top: 20px;
-}
-
-.change-report_table td{
-    height: 34px;
-    font-size: 12px; 
-    font-weight: 500;   
-    text-align: left;
-}
-
-.change-report_table input{
-    height: 26px;  
-    width: 100px;
-    padding: 0 10px;
-    margin: 0 20px;
-    text-align: right;
-    font-size: 12px; 
-    border-radius: 5px;
-    border: 1px solid rgb(220, 238, 255);
-    font-weight: 500; 
-}
-
-.change-report_table select{
-    height: 26px;  
-    width: 122px;
-    margin: 0 20px;
-    text-align: right;
-    font-size: 12px; 
-    border-radius: 5px;
-    border: 1px solid rgb(220, 238, 255);
-    font-weight: 500; 
-}
-
-.change-report_table select option{
-    font-weight: 500; 
-}
-
-/*change report end*/
 /*report.css end*/
 
 /* ----------------------modal_window begin */
@@ -2113,7 +2121,6 @@ th .resizer {
 
 .modal_table{
     width: 100%; 
-
 }
 
 .modal_table td{
@@ -2139,6 +2146,31 @@ th .resizer {
     color: rgb(255, 255, 255);
     background-color: #4d4d4d;
     border: 1px solid rgb(121, 121, 121);  
+}
+
+.modal_table select{
+    height: 26px;  
+    width: 122px;
+    margin: 0 20px;
+    text-align: right;
+    font-size: 12px; 
+    border-radius: 5px;
+    border: 1px solid rgb(217, 217, 217);  
+    font-weight: 500; 
+}
+
+.modal_table select option{
+    font-weight: 500; 
+}
+
+.dark-mode .modal_table select{
+    background-color: #4d4d4d;
+    border: 1px solid rgb(121, 121, 121);  
+    color: white;
+}
+
+.dark-mode .modal_table select option{
+    background-color: #4d4d4d;
 }
 
 
@@ -2249,7 +2281,6 @@ th .resizer {
 
 .choose-product_area input{
     max-width: 422px;
-  
 }
 
 .choose-product_area button{

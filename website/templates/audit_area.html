@@ -12,10 +12,11 @@
                     <ul>
                         <section>
                             <div class = "functions_menu">             
-                                <li>           
+                                <li id = "douwnload_readyreports_link">           
                                     <img src="{{ url_for('static', filename='img/upload.png')}}" alt="">
-                                    <a>Отчит</a>   
+                                    <a>Отчит.</a>   
                                 </li>  
+                                <form id = "douwnload_readyreports_form" action="/export_ready_reports" method="POST" style = "display: none;"></form>
                             </div>  
                             <a class="functions_menu_name">
                                 Загрузка

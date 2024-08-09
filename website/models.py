@@ -4,6 +4,7 @@ from datetime import datetime
 from sqlalchemy.orm import relationship
 from sqlalchemy import Numeric
 from sqlalchemy.orm import backref
+from datetime import datetime, timedelta
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -20,9 +21,21 @@ class User(db.Model, UserMixin):
     fio = db.Column(db.String(30))
     telephone = db.Column(db.String(20))
     password = db.Column(db.String(50))
+    last_active = db.Column(db.DateTime, nullable=False, default=datetime.now())
     organization_id = db.Column(db.Integer(), db.ForeignKey('organization.id'))
     reports = db.relationship('Report', backref='user', lazy=True, cascade="all, delete-orphan")
     organization = db.relationship('Organization', backref=backref('users', lazy=True, single_parent=True))
+
+    def update_activity(self):
+        self.last_active = datetime.now()
+        db.session.commit()
+
+class OnlineUser(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    last_active = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    user = db.relationship('User', backref=db.backref('online_users', lazy=True))
+
 
 class Organization(db.Model):
     __tablename__ = 'organization'
@@ -61,7 +74,7 @@ class Version_report(db.Model):
     telephone = db.Column(db.String(20))    
     email = db.Column(db.String(50))
     report_id = db.Column(db.Integer, db.ForeignKey('report.id'))
-
+    sections = db.relationship('Sections', backref='version_report', lazy=True, cascade="all, delete-orphan")
 
 class Ticket(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -98,12 +111,12 @@ class Sections(db.Model):
     code_product = db.Column(db.Integer, db.ForeignKey('DirProduct.CodeProduct'))
     section_number = db.Column(db.Integer)
     Oked = db.Column(db.Integer)
-    produced = db.Column(Numeric(precision=10, scale=2))
-    Consumed_Quota = db.Column(Numeric(precision=10, scale=2))
-    Consumed_Fact = db.Column(Numeric(precision=10, scale=2))
-    Consumed_Total_Quota = db.Column(Numeric(precision=10, scale=2))
-    Consumed_Total_Fact = db.Column(Numeric(precision=10, scale=2))
-    total_differents = db.Column(Numeric(precision=10, scale=2))
+    produced = db.Column(Numeric(precision=20, scale=2))
+    Consumed_Quota = db.Column(Numeric(precision=20, scale=2))
+    Consumed_Fact = db.Column(Numeric(precision=20, scale=2))
+    Consumed_Total_Quota = db.Column(Numeric(precision=20, scale=2))
+    Consumed_Total_Fact = db.Column(Numeric(precision=20, scale=2))
+    total_differents = db.Column(Numeric(precision=20, scale=2))
     note = db.Column(db.String(200))
     product = relationship("DirProduct", foreign_keys=[id_product], backref="section")
 

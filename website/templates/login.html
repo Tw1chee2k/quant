@@ -3,38 +3,43 @@
 {% block content %}
 <div class="blurred-background"></div>
 <div class = "page_log_reg">
-    <form class = "log_reg_form" method="POST">
-        <div class = "link_cont">
-            <a onclick="window.location.href='/login'" class = "active" style = "margin-right: 19px;">Вход</a>
-            <a onclick="window.location.href='/sign'">Регистрация</a>
+    <div class = "log_reg_contener">
+        <div class = "log_reg_img">
+ 
         </div>
-        <div class = "aftorization_data">
-            <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="E-mail"
-            />
-            <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Введите пароль"
-            />
-        </div>
-        <div class = "remember_cont">
-            <input type="checkbox" name= "remember">
-            <span>Запомнить меня</span>
-        </div>
-        <div class = "log_buttons_area">
-            <button type="submit" class = "blue_button">Войти</button>
-            
-            <div class = "forgot_cont">
-                <a onclick="window.location.href='/relod_password'">Забыли пароль?</a>
+        <form class = "log_reg_form" method="POST">
+            <div class = "link_cont">
+                <a onclick="window.location.href='/login'" class = "active" style = "margin-right: 19px;">Вход</a>
+                <a onclick="window.location.href='/sign'">Регистрация</a>
             </div>
-    
-            <button type = "">Продолжить с Google</button>
-        </div>
-    </form>
+            <div class = "aftorization_data">
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="E-mail"
+                />
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Введите пароль"
+                />
+            </div>
+            <div class = "remember_cont">
+                <input type="checkbox" name= "remember">
+                <span>Запомнить меня</span>
+            </div>
+            <div class = "log_buttons_area">
+                <button type="submit" class = "blue_button">Войти</button>
+                <button >Продолжить с Google</button>
+                <div class = "forgot_cont">
+  
+                    <a onclick="window.location.href='/relod_password'">Забыли пароль?</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
 </div>
 {% endblock %}

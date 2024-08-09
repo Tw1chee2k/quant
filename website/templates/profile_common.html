@@ -6,7 +6,7 @@
 
 <div class="profile_page">
     <div class = "rotation-fromareas">
-        <div class = "rotation-fromareas_info"> 
+        <div class = "rotation-fromareas_info" style = "margin: 70px 0 70px 82px;"> 
             <span>
                 <a class = "hover_a" href="/account">Личный кабинет</a>
             </span>
@@ -46,20 +46,14 @@
                     </tr>
                     <tr>
                         <td>ФИО</td>
-                        <td>        
-                            <div class="input-container">
-                                <input type="text" name = "fio" value="{{user.fio}}">
-                                <span class="clear-btn">&times;</span>
-                            </div>
+                        <td>                    
+                            <input type="text" name = "fio" value="{{user.fio}}" disabled>
                         </td>
                     </tr>
                     <tr>
                         <td>Номер телефона</td>
                         <td>
-                            <div class="input-container">
-                                <input type="text" name = "telephone" value="{{user.telephone}}">
-                                <span class="clear-btn">&times;</span>
-                            </div>
+                            <input type="text" name = "telephone" value="{{user.telephone}}" disabled>
                         </td>
                     </tr>
                     <tr>

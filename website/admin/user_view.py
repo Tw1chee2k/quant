@@ -6,9 +6,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 class UserView(ModelView):
     column_display_pk = True
-    column_list = ['id', 'type', 'email', 'password', 'fio', 'telephone', 'password', 'reports', 'organization']
+    column_list = ['id', 'type', 'email', 'password', 'fio', 'telephone', 'password', 'reports', 'organization', 'last_active']
     column_default_sort = ('fio', True)
-    column_sortable_list = ('id', 'type', 'email', 'password', 'fio', 'telephone', 'password', 'reports', 'organization')
+    column_sortable_list = ('id', 'type', 'email', 'password', 'fio', 'telephone', 'password', 'reports', 'organization', 'last_active')
     
     can_delete = True
     can_create = True

@@ -184,3 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     hideContextMenu();
 });
+
+document.getElementById('douwnload_readyreports_link').addEventListener('click', function() {
+    document.getElementById('douwnload_readyreports_form').submit();
+});

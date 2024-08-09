@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
-from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections, Message
+from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections, Message, OnlineUser
 from . import db
 from werkzeug.security import generate_password_hash
 from sqlalchemy import asc
 from sqlalchemy import desc
 from functools import wraps
+from datetime import datetime, timedelta
 
 views = Blueprint('views', __name__)
 
@@ -522,12 +523,17 @@ def beginPage():
     organization_data = Organization.query.count()
     report_data = Report.query.count()
 
+
+
     return render_template('beginPage.html', 
                            user=current_user, 
                            user_data = user_data, 
                            organization_data = organization_data, 
                            report_data = report_data
+                      
                            )
+
+
 
 @views.route('/not_found')
 def not_found():

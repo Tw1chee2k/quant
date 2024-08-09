@@ -24,7 +24,15 @@ document.addEventListener('DOMContentLoaded', function () {
             input.style.width = input.originalWidth;
         }
     }
-    
+
+    function updateOnlineUsers() {
+        fetch('/online_users')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('online-users-list').innerHTML = html;
+            });
+    }
+    setInterval(updateOnlineUsers, 60000); 
 
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;

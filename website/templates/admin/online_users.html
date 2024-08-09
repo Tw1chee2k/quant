@@ -1,0 +1,14 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+<div class="container-fluid" style="padding-top: 30px;">
+    <table class="table">
+        <tbody>
+            {% for user in online_users %}
+            <tr>
+                <td>{{ user.user.email }}</td>
+            </tr>   
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

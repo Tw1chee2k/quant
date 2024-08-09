@@ -1,11 +1,12 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, send_file
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, send_file, Response
 from flask_login import login_user, logout_user, current_user, login_required, LoginManager
 
-from .models import User, Organization, Report, Version_report, DirUnit, DirProduct, Sections, Ticket, Message
+from .models import User, Organization, Report, Version_report, DirUnit, DirProduct, Sections, Ticket, Message, OnlineUser
 from . import db
 from sqlalchemy import func
 from sqlalchemy import asc
 from sqlalchemy import desc
+from sqlalchemy.orm import joinedload
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -25,10 +26,19 @@ from io import BytesIO
 
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
-from io import BytesIO
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 import os
+
+import pandas as pd
+from tempfile import NamedTemporaryFile
+import dbf
+from io import StringIO
+
+import random
+import string
+
+from flask import session
 
 auth = Blueprint('auth', __name__)
 login_manager = LoginManager()
@@ -44,26 +54,29 @@ def login():
         password = str(request.form.get('password'))
         remember = True if request.form.get('remember') else False 
 
-        user = User.query.filter(func.lower(User.email) == func.lower(email)).first()
-        if user:    
-            if check_password_hash(user.password, password):
-                flash('Авторизация прошла успешно', category='success')
-                login_user(user, remember=remember) 
-                return redirect(url_for('views.account'))
+        if email != '' or password != '':
+            user = User.query.filter(func.lower(User.email) == func.lower(email)).first()
+            if user:    
+                if check_password_hash(user.password, password):
+                    flash('Авторизация прошла успешно', 'success')
+                    login_user(user, remember=remember) 
+                    return redirect(url_for('views.account'))
+                else:
+                    flash('Не правильный пароль ', 'error')
+                    return redirect(url_for('views.login'))
             else:
-                flash('Не правильный пароль ', category='error')
-                return redirect(url_for('auth.login'))
+                flash('Нет пользователя с таким email', 'error')
+                return redirect(url_for('views.login')) 
         else:
-            flash('Нет пользователя с таким email', category='error')
-            return redirect(url_for('auth.login')) 
-    return render_template("login.html", user=current_user)
+            flash('Введите данные для авторизации', 'error')   
+    return redirect(url_for('views.login'))
 
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
-    flash('Выполнен выход из аккаунта', category='success')
-    return redirect(url_for('auth.login'))
+    flash('Выполнен выход из аккаунта', 'success')
+    return redirect(url_for('views.login'))
     
 @auth.route('/sign', methods=['GET', 'POST'])
 def sign():
@@ -75,30 +88,47 @@ def sign():
         full_name =  request.form.get('full_name')
         okpo = request.form.get('okpo')
         ynp = request.form.get('ynp')
-        if User.query.filter_by(email=email).first() or Organization.query.filter_by(full_name=full_name).first() or Organization.query.filter_by(okpo=okpo).first() or Organization.query.filter_by(ynp=ynp).first():
-            flash('Пользователь с таким email уже существует', category='error')
-        elif not re.match(r'[\w\.-]+@[\w\.-]+', email):
-            flash('Некорректный адрес электронной почты', category='error')  
-        else:
-            new_organization = Organization(
-                okpo=okpo,
-                full_name=full_name,
-                ynp=ynp, 
+        if email != '' or fio != '' or telephone != '' or password != '':
+            if User.query.filter(func.lower(User.email) == func.lower(email)).first() or Organization.query.filter_by(full_name=full_name).first() or Organization.query.filter_by(okpo=okpo).first() or Organization.query.filter_by(ynp=ynp).first():
+                flash('Пользователь с таким email уже существует', 'error')
+            elif not re.match(r'[\w\.-]+@[\w\.-]+', email):
+                flash('Некорректный адрес электронной почты', 'error')  
+            else:
+                new_organization = Organization(
+                    okpo=okpo,
+                    full_name=full_name,
+                    ynp=ynp, 
 
-            )
-            db.session.add(new_organization)
+                )
+                db.session.add(new_organization)
+                db.session.commit()
+                new_user = User(email=email, 
+                                fio=fio, 
+                                telephone=telephone, 
+                                password=generate_password_hash(password),
+                                organization = new_organization)
+                db.session.add(new_user)
+                db.session.commit()
+                login_user(new_user, remember=True)
+                flash('Аккаунт создан!', 'success')
+                return redirect(url_for('views.account'))
+        else:
+            flash('Введите данные для регистрации', 'error')    
+        return redirect(url_for('views.sign'))
+
+@auth.before_request
+def update_user_activity():
+    if 'user_id' in session:
+        user = User.query.get(session['user_id'])
+        if user:
+            user.update_activity()
+            online_user = OnlineUser.query.filter_by(user_id=user.id).first()
+            if online_user:
+                online_user.last_active = datetime.utcnow()
+            else:
+                online_user = OnlineUser(user_id=user.id)
+                db.session.add(online_user)
             db.session.commit()
-            new_user = User(email=email, 
-                            fio=fio, 
-                            telephone=telephone, 
-                            password=generate_password_hash(password),
-                            organization = new_organization)
-            db.session.add(new_user)
-            db.session.commit()
-            login_user(new_user, remember=True)
-            flash('Аккаунт создан!', category='success')
-            return redirect(url_for('views.account'))
-    return render_template("sign.html", user=current_user)
 
 @auth.route('/profile/common', methods=['GET', 'POST'])
 def profile_common():
@@ -154,37 +184,27 @@ def profile_password():
         user = User.query.filter_by(email=current_user.email).first()
         if old_password and new_password and conf_new_password:
             if not check_password_hash(current_user.password, old_password):
-                flash('Не правильный старый пароль', category='error')
+                flash('Не правильный старый пароль', 'error')
                 return redirect(url_for('views.my_profile'))
             elif new_password != conf_new_password:
-                flash('При подтверждении пароля произошла ошибка', category='error')
+                flash('При подтверждении пароля произошла ошибка', 'error')
                 return redirect(url_for('views.my_profile'))
             else:
                 user.password = generate_password_hash(conf_new_password)
                 db.session.commit()
-                flash('Пароль был изменен', category='success')
+                flash('Пароль был изменен', 'success')
             
                 send_email(f'Ваш пароль был изменен на {conf_new_password}', current_user.email)
                 return redirect(url_for('views.login'))
         else:
-            flash('Введите пароль ', category='error')
+            flash('Введите пароль ', 'error')
     return redirect(url_for('views.profile_password'))
 
-@auth.route('/relod_password', methods=['GET', 'POST'])
-def relod_password():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        user = User.query.filter_by(email=email).first()
-        if user:
-            send_email(f'Ваш новый пароль: {gener_password()}, при желании его можно изменить в настройках профиля', email)
-            flash('Новый пароль был отправлен вам на email', category='success')  
-            user.password = generate_password_hash(gener_password())
-            db.session.commit()
-            return redirect(url_for('views.login'))
-        else:   
-            flash('Пользователя с таким email не существует', category='error')
-            return redirect(url_for('views.relod_password'))
-    return render_template("relod_password.html")
+def gener_password():
+    length=8
+    characters = string.ascii_letters + string.digits
+    password = ''.join(random.choice(characters) for _ in range(length))
+    return password
 
 def send_email(message_body, recipient_email):
     smtp_server = 'smtp.mail.ru'
@@ -202,11 +222,22 @@ def send_email(message_body, recipient_email):
     server.send_message(message)
     server.quit()
 
-def gener_password():
-    # symbols = string.digits
-    # password = ''.join(random.choice(symbols) for _ in range(8))
-    password = '1111'
-    return password
+@auth.route('/relod_password', methods=['GET', 'POST'])
+def relod_password():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        user = User.query.filter(func.lower(User.email) == func.lower(email)).first()
+        if user:
+            new_password = gener_password()
+            hashed_password = generate_password_hash(new_password)
+            send_email(f'Ваш новый пароль: {new_password}, при желании его можно изменить в настройках профиля', email)
+            flash('Новый пароль был отправлен вам на email', category='success')  
+            user.password = hashed_password 
+            db.session.commit() 
+            return redirect(url_for('views.login', user = current_user))
+        else:
+            flash('Пользователя с таким email не существует', category='error')
+            return redirect(url_for('veiws.relod_password'))
 
 @auth.route('/create_new_report', methods=['POST'])
 def create_new_report():
@@ -1081,3 +1112,76 @@ def print_ticket(id):
         c.save()
         buffer.seek(0)
         return send_file(buffer, as_attachment=True, download_name="ticket.pdf", mimetype="application/pdf")
+    
+@auth.route('/export_ready_reports', methods=['POST'])
+def export_ready_reports():
+    if request.method == 'POST':
+        id = 1
+
+        version = Version_report.query.options(
+            joinedload(Version_report.report),
+            joinedload(Version_report.sections).joinedload(Sections.product)
+            
+        ).filter_by(id=id, status="Готов к загрузке").first()
+
+        if version:
+            report = version.report
+            sections = version.sections
+
+            data = [{
+                'INDX': str(section.id),
+                'YEAR_': str(report.year) if report.year is not None else '',
+                'KVARTAL': str(report.quarter) if report.quarter is not None else '',
+                'IDPREDPR': str(report.okpo) if report.okpo is not None else '',
+                'DATERECEIV': None,
+                'EXCEED': None,
+                'SECTIONNUM': str(section.section_number) if section.section_number is not None else '',
+                'CODEPROD': str(section.code_product) if section.code_product is not None else '',
+                'OKED': str(section.Oked) if section.Oked is not None else '',
+                'PRODUCED': str(section.produced) if section.produced is not None else '',
+                'CONSUMEDQ': str(section.Consumed_Quota) if section.Consumed_Quota is not None else '',
+                'CONSUMEDF': str(section.Consumed_Fact) if section.Consumed_Fact is not None else '',
+                'CONSUMEDQT': str(section.Consumed_Total_Quota) if section.Consumed_Total_Quota is not None else '',
+                'CONSUMEDFT': str(section.Consumed_Total_Fact) if section.Consumed_Total_Fact is not None else '',
+                'COMMENT1': section.note if section.note is not None else '',
+                'COMMENT2': None,
+                'NAMEPROD': section.product.NameProduct.encode('ascii', 'replace').decode('ascii') if section.product and section.product.NameProduct else '',
+                'CODEUNIT': None,
+                'NAMEORG': report.organization_name.encode('ascii', 'replace').decode('ascii') if report.organization_name is not None else '',
+            } for section in sections]
+
+            df = pd.DataFrame(data)
+
+            with NamedTemporaryFile(delete=False, suffix='.dbf') as temp_file:
+                temp_filename = temp_file.name
+
+                table = dbf.Table(
+                    temp_filename,
+                        'INDX C(10); YEAR_ C(20); KVARTAL C(20); IDPREDPR C(20); DATERECEIV C(20); '
+                        'EXCEED C(20); SECTIONNUM C(20); CODEPROD C(20); OKED C(20); PRODUCED C(20); '
+                        'CONSUMEDQ C(20); CONSUMEDF C(20); CONSUMEDQT C(20); CONSUMEDFT C(20); '
+                        'COMMENT1 C(20); COMMENT2 C(20); NAMEPROD C(50); CODEUNIT C(20); NAMEORG C(20); '
+                )
+                
+                table.open(mode=dbf.READ_WRITE)
+
+                try:
+                    for _, row in df.iterrows():
+                        row_dict = row.to_dict()
+                        missing_fields = [field for field in table.field_names if field not in row_dict]
+                        if missing_fields:
+                            raise ValueError(f"Missing fields in DataFrame: {', '.join(missing_fields)}")
+                        table.append(row_dict)
+                finally:
+                    table.close()
+                with open(temp_filename, 'rb') as f:
+                    dbf_bytes = f.read()
+
+            return Response(
+                dbf_bytes,
+                mimetype='application/dbf',
+                headers={"Content-Disposition": f"attachment;filename={report.okpo}_{report.year}_{report.quarter}.dbf"}
+            )
+        else:
+            flash('Версии для отправки отсутствуют','error')
+            return redirect(url_for('views.audit_area'))
