@@ -222,22 +222,27 @@ def send_email(message_body, recipient_email):
     server.send_message(message)
     server.quit()
 
-@auth.route('/relod_password', methods=['GET', 'POST'])
+@auth.route('/relod_password', methods=['POST'])
 def relod_password():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        user = User.query.filter(func.lower(User.email) == func.lower(email)).first()
-        if user:
-            new_password = gener_password()
-            hashed_password = generate_password_hash(new_password)
-            send_email(f'Ваш новый пароль: {new_password}, при желании его можно изменить в настройках профиля', email)
-            flash('Новый пароль был отправлен вам на email', category='success')  
-            user.password = hashed_password 
-            db.session.commit() 
-            return redirect(url_for('views.login', user = current_user))
-        else:
-            flash('Пользователя с таким email не существует', category='error')
-            return redirect(url_for('veiws.relod_password'))
+    email = request.form.get('email_relod')
+
+    if not email:
+        flash('Заполните строку с E-mail для отправки нового пароля', 'error')
+        return redirect(url_for('views.login'))
+
+    user = User.query.filter(func.lower(User.email) == func.lower(email)).first()
+
+    if user:
+        new_password = gener_password()
+        hashed_password = generate_password_hash(new_password)
+        send_email(f'Ваш новый пароль: {new_password}, при желании его можно изменить в настройках профиля', email)
+        flash('Новый пароль был отправлен вам на email', 'success')
+        user.password = hashed_password
+        db.session.commit()
+        return redirect(url_for('views.login'))
+    else:
+        flash('Пользователя с таким email не существует', 'error')
+        return redirect(url_for('views.login'))
 
 @auth.route('/create_new_report', methods=['POST'])
 def create_new_report():

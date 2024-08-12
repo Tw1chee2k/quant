@@ -68,19 +68,13 @@
                     <tr>
                         <td>ОКПО</td>
                         <td>
-                            <div class="input-container">
-                                <input type="text" value="{{organization.okpo}}" name = "okpo" class = "numericInput" maxlength="12">
-                                <span class="clear-btn">&times;</span>
-                            </div>
+                            <input type="text" value="{{organization.okpo}}" name = "okpo" class = "numericInput" maxlength="12" disabled>
                         </td>
                     </tr>
                     <tr>
                         <td>УНП</td>
-                        <td>
-                            <div class="input-container">
-                                <input type="text" class = "numericInput" name = "ynp" value="{{organization.ynp}}" maxlength="9">
-                                <span class="clear-btn">&times;</span>
-                            </div>
+                        <td>    
+                            <input type="text" class = "numericInput" name = "ynp" value="{{organization.ynp}}" maxlength="9" disabled>
                         </td>
                     </tr>
                 </table>

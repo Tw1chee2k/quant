@@ -7,16 +7,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 
     <title>{% block title %}Base{% endblock %}</title>
-    <script>
-      (function() {
-          const currentTheme = localStorage.getItem('theme') || 'light';
-          document.body.classList.add(currentTheme === 'dark' ? 'dark-mode' : 'light-mode');
-      })();
-  </script>
   </head>
   <body>  
 
-    <header class="fixed-header">
+    <header>
       <div class="header-left">
           <img src="" alt="er">
          <a href="/">Erespondent-Online</a>
@@ -27,11 +21,16 @@
               <li onclick="window.location.href='/'">Главная</li>
               <li onclick="window.location.href=''">Новости</li>
               <li onclick="window.location.href=''" >Контакты</li>
-              <li onclick="window.location.href=''" >Помощь</li>
+              <li onclick="window.location.href=''" >FAQ</li>
           </ul>
         </nav>
       </div>
       <div class="header-right">
+ 
+        <input type="checkbox" id="darkmode-toggle"/>
+        <label for="darkmode-toggle">
+          
+        </label>
         {% if user.is_authenticated %}
         <div class="user-container">
             <img 
@@ -45,17 +44,11 @@
               src="{{ url_for('static', filename='img/icon_black-user.png')}}" alt="">
             <div id="user_hover_navigation" class="user_hover_navigation">
                 <button class = "user_hover_navigation_account" onclick="window.location.href='/account'">Личный кабинет</button>
-                <div class="theme-toggle" id="theme-toggle">
-                  <button class="theme-img light-mode">Темная тема</button>
-                  <button class="theme-img dark-mode">Светлая тема</button>
-                </div>
-
-                
                 <button class = "user_hover_navigation_logout" onclick="window.location.href='/logout'">Выйти</button>
             </div>
         </div>
         {% else %}
-
+          <li onclick="window.location.href='/login'" >Войти</li>
         {% endif %}
       </div>
     </header>

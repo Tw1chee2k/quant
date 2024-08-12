@@ -1,13 +1,51 @@
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
     const clearButtons = document.querySelectorAll('.clear-btn');
-
     clearButtons.forEach(btn => {
         btn.addEventListener('click', function() {
             const input = this.previousElementSibling;
-            input.value = '';
+            if (input && input.tagName === 'INPUT') {
+                input.value = '';
+            }
         });
     });
-    
+
+    const passwordField = document.querySelector('#password-field');
+    const showPasswordIcon = document.querySelector('.show-icon');
+    const hidePasswordIcon = document.querySelector('.hide-icon');
+
+    if (passwordField && showPasswordIcon && hidePasswordIcon) {
+        function updateIconsVisibility() {
+            if (passwordField.value) {
+                showPasswordIcon.style.display = 'inline';
+            } else {
+                showPasswordIcon.style.display = 'none';
+                hidePasswordIcon.style.display = 'none';
+            }
+        }
+
+        passwordField.addEventListener('input', updateIconsVisibility);
+
+        showPasswordIcon.addEventListener('click', function() {
+            passwordField.type = 'text';
+            this.style.display = 'none';
+            hidePasswordIcon.style.display = 'inline';
+        });
+
+        hidePasswordIcon.addEventListener('click', function() {
+            passwordField.type = 'password';
+            this.style.display = 'none';
+            showPasswordIcon.style.display = 'inline';
+        });
+
+        updateIconsVisibility();
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+
     function expandText(input) {
         if (!input.originalWidth) {
             input.originalWidth = input.style.width;
@@ -34,23 +72,29 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     setInterval(updateOnlineUsers, 60000); 
 
-    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggle = document.getElementById('darkmode-toggle');
     const body = document.body;
     const currentTheme = localStorage.getItem('theme') || 'light';
-
+    
+    // Устанавливаем начальное состояние темы
     if (currentTheme === 'dark') {
         body.classList.add('dark-mode');
+        themeToggle.checked = true; 
     } else {
         body.classList.add('light-mode');
+        themeToggle.checked = false;
     }
-
-    themeToggle.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
-        body.classList.toggle('light-mode');
-
-        const theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
-        localStorage.setItem('theme', theme);
-        // location.reload();
+    
+    themeToggle.addEventListener('change', () => {
+        if (themeToggle.checked) {
+            body.classList.add('dark-mode');
+            body.classList.remove('light-mode');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            body.classList.add('light-mode');
+            body.classList.remove('dark-mode');
+            localStorage.setItem('theme', 'light');
+        }
     });
 
     (function() {

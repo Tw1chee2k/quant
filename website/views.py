@@ -534,7 +534,6 @@ def beginPage():
                            )
 
 
-
 @views.route('/not_found')
 def not_found():
     return render_template('not_found.html')
@@ -567,10 +566,6 @@ def profile_common():
 @login_required
 def profile_password():
     return render_template('profile_password.html', user=current_user)
-
-@views.route('/relod_password')
-def relod_password():
-    return render_template('relod_password.html', user=current_user)
 
 @views.route('/report_area')
 @login_required

@@ -7,39 +7,87 @@
         <div class = "log_reg_img">
  
         </div>
-        <form class = "log_reg_form" method="POST">
-            <div class = "link_cont">
-                <a onclick="window.location.href='/login'" class = "active" style = "margin-right: 19px;">Вход</a>
-                <a onclick="window.location.href='/sign'">Регистрация</a>
-            </div>
-            <div class = "aftorization_data">
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="E-mail"
-                />
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Введите пароль"
-                />
-            </div>
-            <div class = "remember_cont">
-                <input type="checkbox" name= "remember">
-                <span>Запомнить меня</span>
-            </div>
-            <div class = "log_buttons_area">
-                <button type="submit" class = "blue_button">Войти</button>
-                <button >Продолжить с Google</button>
-                <div class = "forgot_cont">
-  
-                    <a onclick="window.location.href='/relod_password'">Забыли пароль?</a>
+        <div class = "log_reg_form" > 
+            <form action = "/login" method="POST">
+                <div class = "link_cont">
+                    <a onclick="window.location.href='/login'" class = "active" style = "margin-right: 19px;">Вход</a>
+                    <a onclick="window.location.href='/sign'">Регистрация</a>
                 </div>
-            </div>
+                <div class = "aftorization_data">
+                    <div class="input-container">
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="E-mail"
+                        />
+                        <span class="clear-btn">&times;</span>
+                    </div>
 
-        </form>
+                    <div class="toggle-container">
+                        <input
+                            type="password"
+                            id="password-field"
+                            name="password"
+                            placeholder="Пароль"
+                        />
+                        <img src="static/img/show_password.png" class="toggle-password show-icon"
+                            data-show-src="static/img/show_password.png"
+                            data-hide-src="static/img/code_password.png"
+                            alt="Show Password" />
+                        <img src="static/img/code_password.png" class="toggle-password hide-icon"
+                            data-show-src="static/img/show_password.png"
+                            data-hide-src="static/img/code_password.png"
+                            alt="Hide Password" />
+                    </div>
+                </div>
+                <div class = "remember_cont">
+                    <input type="checkbox" name= "remember">
+                    <span>Запомнить меня</span>
+                </div>
+                <div class = "log_buttons_area">
+                    <button type="submit" class = "submit_button blue_button">Войти</button>
+                </div>
+    
+            </form>
+            <form action= "/sdfsd" method="POST">
+                <div class = "forgot_cont">
+                    <input   
+                        type="hidden"
+                        class="form-control"
+                        id=""
+                        name="" 
+                        value = ""
+                        readonly
+                        >
+                    <button class = "submit_button" type="submit" style = "font-weight: 600; background-color: #ffffff79;">Продолжить с <span style = "color: rgb(0, 140, 255);">G</span><span style = "color: red;">o</span><span style = "color: yellow">o</span><span style = "color: rgb(0, 140, 255);">g</span><span style = "color: green;">l</span><span style = "color: red;">e</span>
+                    </button>
+                </div>
+            </form>
+            <form action= "/relod_password" method="POST">
+                <div class = "forgot_cont">
+                    <input   
+                        type="hidden"
+                        class="form-control"
+                        id="email_relod"
+                        name="email_relod" 
+                        value = ""
+                        readonly
+                        >
+                    <button class = 'relod_button' type="submit">Забыли пароль?</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const emailField = document.getElementById('email');
+        const relodEmailField = document.getElementById('email_relod');
+
+        emailField.addEventListener('input', function() {
+            relodEmailField.value = emailField.value;
+        });
+    });
+</script>
 {% endblock %}
