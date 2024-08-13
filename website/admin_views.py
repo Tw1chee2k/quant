@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for,
 from flask_admin import Admin, AdminIndexView, expose
 from flask_login import login_required, current_user
 from functools import wraps
-from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections, OnlineUser
+from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections
 from datetime import datetime, timedelta
 
 def admin_only(f):
@@ -17,7 +17,7 @@ def admin_only(f):
 
 class MyMainView(AdminIndexView):
     @admin_only
-    @expose('/stats')
+    @expose('/')
     def admin_stats(self):
         user_data = User.query.count()
         dirUnit_data = DirUnit.query.count()
@@ -37,13 +37,13 @@ class MyMainView(AdminIndexView):
                            sections_data=sections_data,
                            ticket_data=ticket_data)
 
-class OnlineUserView(AdminIndexView):
-    @admin_only
-    @expose('/online_users')
-    def OnlineUser_stats(self):
-        now = datetime.utcnow()
-        threshold = now - timedelta(minutes=5)
-        online_users = OnlineUser.query.filter(OnlineUser.last_active > threshold).all()
+# class OnlineUserView(AdminIndexView):
+#     @admin_only
+#     @expose('/online_users')
+#     def OnlineUser_stats(self):
+#         now = datetime.utcnow()
+#         threshold = now - timedelta(minutes=5)
+#         online_users = OnlineUser.query.filter(OnlineUser.last_active > threshold).all()
 
-        return self.render('admin/online_users.html', 
-                            online_users=online_users)
+#         return self.render('admin/online_users.html', 
+#                             online_users=online_users)

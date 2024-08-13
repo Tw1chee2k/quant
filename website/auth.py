@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, send_file, Response
 from flask_login import login_user, logout_user, current_user, login_required, LoginManager
 
-from .models import User, Organization, Report, Version_report, DirUnit, DirProduct, Sections, Ticket, Message, OnlineUser
+from .models import User, Organization, Report, Version_report, DirUnit, DirProduct, Sections, Ticket, Message
 from . import db
 from sqlalchemy import func
 from sqlalchemy import asc
@@ -39,9 +39,12 @@ import random
 import string
 
 from flask import session
+from itsdangerous import URLSafeTimedSerializer
 
 auth = Blueprint('auth', __name__)
 login_manager = LoginManager()
+
+serializer = URLSafeTimedSerializer('your_secret_key')
 
 @login_manager.user_loader
 def load_user(id):
@@ -63,10 +66,8 @@ def login():
                     return redirect(url_for('views.account'))
                 else:
                     flash('Не правильный пароль ', 'error')
-                    return redirect(url_for('views.login'))
             else:
                 flash('Нет пользователя с таким email', 'error')
-                return redirect(url_for('views.login')) 
         else:
             flash('Введите данные для авторизации', 'error')   
     return redirect(url_for('views.login'))
@@ -78,102 +79,141 @@ def logout():
     flash('Выполнен выход из аккаунта', 'success')
     return redirect(url_for('views.login'))
     
+def send_email(message_body, recipient_email):
+    smtp_server = 'smtp.mail.ru'
+    smtp_port = 587 
+    email_address = 'tw1.ofcompay@mail.ru'  
+    email_password = '6McTMF3uX2chGcFchUmZ'
+    message = MIMEMultipart()
+    message['From'] = email_address
+    message['To'] = recipient_email
+    message['Subject'] = 'Оповещение пользователя'
+    message.attach(MIMEText(message_body, 'plain'))
+    server = smtplib.SMTP(smtp_server, smtp_port)
+    server.starttls() 
+    server.login(email_address, email_password)
+    server.send_message(message)
+    server.quit()
+
+def send_activation_email(user):
+    token = generate_activation_token(user.email)
+    activation_link = url_for('auth.activate_account', token=token, _external=True)
+    message_body = f'Чтобы активировать вашу учетную запись, перейдите по следующей ссылке: {activation_link}'
+    send_email(message_body, user.email)
+
+def generate_activation_token(email):
+    return serializer.dumps(email, salt='email-confirm')
+
+def confirm_activation_token(token, expiration=3600):
+    try:
+        email = serializer.loads(token, salt='email-confirm', max_age=expiration)
+    except:
+        return False
+    return email
+
 @auth.route('/sign', methods=['GET', 'POST'])
 def sign():
     if request.method == 'POST':
         email = request.form.get('email')
-        fio = request.form.get('fio')
-        telephone = request.form.get('telephone')
         password = request.form.get('password')
-        full_name =  request.form.get('full_name')
-        okpo = request.form.get('okpo')
-        ynp = request.form.get('ynp')
-        if email != '' or fio != '' or telephone != '' or password != '':
-            if User.query.filter(func.lower(User.email) == func.lower(email)).first() or Organization.query.filter_by(full_name=full_name).first() or Organization.query.filter_by(okpo=okpo).first() or Organization.query.filter_by(ynp=ynp).first():
+
+        if email and password:
+            if User.query.filter(func.lower(User.email) == func.lower(email)).first():
                 flash('Пользователь с таким email уже существует', 'error')
             elif not re.match(r'[\w\.-]+@[\w\.-]+', email):
                 flash('Некорректный адрес электронной почты', 'error')  
             else:
-                new_organization = Organization(
-                    okpo=okpo,
-                    full_name=full_name,
-                    ynp=ynp, 
-
+                new_user = User(
+                    email=email,  
+                    password=generate_password_hash(password)
                 )
-                db.session.add(new_organization)
-                db.session.commit()
-                new_user = User(email=email, 
-                                fio=fio, 
-                                telephone=telephone, 
-                                password=generate_password_hash(password),
-                                organization = new_organization)
                 db.session.add(new_user)
                 db.session.commit()
-                login_user(new_user, remember=True)
-                flash('Аккаунт создан!', 'success')
-                return redirect(url_for('views.account'))
+                send_activation_email(new_user)
+                flash('Регистрация прошла успешно! Проверьте свою почту для активации аккаунта.', 'success')
+                return redirect(url_for('views.sign'))
         else:
             flash('Введите данные для регистрации', 'error')    
-        return redirect(url_for('views.sign'))
+    return redirect(url_for('views.sign'))
 
-@auth.before_request
-def update_user_activity():
-    if 'user_id' in session:
-        user = User.query.get(session['user_id'])
-        if user:
-            user.update_activity()
-            online_user = OnlineUser.query.filter_by(user_id=user.id).first()
-            if online_user:
-                online_user.last_active = datetime.utcnow()
-            else:
-                online_user = OnlineUser(user_id=user.id)
-                db.session.add(online_user)
-            db.session.commit()
+@auth.route('/activate/<token>')
+def activate_account(token):
+    email = confirm_activation_token(token)
+    if email:
+        user = User.query.filter_by(email=email).first_or_404()
+        user.is_active = True
+        user.activation_token = token
+        user.token_expiration = None
+        db.session.commit()
+        flash('Аккаунт успешно активирован!', 'success')
+        return redirect(url_for('auth.login'))
+    else:
+        flash('Ссылка для активации недействительна или просрочена', 'error')
+        return redirect(url_for('auth.sign'))
 
-@auth.route('/profile/common', methods=['GET', 'POST'])
-def profile_common():
+# @auth.before_request
+# def update_user_activity():
+#     if 'user_id' in session:
+#         user = User.query.get(session['user_id'])
+#         if user:
+#             user.update_activity()
+#             online_user = OnlineUser.query.filter_by(user_id=user.id).first()
+#             if online_user:
+#                 online_user.last_active = datetime.utcnow()
+#             else:
+#                 online_user = OnlineUser(user_id=user.id)
+#                 db.session.add(online_user)
+#             db.session.commit()
+
+@auth.route('/add_personal_parametrs', methods=['GET', 'POST'])
+def add_personal_parametrs():
     if request.method == 'POST':
-        fio = request.form.get('fio')
-        telephone = request.form.get('telephone')   
-        organization_full_name = request.form.get('organization_full_name')
-        okpo = request.form.get('okpo')
-        ynp = request.form.get('ynp')
+        fio = request.form.get('fio_common')
+        telephone = request.form.get('telephone_common')   
+        full_name = request.form.get('full_name_common')
+        okpo = request.form.get('okpo_common')
+        ynp = request.form.get('ynp_common')
+        district = request.form.get('district_common')
+        city = request.form.get('city_common')
+        ministry = request.form.get('ministry_common')
 
         current_user.fio = fio
         existing_telephone = User.query.filter(User.id != current_user.id, User.telephone == telephone).first()
+
         if not existing_telephone:
             current_user.telephone = telephone
-            db.session.commit()
+            existing_Organization = Organization.query.filter_by(full_name=full_name).first()
 
-            userOrganization = Organization.query.filter_by(id = current_user.organization).first()
-            
-            existing_full_name = Organization.query.filter(Organization.full_name == organization_full_name, Organization.id != userOrganization.id).first()
-            existing_okpo = Organization.query.filter(Organization.okpo == okpo, Organization.id != userOrganization.id).first()
-            existing_ynp = Organization.query.filter(Organization.ynp == ynp, Organization.id != userOrganization.id).first()
-            
-            if existing_full_name:
-                flash('Организация c таким названием уже существует', 'error')
-                return redirect(url_for('views.profile_common'))
+            if current_user.organization:
+
+                current_user.organization.full_name = full_name  
+                current_user.organization.okpo = okpo
+                current_user.organization.ynp = ynp
+                current_user.organization.district = district  
+                current_user.organization.city = city
+                current_user.organization.ministry = ministry
             else:
-                userOrganization.full_name = organization_full_name
-                db.session.commit()
-            if existing_okpo:
-                flash('Организация c таким ОКПО уже существует', 'error')
-                return redirect(url_for('views.profile_common'))
-            else:
-                userOrganization.okpo = okpo
-                db.session.commit()
-            if existing_ynp:
-                flash('Организация c таким УНП уже существует', 'error')
-                return redirect(url_for('views.profile_common'))
-            else:
-                userOrganization.ynp = ynp
-                db.session.commit()
+                if not existing_Organization:
+
+                    new_Organization = Organization(
+                        full_name=full_name,
+                        okpo=okpo,
+                        ynp=ynp,
+                        district=district,
+                        city=city,
+                        ministry=ministry
+                    )
+                    db.session.add(new_Organization)
+                    current_user.organization = new_Organization
+                else:
+                    flash('Организация с таким названием уже существует.', 'error')
+                    return redirect(url_for('views.profile_common'))  
+
             db.session.commit()
-            flash('Данные обновлены', 'success')
+            flash('Данные успешно обновлены.', 'success')
         else: 
-            flash('Пользователь с таким номером телефона уже существует','error')
-    return redirect(url_for('views.profile_common'))
+            flash('Пользователь с таким номером телефона уже существует.', 'error')
+        return redirect(url_for('views.profile_common'))
 
 @auth.route('/profile/password', methods=['GET', 'POST'])
 def profile_password():
@@ -205,22 +245,6 @@ def gener_password():
     characters = string.ascii_letters + string.digits
     password = ''.join(random.choice(characters) for _ in range(length))
     return password
-
-def send_email(message_body, recipient_email):
-    smtp_server = 'smtp.mail.ru'
-    smtp_port = 587 
-    email_address = 'tw1.ofcompay@mail.ru'  
-    email_password = '6McTMF3uX2chGcFchUmZ'
-    message = MIMEMultipart()
-    message['From'] = email_address
-    message['To'] = recipient_email
-    message['Subject'] = 'Оповещение пользователя'
-    message.attach(MIMEText(message_body, 'plain'))
-    server = smtplib.SMTP(smtp_server, smtp_port)
-    server.starttls() 
-    server.login(email_address, email_password)
-    server.send_message(message)
-    server.quit()
 
 @auth.route('/relod_password', methods=['POST'])
 def relod_password():

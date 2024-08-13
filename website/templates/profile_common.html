@@ -26,62 +26,177 @@
                 Общее
             </li>
             <li onclick="window.location.href='/profile/password'">Конфиденциальность</li>
-            {% if user.is_authenticated and user.type == 'Admin'%}
-            {% endif %}
+   
 
             <li onclick="window.location.href='/logout'">Выйти</li>
         </nav>
         <div class="personal-info_area">
-            <form action="/profile/common" method="POST">
-                <table>
-                    <tr>
-                        <td style = "padding-bottom: 94px;">Тип пользователя</div></td>
-                        <td><input style = "margin-bottom: 80px;" type="text" value="{{user.type}}" disabled></td>
-                    </tr>
-                    <tr>
-                        <td>E-mail</td>
-                        <td>                        
-                            <input type="text" value="{{user.email}}" disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>ФИО</td>
-                        <td>                    
-                            <input type="text" name = "fio" value="{{user.fio}}" disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Номер телефона</td>
-                        <td>
-                            <input type="text" name = "telephone" value="{{user.telephone}}" disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style = "padding-top: 80px;">Организация</td>
-                        <td>
-                            <div class="input-container">
-                                <input style = "margin-top: 80px;" type="text" name = "organization_full_name" value="{{organization.full_name}}" >
-                                <span style = "margin-top: 40px;" class="clear-btn">&times;</span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>ОКПО</td>
-                        <td>
-                            <input type="text" value="{{organization.okpo}}" name = "okpo" class = "numericInput" maxlength="12" disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>УНП</td>
-                        <td>    
-                            <input type="text" class = "numericInput" name = "ynp" value="{{organization.ynp}}" maxlength="9" disabled>
-                        </td>
-                    </tr>
-                </table>
-                <button class = "blue_button" type="submit">
-                    Сохранить изменения
-                </button>
-            </form>
+
+            {%if count_reports != 0%}
+                <form action="" method="">
+                    <table>
+                        <tr>
+                            <td style = "padding-bottom: 94px;">Тип пользователя</div></td>
+                            <td><input style = "margin-bottom: 80px;" type="text" value="{{current_user.type}}" disabled></td>
+                        </tr>
+                        <tr>
+                            <td>E-mail</td>
+                            <td>                        
+                                <input type="text" value="{{current_user.email}}" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ФИО</td>
+                            <td>                    
+                                <input type="text"  value="{{current_user.fio}}" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Номер телефона</td>
+                            <td>
+                                <input type="text" value="{{current_user.telephone}}" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style = "padding-top: 80px;">Организация</td>
+                            <td>
+                                <input style = "margin-top: 80px;" type="text" value="{{current_user.organization.full_name}}" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ОКПО</td>
+                            <td>
+                                <input type="text" name = "okpo_common" value="{{current_user.organization.okpo if current_user.organization else ''}} " disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>УНП</td>
+                            <td>    
+                                <input type="text" name = "ynp_common" value="{{current_user.organization.ynp if current_user.organization else ''}}" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Район</td>
+                            <td>    
+                                <input type="text" name = "district_common" value="{{current_user.organization.district if current_user.organization else ''}}" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Город</td>
+                            <td>    
+                                <input type="text" name = "city_common" value="{{current_user.organization.city if current_user.organization else ''}}" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Министерство</td>
+                            <td>    
+                                <input type="text" name = "ministry_common" value="{{current_user.organization.ministry if current_user.organization else ''}}" disabled>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            {%else%}
+                <form action="/add_personal_parametrs" method="POST">
+                    <table>
+                        <tr>
+                            <td style = "padding-bottom: 94px;">Тип пользователя</div></td>
+                            <td><input style = "margin-bottom: 80px;" type="text" value="{{current_user.type}}" disabled></td>
+                        </tr>
+                        <tr>
+                            <td>E-mail</td>
+                            <td>                        
+                                <input type="text" value="{{current_user.email}}" disabled>
+                            </td>
+                        </tr>
+            
+                        <tr>
+                            <td>ФИО</td>
+                            <td>                    
+                                <div class="clear-input_container">
+                                    <input type="text" name = "fio_common" value="{{current_user.fio if current_user.fio else ''}}">
+                                    <span class="clear-btn">&times;</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Номер телефона</td>
+                            <td>
+                                <div class="clear-input_container">
+                                    <input type="text" name = "telephone_common" value="{{current_user.telephone if current_user.telephone else ''}}">
+                                    <span class="clear-btn">&times;</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style = "padding-top: 80px;">Предприятие</td>
+                            <td>
+                                <div class="clear-input_container">
+                                    <input style = "margin-top: 80px;" type="text" placeholder="Выбирите предприятие" name = "full_name_common" value="{{ current_user.organization.full_name if current_user.organization else '' }}" readonly>
+                                    <span style = "margin-top: 40px;" class="clear-btn">&times;</span>
+                                </div>
+                                <div class="choose-organization_area">
+                                    <div class = "serch-organization_cont">
+                                        <a>Поиск</a>
+                                        <input type="text" name = "search_organization">
+                                    </div>
+                                    <div>
+                                        <div class="table_body_container">
+                                            <table class="table_report-area">
+                                                <tbody id="chooserOganizationTableBody">
+                                                    {% for row in Brest_data %}
+                                                        <tr data-id="{{ row.id }}">     
+                                                            <td>{{row.NAME1}} {{row.NAME2}} {{row.NAME3}} {{row.NAME4}} {{row.NAME5}} {{row.NAME6}}</td>
+                                                            <td>{{row.OKPO}}</td>        
+                                                            <td style = "display: none;">{{row.UNP}}</td>
+                                                            <td style = "display: none;">{{row.RAI}}</td>
+                                                            <td style = "display: none;">{{row.GOR}}</td>
+                                                            <td style = "display: none;">{{row.MIN}}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ОКПО</td>
+                            <td>
+                                <input type="text" name = "okpo_common" value="{{current_user.organization.okpo if current_user.organization.okpo else ''}} " readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>УНП</td>
+                            <td>    
+                                <input type="text" name = "ynp_common" value="{{current_user.organization.ynp if current_user.organization.ynp else ''}}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Район</td>
+                            <td>    
+                                <input type="text" name = "district_common" value="{{current_user.organization.district if current_user.organization.district else ''}}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Город</td>
+                            <td>    
+                                <input type="text" name = "city_common" value="{{current_user.organization.city if current_user.organization.city else ''}}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Министерство</td>
+                            <td>    
+                                <input type="text" name = "ministry_common" value="{{current_user.organization.ministry if current_user.organization.ministry else ''}}" readonly>
+                            </td>
+                        </tr>
+                    </table>
+                    <button class = "blue_button" type="submit">
+                        Сохранить изменения
+                    </button>
+                </form>
+
+            {%endif%}
         </div>
     </div>
 </div>

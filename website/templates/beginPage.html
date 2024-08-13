@@ -10,9 +10,9 @@
         <div class = "hello_cont_name">
             Информационная система учета и обработки отчетов предприятий
         </div>
-        {% if user.is_authenticated and user.type != 'Аудитор'%}
+        {% if current_user.is_authenticated and user.type != 'Аудитор'%}
             <button onclick="window.location.href='/report_area'" type="" class = "blue_button">Подать отчет</button>
-        {% elif user.is_authenticated and user.type == 'Аудитор' %}
+        {% elif current_user.is_authenticated and user.type == 'Аудитор' %}
             <button onclick="window.location.href='/audit_area'" type="" class = "blue_button">Просмотр отчетов</button>        
         {% else %}
             <button onclick="window.location.href='/login'" type="" class = "blue_button">Войти</button>

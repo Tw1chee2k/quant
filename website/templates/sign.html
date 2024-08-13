@@ -3,15 +3,18 @@
 {% block content %}
 <div class="blurred-background"></div>
 <div class = "page_log_reg">
-    <div class = "log_reg_form"> 
-        <form action = '/sign' method="POST">
-            <div class = "link_cont">
-                <a onclick="window.location.href='/login'" style = "margin-right: 19px;">Вход</a>
-                <a onclick="window.location.href='/sign'" class = "active">Регистрация</a>
-            </div>
-            <div class = "registration_data">
-                <div class = "row">
-                    <div class="input-container">
+    <div class = "log_reg_contener">
+        <div class = "log_reg_img">
+
+        </div>
+        <div class = "log_reg_form"> 
+            <form action = '/sign' method="POST">
+                <div class = "link_cont">
+                    <a onclick="window.location.href='/login'" style = "margin-right: 19px;">Вход</a>
+                    <a onclick="window.location.href='/sign'" class = "active">Регистрация</a>
+                </div>
+                <div class = "registration_data">
+                    <div class="clear-input_container">
                         <input
                             id="email"
                             name="email"
@@ -19,38 +22,7 @@
                         />
                         <span class="clear-btn">&times;</span>
                     </div>
-                    <div class="input-container">
-                        <input
-                            id="telephone"
-                            name="telephone"
-                            placeholder="Номер телефона"
-                        />
-                        <span class="clear-btn">&times;</span>
-                    </div>
-                </div>
-                <div class = "row">
-                    <div class="input-container">
-                        <input
-                            id="fio"
-                            name="fio"
-                            placeholder="ФИО"
-                        />
-                        <span class="clear-btn">&times;</span>
-                    </div>
-                    <div class="input-container">
-                        <input
-                            id=""
-                            name=""
-                            placeholder="Предприятие"
-                            readonly
-                        />
-                        <span class="clear-btn">&times;</span>
-                    </div>
-
-
-                </div>
-                <div class = "row">
-                    <div class="toggle-container">
+                    <div class="security-container">
                         <input
                             type="password"
                             id="password-field"
@@ -65,20 +37,16 @@
                             data-show-src="static/img/show_password.png"
                             data-hide-src="static/img/code_password.png"
                             alt="Hide Password" />
+                    </div>  
+                </div>
+                <div class = "log_buttons_area">
+                    <button type="submit" class = "submit_button blue_button">Зарегистрироваться</button>
+                    <div class = "forgot_cont">
+                        <a onclick="window.location.href='/login'">Есть аккаунт?</a>
                     </div>
                 </div>
-
-       
-
-             
-            </div>
-            <div class = "log_buttons_area">
-                <button type="submit" class = "submit_button blue_button">Зарегистрироваться</button>
-                <div class = "forgot_cont">
-                    <a onclick="window.location.href='/login'">Есть аккаунт?</a>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

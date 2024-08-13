@@ -1,6 +1,3 @@
-
-
-
 document.addEventListener('DOMContentLoaded', function () {
     const clearButtons = document.querySelectorAll('.clear-btn');
     clearButtons.forEach(btn => {
@@ -42,7 +39,76 @@ document.addEventListener('DOMContentLoaded', function () {
 
         updateIconsVisibility();
     }
+
+
+
+
+    var full_name_common = document.querySelector('input[name="full_name_common"]');
+
+    var okpo_common = document.querySelector('input[name="okpo_common"]');
+    var ynp_common = document.querySelector('input[name="ynp_common"]');
+    var district_common = document.querySelector('input[name="district_common"]');
+    var city_common = document.querySelector('input[name="city_common"]');
+    var ministry_common = document.querySelector('input[name="ministry_common"]');
+
+    var chooseOrganizationArea = document.querySelector('.choose-organization_area');
+    var chooserOganizationTableBody = document.getElementById('chooserOganizationTableBody');
+    
+    full_name_common.addEventListener('focus', function() {
+        chooseOrganizationArea.style.display = 'block';
+    });
+    
+    chooserOganizationTableBody.addEventListener('click', function(event) {
+        if (event.target.tagName === 'TD') {
+            chooseOrganizationArea.style.display = 'none';
+            var OrganizationName = event.target.parentNode.querySelector('td:nth-child(1)').textContent;
+            var OrganizationOked = event.target.parentNode.querySelector('td:nth-child(2)').textContent;
+
+            var OrganizationYNP = event.target.parentNode.querySelector('td:nth-child(3)').textContent;
+            var OrganizationRAI = event.target.parentNode.querySelector('td:nth-child(4)').textContent;
+            var OrganizationGOR = event.target.parentNode.querySelector('td:nth-child(5)').textContent;
+            var OrganizationMIN = event.target.parentNode.querySelector('td:nth-child(6)').textContent;
+            
+            full_name_common.value = OrganizationName;
+            okpo_common.value = OrganizationOked;
+            ynp_common.value = OrganizationYNP;
+            district_common.value = OrganizationRAI;
+            city_common.value = OrganizationGOR;
+            ministry_common.value = OrganizationMIN;
+        } 
+    });
+    
+    document.addEventListener('click', function(event) {
+        var search_organization = document.querySelector('input[name="search_organization"]');
+        if (!chooseOrganizationArea.contains(event.target) && event.target !== full_name_common) {
+            chooseOrganizationArea.style.display = 'none';
+            search_organization.value = '';
+        }
+    });
+
+    document.querySelector('input[name="search_organization"]').addEventListener('input', function() {
+        var filterText = this.value.trim().toLowerCase();   
+        var chooserOganizationTableBody = document.querySelector('#chooserOganizationTableBody');
+
+        Array.from(chooserOganizationTableBody.querySelectorAll('tr')).forEach(function(row) {      
+            var OrgName = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+            var codeOrg = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            if (codeOrg.includes(filterText) || OrgName.includes(filterText)) {
+                row.style.display = '';
+            } else { 
+                row.style.display = 'none';
+            }
+        });
+
+    });
+
+
+
+    
 });
+
+
+
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -63,14 +129,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    function updateOnlineUsers() {
-        fetch('/online_users')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('online-users-list').innerHTML = html;
-            });
-    }
-    setInterval(updateOnlineUsers, 60000); 
+    // function updateOnlineUsers() {
+    //     fetch('/online_users')
+    //         .then(response => response.text())
+    //         .then(html => {
+    //             document.getElementById('online-users-list').innerHTML = html;
+    //         });
+    // }
+    // setInterval(updateOnlineUsers, 60000); 
 
     const themeToggle = document.getElementById('darkmode-toggle');
     const body = document.body;

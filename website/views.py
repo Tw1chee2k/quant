@@ -1,12 +1,16 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
-from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections, Message, OnlineUser
+from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections, Message
 from . import db
 from werkzeug.security import generate_password_hash
 from sqlalchemy import asc
 from sqlalchemy import desc
 from functools import wraps
 from datetime import datetime, timedelta
+
+from dbfread import DBF
+
+import os
 
 views = Blueprint('views', __name__)
 
@@ -27,6 +31,7 @@ def owner_only(f):
 
 @views.route('/')
 def beginPage():
+
     if User.query.count() == 0:   
         organizations_data = [
             ('Региональное управление №1 (Брестская область)', '111', '111'),         
@@ -41,9 +46,7 @@ def beginPage():
             ('Борисовский завод медицинских препаратов', '05799746', '600125834'),
             ('Руп "КВАНТ-АС"', '12345678', '453234532'),
         ]
-
         organizations = {}
-        
         for organization_data in organizations_data:
             new_org = Organization(full_name=organization_data[0], 
                                 okpo=organization_data[1], 
@@ -66,20 +69,16 @@ def beginPage():
             ('Респондент', 'clown4lenix@gmail.com', 'Шапавалов Алексей Юрьевич','+375447317128', generate_password_hash('1234'), 10),
             ('Респондент', 'info@kvantas-as', 'Санников Вячеслав Степанович','365 04 33', generate_password_hash('1234'), 11),
         ]
-
-
         for user_data in users_data:
             user = User(type=user_data[0], 
                         email=user_data[1], 
                         fio=user_data[2],
                         telephone=user_data[3],
                         password=user_data[4],
-                        organization=organizations[user_data[5]])
-            
-            db.session.add(user)
-        db.session.commit()
-
-
+                        organization=organizations[user_data[5]],
+                        is_active=True) 
+            db.session.add(user)   
+            db.session.commit()
 
     if DirUnit.query.count() == 0:   
         units_data = [
@@ -163,6 +162,7 @@ def beginPage():
             unit = DirUnit(IdUnit=unit_data[0], CodeUnit=unit_data[1], NameUnit=unit_data[2])
             db.session.add(unit)
         db.session.commit()
+
     if DirProduct.query.count() == 0:     
         products_data = [
             (1, '0010', 'Электроэнергия, отпущенная электростанциями, работающими на котельно-печном топливе', True, False, False, 1, None, None),
@@ -507,6 +507,7 @@ def beginPage():
             (366, '4701', 'Бытовое обслуживание', True, True, True, 11, None, None),
             (367, '6000', 'Другие нормируемые виды продукции (услуг, работ)', True, True, True, 11, None, None), 
         ]
+        
         for data in products_data:
             product = DirProduct(IdProduct=data[0], 
                                  CodeProduct=data[1], 
@@ -519,18 +520,16 @@ def beginPage():
                                  DateEnd=data[8])
             db.session.add(product)
         db.session.commit()
+
     user_data = User.query.count()
     organization_data = Organization.query.count()
     report_data = Report.query.count()
-
-
 
     return render_template('beginPage.html', 
                            user=current_user, 
                            user_data = user_data, 
                            organization_data = organization_data, 
                            report_data = report_data
-                      
                            )
 
 
@@ -538,9 +537,18 @@ def beginPage():
 def not_found():
     return render_template('not_found.html')
 
+def read_dbf(file_path, columns):
+    data = []
+    for record in DBF(file_path):
+        row = {col: record[col] for col in columns}
+        data.append(row)
+    return data
+
 @views.route('/sign')
 def sign():
-    return render_template('sign.html', user=current_user)
+    return render_template('sign.html', 
+                           user=current_user
+                           )
 
 @views.route('/login')
 def login():
@@ -558,9 +566,34 @@ def account():
 @views.route('/profile/common')
 @login_required
 def profile_common():
-    organization = Organization.query.filter_by(id = current_user.organization.id).first()
+    Brest_data_path = 'organizations/Брест.dbf'
 
-    return render_template('profile_common.html', user=current_user, organization=organization)
+    website_path = os.path.dirname(os.path.abspath(__file__)) 
+    Brest_data_path = os.path.join(website_path, 'organizations', 'Брест.dbf')
+    
+
+    Brest_columns = ['OKPO', 'NAME1', 'NAME2', 'NAME3', 'NAME4', 'NAME5', 'NAME6', 'RAI', 'GOR', 'MIN', 'UNP']
+    Brest_data = read_dbf(Brest_data_path, Brest_columns)
+
+    count_reports = Report.query.filter_by(user_id = current_user.id).count()
+
+    
+    if not current_user.organization: 
+        return render_template('profile_common.html', 
+                            current_user=current_user, 
+                            count_reports=count_reports,
+                            Brest_data=Brest_data
+                            )
+    else:
+        organization = Organization.query.filter_by(id = current_user.organization.id).first()
+        count_reports = Report.query.filter_by(user_id = current_user.id).count()
+        return render_template('profile_common.html', 
+                            user=current_user, 
+                            organization=organization,
+                            count_reports=count_reports,
+                            Brest_data=Brest_data
+                            )
+
 
 @views.route('/profile/password')
 @login_required

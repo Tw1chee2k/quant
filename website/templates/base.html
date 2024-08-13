@@ -31,7 +31,7 @@
         <label for="darkmode-toggle">
           
         </label>
-        {% if user.is_authenticated %}
+        {% if current_user.is_authenticated %}
         <div class="user-container">
             <img 
               onclick="window.location.href='/account'" 
