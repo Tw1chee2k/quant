@@ -37,60 +37,60 @@
                     <table>
                         <tr>
                             <td style = "padding-bottom: 94px;">Тип пользователя</div></td>
-                            <td><input style = "margin-bottom: 80px;" type="text" value="{{current_user.type}}" disabled></td>
+                            <td><input style = "margin-bottom: 80px;" type="text" value="{{current_user.type}}" readonly></td>
                         </tr>
                         <tr>
                             <td>E-mail</td>
                             <td>                        
-                                <input type="text" value="{{current_user.email}}" disabled>
+                                <input type="text" value="{{current_user.email}}" readonly>
                             </td>
                         </tr>
                         <tr>
                             <td>ФИО</td>
                             <td>                    
-                                <input type="text"  value="{{current_user.fio}}" disabled>
+                                <input type="text"  value="{{current_user.fio}}" readonly>
                             </td>
                         </tr>
                         <tr>
                             <td>Номер телефона</td>
                             <td>
-                                <input type="text" value="{{current_user.telephone}}" disabled>
+                                <input type="text" value="{{current_user.telephone}}" readonly>
                             </td>
                         </tr>
                         <tr>
                             <td style = "padding-top: 80px;">Организация</td>
                             <td>
-                                <input style = "margin-top: 80px;" type="text" value="{{current_user.organization.full_name}}" disabled>
+                                <input style = "margin-top: 80px;" type="text" value="{{current_user.organization.full_name}}" readonly>
                             </td>
                         </tr>
                         <tr>
                             <td>ОКПО</td>
                             <td>
-                                <input type="text" name = "okpo_common" value="{{current_user.organization.okpo if current_user.organization else ''}} " disabled>
+                                <input type="text" name = "okpo_common" value="{{current_user.organization.okpo if current_user.organization else ''}} " readonly>
                             </td>
                         </tr>
                         <tr>
                             <td>УНП</td>
                             <td>    
-                                <input type="text" name = "ynp_common" value="{{current_user.organization.ynp if current_user.organization else ''}}" disabled>
+                                <input type="text" name = "ynp_common" value="{{current_user.organization.ynp if current_user.organization else ''}}" readonly>
                             </td>
                         </tr>
                         <tr>
                             <td>Район</td>
                             <td>    
-                                <input type="text" name = "district_common" value="{{current_user.organization.district if current_user.organization else ''}}" disabled>
+                                <input type="text" name = "district_common" value="{{current_user.organization.district if current_user.organization else ''}}" readonly>
                             </td>
                         </tr>
                         <tr>
                             <td>Город</td>
                             <td>    
-                                <input type="text" name = "city_common" value="{{current_user.organization.city if current_user.organization else ''}}" disabled>
+                                <input type="text" name = "city_common" value="{{current_user.organization.city if current_user.organization else ''}}" readonly>
                             </td>
                         </tr>
                         <tr>
                             <td>Министерство</td>
                             <td>    
-                                <input type="text" name = "ministry_common" value="{{current_user.organization.ministry if current_user.organization else ''}}" disabled>
+                                <input type="text" name = "ministry_common" value="{{current_user.organization.ministry if current_user.organization else ''}}" readonly>
                             </td>
                         </tr>
                     </table>
@@ -100,12 +100,12 @@
                     <table>
                         <tr>
                             <td style = "padding-bottom: 94px;">Тип пользователя</div></td>
-                            <td><input style = "margin-bottom: 80px;" type="text" value="{{current_user.type}}" disabled></td>
+                            <td><input style = "margin-bottom: 80px;" type="text" value="{{current_user.type}}" readonly></td>
                         </tr>
                         <tr>
                             <td>E-mail</td>
                             <td>                        
-                                <input type="text" value="{{current_user.email}}" disabled>
+                                <input type="text" value="{{current_user.email}}" readonly>
                             </td>
                         </tr>
             
@@ -113,7 +113,7 @@
                             <td>ФИО</td>
                             <td>                    
                                 <div class="clear-input_container">
-                                    <input type="text" name = "fio_common" value="{{current_user.fio if current_user.fio else ''}}">
+                                    <input type="text" name = "fio_common" placeholder="Введите ФИО"value="{{current_user.fio if current_user.fio else ''}}">
                                     <span class="clear-btn">&times;</span>
                                 </div>
                             </td>
@@ -122,7 +122,7 @@
                             <td>Номер телефона</td>
                             <td>
                                 <div class="clear-input_container">
-                                    <input type="text" name = "telephone_common" value="{{current_user.telephone if current_user.telephone else ''}}">
+                                    <input type="text" name = "telephone_common" placeholder="Введите номер телефона" value="{{current_user.telephone if current_user.telephone else ''}}">
                                     <span class="clear-btn">&times;</span>
                                 </div>
                             </td>
@@ -131,7 +131,7 @@
                             <td style = "padding-top: 80px;">Предприятие</td>
                             <td>
                                 <div class="clear-input_container">
-                                    <input style = "margin-top: 80px;" type="text" placeholder="Выбирите предприятие" name = "full_name_common" value="{{ current_user.organization.full_name if current_user.organization else '' }}" readonly>
+                                    <input style = "margin-top: 80px;" class = "pred_name" type="text" placeholder="Выберите предприятие" name = "full_name_common" value="{{ current_user.organization.full_name if current_user.organization else '' }}" readonly>
                                     <span style = "margin-top: 40px;" class="clear-btn">&times;</span>
                                 </div>
                                 <div class="choose-organization_area">

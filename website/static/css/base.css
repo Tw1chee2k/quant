@@ -1496,16 +1496,39 @@ footer {
     padding: 0 40px 0 15px;
     height: 40px;
     font-weight: 500; 
-
     margin-left: 50px;   
     transition: border-color 0.3s ease;
 }
 
 .dark-mode .profile_page .personal-info_area td input{
     color: rgb(255, 255, 255);
-    background-color:#4d4d4d;
+    background-color:#5f5f5f;
     border: 1px solid rgb(121, 121, 121);  
 }
+
+.profile_page .personal-info_area td input:read-only{
+    background-color: rgb(241, 241, 241);
+    color: rgb(75, 75, 75);
+}
+
+.dark-mode .profile_page .personal-info_area td input:read-only{
+    background-color: rgb(73, 73, 73);
+    color: rgb(163, 163, 163);
+}
+
+.profile_page .personal-info_area td .pred_name:read-only{
+    border: 1px solid rgb(217, 217, 217);  
+    background-color: white;
+    color: black;
+}
+
+.dark-mode .profile_page .personal-info_area td .pred_name:read-only{
+    color: rgb(255, 255, 255);
+    background-color:#5f5f5f;
+    border: 1px solid rgb(121, 121, 121);  
+}
+
+
 
 .profile_page .personal-info_area td input:hover {
     border: 1px solid #259dff; 
@@ -1570,7 +1593,6 @@ footer {
 
 
 /* choose orgaization */
-
 .choose-organization_area {
     position: absolute;
     margin: 7px 0 0 50px;
@@ -1601,9 +1623,12 @@ footer {
     width: 180px;
 }
 
+.choose-organization_area .table_body_container{
+    max-height: 240px;
+}
+
 .choose-organization_area .table_body_container::-webkit-scrollbar {
     width: 7px;
-
 }
   
 .choose-organization_area .table_body_container::-webkit-scrollbar-track {
@@ -1624,7 +1649,6 @@ footer {
     background-color: #6e6e6e;
 }
 
-
 #chooserOganizationTableBody tr td{
     align-items: center;
     text-align: left;
@@ -1634,7 +1658,6 @@ footer {
     padding: 5px 7px;
     border: none;
 }
-
 
 
 .choose-organization_area input{
