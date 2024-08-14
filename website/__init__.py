@@ -8,6 +8,7 @@ from flask_babel import Babel
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
 from flask_admin.contrib.sqla import ModelView
+from flask_admin import BaseView, expose
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -51,6 +52,7 @@ def create_app():
     from website.admin.message_view import MessageView
 
     admin = Admin(app, 'Вернуться', index_view=MyMainView(), template_mode='bootstrap4', url='/')
+
     admin.add_view(UserView(User, db.session))
     admin.add_view(OrganizationView(Organization, db.session))
     admin.add_view(ReportView(Report, db.session))

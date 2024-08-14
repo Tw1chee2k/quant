@@ -112,14 +112,14 @@
                 <img class = "img_white" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
             </span>
             <span>
-                <a>Тепло ({{curent_report.id}}, {{current_version.id}})</a>
+                <a>Тепло ({{current_report.id}}, {{current_version.id}})</a>
             </span>
             <span>
-                <a style = "font-size: 12px;">ОКПО: "{{curent_report.okpo}}", 
-                    УНП: "{{curent_report.organization_name.ynp}}", 
-                    Наименование предприятия: "{{curent_report.organization_name}}", 
-                    Год: {{curent_report.year}}, 
-                    Квартал: {{curent_report.quarter}}. </a>
+                <a style = "font-size: 12px;">ОКПО: "{{current_report.okpo}}", 
+                    УНП: "{{current_user.organization.ynp}}",
+                    Наименование предприятия: "{{current_report.organization_name}}", 
+                    Год: {{current_report.year}}, 
+                    Квартал: {{current_report.quarter}}. </a>
             </span>
         </div>
     </div>
@@ -395,7 +395,7 @@
                     </td>
                 </tr>
             </table>
-            <button type="submit" class="blue_button fuel-submit">Изменить</button>
+            <button type="submit" class="main_button fuel-submit">Изменить</button>
         </form> 
     </div>
 </div>
@@ -563,7 +563,7 @@
 
             <button 
                 type = "submit" 
-                class = "blue_button"
+                class = "main_button"
                 >Добавить
             </button>              
         </form>   

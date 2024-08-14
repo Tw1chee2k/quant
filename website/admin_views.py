@@ -27,6 +27,11 @@ class MyMainView(AdminIndexView):
         dirProduct_data = DirProduct.query.count()
         sections_data = Sections.query.count()
         ticket_data = Ticket.query.count()
+
+        now = datetime.now()
+        threshold = now - timedelta(minutes=3)
+        online_users = User.query.filter(User.last_active > threshold).all()
+        online_users_count = User.query.filter(User.last_active > threshold).count()
         return self.render('admin/stats.html', 
                            user_data=user_data,
                            dirUnit_data=dirUnit_data,
@@ -35,15 +40,6 @@ class MyMainView(AdminIndexView):
                            version_report_data=version_report_data,
                            dirProduct_data=dirProduct_data,
                            sections_data=sections_data,
-                           ticket_data=ticket_data)
-
-# class OnlineUserView(AdminIndexView):
-#     @admin_only
-#     @expose('/online_users')
-#     def OnlineUser_stats(self):
-#         now = datetime.utcnow()
-#         threshold = now - timedelta(minutes=5)
-#         online_users = OnlineUser.query.filter(OnlineUser.last_active > threshold).all()
-
-#         return self.render('admin/online_users.html', 
-#                             online_users=online_users)
+                           ticket_data=ticket_data,
+                           online_users=online_users,
+                           online_users_count=online_users_count)

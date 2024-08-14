@@ -1,4 +1,4 @@
-{% extends 'admin/master.html' %}
+{% extends 'admin/base.html' %}
 {% block body %}
 <div class="container-fluid" style="padding-top: 30px;">
     <table class="table">
@@ -39,6 +39,18 @@
                 <td>number of img files</td>
                 <td>{{ num_images }}</td>
             </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container-fluid" style="padding-top: 30px;">
+    <a>Общее количество: {{online_users_count}}</a>
+    <table class="table">
+        <tbody>
+            {% for user in online_users %}
+            <tr>
+                <td>{{ user.email }}</td>
+            </tr>   
+            {% endfor %}
         </tbody>
     </table>
 </div>

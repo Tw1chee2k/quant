@@ -44,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     var full_name_common = document.querySelector('input[name="full_name_common"]');
-
     var okpo_common = document.querySelector('input[name="okpo_common"]');
     var ynp_common = document.querySelector('input[name="ynp_common"]');
     var district_common = document.querySelector('input[name="district_common"]');
@@ -102,6 +101,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+    // function updateUserActivity() {
+    //     fetch('/update_activity', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({ action: 'update_activity' })
+    //     });
+    // }
+    
+    // document.addEventListener('mousemove', updateUserActivity);
+    // document.addEventListener('keydown', updateUserActivity);
 
 
     

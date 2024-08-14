@@ -117,11 +117,11 @@
                 <a>Проверка отчета №{{current_version.id}}</a>
             </span>
             <span>
-                <a style = "font-size: 12px;">ОКПО: "{{curent_report.okpo}}", 
-                    УНП: "{{curent_report.organization_name.ynp}}", 
-                    Наименование предприятия: "{{curent_report.organization_name}}", 
-                    Год: {{curent_report.year}}, 
-                    Квартал: {{curent_report.quarter}}. </a>
+                <a style = "font-size: 12px;">ОКПО: "{{current_report.okpo}}", 
+                    УНП: "{{current_report.organization_name.ynp}}", 
+                    Наименование предприятия: "{{current_report.organization_name}}", 
+                    Год: {{current_report.year}}, 
+                    Квартал: {{current_report.quarter}}. </a>
             </span>
         </div>
     </div>
@@ -682,7 +682,7 @@
                 <input type = "hidden" name = "version_id" value = "{{current_version.id}}">  
                 <button 
                     type = "submit" 
-                    class = "blue_button">
+                    class = "main_button">
                     Отправить
                 </button>      
             </form>

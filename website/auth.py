@@ -78,7 +78,7 @@ def logout():
     logout_user()
     flash('Выполнен выход из аккаунта', 'success')
     return redirect(url_for('views.login'))
-    
+
 def send_email(message_body, recipient_email):
     smtp_server = 'smtp.mail.ru'
     smtp_port = 587 
@@ -142,28 +142,12 @@ def activate_account(token):
     if email:
         user = User.query.filter_by(email=email).first_or_404()
         user.is_active = True
-        user.activation_token = token
-        user.token_expiration = None
         db.session.commit()
         flash('Аккаунт успешно активирован!', 'success')
         return redirect(url_for('auth.login'))
     else:
         flash('Ссылка для активации недействительна или просрочена', 'error')
         return redirect(url_for('auth.sign'))
-
-# @auth.before_request
-# def update_user_activity():
-#     if 'user_id' in session:
-#         user = User.query.get(session['user_id'])
-#         if user:
-#             user.update_activity()
-#             online_user = OnlineUser.query.filter_by(user_id=user.id).first()
-#             if online_user:
-#                 online_user.last_active = datetime.utcnow()
-#             else:
-#                 online_user = OnlineUser(user_id=user.id)
-#                 db.session.add(online_user)
-#             db.session.commit()
 
 @auth.route('/add_personal_parametrs', methods=['GET', 'POST'])
 def add_personal_parametrs():
@@ -214,6 +198,27 @@ def add_personal_parametrs():
         else: 
             flash('Пользователь с таким номером телефона уже существует.', 'error')
         return redirect(url_for('views.profile_common'))
+
+
+
+
+
+def update_user_activity():
+    if current_user.is_authenticated:
+        current_user.update_activity()
+
+@auth.before_request
+def before_request():
+    update_user_activity()
+
+@auth.route('/update_activity', methods=['POST'])
+def update_activity():
+    if current_user.is_authenticated:
+        current_user.update_activity()
+    return '', 204
+
+
+
 
 @auth.route('/profile/password', methods=['GET', 'POST'])
 def profile_password():

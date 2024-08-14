@@ -29,6 +29,15 @@ def owner_only(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def profile_complete(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.fio or not current_user.telephone or not current_user.organization_id:
+            flash('Профиль пользователя не полностью заполнен. Пожалуйста, заполните все обязательные поля.', 'error')
+            return redirect(url_for('views.profile_common'))
+        return f(*args, **kwargs)
+    return decorated_function
+
 @views.route('/')
 def beginPage():
 
@@ -532,7 +541,6 @@ def beginPage():
                            report_data = report_data
                            )
 
-
 @views.route('/not_found')
 def not_found():
     return render_template('not_found.html')
@@ -594,13 +602,13 @@ def profile_common():
                             Brest_data=Brest_data
                             )
 
-
 @views.route('/profile/password')
 @login_required
 def profile_password():
     return render_template('profile_password.html', user=current_user)
 
 @views.route('/report_area')
+@profile_complete
 @login_required
 def report_area():
     report = Report.query.filter_by(user_id=current_user.id).all()
@@ -629,13 +637,14 @@ def report_area():
                            version=version)
 
 @views.route('/report_area/fuel/<int:id>')
+@profile_complete
 @login_required
 @owner_only
 def report_fuel(id):
     dirUnit = DirUnit.query.filter_by().all()
     dirProduct = DirProduct.query.filter(DirProduct.IsFuel == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
     current_version = Version_report.query.filter_by(id=id).first()
-    curent_report = Report.query.filter_by(id=current_version.report_id).first()
+    current_report = Report.query.filter_by(id=current_version.report_id).first()
     
     sections = Sections.query.filter_by(id_version=current_version.id, section_number=1).all()
 
@@ -667,12 +676,13 @@ def report_fuel(id):
         sections=sections,              
         dirUnit=dirUnit,
         dirProduct=dirProduct,
-        user=current_user, 
-        curent_report=curent_report,
+        current_user=current_user, 
+        current_report=current_report,
         current_version=current_version
     )
 
 @views.route('/report_area/heat/<int:id>')
+@profile_complete
 @login_required
 @owner_only
 def report_heat(id):
@@ -680,7 +690,7 @@ def report_heat(id):
     dirProduct = DirProduct.query.filter(DirProduct.IsHeat == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
     
     current_version = Version_report.query.filter_by(id=id).first()
-    curent_report = Report.query.filter_by(id=current_version.report_id).first()
+    current_report = Report.query.filter_by(id=current_version.report_id).first()
    
     sections = Sections.query.filter_by(id_version=current_version.id, section_number=2).all()
     specific_codes = ['9001', '9010', '9100']
@@ -713,12 +723,13 @@ def report_heat(id):
         sections=sections,              
         dirUnit=dirUnit,
         dirProduct=dirProduct,
-        user=current_user, 
-        curent_report=curent_report,
+        current_user=current_user, 
+        current_report=current_report,
         current_version=current_version
     )
 
 @views.route('/report_area/electro/<int:id>')
+@profile_complete
 @login_required
 @owner_only
 def report_electro(id):
@@ -726,7 +737,7 @@ def report_electro(id):
     dirProduct = DirProduct.query.filter(DirProduct.IsElectro == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
     
     current_version = Version_report.query.filter_by(id=id).first()
-    curent_report = Report.query.filter_by(id=current_version.report_id).first()
+    current_report = Report.query.filter_by(id=current_version.report_id).first()
     
     sections = Sections.query.filter_by(id_version=current_version.id, section_number=3).all()
 
@@ -759,8 +770,8 @@ def report_electro(id):
         sections=sections,              
         dirUnit=dirUnit,
         dirProduct=dirProduct,
-        user=current_user, 
-        curent_report=curent_report,
+        current_user=current_user, 
+        current_report=current_report,
         current_version=current_version
     )
 
@@ -788,6 +799,7 @@ def count_reports():
     return not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count
 
 @views.route('/audit_area')
+@profile_complete
 @login_required
 def audit_area():
     report_all_sent = Report.query.join(Version_report).filter(
@@ -817,7 +829,7 @@ def audit_area():
 
     not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count = count_reports()
     return render_template('audit_area.html', 
-                           user=current_user, 
+                           current_user=current_user, 
                            report_all_sent=report_all_sent,
                            report_not_read=report_not_read,
                            report_remarks=report_remarks,
@@ -831,13 +843,14 @@ def audit_area():
                            )
 
 @views.route('/audit_area/report/<int:id>')
+@profile_complete
 @login_required
 def audit_report(id):
     dirUnit = DirUnit.query.filter_by().all()
     dirProduct = DirProduct.query.filter_by().all()
 
     current_version = Version_report.query.filter_by(id=id).first()
-    curent_report = Report.query.filter_by(id=current_version.report_id).first()
+    current_report = Report.query.filter_by(id=current_version.report_id).first()
 
     tickets = Ticket.query.filter_by(version_report_id = current_version.id).all()
 
@@ -852,8 +865,15 @@ def audit_report(id):
 
         dirUnit=dirUnit,
         dirProduct=dirProduct,
-        user=current_user, 
-        curent_report=curent_report,
+        current_user=current_user, 
+        current_report=current_report,
         current_version=current_version,
         tickets=tickets
     )
+
+@views.route('/FAQ')
+def FAQ():
+    return render_template('FAQ.html', 
+        current_user=current_user
+    )
+

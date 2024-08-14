@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}FAQ{% endblock %}
+{% block content %}
+<div class="FAQ_cont">
+    <a>Ответы на часто задаваемые вопросы</a>
+    <div class="faq_container">
+        <div class="faq_question" onclick="toggleAnswer(this)">
+            <div class="faq_question_solid">
+                <span>Вопрос 1</span>
+                <div class="faq_icon">
+                    <img src="{{ url_for('static', filename='img/close_black.png')}}" class="faq_icon_image img_black">
+                    <img src="{{ url_for('static', filename='img/close_white.png')}}" class="faq_icon_image img_white">
+                </div>
+            </div>
+            <div class="faq_answer">
+                <p>Ответ 1</p>
+            </div>
+        </div>
+        <div class="faq_question" onclick="toggleAnswer(this)">
+            <div class="faq_question_solid">
+                <span>Вопрос 2</span>
+                <div class="faq_icon">
+                    <img src="{{ url_for('static', filename='img/close_black.png')}}" class="faq_icon_image img_black">
+                    <img src="{{ url_for('static', filename='img/close_white.png')}}" class="faq_icon_image img_white">
+                </div>
+            </div>
+            <div class="faq_answer">
+                <p>Ответ 2</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function toggleAnswer(element) {
+        const question = element.closest('.faq_question');
+        question.classList.toggle('expanded');
+    }
+</script>
+{% endblock %}
