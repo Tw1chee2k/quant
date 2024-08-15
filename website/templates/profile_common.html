@@ -46,17 +46,34 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>ФИО</td>
-                            <td>                    
-                                <input type="text"  value="{{current_user.fio}}" readonly>
-                            </td>
-                        </tr>
-                        <tr>
                             <td>Номер телефона</td>
                             <td>
                                 <input type="text" value="{{current_user.telephone}}" readonly>
                             </td>
                         </tr>
+
+
+                        <tr>
+                            <td style = "padding-top: 80px;">Фамилия</td>
+                            <td>                    
+                                <input  style = "margin-top: 80px;" type="text"  value="{{current_user.fio.split()[0]}}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Имя</td>
+                            <td>                    
+                                <input type="text"  value="{{current_user.fio.split()[1]}}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Отчество</td>
+                            <td>                    
+                                <input type="text"  value="{{current_user.fio.split()[2]}}" readonly>
+                            </td>
+                        </tr>
+
+
+
                         <tr>
                             <td style = "padding-top: 80px;">Организация</td>
                             <td>
@@ -108,16 +125,6 @@
                                 <input type="text" value="{{current_user.email}}" readonly>
                             </td>
                         </tr>
-            
-                        <tr>
-                            <td>ФИО</td>
-                            <td>                    
-                                <div class="clear-input_container">
-                                    <input type="text" name = "fio_common" placeholder="Введите ФИО"value="{{current_user.fio if current_user.fio else ''}}">
-                                    <span class="clear-btn">&times;</span>
-                                </div>
-                            </td>
-                        </tr>
                         <tr>
                             <td>Номер телефона</td>
                             <td>
@@ -127,6 +134,35 @@
                                 </div>
                             </td>
                         </tr>
+
+                        <tr>
+                            <td style = "padding-top: 80px;">Фамилия</td>
+                            <td>                    
+                                <div class="clear-input_container">
+                                    <input style = "margin-top: 80px;" type="text" name = "second_name_common" placeholder="Введите фамилию"value="{{current_user.fio.split()[0] if current_user.fio else ''}}">
+                                    <span style = "margin-top: 40px;" class="clear-btn">&times;</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Имя</td>
+                            <td>                    
+                                <div class="clear-input_container">
+                                    <input type="text" name = "name_common" placeholder="Введите имя"value="{{current_user.fio.split()[1] if current_user.fio else ''}}">
+                                    <span class="clear-btn">&times;</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Отчество</td>
+                            <td>                    
+                                <div class="clear-input_container">
+                                    <input type="text" name = "patronymic_common" placeholder="Введите отчество"value="{{current_user.fio.split()[2] if current_user.fio else ''}}">
+                                    <span class="clear-btn">&times;</span>
+                                </div>
+                            </td>
+                        </tr>
+
                         <tr>
                             <td style = "padding-top: 80px;">Предприятие</td>
                             <td>
@@ -143,7 +179,7 @@
                                         <div class="table_body_container">
                                             <table class="table_report-area">
                                                 <tbody id="chooserOganizationTableBody">
-                                                    {% for row in Brest_data %}
+                                                    {% for row in city_all_data_dict %}
                                                         <tr data-id="{{ row.id }}">     
                                                             <td>{{row.NAME1}} {{row.NAME2}} {{row.NAME3}} {{row.NAME4}} {{row.NAME5}} {{row.NAME6}}</td>
                                                             <td>{{row.OKPO}}</td>        

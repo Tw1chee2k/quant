@@ -13,13 +13,16 @@
         <div class = "hellow_row_dop_name">
             ДЛЯ ПОДАЧИ ОТЧЕТОВ В СООТВЕТСТВИИ С ЗАКОНОМ РЕСПУБЛИКИ БЕЛАРУСЬ "НОРМИРОВАНИЕ РАСХОДОВ"
         </div>
-        {% if current_user.is_authenticated and user.type != 'Аудитор'%}
-            <button onclick="window.location.href='/report_area'" type="" class = "main_button">Подать отчет</button>
-        {% elif current_user.is_authenticated and user.type == 'Аудитор' %}
-            <button onclick="window.location.href='/audit_area'" type="" class = "main_button">Просмотр отчетов</button>        
-        {% else %}
-            <button onclick="window.location.href='/login'" type="" class = "main_button">Войти</button>
-        {% endif %}
+        <div> 
+            {% if current_user.is_authenticated and user.type != 'Аудитор'%}
+                <button onclick="window.location.href='/report_area'" type="" class = "main_button">Подать отчет</button>
+            {% elif current_user.is_authenticated and user.type == 'Аудитор' %}
+                <button onclick="window.location.href='/audit_area'" type="" class = "main_button">Просмотр отчетов</button>        
+            {% else %}
+                <button onclick="window.location.href='/login'" type="" class = "main_button">Войти</button>
+                <button onclick="window.location.href='/sign'" type="" class = "main_button_invizback">Зарегистрироваться</button>
+            {% endif %}
+        </div>
     </div>    
     <div class= "hellow_row_right">
         <!-- <img src="" alt="hellow"> -->

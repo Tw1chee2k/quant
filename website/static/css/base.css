@@ -54,7 +54,7 @@ body.dimmed {
     --color6: #444444;
 }
 
-.blurred-background {
+/* .blurred-background {
     position: absolute;
     top: 0;
     left: 0;
@@ -72,7 +72,7 @@ body.dimmed {
     background: linear-gradient(615deg, var(--color4), var(--color5), var(--color6));
     animation: gradient-animation-dark 15s ease infinite;  
     opacity: 1;
-}
+} */
 
 @keyframes gradient-animation {
     0% {
@@ -158,6 +158,31 @@ input::-webkit-input-placeholder {  color: rgb(90, 90, 90); }
 .dark-mode .main_button:hover{
     transition: background-color 0.3s ease;   
     background-color:rgb(11, 192, 171)
+}
+
+.main_button_invizback{
+    background-color: #00000000;
+    box-shadow: none;
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+    height: 35px;
+    padding: 4px 15px;
+    font-size: 14px;
+    border: none;
+    transition: 0.3s color ease;
+    cursor: pointer;
+}
+
+.main_button_invizback:hover{
+    color: #028dff;
+}
+
+.dark-mode .main_button_invizback{
+    color: rgb(255, 255, 255);
+}
+
+.dark-mode .main_button_invizback:hover{
+    color: rgb(43, 236, 214);
 }
 
 .icon_white{
@@ -278,7 +303,7 @@ header nav ul {
 	position: relative;
 	display: block;
 	background: #ebebeb;
-	border-radius: 10px;
+	border-radius: 100px;
 	box-shadow: inset 0px 5px 15px rgba(0,0,0,0.4), inset 0px -5px 15px rgba(255,255,255,0.4);
 	cursor: pointer;
 	transition: 0.3s;
@@ -321,7 +346,13 @@ header nav ul {
 	background:#242424;
 }
 
-.header-right label svg {
+
+.header-right li{
+    cursor: pointer;
+
+}
+
+/* .header-right label svg {
 	position: absolute;
     width: 20px;
     height: 20px;
@@ -347,7 +378,7 @@ header nav ul {
 
 .header-right input:checked + label svg.moon {
 	fill:#fff;
-}
+} */
 
 /*them toggle end */
 
@@ -614,7 +645,9 @@ footer {
 
 /*log and reg begin */
 .page_log_reg{
-    min-height: 100vh;
+    padding-top: 30vb;
+    height: calc(100% - 30vb);
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center; 
@@ -704,7 +737,7 @@ footer {
 .aftorization_data input,
 .registration_data input{
     background: rgba(255, 255, 255, 0);
-    width: 280px;
+    width: 480px;
     height: 20px;
     margin: 10px 5px;
     border: none; 
@@ -932,7 +965,6 @@ footer {
 .hellow_row button{
     height: 50px;
     width: 260px;
-    color: rgb(255, 255, 255);
     z-index: 1;
     padding: 0 30px;
     font-size: 16px;
@@ -948,7 +980,7 @@ footer {
 /* Контейнер с количеством пользователей, организац...*/
 .statistics-row {
     max-width: 100%;
-    height: 594px;
+    height: 50vb;
     background-color: #028dff; 
     display: flex;
     flex-direction: row;
@@ -960,13 +992,11 @@ footer {
 }
 
 .statistics-row-left{
-    width: 870px;
-    height: auto;
+
 }
 
 .statistics-row-left img{
-    width: 100%;
-    max-width: 100%;
+    width: 870px;
     height: 100%;
     object-fit: cover;
 }
@@ -1573,11 +1603,11 @@ footer {
     cursor: pointer;
     display: none;
     color: rgb(0, 0, 0);
-    font-size: 27px;
+    font-size: 30px;
 }
 
 .dark-mode .clear-btn {
-    color: rgb(207, 207, 207);
+    color: rgb(255, 255, 255);
 }
 
 .clear-input_container:hover .clear-btn {
@@ -1589,16 +1619,40 @@ footer {
 /*show password input */
 .security-container {
     position: relative;
-    display: inline-block;
+    display: flex;
+    align-items: center;
 }
-.security-container img {
+
+/* Поле ввода пароля */
+
+
+/* Иконки видимости пароля */
+.show-icon,
+.hide-icon,
+.show-icon1,
+.hide-icon1
+{
     position: absolute;
     right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
+    z-index: 2;
     cursor: pointer;
-    width: 20px; 
 }
+
+.show-icon, .show-icon1{
+    display: none; 
+}
+
+.hide-icon, .hide-icon1{
+    display: none; 
+}
+
+
+.security-container .show-icon,
+.security-container .show-icon1
+ {
+    display: inline;
+}
+
 /*show password input end*/
 
 

@@ -9,38 +9,39 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    const passwordField = document.querySelector('#password-field');
-    const showPasswordIcon = document.querySelector('.show-icon');
-    const hidePasswordIcon = document.querySelector('.hide-icon');
-
-    if (passwordField && showPasswordIcon && hidePasswordIcon) {
-        function updateIconsVisibility() {
-            if (passwordField.value) {
-                showPasswordIcon.style.display = 'inline';
-            } else {
-                showPasswordIcon.style.display = 'none';
-                hidePasswordIcon.style.display = 'none';
+    function setupPasswordToggle(passwordFieldId, showIconClass, hideIconClass) {
+        const passwordField = document.querySelector(`#${passwordFieldId}`);
+        const showPasswordIcon = document.querySelector(`.${showIconClass}`);
+        const hidePasswordIcon = document.querySelector(`.${hideIconClass}`);
+    
+        if (passwordField && showPasswordIcon && hidePasswordIcon) {
+            function updateIconsVisibility() {
+                if (passwordField.type === 'password') {
+                    showPasswordIcon.style.display = 'inline';
+                    hidePasswordIcon.style.display = 'none';
+                } else {
+                    showPasswordIcon.style.display = 'none';
+                    hidePasswordIcon.style.display = 'inline';
+                }
             }
+
+            passwordField.addEventListener('input', updateIconsVisibility);
+            showPasswordIcon.addEventListener('click', function() {
+                passwordField.type = 'text';
+                updateIconsVisibility();
+            });
+    
+            hidePasswordIcon.addEventListener('click', function() {
+                passwordField.type = 'password';
+                updateIconsVisibility();
+            });
+    
+            updateIconsVisibility();
         }
-
-        passwordField.addEventListener('input', updateIconsVisibility);
-
-        showPasswordIcon.addEventListener('click', function() {
-            passwordField.type = 'text';
-            this.style.display = 'none';
-            hidePasswordIcon.style.display = 'inline';
-        });
-
-        hidePasswordIcon.addEventListener('click', function() {
-            passwordField.type = 'password';
-            this.style.display = 'none';
-            showPasswordIcon.style.display = 'inline';
-        });
-
-        updateIconsVisibility();
     }
-
-
+    
+    setupPasswordToggle('password-field', 'show-icon', 'hide-icon');
+    setupPasswordToggle('password-field1', 'show-icon1', 'hide-icon1');
 
 
     var full_name_common = document.querySelector('input[name="full_name_common"]');

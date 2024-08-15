@@ -7,6 +7,7 @@ from sqlalchemy import asc
 from sqlalchemy import desc
 from functools import wraps
 from datetime import datetime, timedelta
+import pandas as pd
 
 from dbfread import DBF
 
@@ -568,38 +569,60 @@ def account():
     messages = Message.query.filter_by(user=current_user).order_by(Message.id.desc()).all()
 
     return render_template('account.html', 
-                           user=current_user, 
+                           current_user=current_user, 
                            messages=messages)
 
 @views.route('/profile/common')
 @login_required
 def profile_common():
     Brest_data_path = 'organizations/Брест.dbf'
-
     website_path = os.path.dirname(os.path.abspath(__file__)) 
+
     Brest_data_path = os.path.join(website_path, 'organizations', 'Брест.dbf')
-    
+    Vitebsk_data_path = os.path.join(website_path, 'organizations', 'Витебск.dbf')
+    Gomel_data_path = os.path.join(website_path, 'organizations', 'Гомель.dbf')
+    Grodno_data_path = os.path.join(website_path, 'organizations', 'Гродно.dbf')
+    Minsk_data_path = os.path.join(website_path, 'organizations', 'Минск.dbf')
+    MinskRegion_data_path = os.path.join(website_path, 'organizations', 'Минск_область.dbf')
+    Migilev_data_path = os.path.join(website_path, 'organizations', 'Могилев.dbf')
 
-    Brest_columns = ['OKPO', 'NAME1', 'NAME2', 'NAME3', 'NAME4', 'NAME5', 'NAME6', 'RAI', 'GOR', 'MIN', 'UNP']
-    Brest_data = read_dbf(Brest_data_path, Brest_columns)
+    columns = ['OKPO', 'NAME1', 'NAME2', 'NAME3', 'NAME4', 'NAME5', 'NAME6', 'RAI', 'GOR', 'MIN', 'UNP']
 
-    count_reports = Report.query.filter_by(user_id = current_user.id).count()
+    Brest_data = read_dbf(Brest_data_path, columns)
+    Vitebsk_data = read_dbf(Vitebsk_data_path, columns)
+    Gomel_data = read_dbf(Gomel_data_path, columns)
+    Grodno_data = read_dbf(Grodno_data_path, columns)
+    Minsk_data = read_dbf(Minsk_data_path, columns)
+    MinskRegion_data = read_dbf(MinskRegion_data_path, columns)
+    Migilev_data = read_dbf(Migilev_data_path, columns)
 
-    
-    if not current_user.organization: 
+    city_all_data = pd.concat([
+        pd.DataFrame(Brest_data, columns=columns),
+        pd.DataFrame(Vitebsk_data, columns=columns),
+        pd.DataFrame(Gomel_data, columns=columns),
+        pd.DataFrame(Grodno_data, columns=columns),
+        pd.DataFrame(Minsk_data, columns=columns),
+        pd.DataFrame(MinskRegion_data, columns=columns),
+        pd.DataFrame(Migilev_data, columns=columns)
+    ], ignore_index=True)
+
+    city_all_data_dict = city_all_data.to_dict(orient='records')
+
+    count_reports = Report.query.filter_by(user_id=current_user.id).count()
+
+    if not current_user.organization:
         return render_template('profile_common.html', 
                             current_user=current_user, 
                             count_reports=count_reports,
-                            Brest_data=Brest_data
+                            city_all_data_dict=city_all_data_dict
                             )
     else:
-        organization = Organization.query.filter_by(id = current_user.organization.id).first()
-        count_reports = Report.query.filter_by(user_id = current_user.id).count()
+        organization = Organization.query.filter_by(id=current_user.organization.id).first()
         return render_template('profile_common.html', 
                             user=current_user, 
                             organization=organization,
                             count_reports=count_reports,
-                            Brest_data=Brest_data
+                            city_all_data_dict=city_all_data_dict
                             )
 
 @views.route('/profile/password')

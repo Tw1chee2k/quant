@@ -4,13 +4,13 @@
 
 <div class = "account_cont">
     <div class = "privetstvie_cont">
-        <a>Добро пожаловать, {{user.fio}}</a>
+        <a>Добро пожаловать{{', ' + current_user.fio if current_user.fio else ''}}</a>
     </div>
     <div class = "account_functions">
         <div class = "account_links">
 
-            {%if user.type == 'Администратор' or user.type == 'Респондент'%}
-                <button class = "account_buttons" {%if user.type == 'Аудитор'%} onclick="window.location.href='/audit_area'"{%else%} onclick="window.location.href='/report_area'"{%endif%}>
+            {%if current_user.type == 'Администратор' or current_user.type == 'Респондент'%}
+                <button class = "account_buttons" {%if current_user.type == 'Аудитор'%} onclick="window.location.href='/audit_area'"{%else%} onclick="window.location.href='/report_area'"{%endif%}>
                     <img src="{{ url_for('static', filename='img/icon_reports.png')}}"  alt="">
                     <span>Отчеты</span>
                 </button>
@@ -21,7 +21,7 @@
             {%else%}
             {%endif%}
 
-            {%if user.type == 'Администратор' or user.type == 'Аудитор'%}
+            {%if current_user.type == 'Администратор' or current_user.type == 'Аудитор'%}
                 <button class = "account_buttons" onclick="window.location.href='/audit_area'">
                     <img src="{{ url_for('static', filename='img/audit_icon.png')}}"  alt="">
                     <span>Аудит</span>
@@ -34,7 +34,7 @@
                 <span>Мой профиль</span>
             </button>
 
-            {%if user.type == 'Администратор'%}
+            {%if current_user.type == 'Администратор'%}
                 <button class = "account_buttons" onclick="window.location.href='/admin'">
                     <img src="{{ url_for('static', filename='img/icon_admin-panel.png')}}"  alt="">
                     <span>Админ-панель</span>

@@ -152,7 +152,12 @@ def activate_account(token):
 @auth.route('/add_personal_parametrs', methods=['GET', 'POST'])
 def add_personal_parametrs():
     if request.method == 'POST':
-        fio = request.form.get('fio_common')
+
+        name = request.form.get('name_common')
+        second_name = request.form.get('second_name_common')
+        patronymic = request.form.get('patronymic_common')
+
+
         telephone = request.form.get('telephone_common')   
         full_name = request.form.get('full_name_common')
         okpo = request.form.get('okpo_common')
@@ -161,47 +166,53 @@ def add_personal_parametrs():
         city = request.form.get('city_common')
         ministry = request.form.get('ministry_common')
 
-        current_user.fio = fio
-        existing_telephone = User.query.filter(User.id != current_user.id, User.telephone == telephone).first()
+        if not name or not telephone or not full_name or not name or not second_name or not patronymic:
+            flash('Заполните все обязательные строки', 'error')
+            return redirect(url_for('views.profile_common'))
+        else:
+            name = name.replace(' ', '')
+            second_name = second_name.replace(' ', '')
+            patronymic = patronymic.replace(' ', '')
 
-        if not existing_telephone:
-            current_user.telephone = telephone
-            existing_Organization = Organization.query.filter_by(full_name=full_name).first()
+            fio = f"{second_name} {name} {patronymic}"
+            current_user.fio = fio
+            existing_telephone = User.query.filter(User.id != current_user.id, User.telephone == telephone).first()
 
-            if current_user.organization:
+            if not existing_telephone:
+                current_user.telephone = telephone
+                existing_Organization = Organization.query.filter_by(full_name=full_name).first()
 
-                current_user.organization.full_name = full_name  
-                current_user.organization.okpo = okpo
-                current_user.organization.ynp = ynp
-                current_user.organization.district = district  
-                current_user.organization.city = city
-                current_user.organization.ministry = ministry
-            else:
-                if not existing_Organization:
+                if current_user.organization:
 
-                    new_Organization = Organization(
-                        full_name=full_name,
-                        okpo=okpo,
-                        ynp=ynp,
-                        district=district,
-                        city=city,
-                        ministry=ministry
-                    )
-                    db.session.add(new_Organization)
-                    current_user.organization = new_Organization
+                    current_user.organization.full_name = full_name  
+                    current_user.organization.okpo = okpo
+                    current_user.organization.ynp = ynp
+                    current_user.organization.district = district  
+                    current_user.organization.city = city
+                    current_user.organization.ministry = ministry
                 else:
-                    flash('Организация с таким названием уже существует.', 'error')
-                    return redirect(url_for('views.profile_common'))  
+                    if not existing_Organization:
 
-            db.session.commit()
-            flash('Данные успешно обновлены.', 'success')
-        else: 
-            flash('Пользователь с таким номером телефона уже существует.', 'error')
+                        new_Organization = Organization(
+                            full_name=full_name,
+                            okpo=okpo,
+                            ynp=ynp,
+                            district=district,
+                            city=city,
+                            ministry=ministry
+                        )
+                        db.session.add(new_Organization)
+                        current_user.organization = new_Organization
+                    else:
+                        flash('Организация с таким названием уже существует.', 'error')
+                        return redirect(url_for('views.profile_common'))  
+
+                db.session.commit()
+                flash('Данные успешно обновлены.', 'success')
+            else: 
+                flash('Пользователь с таким номером телефона уже существует.', 'error')
+
         return redirect(url_for('views.profile_common'))
-
-
-
-
 
 def update_user_activity():
     if current_user.is_authenticated:
@@ -216,9 +227,6 @@ def update_activity():
     if current_user.is_authenticated:
         current_user.update_activity()
     return '', 204
-
-
-
 
 @auth.route('/profile/password', methods=['GET', 'POST'])
 def profile_password():
@@ -339,15 +347,26 @@ def update_report():
         year = request.form.get('modal_report_year')
         quarter = request.form.get('modal_report_quarter')  
         
-        current_report = Report.query.filter_by(id = id).first()
-        versions = Version_report.query.filter_by(report_id = id).all()
-        organization_okpo = Organization.query.filter_by(okpo = okpo).first()
+        current_report = Report.query.filter_by(id=id).first()
+        versions = Version_report.query.filter_by(report_id=id).all()
+        organization_okpo = Organization.query.filter_by(okpo=okpo).first()
 
         if current_report:
+            existing_report = Report.query.filter_by(
+                okpo=okpo,
+                year=year,
+                quarter=quarter
+            ).first()
+
+            if existing_report and existing_report.id != id:
+                flash('Отчет с таким годом и кварталом уже существует', category='error')
+                return redirect(url_for('views.report_area'))
+
             sent_version_exists = any(version.sent for version in versions)
             if sent_version_exists:
                 flash('После отправки версии изменение отчета недоступно', category='error')
-                return redirect(url_for('views.report_area'))  
+                return redirect(url_for('views.report_area'))
+
             current_report.okpo = okpo
             current_report.year = year
             current_report.quarter = quarter
@@ -355,9 +374,26 @@ def update_report():
             db.session.commit()
             flash('Параметры обновлены', category='success')
         else:
-            flash('Отчет не найден', 'error')
+            flash('Отчет не найден', category='error')
+
         return redirect(url_for('views.report_area'))
     
+@auth.route('/сopy_report/<id>', methods=['POST'])
+def сopy_report(id):
+    if request.method == 'POST':
+        current_report = Report.query.filter_by(id = id).first()
+        current_report_version = Version_report.query.filter_by(report_id = id).first()
+        current_sections = Sections.query.filter_by(id_version = id).all()
+
+        coppy_organization_name = request.form.get('coppy_organization_name')
+        coppy_organization_okpo = request.form.get('coppy_organization_okpo')
+        coppy_report_year = request.form.get('coppy_report_year')
+        coppy_report_quarter = request.form.get('coppy_report_quarter')
+
+        
+
+        return redirect(url_for('views.report_area'))
+
 @auth.route('/delete_report/<report_id>', methods=['POST'])
 def delete_report(report_id):
     if request.method == 'POST':

@@ -264,20 +264,20 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-
-
-
     /*end*/
 
     /*показ панели для редактирования параметров отчета*/
     var link_change_report = document.getElementById('link_change_report');
     var link_add_report = document.getElementById('link_add_report');
+    var link_coppy_report = document.getElementById('link_coppy_report');
 
     var change_report_modal = document.getElementById('change_report_modal');
     var add_report_modal = document.getElementById('add_report_modal');
-    
+    var coppy_report_modal = document.getElementById('coppy_report_modal');
+   
     var close_change_report_modal = change_report_modal.querySelector('.close');
     var close_add_report_modal = add_report_modal.querySelector('.close');
+    var close_coppy_report_modal = coppy_report_modal.querySelector('.close');
 
 
     link_change_report.addEventListener('click', function(event) {
@@ -302,14 +302,23 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     link_add_report.addEventListener('click', function() {
-    
         add_report_modal.style.display = 'block';
+        contextMenuReport.style.display = 'none';
+    });
+
+    link_coppy_report.addEventListener('click', function() {
+        coppy_report_modal.style.display = 'block';
         contextMenuReport.style.display = 'none';
     });
 
 
     close_change_report_modal.addEventListener('click', function() {
         change_report_modal.style.display = 'none';
+
+    });
+
+    close_coppy_report_modal.addEventListener('click', function() {
+        coppy_report_modal.style.display = 'none';
 
     });
 
@@ -321,6 +330,12 @@ document.addEventListener('DOMContentLoaded', function () {
     change_report_modal.addEventListener('click', function(event) {
         if (event.target === change_report_modal) {
             change_report_modal.style.display = 'none';
+        }
+    });
+
+    coppy_report_modal.addEventListener('click', function(event) {
+        if (event.target === coppy_report_modal) {
+            coppy_report_modal.style.display = 'none';
         }
     });
 

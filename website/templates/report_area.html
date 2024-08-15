@@ -228,7 +228,10 @@
                                                     {% endfor %}
                                                 {% else %}
                                                     <tr class="row_with_tickets">
-                                                        <td colspan="5">Нет данных</td>
+                                                        <td style = "height: 24px;" colspan="5">
+                                                            <input type = "text"  value = "Квитанций нет" readonly>
+                                                        </td>
+                                                      
                                                     </tr>
                                                 {% endif %}
                                                 </tbody>
@@ -245,8 +248,8 @@
                 <tr>
                     <td></td>
                     <td></td>
-                    <td colspan="5">
-                        <input type = "text" value = "Для начала работы создайте новый отчет" readonly>
+                    <td style = "height: 24px;" colspan="5">
+                        <input type = "text"  value = "Для начала работы создайте новый отчет" readonly>
                     </td>
                 </tr>
             {%endif%}
@@ -327,6 +330,78 @@
         </form> 
     </div>
 </div>
+<div id="coppy_report_modal" class="modal">
+    <div class="modal-content">
+        <div class = "modal-header">
+            <h3 class = "change-position">Создание отчета на основе копии</h3>
+            <a class="close">&times;</a>
+        </div>
+        <form method="POST" action="/coppy">
+            <table class="modal_table">      
+                <tr>
+                    <td>Наименование предприятия</td>
+                    <td>
+                        <input 
+                            type="text" 
+                            name="coppy_organization_name" 
+                            value="{{current_user.organization.full_name}}" 
+                            style = "width: 250px; text-align: left; color: rgb(132,132,132);" 
+                            autocomplete="off" 
+                            readonly
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <td>ОКПО</td>
+                    <td>
+                        <input 
+                            type="text"
+                            name="coppy_organization_okpo" 
+                            value="{{current_user.organization.okpo}}"  
+                            style = "color: rgb(132,132,132);" 
+                            autocomplete="off" 
+                            readonly
+                        >
+                    </td>
+                </tr>
+                <tr>
+                    <td>Год</td>
+                    <td>
+                        <select 
+                            name="coppy_report_year" 
+                            readonly
+                        >
+                            <option>2024</option>
+                            <option>2025</option>
+                            <option>2026</option>
+                            <option>2027</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Квартал</td>
+                    <td>
+                        <select 
+                            name="coppy_report_quarter" 
+                            readonly
+                        >
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style = "text-align: right;">
+                        <button type="submit" class="main_button report-submit">Создать</button>
+                    </td>
+                </tr>
+            </table>
+        </form> 
+    </div>
+</div>
 <div id="change_report_modal" class="modal">
     <div class="modal-content">
         <div class = "modal-header">
@@ -334,7 +409,7 @@
             <a class="close">&times;</a>
         </div>
         <form method="POST" action="/update_report">
-            <table class="change-report_table">      
+            <table class="modal_table">      
                 <tr>
                     <td>Наименование предприятия</td>
                     <td>
@@ -416,6 +491,9 @@
             <span>Добавить версию</span>
         </button>
     </form>
+    <button id = "link_coppy_report">
+        <span>Скопировать</span>
+    </button>
     <form id="deleteReport" method="POST" action="/delete_report/">
         <button type="submit" id="del_reportButton">
             <span>Удалить</span>
