@@ -279,7 +279,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var close_add_report_modal = add_report_modal.querySelector('.close');
     var close_coppy_report_modal = coppy_report_modal.querySelector('.close');
 
-
     link_change_report.addEventListener('click', function(event) {
         event.preventDefault();
         var reportRow = document.querySelector('.report_row.active-report');
@@ -306,15 +305,19 @@ document.addEventListener('DOMContentLoaded', function () {
         contextMenuReport.style.display = 'none';
     });
 
-    link_coppy_report.addEventListener('click', function() {
+    link_coppy_report.addEventListener('click', function(event) {
+        event.preventDefault();
+        var reportRow = document.querySelector('.report_row.active-report');
+        if (reportRow) {
+            var reportId = reportRow.querySelector('#report_id').value;
+            document.getElementById('copped_id').value = reportId;
+        }
         coppy_report_modal.style.display = 'block';
         contextMenuReport.style.display = 'none';
     });
 
-
     close_change_report_modal.addEventListener('click', function() {
         change_report_modal.style.display = 'none';
-
     });
 
     close_coppy_report_modal.addEventListener('click', function() {
@@ -345,10 +348,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     /*end*/
-
-
-
-
 
 
     var add_versionButton = document.getElementById('add_versionButton');
@@ -395,8 +394,6 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
         }
     });
-
-    
 
     var agreedVersionButton = document.getElementById('agreedVersionButton');
     var agreedForm = document.getElementById('agreed-version-form');
@@ -480,6 +477,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
+
     var PrintTicketButton = document.getElementById('PrintTicketButton');
     var printForm = document.getElementById('print-ticket-form');
 
@@ -523,7 +521,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    // Обработчик клика по кнопке "Согласовать"
+
+
     agreedVersionButton.addEventListener('click', function(event) {
         if (activeAgreedRow === null) {
             event.preventDefault();
@@ -536,7 +535,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Обработчик клика по кнопке "Контроль версии"
     controlVersionButton.addEventListener('click', function(event) {
         var activeControlRow = document.querySelector('.version-row.active-report_version');
         if (activeControlRow !== null) {
@@ -589,8 +587,6 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
         }
     });
-
-
 });  
 
 

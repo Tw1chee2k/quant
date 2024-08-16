@@ -302,11 +302,7 @@ def create_new_report():
             db.session.commit()
             
             new_version_report = Version_report(
-                begin_time = datetime.now(),
-                # change_time = 
-                # control = 
-                # agreed = 
-                # agreed_time = 
+                begin_time = datetime.now(), 
                 status = "Заполнение",
                 fio = current_user.fio,
                 telephone = current_user.telephone,
@@ -378,20 +374,66 @@ def update_report():
 
         return redirect(url_for('views.report_area'))
     
-@auth.route('/сopy_report/<id>', methods=['POST'])
-def сopy_report(id):
+@auth.route('/сopy_report', methods=['POST'])
+def сopy_report():
     if request.method == 'POST':
-        current_report = Report.query.filter_by(id = id).first()
-        current_report_version = Version_report.query.filter_by(report_id = id).first()
-        current_sections = Sections.query.filter_by(id_version = id).all()
+        coppy_report_id = request.form.get('coppy_report_id')
 
-        coppy_organization_name = request.form.get('coppy_organization_name')
-        coppy_organization_okpo = request.form.get('coppy_organization_okpo')
-        coppy_report_year = request.form.get('coppy_report_year')
-        coppy_report_quarter = request.form.get('coppy_report_quarter')
+        current_report = Report.query.filter_by(id = coppy_report_id).first()
+        current_report_version = Version_report.query.filter_by(report_id = coppy_report_id).first()
+        current_sections = Sections.query.filter_by(id_version=current_report_version.id).all()
 
-        
+        new_organization_name = request.form.get('coppy_organization_name')
+        new_organization_okpo = request.form.get('coppy_organization_okpo')
+        new_report_year = request.form.get('coppy_report_year')
+        new_report_quarter = request.form.get('coppy_report_quarter')
 
+        proverka_report = Report.query.filter_by(organization_name=new_organization_name, 
+                                                 year = new_report_year, 
+                                                 quarter=new_report_quarter, 
+                                                 okpo = new_organization_okpo
+                                                 ).first()
+        if not proverka_report:
+            new_report = Report(
+                okpo=new_organization_okpo,
+                organization_name= new_organization_name,
+                year=new_report_year,
+                quarter=new_report_quarter,
+                user_id = current_user.id
+            )
+            db.session.add(new_report)
+            db.session.commit()
+
+            new_version = Version_report(
+                status = "Заполнение",
+                fio = current_user.fio,
+                telephone = current_user.telephone,
+                email = current_user.email,
+                report=new_report
+            )
+            db.session.add(new_version)
+            db.session.commit()
+
+            for section in current_sections:
+                new_section = Sections(
+                    id_version=new_version.id,
+                    id_product=section.id_product,
+                    code_product=section.code_product,
+                    section_number=section.section_number,
+                    Oked=section.Oked,
+                    produced=section.produced,
+                    Consumed_Quota=section.Consumed_Quota,
+                    Consumed_Fact=section.Consumed_Fact,
+                    Consumed_Total_Quota=section.Consumed_Total_Quota,
+                    Consumed_Total_Fact=section.Consumed_Total_Fact,
+                    total_differents=section.total_differents,
+                    note=section.note
+                )
+                db.session.add(new_section)
+            db.session.commit()
+
+        else:
+            flash('Отчет с таким годом и квараталом уже существует, копирование eror','error')
         return redirect(url_for('views.report_area'))
 
 @auth.route('/delete_report/<report_id>', methods=['POST'])
@@ -561,8 +603,6 @@ def add_section_param():
                             db.session.commit()
                     flash('Продукция была добавлена', 'success')
                     current_version.status = "Заполнение"
-                    current_version.control = False
-                    current_version.agreed = False
                     current_version.agreed_time = None
                     db.session.commit()
                 else:
@@ -664,8 +704,6 @@ def change_section():
                         section9100.total_differents = (section9001.total_differents or 0) + (section9010.total_differents or 0)
                         db.session.commit()
                     current_version.status = "Заполнение"
-                    current_version.control = False
-                    current_version.agreed = False
                     current_version.agreed_time = None
                     db.session.commit()
                     flash('Параметры обновлены', 'success')
@@ -711,8 +749,6 @@ def remove_section(id):
                         current_version.change_time = datetime.now()
                         db.session.commit()
                     current_version.status = "Заполнение"
-                    current_version.control = False
-                    current_version.agreed = False
                     current_version.agreed_time = None
                     db.session.commit()
                 else: 
@@ -760,7 +796,6 @@ def control_version(id):
                 flash('Код строки 9010 не заполнен', 'error')
                 return redirect(url_for('views.report_electro', id=id_version))
             current_version.status = 'Контроль пройден'
-            current_version.control = True
             db.session.commit()
             flash('Контроль пройден', 'successful')
         else:

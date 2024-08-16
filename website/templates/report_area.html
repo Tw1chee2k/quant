@@ -336,7 +336,7 @@
             <h3 class = "change-position">Создание отчета на основе копии</h3>
             <a class="close">&times;</a>
         </div>
-        <form method="POST" action="/coppy">
+        <form method="POST" action="/сopy_report">
             <table class="modal_table">      
                 <tr>
                     <td>Наименование предприятия</td>
@@ -390,6 +390,19 @@
                             <option>3</option>
                             <option>4</option>
                         </select>
+                    </td>
+                </tr>
+                <tr style = "display:none;">
+                    <td>id</td>
+                    <td>
+                        <input 
+                            type = "text"
+                            name = "coppy_report_id" 
+                            value = ""  
+                            id = "copped_id"
+                            autocomplete="off" 
+                            readonly
+                        >
                     </td>
                 </tr>
                 <tr>
