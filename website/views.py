@@ -3,8 +3,7 @@ from flask_login import login_required, current_user
 from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections, Message
 from . import db
 from werkzeug.security import generate_password_hash
-from sqlalchemy import asc
-from sqlalchemy import desc
+from sqlalchemy import asc, or_, desc
 from functools import wraps
 from datetime import datetime, timedelta
 import pandas as pd
@@ -800,24 +799,24 @@ def report_electro(id):
 
 def count_reports():
     not_viewedReports_count = Report.query.join(Version_report).filter(
-        Version_report.sent == True,
         Version_report.status == 'Отправлено'
     ).count()
     remarksReports_count = Report.query.join(Version_report).filter(
-        Version_report.sent == True,
         Version_report.status == 'Есть замечания'
     ).count()
     to_downloadReports_count = Report.query.join(Version_report).filter(
-        Version_report.sent == True,
         Version_report.status == 'Готов к загрузке'
     ).count()
     to_deleteReports_count = Report.query.join(Version_report).filter(
-        Version_report.sent == True,
         Version_report.status == 'Готов к удалению'
     ).count()
     all_count = Report.query.join(Version_report).filter(
-        Version_report.sent == True,
-        # Version_report.status == 'Готов к удалению'
+        or_(
+            Version_report.status == 'Отправлено',
+            Version_report.status == 'Есть замечания',
+            Version_report.status == 'Готов к загрузке',
+            Version_report.status == 'Готов к удалению'
+        )
     ).count()
     return not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count
 
@@ -826,27 +825,27 @@ def count_reports():
 @login_required
 def audit_area():
     report_all_sent = Report.query.join(Version_report).filter(
-        Version_report.sent == True,
-        # Version_report.status == 'Отправлено'
+        or_(
+            Version_report.status == 'Отправлено',
+            Version_report.status == 'Есть замечания',
+            Version_report.status == 'Готов к загрузке',
+            Version_report.status == 'Готов к удалению'
+        )
     ).all()
 
     report_not_read = Report.query.join(Version_report).filter(
-        Version_report.sent == True,
         Version_report.status == 'Отправлено'
     ).all()
 
     report_remarks = Report.query.join(Version_report).filter(
-        Version_report.sent == True,
         Version_report.status == 'Есть замечания'
     ).all()
 
     report_to_down = Report.query.join(Version_report).filter(
-        Version_report.sent == True,
         Version_report.status == 'Готов к загрузке'
     ).all()
 
     report_to_del = Report.query.join(Version_report).filter(
-        Version_report.sent == True,
         Version_report.status == 'Готов к удалению'
     ).all()
 

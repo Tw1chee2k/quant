@@ -146,7 +146,7 @@
                                         <th class="resizable" style ="white-space: nowrap; width: 100px;">Дата начала<div class="resizer"></div></th>
                                         <th class="resizable" style="white-space: nowrap; width: 100px;">Дата изменения<div class="resizer"></div></th>
                                         <th class="resizable" >Статус<div class="resizer"></div></th>
-                                        <th class="resizable" style="white-space: nowrap; width: 100px;">Дата согласования<div class="resizer"></div></th>
+                                        <th class="resizable" style="white-space: nowrap; width: 100px;">Дата отправки<div class="resizer"></div></th>
                                         <th class="resizable" style="white-space: nowrap; width: 200px;">ФИО<div class="resizer"></div></th>
                                         <th class="resizable" style="white-space: nowrap; width: 100px;">Телефон<div class="resizer"></div></th>
                                         <th class="resizable" style="white-space: nowrap; width: 140px;">Email<div class="resizer"></div></th>
@@ -173,12 +173,40 @@
                                             {% endif %}
                                         </td>
 
+                                   
+                                            {% if rows.status == 'Контроль пройден'%}
+                                                <td style = "background: rgb(96, 255, 228);"> 
+                                                    <input type = "text" value = "{{ rows.status }}"  readonly>
+                                                </td> 
+                                            {% elif rows.status == 'Согласовано'%}
+                                                <td style = "background: rgb(152, 255, 169);"> 
+                                                    <input type = "text" value = "{{ rows.status }}"  readonly>
+                                                </td> 
+                                            {% elif rows.status == 'Отправлено'%}
+                                                <td style = "background: rgb(96, 215, 255);"> 
+                                                    <input type = "text" value = "{{ rows.status }}"  readonly>
+                                                </td>  
+                                            {% elif rows.status == 'Есть замечания'%}
+                                                <td style = "background: rgb(255, 186, 96);"> 
+                                                    <input type = "text" value = "{{ rows.status }}"  readonly>
+                                                </td>  
+                                            {% elif rows.status == 'Готов к удалению'%}
+                                                <td style = "background: rgb(255, 96, 96);"> 
+                                                    <input type = "text" value = "{{ rows.status }}"  readonly>
+                                                </td>
+                                            {% elif rows.status == 'Готов к загрузке'%}
+                                                <td style = "background:  rgb(96, 255, 122);"> 
+                                                    <input type = "text" value = "{{ rows.status }}"  readonly>
+                                                </td>
+                                            {% else %}
+                                                <td> 
+                                                    <input type = "text" value = "{{ rows.status }}"  readonly>
+                                                </td>  
+                                            {% endif %}
+                                       
                                         <td>
-                                            <input type = "text" value = "{{ rows.status }}" readonly>
-                                        </td> 
-                                        <td>
-                                            {% if rows.agreed_time %}
-                                            <input type = "text" value = "{{ rows.agreed_time }}" readonly>
+                                            {% if rows.sent_time %}
+                                            <input type = "text" value = "{{ rows.sent_time }}" readonly>
                                             {% else %}
                                             &nbsp;
                                             {% endif %}
@@ -218,8 +246,8 @@
                                                             <td>    
                                                                 <input type="text" value="{{ ticket.begin_time }}" readonly>
                                                             </td>
-                                                            <td>
-                                                                <input type="text" value="{{ ticket.luck }}" readonly>
+                                                            <td >
+                                                                <input type="checkbox" {% if ticket.luck %} checked {% endif %} disabled>
                                                             </td>
                                                             <td>
                                                                 <input type="text" value="{{ ticket.note }}" readonly>

@@ -6,13 +6,12 @@
     font-family: 'Montserrat';
 }
 
-html{
-    margin: 0;
-    width: 100%;
+html, body {
     height: 100%;
+    margin: 0;
 }
 
-html::-webkit-scrollbar {
+/* html::-webkit-scrollbar {
     width: 7px;
 }
   
@@ -23,7 +22,7 @@ html::-webkit-scrollbar-track {
 html::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: #d3d3d3;
-}
+} */
 
 body {
     display: flex;
@@ -54,7 +53,7 @@ body.dimmed {
     --color6: #444444;
 }
 
-/* .blurred-background {
+.blurred-background {
     position: absolute;
     top: 0;
     left: 0;
@@ -72,7 +71,7 @@ body.dimmed {
     background: linear-gradient(615deg, var(--color4), var(--color5), var(--color6));
     animation: gradient-animation-dark 15s ease infinite;  
     opacity: 1;
-} */
+}
 
 @keyframes gradient-animation {
     0% {
@@ -482,12 +481,14 @@ header nav ul {
 /*header end*/
 
 main {
+    flex: 1;
     width: 100%;
-    min-height: 100vb;
+    /* min-height: 100vb; */
 }
 
 footer {
-    /* margin-top: 100px; */
+    /* margin-top: 120px; */
+    bottom:0;
     display: flex; 
     flex-direction: row;
     align-items: center;
@@ -501,6 +502,7 @@ footer {
   
 .dark-mode footer {
     background-color:#252525;
+    box-shadow: none;
 }
 
 .footer_cont{
@@ -645,7 +647,7 @@ footer {
 
 /*log and reg begin */
 .page_log_reg{
-    padding-top: 30vb;
+    padding: 20vb 0;
     height: calc(100% - 30vb);
     width: 100%;
     display: flex;
@@ -935,7 +937,7 @@ footer {
 }
 
 .dark-mode .hellow_row_dop_name{
-    color: rgb(0, 189, 167);
+    color: rgb(0, 145, 128);
 }
 
 .dark-mode .hellow_row_name{
@@ -1178,16 +1180,21 @@ footer {
     color: rgb(255, 255, 255);
     height: 136px;
     width: 1150px;
-    background-image: url('../img/begin_name1.png');
+    background-image: url('../img/begin_name2.jpg');
     text-shadow: 1px 1px 2px black;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.144);
     font-weight: 600;
 }
   
+.dark-mode .account_cont .privetstvie_cont{
+    
+    background-image: url('../img/begin_name1.png');
+
+}
 .account_cont .account_functions{
     display: flex;
     flex-direction: row;
-    padding-top: 47px;
+    padding: 4% 0;
     width: 1150px;
     justify-content: space-between;
 }
@@ -1275,7 +1282,7 @@ footer {
     align-items:  center;
     border: none;
     background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
     width: 474px;
     height: 52px;
     font-weight: 600;
@@ -1290,7 +1297,7 @@ footer {
 .dark-mode .account_messageArea{
     color: white;
     background-color:  #252525;      
-    box-shadow: 0 0 1px rgba(255, 255, 255, 0.1); 
+    /* box-shadow: 0 0 1px rgba(255, 255, 255, 0.1);  */
     border-bottom: 2px solid #333333;
 }
 
@@ -1305,14 +1312,12 @@ footer {
 
 .message_cont{
     width: 514px;
-    height: auto;
-    max-height: 280px; 
+    max-height: 302px; 
     overflow-y: auto; 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
-  
+
 .message_cont::-webkit-scrollbar {
-    width: 5px; 
+    width: 5px;    
 }
   
 .message_cont::-webkit-scrollbar-thumb {
@@ -1325,8 +1330,6 @@ footer {
     flex-direction: column;
     padding: 20px;
     background-color: rgb(255, 255, 255);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
     border-bottom: 2px solid #dfdfdf;
 }
 
@@ -1417,22 +1420,19 @@ footer {
 
 /*profil_header*/
 .profile_navigation {
-    position: fixed;
+    /* position: fixed; */
     display: flex;
     flex-direction: column;
     text-align: left;
     background-color: rgba(255, 255, 255, 0.849);
-    /* background-color:#028dff; */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
     border: none;
     padding: 20px 0; 
     width: 300px;
     min-width: 300px;
-    height: auto;   
-    margin: 0 20px;
-    border-radius: 5px;
-
-
+    min-height: calc(100vb - 180px);   
+    height: 100vb;
+    border-radius: 2px;
 }
 
 .dark-mode	.profile_navigation {
@@ -1927,14 +1927,27 @@ footer {
 
 .content-podmenu nav ul li:hover{
     background-color:#c4e8ff;
-
-
     padding: 20px 15px 15px 15px;
+}
+
+#control_versionButton:hover{
+    background: rgba(96, 255, 228, 0.63);
+}
+
+#agreedVersionButton:hover{
+    background: rgba(152, 255, 169, 0.63);
+}
+
+#sentVersionButton:hover{
+    background: rgba(96, 215, 255, 0.63);
 }
 
 .dark-mode .content-podmenu nav ul li:hover{
     background-color:#457270;
 }
+
+
+
 
 .content-podmenu nav ul li img{
     height: 40px;
@@ -2249,13 +2262,19 @@ th .resizer {
     background-color: #4d4d4d;
 }
 
+.tickets_table .ticket-row td{
+    text-align: center;
+    align-items: center;
+    vertical-align: middle;
+}
+
+
 .show-tickets_button{
     display: flex;
     justify-content: center;
     border: none;
     color: white;
     padding: 2px 6px;
-    /* background-color: #028dff; */
     background-color: #00000000;
     cursor: pointer;
     transition: background-color 0.3s ease;   
@@ -2608,8 +2627,6 @@ th .resizer {
 
 
 /*audit page*/
-
-
 .audit-area_page{
     margin-top: 60px;
     height: 100vh;
@@ -2617,18 +2634,19 @@ th .resizer {
 
 .audit-area{
     display: flex; 
+    flex-direction: column;
+}
+
+
+
+.audit-area_page .column_cont{
+    margin-top: 180px;
+    display: flex;
     flex-direction: row;
 }
 
 
-.audit-area_page .profile_navigation{
-    margin-top: 180px;
-}
 
-
-.audit-area_page .report-area{
-    margin: 180px 0 0 350px;
-}
 
 .dragging {
     opacity: 0.5;

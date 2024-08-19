@@ -57,359 +57,360 @@
             </div>
         </div>
     </div>
+    <div class = "column_cont">
+        <nav class="profile_navigation">
+            <ul id="status-reportList">
+                <li data-action="not_viewed" class="active_li">
+                    <a>Не просмотренные</a>
+                    <a class="count_reporst">
+                        <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display: none;">
+                        <span class="count-text">{{not_viewedReports_count}}</span>
+                    </a>
+                </li>
+                <li data-action="remarks">
+                    <a>Есть замечания</a>
+                    <a class="count_reporst">
+                        <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display:none;">
+                        <span class="count-text">{{remarksReports_count}}</span>
+                    </a>
+                </li>
+                <li data-action="to_download">
+                    <a>Готов к загрузке</a>
+                    <a class="count_reporst">
+                        <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display:none;">
+                        <span class="count-text">{{to_downloadReports_count}}</span>
+                    </a>
+                </li>
+                <li data-action="to_delete">
+                    <a>Готов к удалению</a>
+                    <a class="count_reporst">
+                        <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display:none;">
+                        <span class="count-text">{{to_deleteReports_count}}</span>
+                    </a>
+                </li>
+                <li style="margin-top: 40px;" data-action="all_reports">
+                    <a>Все отчеты</a>
+                    <a class="count_reporst">
+                        <span>{{all_count}}</span>
+                    </a>
+                </li>
+                <form id="change-category-form" style="display: none;" method="post" action="/change_category_report">
+                    <input type="hidden" name="reportId" id="report-id-input">
+                    <input type="hidden" name="action" id="action-input">
+                </form>
+            </ul>
+        </nav>
+    
+        <div class="report-area" style = "margin: 0 0 0 20px;">
+            <div id="not_viewed">
+                <table class="table_report-area">
+                    <thead class="order-table_titels">
+                        <tr>
+                            <th></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 380px;">Организация<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Код ОКПО<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Дата поступления<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 100px;">Год<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 100px;">Квартал<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Статус<div class="resizer"></div></th>
+                            <th rowspan="2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if report_not_read %}
+                        {% for row in report_not_read %}
+                            <tr class="report_row" data-id="{{ row.id }}" draggable="true">
+                                <td>
+                                </td>
+                                <td style="display: none;">
+                                    <input type="text" id="report_id" value="{{ row.id }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="report_organization_name" value="{{ row.organization_name }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <input type="text" id="report_year" value="{{ row.year }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="report_quarter" value="{{ row.quarter }}" readonly>
+                                </td>
+                                <td>
+                                    {% if row.versions %}
+                                        {% for version in row.versions %}
+                                            {% if version.status == 'Отправлено' %}
+                                                <input type="text" id="report_category_{{ version.id }}" value="Не просмотренно" readonly>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <input type="text" id="report_category" value="Нет версий" readonly>
+                                    {% endif %}
+                                </td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td></td>
+                                <td colspan="12">
+                                    
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
 
-    <nav class="profile_navigation">
-        <ul id="status-reportList">
-            <li data-action="not_viewed" class="active_li">
-                <a>Не просмотренные</a>
-                <a class="count_reporst">
-                    <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display: none;">
-                    <span class="count-text">{{not_viewedReports_count}}</span>
-                </a>
-            </li>
-            <li data-action="remarks">
-                <a>Есть замечания</a>
-                <a class="count_reporst">
-                    <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display:none;">
-                    <span class="count-text">{{remarksReports_count}}</span>
-                </a>
-            </li>
-            <li data-action="to_download">
-                <a>Готов к загрузке</a>
-                <a class="count_reporst">
-                    <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display:none;">
-                    <span class="count-text">{{to_downloadReports_count}}</span>
-                </a>
-            </li>
-            <li data-action="to_delete">
-                <a>Готов к удалению</a>
-                <a class="count_reporst">
-                    <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display:none;">
-                    <span class="count-text">{{to_deleteReports_count}}</span>
-                </a>
-            </li>
-            <li style="margin-top: 40px;" data-action="all_reports">
-                <a>Все отчеты</a>
-                <a class="count_reporst">
-                    <span>{{all_count}}</span>
-                </a>
-            </li>
-            <form id="change-category-form" style="display: none;" method="post" action="/change_category_report">
-                <input type="hidden" name="reportId" id="report-id-input">
-                <input type="hidden" name="action" id="action-input">
-            </form>
-        </ul>
-    </nav>
-   
-    <div class="report-area">
-        <div id="not_viewed">
-            <table class="table_report-area">
-                <thead class="order-table_titels">
-                    <tr>
-                        <th></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 380px;">Организация<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Код ОКПО<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Дата поступления<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 100px;">Год<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 100px;">Квартал<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Статус<div class="resizer"></div></th>
-                        <th rowspan="2"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if report_not_read %}
-                    {% for row in report_not_read %}
-                        <tr class="report_row" data-id="{{ row.id }}" draggable="true">
-                            <td>
-                            </td>
-                            <td style="display: none;">
-                                <input type="text" id="report_id" value="{{ row.id }}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" id="report_organization_name" value="{{ row.organization_name }}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
-                            </td>
-                            <td></td>
-                            <td>
-                                <input type="text" id="report_year" value="{{ row.year }}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" id="report_quarter" value="{{ row.quarter }}" readonly>
-                            </td>
-                            <td>
-                                {% if row.versions %}
-                                    {% for version in row.versions %}
-                                        {% if version.status == 'Отправлено' %}
-                                            <input type="text" id="report_category_{{ version.id }}" value="Не просмотренно" readonly>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% else %}
-                                    <input type="text" id="report_category" value="Нет версий" readonly>
-                                {% endif %}
-                            </td>
-                            <td></td>
-                        </tr>
-                    {% endfor %}
-                    {% else %}
+            <div id="remarks"  style="display: none;">
+                <table class="table_report-area">
+                    <thead class="order-table_titels">
                         <tr>
-                            <td></td>
-                            <td colspan="12">
-                                
-                            </td>
+                            <th></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 380px;">Организация<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Код ОКПО<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Дата поступления<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 100px;">Год<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 100px;">Квартал<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Статус<div class="resizer"></div></th>
+                            <th rowspan="2"></th>
                         </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        {% if report_remarks %}
+                        {% for row in report_remarks %}
+                            <tr class="report_row" data-id="{{ row.id }}" draggable="true">
+                                <td>
+                                </td>
+                                <td style="display: none;">
+                                    <input type="text" id="report_id" value="{{ row.id }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="report_organization_name" value="{{ row.organization_name }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
+                                </td>
+        
+                                <td></td>
+                                <td>
+                                    <input type="text" id="report_year" value="{{ row.year }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="report_quarter" value="{{ row.quarter }}" readonly>
+                                </td>
+                                <td>
+                                    {% if row.versions %}
+                                        {% for version in row.versions %}
+                                            <input type="text" id="report_category_{{ version.id }}" value="{{ version.status }}" readonly>
+                                        {% endfor %}
+                                    {% else %}
+                                        <input type="text" id="report_category" value="Нет версий" readonly>
+                                    {% endif %}
+                                </td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td></td>
+                                <td colspan="12">
+                                    
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="to_download" style="display: none;">
+                <table class="table_report-area">
+                    <thead class="order-table_titels">
+                        <tr>
+                            <th></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 380px;">Организация<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Код ОКПО<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Дата поступления<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 100px;">Год<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 100px;">Квартал<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Статус<div class="resizer"></div></th>
+                            <th rowspan="2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if report_to_down %}
+                        {% for row in report_to_down %}
+                            <tr class="report_row" data-id="{{ row.id }}" draggable="true">
+                                <td>
+                                </td>
+                                <td style="display: none;">
+                                    <input type="text" id="report_id" value="{{ row.id }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="report_organization_name" value="{{ row.organization_name }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
+                                </td>
+        
+                                <td></td>
+                                <td>
+                                    <input type="text" id="report_year" value="{{ row.year }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="report_quarter" value="{{ row.quarter }}" readonly>
+                                </td>
+                                <td>
+                                    {% if row.versions %}
+                                        {% for version in row.versions %}
+                                            <input type="text" id="report_category_{{ version.id }}" value="{{ version.status }}" readonly>
+                                        {% endfor %}
+                                    {% else %}
+                                        <input type="text" id="report_category" value="Нет версий" readonly>
+                                    {% endif %}
+                                </td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td></td>
+                                <td colspan="12">
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="to_delete"  style="display: none;">
+                <table class="table_report-area">
+                    <thead class="order-table_titels">
+                        <tr>
+                            <th></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 380px;">Организация<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Код ОКПО<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Дата поступления<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 100px;">Год<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 100px;">Квартал<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Статус<div class="resizer"></div></th>
+                            <th rowspan="2"></th>
+                        </tr>
 
-        <div id="remarks"  style="display: none;">
-            <table class="table_report-area">
-                <thead class="order-table_titels">
-                    <tr>
-                        <th></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 380px;">Организация<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Код ОКПО<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Дата поступления<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 100px;">Год<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 100px;">Квартал<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Статус<div class="resizer"></div></th>
-                        <th rowspan="2"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if report_remarks %}
-                    {% for row in report_remarks %}
-                        <tr class="report_row" data-id="{{ row.id }}" draggable="true">
-                            <td>
-                            </td>
-                            <td style="display: none;">
-                                <input type="text" id="report_id" value="{{ row.id }}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" id="report_organization_name" value="{{ row.organization_name }}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
-                            </td>
-    
-                            <td></td>
-                            <td>
-                                <input type="text" id="report_year" value="{{ row.year }}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" id="report_quarter" value="{{ row.quarter }}" readonly>
-                            </td>
-                            <td>
-                                {% if row.versions %}
-                                    {% for version in row.versions %}
-                                        <input type="text" id="report_category_{{ version.id }}" value="{{ version.status }}" readonly>
-                                    {% endfor %}
-                                {% else %}
-                                    <input type="text" id="report_category" value="Нет версий" readonly>
-                                {% endif %}
-                            </td>
-                            <td></td>
-                        </tr>
-                    {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td></td>
-                            <td colspan="12">
-                                
-                            </td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        {% if report_to_del %}
+                        {% for row in report_to_del %}
+                            <tr class="report_row" data-id="{{ row.id }}" draggable="true">
+                                <td>
+                                </td>
+                                <td style="display: none;">
+                                    <input type="text" id="report_id" value="{{ row.id }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="report_organization_name" value="{{ row.organization_name }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
+                                </td>
         
-        <div id="to_download" style="display: none;">
-            <table class="table_report-area">
-                <thead class="order-table_titels">
-                    <tr>
-                        <th></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 380px;">Организация<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Код ОКПО<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Дата поступления<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 100px;">Год<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 100px;">Квартал<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Статус<div class="resizer"></div></th>
-                        <th rowspan="2"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if report_to_down %}
-                    {% for row in report_to_down %}
-                        <tr class="report_row" data-id="{{ row.id }}" draggable="true">
-                            <td>
-                            </td>
-                            <td style="display: none;">
-                                <input type="text" id="report_id" value="{{ row.id }}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" id="report_organization_name" value="{{ row.organization_name }}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
-                            </td>
-    
-                            <td></td>
-                            <td>
-                                <input type="text" id="report_year" value="{{ row.year }}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" id="report_quarter" value="{{ row.quarter }}" readonly>
-                            </td>
-                            <td>
-                                {% if row.versions %}
-                                    {% for version in row.versions %}
-                                        <input type="text" id="report_category_{{ version.id }}" value="{{ version.status }}" readonly>
-                                    {% endfor %}
-                                {% else %}
-                                    <input type="text" id="report_category" value="Нет версий" readonly>
-                                {% endif %}
-                            </td>
-                            <td></td>
-                        </tr>
-                    {% endfor %}
-                    {% else %}
+                                <td></td>
+                                <td>
+                                    <input type="text" id="report_year" value="{{ row.year }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="report_quarter" value="{{ row.quarter }}" readonly>
+                                </td>
+                                <td>
+                                    {% if row.versions %}
+                                        {% for version in row.versions %}
+                                            <input type="text" id="report_category_{{ version.id }}" value="{{ version.status }}" readonly>
+                                        {% endfor %}
+                                    {% else %}
+                                        <input type="text" id="report_category" value="Нет версий" readonly>
+                                    {% endif %}
+                                </td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td></td>
+                                <td colspan="12">
+                                    
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>        
+            
+            <div id="all_reports"  style="display: none;">
+                <table class="table_report-area">
+                    <thead class="order-table_titels">
                         <tr>
-                            <td></td>
-                            <td colspan="12">
-                            </td>
+                            <th></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 380px;">Организация<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Код ОКПО<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Дата поступления<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 100px;">Год<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 100px;">Квартал<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Статус<div class="resizer"></div></th>
+                            <th rowspan="2"></th>
                         </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-        </div>
+                    </thead>      
+                    <tbody>
+                        {% if report_all_sent %}
+                        {% for row in report_all_sent %}
+                            <tr class="report_row" data-id="{{ row.id }}" draggable="true">
+                                <td>
+                                </td>
+                                <td style="display: none;">
+                                    <input type="text" id="report_id" value="{{ row.id }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="report_organization_name" value="{{ row.organization_name }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
+                                </td>
         
-        <div id="to_delete"  style="display: none;">
-            <table class="table_report-area">
-                <thead class="order-table_titels">
-                    <tr>
-                        <th></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 380px;">Организация<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Код ОКПО<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Дата поступления<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 100px;">Год<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 100px;">Квартал<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Статус<div class="resizer"></div></th>
-                        <th rowspan="2"></th>
-                    </tr>
-
-                </thead>
-                <tbody>
-                    {% if report_to_del %}
-                    {% for row in report_to_del %}
-                        <tr class="report_row" data-id="{{ row.id }}" draggable="true">
-                            <td>
-                            </td>
-                            <td style="display: none;">
-                                <input type="text" id="report_id" value="{{ row.id }}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" id="report_organization_name" value="{{ row.organization_name }}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
-                            </td>
-    
-                            <td></td>
-                            <td>
-                                <input type="text" id="report_year" value="{{ row.year }}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" id="report_quarter" value="{{ row.quarter }}" readonly>
-                            </td>
-                            <td>
-                                {% if row.versions %}
-                                    {% for version in row.versions %}
-                                        <input type="text" id="report_category_{{ version.id }}" value="{{ version.status }}" readonly>
-                                    {% endfor %}
-                                {% else %}
-                                    <input type="text" id="report_category" value="Нет версий" readonly>
-                                {% endif %}
-                            </td>
-                            <td></td>
-                        </tr>
-                    {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td></td>
-                            <td colspan="12">
-                                
-                            </td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-        </div>        
-        
-        <div id="all_reports"  style="display: none;">
-            <table class="table_report-area">
-                <thead class="order-table_titels">
-                    <tr>
-                        <th></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 380px;">Организация<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Код ОКПО<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Дата поступления<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 100px;">Год<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 100px;">Квартал<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Статус<div class="resizer"></div></th>
-                        <th rowspan="2"></th>
-                    </tr>
-                </thead>      
-                <tbody>
-                    {% if report_all_sent %}
-                    {% for row in report_all_sent %}
-                        <tr class="report_row" data-id="{{ row.id }}" draggable="true">
-                            <td>
-                            </td>
-                            <td style="display: none;">
-                                <input type="text" id="report_id" value="{{ row.id }}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" id="report_organization_name" value="{{ row.organization_name }}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
-                            </td>
-    
-                            <td></td>
-                            <td>
-                                <input type="text" id="report_year" value="{{ row.year }}" readonly>
-                            </td>
-                            <td>
-                                <input type="text" id="report_quarter" value="{{ row.quarter }}" readonly>
-                            </td>
-                            <td>
-                                {% if row.versions %}
-                                    {% for version in row.versions %}
-                                        {% if version.status == 'Отправлено' %}
-                                            <input type="text" id="report_category_{{ version.id }}" value="Не просмотренно" readonly>
-                                        {%else%}
-                                        <input type="text" id="report_category_{{ version.id }}" value="{{version.status}}" readonly>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% else %}
-                                    <input type="text" id="report_category" value="Нет версий" readonly>
-                                {% endif %}
-                            </td>
-                            <td></td>
-                        </tr>
-                    {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td></td>
-                            <td colspan="12">
-                                
-                            </td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
+                                <td></td>
+                                <td>
+                                    <input type="text" id="report_year" value="{{ row.year }}" readonly>
+                                </td>
+                                <td>
+                                    <input type="text" id="report_quarter" value="{{ row.quarter }}" readonly>
+                                </td>
+                                <td>
+                                    {% if row.versions %}
+                                        {% for version in row.versions %}
+                                            {% if version.status == 'Отправлено' %}
+                                                <input type="text" id="report_category_{{ version.id }}" value="Не просмотренно" readonly>
+                                            {%else%}
+                                            <input type="text" id="report_category_{{ version.id }}" value="{{version.status}}" readonly>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <input type="text" id="report_category" value="Нет версий" readonly>
+                                    {% endif %}
+                                </td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td></td>
+                                <td colspan="12">
+                                    
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
