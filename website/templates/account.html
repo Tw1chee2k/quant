@@ -4,7 +4,7 @@
 
 <div class = "account_cont">
     <div class = "privetstvie_cont">
-        <a>Добро пожаловать{{', ' + current_user.fio if current_user.fio else ''}}</a>
+        <a>Добро пожаловать{{', ' + current_user.fio.split()[1] + ' ' + current_user.fio.split()[2] if current_user.fio else ''}}</a>
     </div>
     <div class = "account_functions">
         <div class = "account_links">

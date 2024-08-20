@@ -1414,8 +1414,8 @@ footer {
 .contener_row{
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
-    margin-bottom: 200px;
+    height: 100%;
+
 }
 
 /*profil_header*/
@@ -1427,11 +1427,12 @@ footer {
     background-color: rgba(255, 255, 255, 0.849);
     /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
     border: none;
-    padding: 20px 0; 
+    padding: 20px 0 0 0; 
     width: 300px;
     min-width: 300px;
-    min-height: calc(100vb - 180px);   
-    height: 100vb;
+ 
+    height: auto;
+    min-height: 100vb;
     border-radius: 2px;
 }
 
@@ -1662,12 +1663,12 @@ footer {
 
 
 
-
+ 
 
 /* choose orgaization */
 .choose-organization_area {
     position: absolute;
-    margin: 7px 0 0 50px;
+    margin: 7px 0 0 80px;
     width: 557px; 
     background-color: white;
     border: none; 
@@ -1747,6 +1748,7 @@ footer {
 
 .profile_page .personal-info_area form {
     text-align: right;
+    padding-bottom: 30px;
 }
 
 .profile_page .personal-info_area form button{
@@ -2463,6 +2465,49 @@ th .resizer {
     text-align: left;
 }
 
+.modal_table .input-container {
+    display: flex;
+    align-items: center;
+}
+
+.modal_table .input-container .inc_button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    width: 30px;
+    height: 28px;  
+    padding: 0 10px;
+    cursor: pointer;
+    text-align: center;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.modal_table .input-container .dis_button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    width: 30px;
+    height: 28px;  
+    padding: 0 10px;
+    cursor: pointer;
+    text-align: center;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.modal_table .input-container .inc_dis_input {
+    height: 26px;  
+    width: 42px;
+    padding: 0 10px;
+    text-align: center;
+    font-size: 12px; 
+    border-radius: 0;
+    border: none;
+    border-top: 1px solid rgb(217, 217, 217);  
+    border-bottom: 1px solid rgb(217, 217, 217);  
+    font-weight: 500; 
+    margin: 0;
+}
+
 .modal_table input{
     height: 26px;  
     width: 100px;
@@ -2481,7 +2526,7 @@ th .resizer {
     border: 1px solid rgb(121, 121, 121);  
 }
 
-.modal_table select{
+/* .modal_table select{
     height: 26px;  
     width: 122px;
     margin: 0 20px;
@@ -2504,7 +2549,7 @@ th .resizer {
 
 .dark-mode .modal_table select option{
     background-color: #4d4d4d;
-}
+} */
 
 
 #RespondentModal .modal_table input{

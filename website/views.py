@@ -650,7 +650,9 @@ def report_area():
         current_unit = DirUnit.query.filter_by(IdUnit=row.IdUnit).first()
         row.IdUnit = current_unit.NameUnit
 
+    year_today = datetime.now().year
     return render_template('report_area.html',
+                           year_today=year_today,
                            report=report,
                            user=current_user,
                            dirUnit=dirUnit,

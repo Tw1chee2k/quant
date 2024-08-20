@@ -115,17 +115,20 @@ def confirm_activation_token(token, expiration=3600):
 def sign():
     if request.method == 'POST':
         email = request.form.get('email')
-        password = request.form.get('password')
+        password1 = request.form.get('password1')
+        password2 = request.form.get('password2')
 
-        if email and password:
+        if email and password1:
             if User.query.filter(func.lower(User.email) == func.lower(email)).first():
                 flash('Пользователь с таким email уже существует', 'error')
             elif not re.match(r'[\w\.-]+@[\w\.-]+', email):
-                flash('Некорректный адрес электронной почты', 'error')  
+                flash('Некорректный адрес электронной почты', 'error') 
+            elif password1 != password2:
+                flash('Ошибка в подтверждении пароля', 'error') 
             else:
                 new_user = User(
                     email=email,  
-                    password=generate_password_hash(password)
+                    password=generate_password_hash(password1)
                 )
                 db.session.add(new_user)
                 db.session.commit()
@@ -340,8 +343,8 @@ def update_report():
     if request.method == 'POST':
         id = request.form.get('modal_report_id')
         okpo = request.form.get('modal_report_okpo')
-        year = request.form.get('modal_report_year')
-        quarter = request.form.get('modal_report_quarter')  
+        year = request.form.get('modal_change_report_year')
+        quarter = request.form.get('modal_change_report_quarter')  
         
         current_report = Report.query.filter_by(id=id).first()
         versions = Version_report.query.filter_by(report_id=id).all()
@@ -355,12 +358,17 @@ def update_report():
             ).first()
 
             if existing_report and existing_report.id != id:
-                flash('Отчет с таким годом и кварталом уже существует', category='error')
+                flash('Отчет с таким годом и кварталом уже существует', 'error')
                 return redirect(url_for('views.report_area'))
 
             sent_version_exists = any(version.status == 'Отправлено' for version in versions)
             if sent_version_exists:
-                flash('После отправки версии изменение отчета недоступно', category='error')
+                flash('После отправки изменение отчета недоступно', 'error')
+                return redirect(url_for('views.report_area'))
+            
+            confirmed_version_exists = any(version.status == 'Готов к загрузке' for version in versions)
+            if confirmed_version_exists:
+                flash('Данный отчет не подлежит редактированию', 'error')
                 return redirect(url_for('views.report_area'))
 
             current_report.okpo = okpo
@@ -368,9 +376,9 @@ def update_report():
             current_report.quarter = quarter
             current_report.organization_name = organization_okpo.full_name
             db.session.commit()
-            flash('Параметры обновлены', category='success')
+            flash('Параметры обновлены', 'success')
         else:
-            flash('Отчет не найден', category='error')
+            flash('Отчет не найден', 'error')
 
         return redirect(url_for('views.report_area'))
     
@@ -445,8 +453,13 @@ def delete_report(report_id):
         if current_report:   
             sent_version_exists = any(version.status == 'Отправлено' for version in versions)
             if sent_version_exists:
-                flash('Присутствует отправленная версия', category='error')
+                flash('Отправленный отчет не подлежит удалению', 'error')
                 return redirect(url_for('views.report_area'))  
+            
+            confirmed_version_exists = any(version.status == 'Готов к загрузке' for version in versions)
+            if confirmed_version_exists:
+                flash('Данный отчет не подлежит удалению', 'error')
+                return redirect(url_for('views.report_area'))
             for ticket in tickets:
                 db.session.delete(ticket)        
             for version in versions:
@@ -456,7 +469,7 @@ def delete_report(report_id):
                 db.session.delete(version)
             db.session.delete(current_report)
             db.session.commit()
-            flash('Отчет удален', category='success')
+            flash('Отчет удален', 'success')
         return redirect(url_for('views.report_area'))
     
 @auth.route('/create_new_report_version/<int:id>', methods=['POST'])
@@ -523,7 +536,7 @@ def add_section_param():
         current_product = DirProduct.query.filter_by(NameProduct=name, IdProduct=id_product).first()
         product_unit = DirUnit.query.filter_by(IdUnit=current_product.IdUnit).first() if current_product else None
         if current_version:
-            if current_version.status != 'Отправлено':
+            if current_version.status != 'Отправлено' and current_version.status != 'Готов к загрузке':
                 if current_product:
                     proverka_section = Sections.query.filter_by(id_version=current_version_id, section_number=section_number, id_product=current_product.IdProduct).first()
                     if proverka_section:
@@ -608,7 +621,8 @@ def add_section_param():
                 else:
                     flash('Выбирите вид продукции из выпадающего списка', 'error')
             else:
-                flash('Редактирование отправленной версии недоступно', 'error')
+                flash('Редактирование отправленного/одобренного отчета недоступно', 'error')
+
         else:
             flash('Версия не найдена', 'error') 
     if section_number == '1':
@@ -640,7 +654,7 @@ def change_section():
         current_section = Sections.query.filter_by(id=id_fuel).first()
         
         if current_version:
-            if current_version.status != 'Отправлено':
+            if current_version.status != 'Отправлено' and current_version.status != 'Готов к загрузке':
                 if current_section:
                     if (current_section.code_product == 7000):
                         current_section.Consumed_Total_Quota = Consumed_Total_Quota
@@ -710,7 +724,7 @@ def change_section():
                 else:
                     flash('Ошибка при обновлении', 'error')   
             else:
-                flash('Редактирование отправленной версии недоступно', 'error')
+                flash('Редактирование отправленного/одобренного отчета недоступно', 'error')
         else:
             flash('Версия не найдена', 'error')
 
@@ -730,7 +744,7 @@ def remove_section(id):
         current_version = Version_report.query.filter_by(id=id_version).first() 
 
         if current_version:
-            if current_version.status != 'Отправлено':
+            if current_version.status != 'Отправлено' and current_version.status != 'Готов к загрузке':
                 if delete_section:
                     section9001 = Sections.query.filter_by(id_version=id_version, section_number = section_numberDELsection, code_product = 9001).first()
                     section9001.Consumed_Total_Quota -= delete_section.Consumed_Total_Quota
@@ -753,8 +767,8 @@ def remove_section(id):
                     db.session.commit()
                 else: 
                     flash('Ошибка при удалении', 'error')
-            else: 
-                flash('Редактирование отправленной версии недоступно', 'error')      
+            else:
+                flash('Редактирование отправленного/одобренного отчета недоступно', 'error')  
         else:
             flash('Версия не найдена', 'error')
 
@@ -770,36 +784,25 @@ def control_version(id):
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=id).first()
         id_version = current_version.id
-        fuel_section9010 = Sections.query.filter_by(id_version=id, section_number=1, code_product=9010).first()
-        heat_section9010 = Sections.query.filter_by(id_version=id, section_number=2, code_product=9010).first()
-        electro_section9010 = Sections.query.filter_by(id_version=id, section_number=3, code_product=9010).first()    
+        
+        sections = {
+            'fuel': Sections.query.filter_by(id_version=id, section_number=1, code_product=9010).first(),
+            'heat': Sections.query.filter_by(id_version=id, section_number=2, code_product=9010).first(),
+            'electro': Sections.query.filter_by(id_version=id, section_number=3, code_product=9010).first(),
+        }
 
         if current_version.status == 'Заполнение': 
-            if fuel_section9010 is None or heat_section9010 is None or electro_section9010 is None:
-                if fuel_section9010 is None:
-                    flash('Код строки 9010 не заполнен', 'error')
-                    return redirect(url_for('views.report_fuel', id=id_version))
-                if heat_section9010 is None:
-                    flash('Код строки 9010 не заполнен', 'error')
-                    return redirect(url_for('views.report_heat', id=id_version))
-                if electro_section9010 is None:
-                    flash('Код строки 9010 не заполнен', 'error')
-                    return redirect(url_for('views.report_electro', id=id_version))
+            for key, section in sections.items():
+                if section is None or not section.note:
+                    flash('Примечание с кодом строки "9010" обязательно для заполнения', 'error')
+                    return redirect(url_for(f'views.report_{key}', id=id_version))
             
-            if not fuel_section9010.note:
-                flash('Код строки 9010 не заполнен', 'error')
-                return redirect(url_for('views.report_fuel', id=id_version))
-            elif not heat_section9010.note:
-                flash('Код строки 9010 не заполнен', 'error')
-                return redirect(url_for('views.report_heat', id=id_version))
-            elif not electro_section9010.note:
-                flash('Код строки 9010 не заполнен', 'error')
-                return redirect(url_for('views.report_electro', id=id_version))
             current_version.status = 'Контроль пройден'
             db.session.commit()
             flash('Контроль пройден', 'successful')
         else:
             flash('Контроль уже был пройден', 'error')
+        
         return redirect(url_for('views.report_area'))
     
 @auth.route('/agreed_version/<id>', methods=['POST'])
@@ -810,9 +813,9 @@ def agreed_version(id):
             current_version.status = 'Согласовано'
 
             db.session.commit()
-            flash('Версия согласована', 'successful')
+            flash('Отчет согласован', 'successful')
         elif current_version.status == 'Согласовано': 
-            flash('Версия уже согласована', 'succeful')
+            flash('Отчет уже согласован', 'succeful')
         else:
             flash('Необходимо пройти контроль', 'error')
         return redirect(url_for('views.report_area'))
@@ -825,7 +828,7 @@ def sent_version(id):
             current_version.status = 'Отправлено'
             current_version.sent_time = datetime.now()
             db.session.commit()
-            flash('Версия отправлена', 'successful')
+            flash('Отчет отправлен', 'successful')
 
             user_message = Message(
                 text = f"Отчет: №{current_version.id} был отправлен на проверку",
@@ -835,7 +838,7 @@ def sent_version(id):
             db.session.add(user_message)
             db.session.commit()
         elif current_version.status == 'Отправлено':
-            flash('Версия отчета уже была отправлена', 'error')
+            flash('Отчет уже был отправлен на проверку', 'error')
         else:
             flash('Необходимо согласовать', 'error')
 
@@ -916,7 +919,7 @@ def send_comment():
 
             flash('Комментарий создан', 'success')
         else:
-            flash('Версия не найдена', 'error')
+            flash('Отчет не найден', 'error')
 
         return redirect(url_for('views.audit_report', id = version_id))
 

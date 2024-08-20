@@ -78,7 +78,7 @@
             <thead class="order-table_titels">
                 <tr>
                     <th></th>
-                    <th></th>
+                    <th>+/&times;</th>
                     <th class="resizable" style="min-width: 120px;">ОКПО<div class="resizer"></div></th>
                     <th class="resizable" style="white-space: nowrap; min-width: 320px;">Наименование предприятия<div class="resizer"></div></th>
                     <th class="resizable" style="min-width: 80px;">Год<div class="resizer"></div></th>
@@ -142,7 +142,7 @@
                             <table class="table-versions">
                                 <thead class="order-table_titels">
                                     <tr>
-                                        <th></th>
+                                        <th>+/&times;</th>
                                         <th class="resizable" style ="white-space: nowrap; width: 100px;">Дата начала<div class="resizer"></div></th>
                                         <th class="resizable" style="white-space: nowrap; width: 100px;">Дата изменения<div class="resizer"></div></th>
                                         <th class="resizable" >Статус<div class="resizer"></div></th>
@@ -196,7 +196,7 @@
                                                 </td>
                                             {% elif rows.status == 'Готов к загрузке'%}
                                                 <td style = "background:  rgb(96, 255, 122);"> 
-                                                    <input type = "text" value = "{{ rows.status }}"  readonly>
+                                                    <input type = "text" value = "Одобрен"  readonly>
                                                 </td>
                                             {% else %}
                                                 <td> 
@@ -227,7 +227,6 @@
                                             <table class="tickets_table">
                                                 <thead class="order-table_titels">
                                                     <tr>
-                                                        <th></th>
                                                         <th class="resizable" style ="white-space: nowrap; width: 100px;">Дата выдачи<div class="resizer"></div></th>
                                                         <th class="resizable" style ="white-space: nowrap; width: 100px;">Успех<div class="resizer"></div></th>
                                                         <th class="resizable" style ="white-space: nowrap; width: 400px;">Описание<div class="resizer"></div></th>
@@ -237,12 +236,6 @@
                                                     {% if rows.tickets %}
                                                     {% for ticket in rows.tickets %}
                                                         <tr class="ticket-row" data-id="{{ ticket.id }}">
-                                                            <td>
-                                                                <button class="show-tickets_button">  
-                                                                    <!-- <img src="{{ url_for('static', filename='img/close_white.png')}}" class = "close_white" alt="">
-                                                                    <img src="{{ url_for('static', filename='img/close_black.png')}}" class = "close_black" alt=""> -->
-                                                                </button>
-                                                            </td>
                                                             <td>    
                                                                 <input type="text" value="{{ ticket.begin_time }}" readonly>
                                                             </td>
@@ -323,29 +316,21 @@
                 <tr>
                     <td>Год</td>
                     <td>
-                        <select 
-                            name="modal_report_year" 
-                            readonly
-                        >
-                            <option>2024</option>
-                            <option>2025</option>
-                            <option>2026</option>
-                            <option>2027</option>
-                        </select>
+                        <div class="input-container">
+                            <button class = "inc_button" type="button" style = "margin: 0 0 0 20px;" onclick="decrement_year()">-</button>
+                            <input  class = "inc_dis_input" type="text" id="quantity_year" value="{{year_today}}" name="modal_report_year" readonly>
+                            <button class = "dis_button" type="button" style = "margin: 0;" onclick="increment_year()">+</button>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td>Квартал</td>
                     <td>
-                        <select 
-                            name="modal_report_quarter" 
-                            readonly
-                        >
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                        </select>
+                        <div class="input-container">
+                            <button class = "inc_button" type="button" style = "margin: 0 0 0 20px;" onclick="decrement_quarter()">-</button>
+                            <input  class = "inc_dis_input" type="text" id="quantity_quarter" value="1" name="modal_report_quarter" readonly>
+                            <button class = "dis_button" type="button" style = "margin: 0;" onclick="increment_quarter()">+</button>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -395,29 +380,21 @@
                 <tr>
                     <td>Год</td>
                     <td>
-                        <select 
-                            name="coppy_report_year" 
-                            readonly
-                        >
-                            <option>2024</option>
-                            <option>2025</option>
-                            <option>2026</option>
-                            <option>2027</option>
-                        </select>
+                        <div class="input-container">
+                            <button class = "inc_button" type="button" style = "margin: 0 0 0 20px;" onclick="coppy_decrement_year()">-</button>
+                            <input  class = "inc_dis_input" type="text" id="coppy_quantity_year" value="{{year_today}}" name="coppy_report_year" readonly>
+                            <button class = "dis_button" type="button" style = "margin: 0;" onclick="coppy_increment_year()">+</button>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td>Квартал</td>
                     <td>
-                        <select 
-                            name="coppy_report_quarter" 
-                            readonly
-                        >
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                        </select>
+                        <div class="input-container">
+                            <button class = "inc_button" type="button" style = "margin: 0 0 0 20px;" onclick="coppy_decrement_quarter()">-</button>
+                            <input  class = "inc_dis_input" type="text" id="coppy_quantity_quarter" value="1" name="coppy_report_quarter" readonly>
+                            <button class = "dis_button" type="button" style = "margin: 0;" onclick="coppy_increment_quarter()">+</button>
+                        </div>
                     </td>
                 </tr>
                 <tr style = "display:none;">
@@ -480,31 +457,28 @@
                 <tr>
                     <td>Год</td>
                     <td>
-                        <select 
-                            name="modal_report_year" 
-                            id="modal_report_year" 
-                            readonly
-                        >
-                            <option>2024</option>
-                            <option>2025</option>
-                            <option>2026</option>
-                            <option>2027</option>
-                        </select>
+                        <div class="input-container">
+                            <button class = "inc_button" type="button" style = "margin: 0 0 0 20px;" onclick="edit_decrement_year()">-</button>
+                            <input  class = "inc_dis_input" type="text" id="modal_report_year" name="modal_change_report_year" readonly>
+                            <button class = "dis_button" type="button" style = "margin: 0;" onclick="edit_increment_year()">+</button>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td>Квартал</td>
                     <td>
-                        <select 
-                            name="modal_report_quarter" 
-                            id="modal_report_quarter"
-                            readonly
-                        >
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                        </select>
+                        <div class="input-container">
+                            <button class = "inc_button" type="button" style = "margin: 0 0 0 20px;" onclick="edit_decrement_quarter()">-</button>
+                            <input  class = "inc_dis_input" type="text" id="modal_report_quarter" name="modal_change_report_quarter" readonly>
+                            <button class = "dis_button" type="button" style = "margin: 0;" onclick="edit_increment_quarter()">+</button>
+                        </div>
+                    </td>
+                    
+                </tr>
+
+                <tr style = "display: none;">
+                    <td>id</td>
+                    <td>
                         <input 
                             type="hidden" 
                             name="modal_report_id" 

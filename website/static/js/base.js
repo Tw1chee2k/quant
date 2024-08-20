@@ -120,6 +120,95 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+function increment_year() {
+    var input = document.getElementById("quantity_year");
+    input.value = parseInt(input.value) + 1;
+}
+
+function decrement_year() {
+    var input = document.getElementById("quantity_year");
+    if (parseInt(input.value) > 0) {
+        input.value = parseInt(input.value) - 1;
+    }
+}
+
+function increment_quarter() {
+    var input = document.getElementById("quantity_quarter");
+    var value = parseInt(input.value);
+
+    if (value < 4) {
+        input.value = value + 1;
+    }
+}
+
+function decrement_quarter() {
+    var input = document.getElementById("quantity_quarter");
+    var value = parseInt(input.value);
+
+    if (value > 1) {
+        input.value = value - 1;
+    }
+}
+
+function coppy_increment_year() {
+    var input = document.getElementById("coppy_quantity_year");
+    input.value = parseInt(input.value) + 1;
+}
+
+function coppy_decrement_year() {
+    var input = document.getElementById("coppy_quantity_year");
+    if (parseInt(input.value) > 0) {
+        input.value = parseInt(input.value) - 1;
+    }
+}
+
+function coppy_increment_quarter() {
+    var input = document.getElementById("coppy_quantity_quarter");
+    var value = parseInt(input.value);
+
+    if (value < 4) {
+        input.value = value + 1;
+    }
+}
+
+function coppy_decrement_quarter() {
+    var input = document.getElementById("coppy_quantity_quarter");
+    var value = parseInt(input.value);
+
+    if (value > 1) {
+        input.value = value - 1;
+    }
+}
+
+function edit_increment_year() {
+    var input = document.querySelector('input[name="modal_change_report_year"]');
+    input.value = parseInt(input.value) + 1;
+}
+
+function edit_decrement_year() {
+    var input = document.querySelector('input[name="modal_change_report_year"]');
+    if (parseInt(input.value) > 0) {
+        input.value = parseInt(input.value) - 1;
+    }
+}
+
+function edit_increment_quarter() {
+    var input = document.querySelector('input[name="modal_change_report_quarter"]');
+    var value = parseInt(input.value);
+
+    if (value < 4) {
+        input.value = value + 1;
+    }
+}
+
+function edit_decrement_quarter() {
+    var input = document.querySelector('input[name="modal_change_report_quarter"]');
+    var value = parseInt(input.value);
+
+    if (value > 1) {
+        input.value = value - 1;
+    }
+}
 
 
 document.addEventListener('DOMContentLoaded', function () {

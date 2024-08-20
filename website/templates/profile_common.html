@@ -129,7 +129,7 @@
                             <td>Номер телефона</td>
                             <td>
                                 <div class="clear-input_container">
-                                    <input type="text" name = "telephone_common" placeholder="Введите номер телефона" value="{{current_user.telephone if current_user.telephone else ''}}">
+                                    <input type="text" name = "telephone_common" placeholder="Введите номер телефона" value="{{current_user.telephone if current_user.telephone else ''}}" required>
                                     <span class="clear-btn">&times;</span>
                                 </div>
                             </td>
@@ -139,7 +139,7 @@
                             <td style = "padding-top: 80px;">Фамилия</td>
                             <td>                    
                                 <div class="clear-input_container">
-                                    <input style = "margin-top: 80px;" type="text" name = "second_name_common" placeholder="Введите фамилию"value="{{current_user.fio.split()[0] if current_user.fio else ''}}">
+                                    <input style = "margin-top: 80px;" type="text" name = "second_name_common" placeholder="Введите фамилию"value="{{current_user.fio.split()[0] if current_user.fio else ''}}" required>
                                     <span style = "margin-top: 40px;" class="clear-btn">&times;</span>
                                 </div>
                             </td>
@@ -148,7 +148,7 @@
                             <td>Имя</td>
                             <td>                    
                                 <div class="clear-input_container">
-                                    <input type="text" name = "name_common" placeholder="Введите имя"value="{{current_user.fio.split()[1] if current_user.fio else ''}}">
+                                    <input type="text" name = "name_common" placeholder="Введите имя"value="{{current_user.fio.split()[1] if current_user.fio else ''}}" required>
                                     <span class="clear-btn">&times;</span>
                                 </div>
                             </td>
@@ -157,7 +157,7 @@
                             <td>Отчество</td>
                             <td>                    
                                 <div class="clear-input_container">
-                                    <input type="text" name = "patronymic_common" placeholder="Введите отчество"value="{{current_user.fio.split()[2] if current_user.fio else ''}}">
+                                    <input type="text" name = "patronymic_common" placeholder="Введите отчество"value="{{current_user.fio.split()[2] if current_user.fio else ''}}" required>
                                     <span class="clear-btn">&times;</span>
                                 </div>
                             </td>
