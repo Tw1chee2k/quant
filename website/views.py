@@ -801,42 +801,41 @@ def report_electro(id):
 
 def count_reports():
     not_viewedReports_count = Report.query.join(Version_report).filter(
-        Version_report.status == 'Отправлено'
+        Version_report.status == 'Отправлен'
     ).count()
     remarksReports_count = Report.query.join(Version_report).filter(
         Version_report.status == 'Есть замечания'
     ).count()
     to_downloadReports_count = Report.query.join(Version_report).filter(
-        Version_report.status == 'Готов к загрузке'
+        Version_report.status == 'Одобрен'
     ).count()
     to_deleteReports_count = Report.query.join(Version_report).filter(
         Version_report.status == 'Готов к удалению'
     ).count()
     all_count = Report.query.join(Version_report).filter(
         or_(
-            Version_report.status == 'Отправлено',
+            Version_report.status == 'Отправлен',
             Version_report.status == 'Есть замечания',
-            Version_report.status == 'Готов к загрузке',
+            Version_report.status == 'Одобрен',
             Version_report.status == 'Готов к удалению'
         )
     ).count()
     return not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count
 
 @views.route('/audit_area')
-@profile_complete
 @login_required
 def audit_area():
     report_all_sent = Report.query.join(Version_report).filter(
         or_(
-            Version_report.status == 'Отправлено',
+            Version_report.status == 'Отправлен',
             Version_report.status == 'Есть замечания',
-            Version_report.status == 'Готов к загрузке',
+            Version_report.status == 'Одобрен',
             Version_report.status == 'Готов к удалению'
         )
     ).all()
 
     report_not_read = Report.query.join(Version_report).filter(
-        Version_report.status == 'Отправлено'
+        Version_report.status == 'Отправлен'
     ).all()
 
     report_remarks = Report.query.join(Version_report).filter(
@@ -844,7 +843,7 @@ def audit_area():
     ).all()
 
     report_to_down = Report.query.join(Version_report).filter(
-        Version_report.status == 'Готов к загрузке'
+        Version_report.status == 'Одобрен'
     ).all()
 
     report_to_del = Report.query.join(Version_report).filter(
@@ -867,7 +866,6 @@ def audit_area():
                            )
 
 @views.route('/audit_area/report/<int:id>')
-@profile_complete
 @login_required
 def audit_report(id):
     dirUnit = DirUnit.query.filter_by().all()

@@ -75,7 +75,7 @@
                     </a>
                 </li>
                 <li data-action="to_download">
-                    <a>Готов к загрузке</a>
+                    <a>Одобреные</a>
                     <a class="count_reporst">
                         <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display:none;">
                         <span class="count-text">{{to_downloadReports_count}}</span>
@@ -141,8 +141,8 @@
                                 <td>
                                     {% if row.versions %}
                                         {% for version in row.versions %}
-                                            {% if version.status == 'Отправлено' %}
-                                                <input type="text" id="report_category_{{ version.id }}" value="Не просмотренно" readonly>
+                                            {% if version.status == 'Отправлен' %}
+                                                <input type="text" id="report_category_{{ version.id }}" value="Не просмотрено" readonly>
                                             {% endif %}
                                         {% endfor %}
                                     {% else %}
@@ -387,7 +387,7 @@
                                 <td>
                                     {% if row.versions %}
                                         {% for version in row.versions %}
-                                            {% if version.status == 'Отправлено' %}
+                                            {% if version.status == 'Отправлен' %}
                                                 <input type="text" id="report_category_{{ version.id }}" value="Не просмотренно" readonly>
                                             {%else%}
                                             <input type="text" id="report_category_{{ version.id }}" value="{{version.status}}" readonly>

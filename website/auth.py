@@ -41,6 +41,9 @@ import string
 from flask import session
 from itsdangerous import URLSafeTimedSerializer
 
+import zipfile
+import io
+
 auth = Blueprint('auth', __name__)
 login_manager = LoginManager()
 
@@ -361,12 +364,12 @@ def update_report():
                 flash('Отчет с таким годом и кварталом уже существует', 'error')
                 return redirect(url_for('views.report_area'))
 
-            sent_version_exists = any(version.status == 'Отправлено' for version in versions)
+            sent_version_exists = any(version.status == 'Отправлен' for version in versions)
             if sent_version_exists:
                 flash('После отправки изменение отчета недоступно', 'error')
                 return redirect(url_for('views.report_area'))
             
-            confirmed_version_exists = any(version.status == 'Готов к загрузке' for version in versions)
+            confirmed_version_exists = any(version.status == 'Одобрен' for version in versions)
             if confirmed_version_exists:
                 flash('Данный отчет не подлежит редактированию', 'error')
                 return redirect(url_for('views.report_area'))
@@ -451,12 +454,12 @@ def delete_report(report_id):
         versions = Version_report.query.filter_by(report_id = report_id).all()
         tickets = Ticket.query.filter_by(version_report_id = report_id).all()  
         if current_report:   
-            sent_version_exists = any(version.status == 'Отправлено' for version in versions)
+            sent_version_exists = any(version.status == 'Отправлен' for version in versions)
             if sent_version_exists:
                 flash('Отправленный отчет не подлежит удалению', 'error')
                 return redirect(url_for('views.report_area'))  
             
-            confirmed_version_exists = any(version.status == 'Готов к загрузке' for version in versions)
+            confirmed_version_exists = any(version.status == 'Одобрен' for version in versions)
             if confirmed_version_exists:
                 flash('Данный отчет не подлежит удалению', 'error')
                 return redirect(url_for('views.report_area'))
@@ -491,7 +494,7 @@ def delete_version(id):
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=id).first()
         if current_version:
-            if current_version.status != 'Отправлено':
+            if current_version.status != 'Отправлен':
                 versions_currentReport = Version_report.query.filter_by(report_id=current_version.report_id).all()
                 if len(versions_currentReport) > 1:
                     sections = Sections.query.filter_by(id_version=id).all()
@@ -536,7 +539,7 @@ def add_section_param():
         current_product = DirProduct.query.filter_by(NameProduct=name, IdProduct=id_product).first()
         product_unit = DirUnit.query.filter_by(IdUnit=current_product.IdUnit).first() if current_product else None
         if current_version:
-            if current_version.status != 'Отправлено' and current_version.status != 'Готов к загрузке':
+            if current_version.status != 'Отправлен' and current_version.status != 'Одобрен':
                 if current_product:
                     proverka_section = Sections.query.filter_by(id_version=current_version_id, section_number=section_number, id_product=current_product.IdProduct).first()
                     if proverka_section:
@@ -654,7 +657,7 @@ def change_section():
         current_section = Sections.query.filter_by(id=id_fuel).first()
         
         if current_version:
-            if current_version.status != 'Отправлено' and current_version.status != 'Готов к загрузке':
+            if current_version.status != 'Отправлен' and current_version.status != 'Одобрен':
                 if current_section:
                     if (current_section.code_product == 7000):
                         current_section.Consumed_Total_Quota = Consumed_Total_Quota
@@ -744,7 +747,7 @@ def remove_section(id):
         current_version = Version_report.query.filter_by(id=id_version).first() 
 
         if current_version:
-            if current_version.status != 'Отправлено' and current_version.status != 'Готов к загрузке':
+            if current_version.status != 'Отправлен' and current_version.status != 'Одобрен':
                 if delete_section:
                     section9001 = Sections.query.filter_by(id_version=id_version, section_number = section_numberDELsection, code_product = 9001).first()
                     section9001.Consumed_Total_Quota -= delete_section.Consumed_Total_Quota
@@ -825,7 +828,7 @@ def sent_version(id):
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=id).first()
         if current_version.status == 'Согласовано':
-            current_version.status = 'Отправлено'
+            current_version.status = 'Отправлен'
             current_version.sent_time = datetime.now()
             db.session.commit()
             flash('Отчет отправлен', 'successful')
@@ -837,7 +840,7 @@ def sent_version(id):
 
             db.session.add(user_message)
             db.session.commit()
-        elif current_version.status == 'Отправлено':
+        elif current_version.status == 'Отправлен':
             flash('Отчет уже был отправлен на проверку', 'error')
         else:
             flash('Необходимо согласовать', 'error')
@@ -855,7 +858,7 @@ def change_category_report():
         user = User.query.filter_by(email=current_version.email).first()
         if current_version:
             if action == 'not_viewed':
-                status_itog = 'Отправлено'
+                status_itog = 'Отправлен'
 
             elif action == 'remarks':
                 status_itog = 'Есть замечания'
@@ -865,14 +868,14 @@ def change_category_report():
                 )
                 db.session.add(user_message)
             elif action == 'to_download':
-                status_itog = 'Готов к загрузке'
+                status_itog = 'Одобрен'
                 user_message = Message(
                     text = f"Отчет №{current_version.id} был передан в следующую стадию проверки.",
                     user = user
                 )
                 db.session.add(user_message)
                 ticket_message = Ticket(
-                    note = "Ошибок нет, отчет готов к загрузке",
+                    note = "Ошибок нет, отчет Одобрен",
                     luck = True,
                     version_report_id = current_version.id
                 )
@@ -1230,72 +1233,74 @@ def print_ticket(id):
 @auth.route('/export_ready_reports', methods=['POST'])
 def export_ready_reports():
     if request.method == 'POST':
-        id = 1
-
-        version = Version_report.query.options(
+        versions = Version_report.query.options(
             joinedload(Version_report.report),
             joinedload(Version_report.sections).joinedload(Sections.product)
-            
-        ).filter_by(id=id, status="Готов к загрузке").first()
+        ).filter_by(status="Одобрен").all()
 
-        if version:
-            report = version.report
-            sections = version.sections
+        if not versions:
+            flash('Отсутствуют одобренные отчеты', 'error')
+            return redirect(url_for('views.audit_area'))
 
-            data = [{
-                'INDX': str(section.id),
-                'YEAR_': str(report.year) if report.year is not None else '',
-                'KVARTAL': str(report.quarter) if report.quarter is not None else '',
-                'IDPREDPR': str(report.okpo) if report.okpo is not None else '',
-                'DATERECEIV': None,
-                'EXCEED': None,
-                'SECTIONNUM': str(section.section_number) if section.section_number is not None else '',
-                'CODEPROD': str(section.code_product) if section.code_product is not None else '',
-                'OKED': str(section.Oked) if section.Oked is not None else '',
-                'PRODUCED': str(section.produced) if section.produced is not None else '',
-                'CONSUMEDQ': str(section.Consumed_Quota) if section.Consumed_Quota is not None else '',
-                'CONSUMEDF': str(section.Consumed_Fact) if section.Consumed_Fact is not None else '',
-                'CONSUMEDQT': str(section.Consumed_Total_Quota) if section.Consumed_Total_Quota is not None else '',
-                'CONSUMEDFT': str(section.Consumed_Total_Fact) if section.Consumed_Total_Fact is not None else '',
-                'COMMENT1': section.note if section.note is not None else '',
-                'COMMENT2': None,
-                'NAMEPROD': section.product.NameProduct.encode('ascii', 'replace').decode('ascii') if section.product and section.product.NameProduct else '',
-                'CODEUNIT': None,
-                'NAMEORG': report.organization_name.encode('ascii', 'replace').decode('ascii') if report.organization_name is not None else '',
-            } for section in sections]
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED) as zip_file:
+            for version in versions:
+                report = version.report
+                sections = version.sections
 
-            df = pd.DataFrame(data)
+                data = [{
+                    'INDX': str(section.id),
+                    'YEAR_': str(report.year) if report.year is not None else '',
+                    'KVARTAL': str(report.quarter) if report.quarter is not None else '',
+                    'IDPREDPR': str(report.okpo) if report.okpo is not None else '',
+                    'DATERECEIV': None,
+                    'EXCEED': None,
+                    'SECTIONNUM': str(section.section_number) if section.section_number is not None else '',
+                    'CODEPROD': str(section.code_product) if section.code_product is not None else '',
+                    'OKED': str(section.Oked) if section.Oked is not None else '',
+                    'PRODUCED': str(section.produced) if section.produced is not None else '',
+                    'CONSUMEDQ': str(section.Consumed_Quota) if section.Consumed_Quota is not None else '',
+                    'CONSUMEDF': str(section.Consumed_Fact) if section.Consumed_Fact is not None else '',
+                    'CONSUMEDQT': str(section.Consumed_Total_Quota) if section.Consumed_Total_Quota is not None else '',
+                    'CONSUMEDFT': str(section.Consumed_Total_Fact) if section.Consumed_Total_Fact is not None else '',
+                    'COMMENT1': section.note if section.note is not None else '',
+                    'COMMENT2': None,
+                    'NAMEPROD': section.product.NameProduct[:200].encode('cp866', 'replace').decode('cp866') if section.product and section.product.NameProduct else '',
+                    'CODEUNIT': None,
+                    'NAMEORG': report.organization_name[:200].encode('cp866', 'replace').decode('cp866') if report.organization_name is not None else '',
+                } for section in sections]
 
-            with NamedTemporaryFile(delete=False, suffix='.dbf') as temp_file:
-                temp_filename = temp_file.name
+                df = pd.DataFrame(data)
 
-                table = dbf.Table(
-                    temp_filename,
+                with NamedTemporaryFile(delete=False, suffix='.dbf') as temp_file:
+                    temp_filename = temp_file.name
+
+                    table = dbf.Table(
+                        temp_filename,
                         'INDX C(10); YEAR_ C(20); KVARTAL C(20); IDPREDPR C(20); DATERECEIV C(20); '
                         'EXCEED C(20); SECTIONNUM C(20); CODEPROD C(20); OKED C(20); PRODUCED C(20); '
                         'CONSUMEDQ C(20); CONSUMEDF C(20); CONSUMEDQT C(20); CONSUMEDFT C(20); '
-                        'COMMENT1 C(20); COMMENT2 C(20); NAMEPROD C(50); CODEUNIT C(20); NAMEORG C(20); '
-                )
-                
-                table.open(mode=dbf.READ_WRITE)
+                        'COMMENT1 C(20); COMMENT2 C(20); NAMEPROD C(200); CODEUNIT C(20); NAMEORG C(200); ',
+                        codepage='cp866'
+                    )
 
-                try:
-                    for _, row in df.iterrows():
-                        row_dict = row.to_dict()
-                        missing_fields = [field for field in table.field_names if field not in row_dict]
-                        if missing_fields:
-                            raise ValueError(f"Missing fields in DataFrame: {', '.join(missing_fields)}")
-                        table.append(row_dict)
-                finally:
-                    table.close()
-                with open(temp_filename, 'rb') as f:
-                    dbf_bytes = f.read()
+                    table.open(mode=dbf.READ_WRITE)
 
-            return Response(
-                dbf_bytes,
-                mimetype='application/dbf',
-                headers={"Content-Disposition": f"attachment;filename={report.okpo}_{report.year}_{report.quarter}.dbf"}
-            )
-        else:
-            flash('Версии для отправки отсутствуют','error')
-            return redirect(url_for('views.audit_area'))
+                    try:
+                        for _, row in df.iterrows():
+                            row_dict = row.to_dict()
+                            table.append(row_dict)
+                    finally:
+                        table.close()
+
+                    with open(temp_filename, 'rb') as f:
+                        dbf_filename = f'{report.okpo}_{report.year}_{report.quarter}.dbf'
+                        zip_file.writestr(dbf_filename, f.read())
+
+        zip_buffer.seek(0)
+
+        return Response(
+            zip_buffer,
+            mimetype='application/zip',
+            headers={"Content-Disposition": "attachment;filename=reports.zip"}
+        )

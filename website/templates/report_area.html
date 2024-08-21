@@ -176,27 +176,27 @@
                                    
                                             {% if rows.status == 'Контроль пройден'%}
                                                 <td style = "background: rgb(96, 255, 228);"> 
-                                                    <input type = "text" value = "{{ rows.status }}"  readonly>
+                                                    <input type = "text" style = "color: black;" value = "{{ rows.status }}"  readonly>
                                                 </td> 
                                             {% elif rows.status == 'Согласовано'%}
                                                 <td style = "background: rgb(152, 255, 169);"> 
-                                                    <input type = "text" value = "{{ rows.status }}"  readonly>
+                                                    <input type = "text" style = "color: black;" value = "{{ rows.status }}"  readonly>
                                                 </td> 
-                                            {% elif rows.status == 'Отправлено'%}
+                                            {% elif rows.status == 'Отправлен'%}
                                                 <td style = "background: rgb(96, 215, 255);"> 
-                                                    <input type = "text" value = "{{ rows.status }}"  readonly>
+                                                    <input type = "text" style = "color: black;" value = "{{ rows.status }}"  readonly>
                                                 </td>  
                                             {% elif rows.status == 'Есть замечания'%}
                                                 <td style = "background: rgb(255, 186, 96);"> 
-                                                    <input type = "text" value = "{{ rows.status }}"  readonly>
+                                                    <input type = "text" style = "color: black;" value = "{{ rows.status }}"  readonly>
                                                 </td>  
                                             {% elif rows.status == 'Готов к удалению'%}
                                                 <td style = "background: rgb(255, 96, 96);"> 
-                                                    <input type = "text" value = "{{ rows.status }}"  readonly>
+                                                    <input type = "text" style = "color: black;" value = "{{ rows.status }}"  readonly>
                                                 </td>
-                                            {% elif rows.status == 'Готов к загрузке'%}
+                                            {% elif rows.status == 'Одобрен'%}
                                                 <td style = "background:  rgb(96, 255, 122);"> 
-                                                    <input type = "text" value = "Одобрен"  readonly>
+                                                    <input type = "text" style = "color: black;" value = "Одобрен"  readonly>
                                                 </td>
                                             {% else %}
                                                 <td> 

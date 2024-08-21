@@ -2482,6 +2482,12 @@ th .resizer {
     border-bottom-left-radius: 5px;
 }
 
+.dark-mode .modal_table .input-container .inc_button {
+    color: white;
+    background-color: #252525;
+    border: 1px solid rgb(121, 121, 121);  
+}
+
 .modal_table .input-container .dis_button {
     background-color: #f0f0f0;
     border: 1px solid #ccc;
@@ -2492,6 +2498,12 @@ th .resizer {
     text-align: center;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+.dark-mode .modal_table .input-container .dis_button {
+    color: white;
+    background-color: #252525;
+    border: 1px solid rgb(121, 121, 121);  
 }
 
 .modal_table .input-container .inc_dis_input {
@@ -2506,6 +2518,12 @@ th .resizer {
     border-bottom: 1px solid rgb(217, 217, 217);  
     font-weight: 500; 
     margin: 0;
+}
+
+.dark-mode  .modal_table .input-container .inc_dis_input {
+    background-color: #4d4d4d;
+    border-top: 1px solid rgb(121, 121, 121);  
+    border-bottom: 1px solid rgb(121, 121, 121);  
 }
 
 .modal_table input{
