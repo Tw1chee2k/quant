@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
 from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections, Message
 from . import db
@@ -566,8 +566,9 @@ def login():
 @login_required
 def account():
     messages = Message.query.filter_by(user=current_user).order_by(Message.id.desc()).all()
-
+    year_today = datetime.now().year
     return render_template('account.html', 
+                           year_today=year_today,
                            current_user=current_user, 
                            messages=messages)
 
@@ -799,58 +800,89 @@ def report_electro(id):
         current_version=current_version
     )
 
-def count_reports():
+def count_reports(year=None, quarter=None):
+    filters = []
+    if year is not None:
+        filters.append(Report.year == year)
+    if quarter is not None:
+        filters.append(Report.quarter == quarter)
+
     not_viewedReports_count = Report.query.join(Version_report).filter(
-        Version_report.status == 'Отправлен'
+        Version_report.status == 'Отправлен',
+        *filters
     ).count()
+
     remarksReports_count = Report.query.join(Version_report).filter(
-        Version_report.status == 'Есть замечания'
+        Version_report.status == 'Есть замечания',
+        *filters
     ).count()
+
     to_downloadReports_count = Report.query.join(Version_report).filter(
-        Version_report.status == 'Одобрен'
+        Version_report.status == 'Одобрен',
+        *filters
     ).count()
+
     to_deleteReports_count = Report.query.join(Version_report).filter(
-        Version_report.status == 'Готов к удалению'
+        Version_report.status == 'Готов к удалению',
+        *filters
     ).count()
+
     all_count = Report.query.join(Version_report).filter(
         or_(
             Version_report.status == 'Отправлен',
             Version_report.status == 'Есть замечания',
             Version_report.status == 'Одобрен',
             Version_report.status == 'Готов к удалению'
-        )
+        ),
+        *filters
     ).count()
+
     return not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count
 
 @views.route('/audit_area')
 @login_required
 def audit_area():
+    year_filter = request.args.get('year')
+    quarter_filter = request.args.get('quarter')
+
+    filters = []
+    if year_filter:
+        filters.append(Report.year == year_filter)
+    if quarter_filter:
+        filters.append(Report.quarter == quarter_filter)
+
     report_all_sent = Report.query.join(Version_report).filter(
         or_(
             Version_report.status == 'Отправлен',
             Version_report.status == 'Есть замечания',
             Version_report.status == 'Одобрен',
             Version_report.status == 'Готов к удалению'
-        )
+        ),
+        *filters
     ).all()
 
     report_not_read = Report.query.join(Version_report).filter(
-        Version_report.status == 'Отправлен'
+        Version_report.status == 'Отправлен',
+        *filters
     ).all()
 
     report_remarks = Report.query.join(Version_report).filter(
-        Version_report.status == 'Есть замечания'
+        Version_report.status == 'Есть замечания',
+        *filters
     ).all()
 
     report_to_down = Report.query.join(Version_report).filter(
-        Version_report.status == 'Одобрен'
+        Version_report.status == 'Одобрен',
+        *filters
     ).all()
 
     report_to_del = Report.query.join(Version_report).filter(
-        Version_report.status == 'Готов к удалению'
+        Version_report.status == 'Готов к удалению',
+        *filters
     ).all()
 
-    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count = count_reports()
+    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count = count_reports(year_filter, quarter_filter)
+    
     return render_template('audit_area.html', 
                            current_user=current_user, 
                            report_all_sent=report_all_sent,
@@ -862,7 +894,9 @@ def audit_area():
                            not_viewedReports_count=not_viewedReports_count,
                            remarksReports_count=remarksReports_count,
                            to_downloadReports_count=to_downloadReports_count,
-                           to_deleteReports_count=to_deleteReports_count
+                           to_deleteReports_count=to_deleteReports_count,
+                           year_filter=year_filter,
+                           quarter_filter=quarter_filter
                            )
 
 @views.route('/audit_area/report/<int:id>')

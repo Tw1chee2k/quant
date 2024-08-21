@@ -851,7 +851,8 @@ def sent_version(id):
 def change_category_report():
     action = request.form.get('action')
     report_id = request.form.get('reportId')
-    
+    url = request.form.get('url')
+
     status_itog = None
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=report_id).first()
@@ -892,10 +893,10 @@ def change_category_report():
             current_version.status = status_itog
             db.session.commit()
 
-            # send_email(f'Статус отпраленного отчета был изменен на {status_itog}', current_version.email)
+            # send_email(f'Статус отпраленного отчета был изменен на "{status_itog}"', current_version.email)
 
             flash(f'Статус отчета №{current_version.id} был изменен', 'success')
-            return redirect(url_for('views.audit_area'))
+            return redirect(url)
         else:
             return redirect(url_for('views.not_found'))
 

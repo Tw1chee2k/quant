@@ -9,6 +9,35 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+
+    /*показ панели для выбора периода account*/
+    var link_period = document.getElementById('link_period');
+    var period_modal = document.getElementById('period_modal');
+    var close_period_modal = period_modal.querySelector('.close');
+
+
+    link_period.addEventListener('click', function() {
+        period_modal.style.display = 'block';
+        contextMenuReport.style.display = 'none';
+    });
+
+  
+    close_period_modal.addEventListener('click', function() {
+        period_modal.style.display = 'none';
+
+    });
+
+
+    period_modal.addEventListener('click', function(event) {
+        if (event.target === period_modal) {
+            period_modal.style.display = 'none';
+        }
+    });
+    /*end*/
+
+
+
+
     function setupPasswordToggle(passwordFieldId, showIconClass, hideIconClass) {
         const passwordField = document.querySelector(`#${passwordFieldId}`);
         const showPasswordIcon = document.querySelector(`.${showIconClass}`);
@@ -119,6 +148,12 @@ document.addEventListener('DOMContentLoaded', function () {
     
 });
 
+function filterSentedReports() {
+    var year = document.getElementById('quantity_year').value;
+    var quarter = document.getElementById('quantity_quarter').value;
+    var url = `/audit_area?year=${year}&quarter=${quarter}`;
+    window.location.href = url;
+}
 
 function increment_year() {
     var input = document.getElementById("quantity_year");

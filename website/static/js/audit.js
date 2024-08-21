@@ -188,3 +188,7 @@ document.addEventListener('DOMContentLoaded', function () {
 document.getElementById('douwnload_readyreports_link').addEventListener('click', function() {
     document.getElementById('douwnload_readyreports_form').submit();
 });
+
+window.onload = function() {
+    document.getElementById('url-input').value = window.location.href;
+};
