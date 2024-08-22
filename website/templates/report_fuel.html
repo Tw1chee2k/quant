@@ -626,13 +626,13 @@
                             {{ row.NameProduct }}
                         </td> 
                         <td>
-                            <input type="checkbox" name="control" {% if row.IsFuel %} checked {% endif %} disabled>
+                            <input type="checkbox" name="control" {% if row.IsFuel %} checked {% endif %} onclick="return false;">
                         </td>
                         <td>
-                            <input type="checkbox" name="control" {% if row.IsHeat %} checked {% endif %} disabled>
+                            <input type="checkbox" name="control" {% if row.IsHeat %} checked {% endif %} onclick="return false;">
                         </td>
                         <td>
-                            <input type="checkbox" name="control" {% if row.IsElectro %} checked {% endif %} disabled>
+                            <input type="checkbox" name="control" {% if row.IsElectro %} checked {% endif %} onclick="return false;">
                         </td>
                         <td>{{ row.IdUnit }}</td>
                         <td>

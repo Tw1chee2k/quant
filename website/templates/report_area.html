@@ -78,7 +78,7 @@
             <thead class="order-table_titels">
                 <tr>
                     <th></th>
-                    <th>+/&times;</th>
+                    <th style = "white-space: nowrap;">+/&times;</th>
                     <th class="resizable" style="min-width: 120px;">ОКПО<div class="resizer"></div></th>
                     <th class="resizable" style="white-space: nowrap; min-width: 320px;">Наименование предприятия<div class="resizer"></div></th>
                     <th class="resizable" style="min-width: 80px;">Год<div class="resizer"></div></th>
@@ -142,7 +142,7 @@
                             <table class="table-versions">
                                 <thead class="order-table_titels">
                                     <tr>
-                                        <th>+/&times;</th>
+                                        <th style = "white-space: nowrap;">+/&times;</th>
                                         <th class="resizable" style ="white-space: nowrap; width: 100px;">Дата начала<div class="resizer"></div></th>
                                         <th class="resizable" style="white-space: nowrap; width: 100px;">Дата изменения<div class="resizer"></div></th>
                                         <th class="resizable" >Статус<div class="resizer"></div></th>
@@ -240,12 +240,12 @@
                                                                 <input type="text" value="{{ ticket.begin_time }}" readonly>
                                                             </td>
                                                             <td >
-                                                                <input type="checkbox" {% if ticket.luck %} checked {% endif %} disabled>
+                                                                <input type="checkbox" {% if ticket.luck %} checked {% endif %}  onclick="return false;">
                                                             </td>
                                                             <td>
                                                                 <input type="text" value="{{ ticket.note }}" readonly>
                                                             </td>
-                                                        </tr>
+                                                        </tr>   
                                                     {% endfor %}
                                                 {% else %}
                                                     <tr class="row_with_tickets">

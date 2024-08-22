@@ -1214,7 +1214,7 @@ def print_ticket(id):
             "ОКПО предприятия": report.okpo,
             "Результат обработки": "Отчет принят в обработку" if ticket.luck else "Отчет не принят в обработку",
             "Дата обработки": ticket.begin_time.strftime("%Y-%m-%d"),
-            "Причина отказа": ticket.note or "Нет заметок",
+            "Причина отказа": " " if ticket.luck else ticket.note,
         }
         
         name_x = 100

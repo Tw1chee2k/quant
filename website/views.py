@@ -42,41 +42,42 @@ def profile_complete(f):
 def beginPage():
 
     if User.query.count() == 0:   
-        organizations_data = [
-            ('Региональное управление №1 (Брестская область)', '111', '111'),         
-            ('Региональное управление №2 (Витебская область)', '222', '222'),  
-            ('Региональное управление №3 (Гомельская область)', '333', '333'),  
-            ('Региональное управление №4 (Гродненская область)', '444', '444'),  
-            ('Региональное управление №5 (Минская область)', '555', '555'),  
-            ('Региональное управление №6 (Могилевская область)', '666', '666'),  
-            ('Региональное управление №7 (Минск)', '777', '777'),  
-            (' №8 ()', '888', '888'),
-            ('УО Новопольский ГАЭК', '35678438', '253314532'),
-            ('Борисовский завод медицинских препаратов', '05799746', '600125834'),
-            ('Руп "КВАНТ-АС"', '12345678', '453234532'),
-        ]
-        organizations = {}
-        for organization_data in organizations_data:
-            new_org = Organization(full_name=organization_data[0], 
-                                okpo=organization_data[1], 
-                                ynp=organization_data[2])
-            db.session.add(new_org)
-            db.session.commit()  
+        # organizations_data = [
+        #     ('Региональное управление №1 (Брестская область)', '111', '111'),         
+        #     ('Региональное управление №2 (Витебская область)', '222', '222'),  
+        #     ('Региональное управление №3 (Гомельская область)', '333', '333'),  
+        #     ('Региональное управление №4 (Гродненская область)', '444', '444'),  
+        #     ('Региональное управление №5 (Минская область)', '555', '555'),  
+        #     ('Региональное управление №6 (Могилевская область)', '666', '666'),  
+        #     ('Региональное управление №7 (Минск)', '777', '777'),  
+        #     (' №8 ()', '888', '888'),
+        #     ('УО Новопольский ГАЭК', '35678438', '253314532'),
+        #     ('Борисовский завод медицинских препаратов', '05799746', '600125834'),
+        #     ('Руп "КВАНТ-АС"', '12345678', '453234532'),
+        # ]
+        # organizations = {}
+        # for organization_data in organizations_data:
+        #     new_org = Organization(full_name=organization_data[0], 
+        #                         okpo=organization_data[1], 
+        #                         ynp=organization_data[2])
+        #     db.session.add(new_org)
+        #     db.session.commit()  
 
-            organizations[new_org.id] = new_org
+        #     organizations[new_org.id] = new_org
 
         users_data = [
-            ('Аудитор', 'BrestReg@gmail.com', None, None, generate_password_hash('1234'), 1),
-            ('Аудитор', 'VitebskReg@gmail.com', None, None, generate_password_hash('1234'), 2),
-            ('Аудитор','GomelReg@gmail.com',  None, None, generate_password_hash('1234'), 3),
-            ('Аудитор', 'GrodnoReg@gmail.com',  None, None, generate_password_hash('1234'), 4),
-            ('Аудитор', 'MinskReg@gmail.com',  None, None, generate_password_hash('1234'), 5),
-            ('Аудитор', 'MogilevReg@gmail.com',  None, None, generate_password_hash('1234'), 6),
-            ('Аудитор', 'Minsk@gmail.com',  None, None, generate_password_hash('1234'), 7),
-            ('Аудитор', 'HZ@gmail.com',  None, None, generate_password_hash('1234'), 8),
-            ('Администратор', 'tw1che.2k@gmail.com', 'Сидоров Максим Андреевич','+375445531847', generate_password_hash('1234'), 9),
-            ('Респондент', 'clown4lenix@gmail.com', 'Шапавалов Алексей Юрьевич','+375447317128', generate_password_hash('1234'), 10),
-            ('Респондент', 'info@kvantas-as', 'Санников Вячеслав Степанович','365 04 33', generate_password_hash('1234'), 11),
+            ('Аудитор', 'BrestReg@gmail.com', None, None, generate_password_hash('1234')),
+            ('Аудитор', 'VitebskReg@gmail.com', None, None, generate_password_hash('1234')),
+            ('Аудитор','GomelReg@gmail.com',  None, None, generate_password_hash('1234')),
+            ('Аудитор', 'GrodnoReg@gmail.com',  None, None, generate_password_hash('1234')),
+            ('Аудитор', 'MinskReg@gmail.com',  None, None, generate_password_hash('1234')),
+            ('Аудитор', 'MogilevReg@gmail.com',  None, None, generate_password_hash('1234')),
+            ('Аудитор', 'Minsk@gmail.com',  None, None, generate_password_hash('1234')),
+            ('Аудитор', 'HZ@gmail.com',  None, None, generate_password_hash('1234')),
+            ('Администратор', 'tw1che.2k@gmail.com', 'Сидоров Максим Андреевич','+375445531847', generate_password_hash('1234')),
+            ('Респондент', 'clown4lenix@gmail.com', 'Шапавалов Алексей Юрьевич','+375447317128', generate_password_hash('1234')),
+            ('Респондент', 'info@kvantas-as', 'Санников Вячеслав Степанович','365 04 33', generate_password_hash('1234')),
+            ('Респондент', 'maxsidorov2017@gmail.com', 'Харлап Алексей Игорьевич','+375296470299', generate_password_hash('1234')),
         ]
         for user_data in users_data:
             user = User(type=user_data[0], 
@@ -84,7 +85,6 @@ def beginPage():
                         fio=user_data[2],
                         telephone=user_data[3],
                         password=user_data[4],
-                        organization=organizations[user_data[5]],
                         is_active=True) 
             db.session.add(user)   
             db.session.commit()
@@ -171,7 +171,6 @@ def beginPage():
             unit = DirUnit(IdUnit=unit_data[0], CodeUnit=unit_data[1], NameUnit=unit_data[2])
             db.session.add(unit)
         db.session.commit()
-
     if DirProduct.query.count() == 0:     
         products_data = [
             (1, '0010', 'Электроэнергия, отпущенная электростанциями, работающими на котельно-печном топливе', True, False, False, 1, None, None),

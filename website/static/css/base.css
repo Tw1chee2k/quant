@@ -585,7 +585,8 @@ footer {
 }
 
 .dark-mode .custom-alert {
-    background: #252525
+    background: #252525;
+    box-shadow: 0 0 7px rgba(255, 255, 255, 0.2);
 
 }
 
@@ -617,6 +618,7 @@ footer {
 
 .dark-mode .p_message_cont{
     color: rgb(255, 255, 255);  
+    
 }
 
 .notif-progress {
@@ -1424,8 +1426,8 @@ footer {
     display: flex;
     flex-direction: column;
     text-align: left;
-    background-color: rgba(255, 255, 255, 0.849);
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
+    background-color: rgba(255, 255, 255, 0.507);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     border: none;
     padding: 20px 0 0 0; 
     width: 300px;
@@ -1438,6 +1440,7 @@ footer {
 
 .dark-mode	.profile_navigation {
     background-color:  #252525; 
+    box-shadow: none; 
 }
 
 .profile_navigation li {
@@ -1936,6 +1939,11 @@ footer {
     background: rgba(96, 255, 228, 0.63);
 }
 
+#control-report-btn:hover{
+    background: rgba(96, 255, 228, 0.63);
+}
+
+
 #agreedVersionButton:hover{
     background: rgba(152, 255, 169, 0.63);
 }
@@ -2063,7 +2071,7 @@ footer {
     color: rgb(0, 0, 0);
     font-weight: 600;
     width: 100%;
-    background-color:rgba(231, 231, 231, 0.507);
+    background-color:rgba(231, 231, 231, 0.5);
 }
 
 .dark-mode .order-table_titels {
@@ -2484,7 +2492,7 @@ th .resizer {
 
 .dark-mode .modal_table .input-container .inc_button {
     color: white;
-    background-color: #252525;
+    background-color:  #3b3b3b;
     border: 1px solid rgb(121, 121, 121);  
 }
 
@@ -2502,7 +2510,7 @@ th .resizer {
 
 .dark-mode .modal_table .input-container .dis_button {
     color: white;
-    background-color: #252525;
+    background-color: #3b3b3b;
     border: 1px solid rgb(121, 121, 121);  
 }
 
