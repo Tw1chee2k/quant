@@ -64,6 +64,7 @@
                     <a>Не просмотренные</a>
                     <a class="count_reporst">
                         <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display: none;">
+                        <span class="add_plus" style="display: none;">+</span>
                         <span class="count-text">{{not_viewedReports_count}}</span>
                     </a>
                 </li>
@@ -71,6 +72,7 @@
                     <a>Есть замечания</a>
                     <a class="count_reporst">
                         <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display:none;">
+                        <span class="add_plus" style="display: none;">+</span>
                         <span class="count-text">{{remarksReports_count}}</span>
                     </a>
                 </li>
@@ -78,6 +80,7 @@
                     <a>Одобреные</a>
                     <a class="count_reporst">
                         <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display:none;">
+                        <span class="add_plus" style="display: none;">+</span>
                         <span class="count-text">{{to_downloadReports_count}}</span>
                     </a>
                 </li>
@@ -85,6 +88,7 @@
                     <a>Готов к удалению</a>
                     <a class="count_reporst">
                         <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display:none;">
+                        <span class="add_plus" style="display: none;">+</span>
                         <span class="count-text">{{to_deleteReports_count}}</span>
                     </a>
                 </li>

@@ -856,49 +856,53 @@ def change_category_report():
     status_itog = None
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=report_id).first()
-        user = User.query.filter_by(email=current_version.email).first()
-        if current_version:
+
+        if current_version is not None:  # Проверка на None перед использованием current_version
+            user = User.query.filter_by(email=current_version.email).first()
+
             if action == 'not_viewed':
                 status_itog = 'Отправлен'
 
             elif action == 'remarks':
                 status_itog = 'Есть замечания'
                 user_message = Message(
-                    text = f"При проверке отчета №{current_version.id} были найдены ошибки. Исправьте ошибки и отправьте повторно.",
-                    user = user
+                    text=f"При проверке отчета №{current_version.id} были найдены ошибки. Исправьте ошибки и отправьте повторно.",
+                    user=user
                 )
                 db.session.add(user_message)
+
             elif action == 'to_download':
                 status_itog = 'Одобрен'
                 user_message = Message(
-                    text = f"Отчет №{current_version.id} был передан в следующую стадию проверки.",
-                    user = user
+                    text=f"Отчет №{current_version.id} был передан в следующую стадию проверки.",
+                    user=user
                 )
                 db.session.add(user_message)
                 ticket_message = Ticket(
-                    note = "Ошибок нет, отчет Одобрен",
-                    luck = True,
-                    version_report_id = current_version.id
+                    note="Ошибок нет, отчет Одобрен",
+                    luck=True,
+                    version_report_id=current_version.id
                 )
                 db.session.add(ticket_message)
-                
+
             elif action == 'to_delete':
                 status_itog = 'Готов к удалению'
                 user_message = Message(
-                            text = f"Отчет №{current_version.id} не подлежит рассмотрению.",
-                            user = user
-                        )
+                    text=f"Отчет №{current_version.id} не подлежит рассмотрению.",
+                    user=user
+                )
                 db.session.add(user_message)
+            else:
+                flash('Неизвестное действие', 'error')
 
             current_version.status = status_itog
             db.session.commit()
 
-            # send_email(f'Статус отпраленного отчета был изменен на "{status_itog}"', current_version.email)
-
             flash(f'Статус отчета №{current_version.id} был изменен', 'success')
             return redirect(url)
         else:
-            return redirect(url_for('views.not_found'))
+            flash('Отчет не найден', 'error')
+            return "Version not found", 404
 
 @auth.route('/send_comment', methods=['POST'])
 def send_comment():

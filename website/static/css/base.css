@@ -49,8 +49,10 @@ body.dimmed {
     --color3: rgb(216, 236, 255);
 
     --color4: #333;
-    --color5: rgb(61, 185, 171);
+    --color5: rgb(0, 194, 171);
     --color6: #444444;
+
+    --color7: rgb(96, 255, 122);
 }
 
 .blurred-background {
@@ -502,7 +504,8 @@ footer {
   
 .dark-mode footer {
     background-color:#252525;
-    box-shadow: none;
+    background-color: rgb(0, 158, 140);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .footer_cont{
@@ -586,7 +589,8 @@ footer {
 
 .dark-mode .custom-alert {
     background: #252525;
-    box-shadow: 0 0 7px rgba(255, 255, 255, 0.2);
+    /* box-shadow: 0 0 7px rgba(255, 255, 255, 0.2); */
+    border: none;
 
 }
 
@@ -699,6 +703,12 @@ footer {
     border-bottom-left-radius: 0;     */
 }
 
+
+/* .dark-mode .log_reg_form {
+    background: rgba(0, 0, 0, 0.274);
+} */
+
+
 .link_cont{
     display: flex;
     flex-direction: row;
@@ -727,6 +737,7 @@ footer {
 }
 .dark-mode .link_cont .active{
     color: rgb(0, 116, 102);
+    
 }
 
 .aftorization_data,
@@ -992,7 +1003,7 @@ footer {
 }
 
 .dark-mode .statistics-row {
-    background-color:rgb(84, 146, 139);
+    background-color:rgb(0, 194, 171);
 }
 
 .statistics-row-left{
@@ -1034,7 +1045,7 @@ footer {
 }
 
 .dark-mode .stat_count{
-    color: rgb(0, 194, 171);
+    color: rgb(0, 158, 140);
 }
 
 .stat_name{
@@ -1068,7 +1079,7 @@ footer {
 }
 
 .dark-mode .news-row {
-    /* background-color:rgb(84, 146, 139); */
+    /* background-color:rgb(0, 194, 171); */
 }
 
 .news-row-left{
@@ -1113,7 +1124,7 @@ footer {
 }
 
 .dark-mode .news_name{
-    color: rgb(0, 194, 171);
+    color: rgb(0, 158, 140);
 }
 
 .item_news .first_p{
@@ -1454,7 +1465,7 @@ footer {
     white-space: nowrap;
     height: 25px;
     font-weight: 500;  
-    transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease, margin 0.3s ease;
     position: relative;
     align-items: center;
 }
