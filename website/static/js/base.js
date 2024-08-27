@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function setupPasswordToggle(passwordFieldId, showIconClass, hideIconClass) {
         const passwordField = document.querySelector(`#${passwordFieldId}`);
-        const showPasswordIcon = document.querySelector(`.${showIconClass}`);
+        const showPasswordIcon = document.querySelector(`.${showIconClass}`); 
         const hidePasswordIcon = document.querySelector(`.${hideIconClass}`);
     
         if (passwordField && showPasswordIcon && hidePasswordIcon) {
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function filterSentedReports() {
     var year = document.getElementById('quantity_year').value;
     var quarter = document.getElementById('quantity_quarter').value;
-    var url = `/audit_area?year=${year}&quarter=${quarter}`;
+    var url = `/audit_area/all_reports?year=${year}&quarter=${quarter}`;
     window.location.href = url;
 }
 

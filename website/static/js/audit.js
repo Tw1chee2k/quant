@@ -12,14 +12,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var showFilterButton = document.getElementById('show-filter');
     var filterSection = document.getElementById('filtr_section');
 
+
     showFilterButton.addEventListener('click', function () {
-        if (filterSection.style.display === 'none' || filterSection.style.display === '') {
-            filterSection.style.display = 'block';
-        } else {
-            filterSection.style.display = 'none';
-        }
+        filterSection.style.display = filterSection.style.display === 'block' ? 'none' : 'block';
     });
 
+    
     function filterTable() {
         const okpoValue = document.getElementById('okpo-filter').value.toLowerCase();
         const organizationValue = document.getElementById('organization-filter').value.toLowerCase();
@@ -31,39 +29,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const okpoMatch = okpoText.includes(okpoValue);
             const organizationMatch = organizationText.includes(organizationValue);
 
-            if (okpoMatch && organizationMatch) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
+            row.style.display = okpoMatch && organizationMatch ? '' : 'none';
         });
     }
+
 
     document.getElementById('okpo-filter').addEventListener('input', filterTable);
     document.getElementById('organization-filter').addEventListener('input', filterTable);
 
-    document.querySelectorAll('#status-reportList li').forEach(item => {
-        item.addEventListener('click', function() {
-            const action = this.getAttribute('data-action');         
-            document.querySelectorAll('.report-area > div').forEach(container => {
-                container.style.display = 'none';
-            });
-            
-            const activeContainer = document.getElementById(action);
-            if (activeContainer) {
-                activeContainer.style.display = 'block';
-            }
-            
-            document.querySelectorAll('#status-reportList li').forEach(li => {
-                li.classList.remove('active_li');
-            });
-            
-            this.classList.add('active_li');
-            
-            // Сохранение активной вкладки в localStorage
-            localStorage.setItem('activeTab', action);
-        });
-    });
 
     function hideContextMenu() {
         contextMenuReport.style.display = 'none';
@@ -72,7 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function setDraggingState(isDragging) {
         var imgs = document.querySelectorAll('.count-img');
         var texts = document.querySelectorAll('.count-text');
-        // var add_plus = document.querySelectorAll('.add_plus');
         
         var not_read = document.querySelector('li[data-action="not_viewed"]');
         var with_remarks = document.querySelector('li[data-action="remarks"]');
@@ -80,65 +52,34 @@ document.addEventListener('DOMContentLoaded', function () {
         var to_del = document.querySelector('li[data-action="to_delete"]');
     
         imgs.forEach((img, index) => {
-            if (isDragging) {
-                // img.style.display = 'inline';
-                texts[index].style.display = 'none';
-                not_read.style.background = 'rgb(96, 255, 122)';
-                with_remarks.style.background = 'rgb(96, 255, 122)';
-                to_conf.style.background = 'rgb(96, 255, 122)';
-                to_del.style.background = 'rgb(255, 96, 96)';
+            texts[index].style.display = isDragging ? 'none' : 'inline';
+            
+            const draggingStyle = isDragging ? 'rgb(96, 255, 122)' : '';
+            not_read.style.background = draggingStyle;
+            with_remarks.style.background = draggingStyle;
+            to_conf.style.background = draggingStyle;
+            to_del.style.background = isDragging ? 'rgb(255, 96, 96)' : '';
 
-                not_read.style.color = 'black';
-                with_remarks.style.color = 'black';
-                to_conf.style.color = 'black';
-                to_del.style.color = 'black';
+            const colorStyle = isDragging ? 'black' : '';
+            not_read.style.color = colorStyle;
+            with_remarks.style.color = colorStyle;
+            to_conf.style.color = colorStyle;
+            to_del.style.color = colorStyle;
 
-                not_read.style.margin = '0';
-                with_remarks.style.margin = '0';
-                to_conf.style.margin = '0';
-                to_del.style.margin = '0';
+            const paddingStyle = isDragging ? '20px 50px' : '';
+            not_read.style.padding = paddingStyle;
+            with_remarks.style.padding = paddingStyle;
+            to_conf.style.padding = paddingStyle;
+            to_del.style.padding = paddingStyle;
 
-                not_read.style.padding = '20px 50px';
-                with_remarks.style.padding= '20px 50px';
-                to_conf.style.padding = '20px 50px';
-                to_del.style.padding = '20px 50px';
-
-
-                // not_read.style.borderBottom = '1px solid black';
-                // with_remarks.style.borderBottom = '1px solid black';
-                // to_conf.style.borderBottom = '1px solid black';
-                // to_del.style.borderBottom = '1px solid black';
-
-
-
-            } else {
-                // img.style.display = 'none';
-     
-                texts[index].style.display = 'inline';
-                not_read.style.background = '';
-                with_remarks.style.background = '';
-                to_conf.style.background = '';
-                to_del.style.background = '';
-
-                
-                not_read.style.color = '';
-                with_remarks.style.color = '';
-                to_conf.style.color = '';
-                to_del.style.color = '';
-
-                not_read.style.margin = '';
-                with_remarks.style.margin = '';
-                to_conf.style.margin = '';
-                to_del.style.margin = '';
-
-                not_read.style.padding = '';
-                with_remarks.style.padding = '';
-                to_conf.style.padding = '';
-                to_del.style.padding = '';
-            }
+            const marginStyle = isDragging ? '0' : '';
+            not_read.style.marginBottom = marginStyle;
+            with_remarks.style.marginBottom = marginStyle;
+            to_conf.style.marginBottom = marginStyle;
+            to_del.style.marginBottom = marginStyle;
         });
     }
-    
+
     reportRows.forEach(function(row) {
         row.addEventListener('click', function() {
             if (this.dataset.id) {
@@ -219,12 +160,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.classList.remove('dragging');
                 var reportId = event.dataTransfer.getData('text/plain');
                 var action = this.dataset.action;
-
-                reportIdInput.value = reportId;
-                actionInput.value = action;
-
-                form.submit();
-
+    
+                var activeReport = document.querySelector('.active-report');
+                if (activeReport && activeReport.dataset.id === reportId) {
+                    reportIdInput.value = reportId;
+                    actionInput.value = action;
+                    form.submit();
+                } else {
+                    
+                }
+    
                 if (previousReportRow !== null) {
                     previousReportRow.classList.remove('active-report');
                     previousReportRow = null;
@@ -233,6 +178,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+
+    
+
     document.addEventListener('click', function(event) {
         if (!contextMenuReport.contains(event.target)) {
             hideContextMenu();
@@ -240,22 +188,56 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     hideContextMenu();
-
-    // Восстановление активной вкладки из localStorage
-    const savedActiveTab = localStorage.getItem('activeTab');
-    if (savedActiveTab) {
-        const activeItem = document.querySelector(`#status-reportList li[data-action="${savedActiveTab}"]`);
-        if (activeItem) {
-            activeItem.click(); // Имитация клика для активации вкладки
-        }
-    } else {
-        // Установка вкладки по умолчанию, если ничего не сохранено
-        const defaultItem = document.querySelector('#status-reportList li');
-        if (defaultItem) {
-            defaultItem.click();
-        }
-    }
 });
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var profileNavigation = document.querySelector('.profile_navigation');
+    var profileNavOffset = profileNavigation.offsetTop - 60;
+    var report_list = document.querySelector('.report-list');
+
+    window.addEventListener('scroll', function () {
+        if (window.pageYOffset >= profileNavOffset) {
+            profileNavigation.classList.add('fixed-nav');
+            profileNavigation.style.height = '';
+            report_list.style.margin = '0 0 0 320px';
+         
+        } else {
+            profileNavigation.classList.remove('fixed-nav');
+            report_list.style.margin = '0 0 0 20px';
+            profileNavigation.style.height = '100vh';
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const navItems = document.querySelectorAll('.profile_navigation li[data-action]');
+    
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            navItems.forEach(i => i.classList.remove('active_li'));
+            item.classList.add('active_li');
+            
+            const action = item.getAttribute('data-action');
+            window.location.href = `/audit_area/${action}?year=${getQueryParam('year')}&quarter=${getQueryParam('quarter')}`;
+        });
+    });
+    
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param) || '';
+    }
+    
+    const currentAction = window.location.pathname.split('/').pop();
+    navItems.forEach(item => {
+        if (item.getAttribute('data-action') === currentAction) {
+            item.classList.add('active_li');
+        }
+    });
+});
+
+
 
 document.getElementById('douwnload_readyreports_link').addEventListener('click', function() {
     document.getElementById('douwnload_readyreports_form').submit();

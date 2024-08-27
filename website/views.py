@@ -633,6 +633,79 @@ def profile_password():
 @profile_complete
 @login_required
 def report_area():
+    # if Report.query.count() == 0:  
+    #     Report_data = [
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2024, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2025, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2026, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2027, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2028, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2029, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2030, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2031, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2032, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2033, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2034, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2035, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2036, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2037, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2038, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2039, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2040, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2041, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2042, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2043, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2044, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2045, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2046, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2047, 1, current_user.id),
+    #     ]
+    #     for data in Report_data:
+    #         report = Report(okpo=data[0], 
+    #                     organization_name=data[1], 
+    #                     year=data[2],
+    #                     quarter=data[3],
+    #                     user_id=data[4],
+    #                     )
+    #         db.session.add(report)   
+    #         db.session.commit()
+
+    #     Vers_data = [
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  1),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  2),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  3),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  4),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  5),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  6),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  7),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  8),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  9),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  10),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  11),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  12),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  13),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  14),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  15),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  16),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  17),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  18),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  19),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  20),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  21),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  22),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  23),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  24),
+    #     ]
+    #     for vers in Vers_data:
+    #         version = Version_report(status=vers[0], 
+    #                     fio=vers[1], 
+    #                     telephone=vers[2],
+    #                     email=vers[3],
+    #                     report_id=vers[4],
+    #                     )
+    #         db.session.add(version)   
+    #         db.session.commit()
+
     report = Report.query.filter_by(user_id=current_user.id).all()
     version = Version_report.query.filter_by().all()
 
@@ -801,102 +874,86 @@ def report_electro(id):
 
 def count_reports(year=None, quarter=None):
     filters = []
-    if year is not None:
+    if year:
         filters.append(Report.year == year)
-    if quarter is not None:
+    if quarter:
         filters.append(Report.quarter == quarter)
 
-    not_viewedReports_count = Report.query.join(Version_report).filter(
-        Version_report.status == 'Отправлен',
+    statuses = [
+        'Отправлен',
+        'Есть замечания',
+        'Одобрен',
+        'Готов к удалению'
+    ]
+    
+    counts = {status: Report.query.join(Version_report).filter(
+        Version_report.status == status,
         *filters
-    ).count()
-
-    remarksReports_count = Report.query.join(Version_report).filter(
-        Version_report.status == 'Есть замечания',
-        *filters
-    ).count()
-
-    to_downloadReports_count = Report.query.join(Version_report).filter(
-        Version_report.status == 'Одобрен',
-        *filters
-    ).count()
-
-    to_deleteReports_count = Report.query.join(Version_report).filter(
-        Version_report.status == 'Готов к удалению',
-        *filters
-    ).count()
+    ).count() for status in statuses}
 
     all_count = Report.query.join(Version_report).filter(
-        or_(
-            Version_report.status == 'Отправлен',
-            Version_report.status == 'Есть замечания',
-            Version_report.status == 'Одобрен',
-            Version_report.status == 'Готов к удалению'
-        ),
+        or_(*[Version_report.status == status for status in statuses]),
         *filters
     ).count()
 
-    return not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count
+    counts['all'] = all_count
+    return counts
 
-@views.route('/audit_area')
+def get_reports_by_status(status, year=None, quarter=None):
+    filters = []
+
+    statuses = [
+        'Отправлен',
+        'Есть замечания',
+        'Одобрен',
+        'Готов к удалению'
+    ]
+
+    if year:
+        filters.append(Report.year == year)
+    if quarter:
+        filters.append(Report.quarter == quarter)
+
+    if status == 'not_viewed':
+        trans_status = 'Отправлен'
+    elif status == 'remarks':
+        trans_status = 'Есть замечания'
+    elif status == 'to_download':
+        trans_status = 'Одобрен'
+    elif status == 'to_delete':
+        trans_status = 'Готов к удалению'
+    elif status == 'all_reports':
+        return Report.query.join(Version_report).filter(
+        or_(*[Version_report.status == status for status in statuses]),
+        *filters
+    ).all()
+    else:
+        return []
+
+    return Report.query.join(Version_report).filter(
+        Version_report.status == trans_status,
+        *filters
+    ).all()
+
+@views.route('/audit_area/<status>')
 @login_required
-def audit_area():
+def audit_area(status):
     year_filter = request.args.get('year')
     quarter_filter = request.args.get('quarter')
 
-    filters = []
-    if year_filter:
-        filters.append(Report.year == year_filter)
-    if quarter_filter:
-        filters.append(Report.quarter == quarter_filter)
+    reports = get_reports_by_status(status, year_filter, quarter_filter)
+    counts = count_reports(year_filter, quarter_filter)
 
-    report_all_sent = Report.query.join(Version_report).filter(
-        or_(
-            Version_report.status == 'Отправлен',
-            Version_report.status == 'Есть замечания',
-            Version_report.status == 'Одобрен',
-            Version_report.status == 'Готов к удалению'
-        ),
-        *filters
-    ).all()
-
-    report_not_read = Report.query.join(Version_report).filter(
-        Version_report.status == 'Отправлен',
-        *filters
-    ).all()
-
-    report_remarks = Report.query.join(Version_report).filter(
-        Version_report.status == 'Есть замечания',
-        *filters
-    ).all()
-
-    report_to_down = Report.query.join(Version_report).filter(
-        Version_report.status == 'Одобрен',
-        *filters
-    ).all()
-
-    report_to_del = Report.query.join(Version_report).filter(
-        Version_report.status == 'Готов к удалению',
-        *filters
-    ).all()
-
-    not_viewedReports_count, remarksReports_count, to_downloadReports_count, to_deleteReports_count, all_count = count_reports(year_filter, quarter_filter)
-    
-    return render_template('audit_area.html', 
-                           current_user=current_user, 
-                           report_all_sent=report_all_sent,
-                           report_not_read=report_not_read,
-                           report_remarks=report_remarks,
-                           report_to_down=report_to_down,
-                           report_to_del=report_to_del,
-                           all_count=all_count,
-                           not_viewedReports_count=not_viewedReports_count,
-                           remarksReports_count=remarksReports_count,
-                           to_downloadReports_count=to_downloadReports_count,
-                           to_deleteReports_count=to_deleteReports_count,
+    return render_template('audit_area.html',
+                           current_user=current_user,
+                           reports=reports,
+                           not_viewedReports_count=counts['Отправлен'],
+                           remarksReports_count=counts['Есть замечания'],
+                           to_downloadReports_count=counts['Одобрен'],
+                           to_deleteReports_count=counts['Готов к удалению'],
+                           all_count = counts['Отправлен'] + counts['Есть замечания'] + counts['Одобрен'] + counts['Готов к удалению'],
                            year_filter=year_filter,
-                           quarter_filter=quarter_filter
-                           )
+                           quarter_filter=quarter_filter)
 
 @views.route('/audit_area/report/<int:id>')
 @login_required

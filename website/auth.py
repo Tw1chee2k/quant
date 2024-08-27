@@ -857,7 +857,7 @@ def change_category_report():
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=report_id).first()
 
-        if current_version is not None:  # Проверка на None перед использованием current_version
+        if current_version is not None: 
             user = User.query.filter_by(email=current_version.email).first()
 
             if action == 'not_viewed':
@@ -866,7 +866,7 @@ def change_category_report():
             elif action == 'remarks':
                 status_itog = 'Есть замечания'
                 user_message = Message(
-                    text=f"При проверке отчета №{current_version.id} были найдены ошибки. Исправьте ошибки и отправьте повторно.",
+                    text=f"При проверке отчета №{current_version.id} были найдены ошибки. Исправьте ошибки и отправьте повторно",
                     user=user
                 )
                 db.session.add(user_message)
@@ -874,12 +874,12 @@ def change_category_report():
             elif action == 'to_download':
                 status_itog = 'Одобрен'
                 user_message = Message(
-                    text=f"Отчет №{current_version.id} был передан в следующую стадию проверки.",
+                    text=f"Отчет №{current_version.id} был передан в следующую стадию проверки",
                     user=user
                 )
                 db.session.add(user_message)
                 ticket_message = Ticket(
-                    note="Ошибок нет, отчет Одобрен",
+                    note="Ошибок нет, отчет передан в следующую стадию проверки",
                     luck=True,
                     version_report_id=current_version.id
                 )
@@ -888,7 +888,7 @@ def change_category_report():
             elif action == 'to_delete':
                 status_itog = 'Готов к удалению'
                 user_message = Message(
-                    text=f"Отчет №{current_version.id} не подлежит рассмотрению.",
+                    text=f"Отчет №{current_version.id} не подлежит рассмотрению",
                     user=user
                 )
                 db.session.add(user_message)
