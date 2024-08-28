@@ -21,7 +21,7 @@
     </div>
 
     <div class="contener_row">
-        <nav class = "profile_navigation ">
+        <nav class = "audit_navigation ">
             <li class="active_li" onclick="window.location.href='/profile/common'">
                 Общее
             </li>
@@ -173,7 +173,7 @@
                                 <div class="choose-organization_area">
                                     <div class = "serch-organization_cont">
                                         <a>Поиск</a>
-                                        <input type="text" name = "search_organization">
+                                        <input type="text" name = "search_organization" placeholder="Наименование предприятия">
                                     </div>
                                     <div>
                                         <div class="table_body_container">
@@ -182,7 +182,7 @@
                                                     {% for row in city_all_data_dict %}
                                                         <tr data-id="{{ row.id }}">     
                                                             <td>{{row.NAME1}} {{row.NAME2}} {{row.NAME3}} {{row.NAME4}} {{row.NAME5}} {{row.NAME6}}</td>
-                                                            <td>{{row.OKPO}}</td>        
+                                                            <td style = "display: none;">{{row.OKPO}}</td>        
                                                             <td style = "display: none;">{{row.UNP}}</td>
                                                             <td style = "display: none;">{{row.RAI}}</td>
                                                             <td style = "display: none;">{{row.GOR}}</td>

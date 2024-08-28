@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     var reportRows = document.querySelectorAll('.report_row');
-    var navigationItems = document.querySelectorAll('.profile_navigation li');
+    var navigationItems = document.querySelectorAll('.audit_navigation li');
 
     var previousReportRow = null;
     var selectedReportId = null;
@@ -191,28 +191,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
-document.addEventListener('DOMContentLoaded', function () {
-    var profileNavigation = document.querySelector('.profile_navigation');
-    var profileNavOffset = profileNavigation.offsetTop - 60;
-    var report_list = document.querySelector('.report-list');
-
-    window.addEventListener('scroll', function () {
-        if (window.pageYOffset >= profileNavOffset) {
-            profileNavigation.classList.add('fixed-nav');
-            profileNavigation.style.height = '';
-            report_list.style.margin = '0 0 0 320px';
-         
-        } else {
-            profileNavigation.classList.remove('fixed-nav');
-            report_list.style.margin = '0 0 0 20px';
-            profileNavigation.style.height = '100vh';
-        }
-    });
-});
-
 document.addEventListener('DOMContentLoaded', () => {
-    const navItems = document.querySelectorAll('.profile_navigation li[data-action]');
+    const navItems = document.querySelectorAll('.audit_navigation li[data-action]');
     
     navItems.forEach(item => {
         item.addEventListener('click', () => {
@@ -236,8 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
-
 
 document.getElementById('douwnload_readyreports_link').addEventListener('click', function() {
     document.getElementById('douwnload_readyreports_form').submit();

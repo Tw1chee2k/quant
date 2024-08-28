@@ -4,24 +4,15 @@
 <div class = "report-area_page">
     <div class = "report-area_menu">
         <div class="report-area_podmenu">
-            <input type="radio" id="tab1" name="tab-group" class = "report-area_menu-input" checked>
-            <label for="tab1" class="report-area_menu-name">Панель управления</label> 
             <div class="content-podmenu">
                 <nav>
                     <ul>          
-                        <section>    
+                        <section>
                             <div class = "functions_menu">
                                 <li id = "addCommentLink">
                                     <img src="{{ url_for('static', filename='img/icon_send.png')}}" alt="">
-                                    <a>Отправить</a>
-                                </li>
-                            </div>
-                            <a class="functions_menu_name">
-                                Сообщение
-                            </a>
-                        </section>
-                        <section>
-                            <div class = "functions_menu">                         
+                                    <a>Сообщение</a>
+                                </li>                         
                                 <li id = "RespondentLink">           
                                     <img src="{{ url_for('static', filename='img/icon_profile.png')}}" alt="">
                                     <a>Респондент</a>   
@@ -74,16 +65,6 @@
                                 Таблица
                             </a>
                         </section>
-                    </ul>
-                </nav>
-            </div>
-        </div> 
-        <div class="report-area_podmenu">
-            <input type="radio" id="tab2" name="tab-group" class = "report-area_menu-input">
-            <label for="tab2" class="report-area_menu-name">Справка</label>
-            <div class="content-podmenu">
-                <nav>
-                    <ul>
                         <section>
                             <div class="functions_menu">
                                 <li id="DirUnitLink">
@@ -95,13 +76,14 @@
                                     <a>Прод.</a>
                                 </li>
                             </div>
-                            <div>
-                            </div>
+                            <a class="functions_menu_name">
+                                Справка
+                            </a>
                         </section>
                     </ul>
                 </nav>
             </div>
-        </div>
+        </div> 
     </div>
     
     <div class = "rotation-fromareas" >

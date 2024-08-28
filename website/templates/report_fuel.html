@@ -3,9 +3,7 @@
 {% block content %}
 <div class = "report-area_page">
     <div class = "report-area_menu">
-        <div class="report-area_podmenu">
-            <input type="radio" id="tab1" name="tab-group" class = "report-area_menu-input" checked>
-            <label for="tab1" class="report-area_menu-name">Панель управления</label> 
+        <div class="report-area_podmenu">    
             <div class="content-podmenu">
                 <nav>
                     <ul> 
@@ -72,16 +70,6 @@
                                 Таблица
                             </a>
                         </section>
-                    </ul>
-                </nav>
-            </div>
-        </div> 
-        <div class="report-area_podmenu">
-            <input type="radio" id="tab2" name="tab-group" class = "report-area_menu-input">
-            <label for="tab2" class="report-area_menu-name">Справка</label>
-            <div class="content-podmenu">
-                <nav>
-                    <ul>
                         <section>
                             <div class="functions_menu">
                                 <li id="DirUnitLink">
@@ -93,13 +81,15 @@
                                     <a>Прод.</a>
                                 </li>
                             </div>
-                            <div>
-                            </div>
+                            <a class="functions_menu_name">
+                                Справка
+                            </a>
                         </section>
                     </ul>
                 </nav>
             </div>
-        </div>
+        </div> 
+    
     </div>
     
     <div class = "rotation-fromareas" >
@@ -116,8 +106,7 @@
             </span>
             <span>
                 <a style = "font-size: 12px;">ОКПО: "{{current_report.okpo}}", 
-                    <!-- УНП: "{{current_user.organization.ynp}}",  -->
-                    Наименование предприятия: {{current_report.organization_name}}, 
+                    Наименование предприятия: "{{current_report.organization_name}}", 
                     Год: {{current_report.year}}, 
                     Квартал: {{current_report.quarter}}. </a>
             </span>

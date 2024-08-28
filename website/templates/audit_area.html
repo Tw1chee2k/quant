@@ -5,8 +5,6 @@
 <div class="audit-area_page">
     <div class="report-area_menu">
         <div class="report-area_podmenu">
-            <input type="radio" id="tab1" name="tab-group" class = "report-area_menu-input" checked>
-            <label for="tab1" class="report-area_menu-name">Панель управления</label>
             <div class="content-podmenu">
                 <nav>
                     <ul>
@@ -57,8 +55,9 @@
             </div>
         </div>
     </div>
-    <div class = "column_cont">
-        <nav class="profile_navigation">
+    
+    <div class="audit-area">
+        <nav class="audit_navigation">
             <ul id="status-reportList">
                 <li data-action="not_viewed">
                     <a>Не просмотренные</a>
@@ -105,8 +104,9 @@
                 </form>
             </ul>
         </nav>
-        <div class = "report-list"  style = "margin: 0 0 0 20px;">
-            <div class="report-area">
+
+        <div class="report-list">
+            <div class="report-area" >
                 <table class="table_report-area">
                     <thead class="order-table_titels">
                         <tr>
@@ -134,7 +134,11 @@
                                 <td>
                                     <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
                                 </td>
-                                <td></td>
+                                <td>
+                                    {% for version in row.versions %}            
+                                        <input type="text" id="report_category_{{ version.id }}" value="{{version.sent_time}}" readonly> 
+                                    {% endfor %}                             
+                                </td>
                                 <td>
                                     <input type="text" id="report_year" value="{{ row.year }}" readonly>
                                 </td>

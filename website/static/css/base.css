@@ -28,7 +28,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color:rgb(247, 247, 247);
+    background-color:rgba(248, 248, 248, 0.61);
     color: rgb(0, 0, 0);
 }
 
@@ -489,8 +489,7 @@ main {
 }
 
 footer {
-    /* margin-top: 120px; */
-    /* bottom: 0; */
+    bottom: 0;
     display: flex; 
     flex-direction: row;
     align-items: center;
@@ -1386,7 +1385,7 @@ footer {
     display: flex;
     flex-direction: row;
     justify-content: left;
-    margin: 170px 0 10px 82px;
+    margin: 0 0 20px 82px;
 }
 
 .rotation-fromareas_info span {
@@ -1430,80 +1429,7 @@ footer {
 
 }
 
-.profile_navigation {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    background-color: rgb(255, 255, 255);
-    border: none;
-    padding: 20px 0 0 0;
-    width: 300px;
-    min-width: 300px;
-    border-radius: 2px;
 
-    min-height: 100vh;
-}
-
-.dark-mode .profile_navigation {
-    background-color: #252525; 
-    box-shadow: none; 
-}
-
-/* Стили для фиксированного состояния */
-.fixed-nav {
-    position: fixed;
-    top: 0;
-    left: 0; 
-    width: 300px; 
-    margin-top: 60px;
-    min-height: calc(100vh - 240px - 60px - 20px);
-    background-color: rgb(255, 255, 255);
-}
-
-
-.profile_navigation li {
-    display: flex;
-    justify-content: space-between;
-    list-style-type: none;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 7px 30px 7px 50px;
-    margin-bottom: 10px;
-    white-space: nowrap;
-    height: 25px;
-    font-weight: 500;  
-    transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease, margin 0.3s ease;
-    position: relative;
-    align-items: center;
-}
-
-
-.profile_navigation li:hover {
-    /* background-color: #0072cf; */
-    background-color: rgb(223, 223, 223);
-    padding: 7px 30px 7px 60px;
-}
-
-.dark-mode .profile_navigation li:hover {
-    background-color: rgb(29, 29, 29);
-
-}
-
-.profile_navigation li.active_li::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 10%; 
-    transform: translateX(-50%); 
-    width: 3px;
-    border: none;
-    height: 100%; 
-    background-color: #028dff; 
-}
-
-.dark-mode .profile_navigation li.active_li::before {
-    background-color: rgb(43, 236, 214); 
-}
 /*profil_header end*/
 
 /*panel begin*/
@@ -1689,7 +1615,7 @@ footer {
 /* choose orgaization */
 .choose-organization_area {
     position: absolute;
-    margin: 7px 0 0 80px;
+    margin: 7px 0 0 50px;
     width: 557px; 
     background-color: white;
     border: none; 
@@ -1785,7 +1711,7 @@ footer {
 /*report_area.css begin*/
 .report-area_page{
     margin-top: 70px;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .report-area_menu{
@@ -1803,28 +1729,12 @@ footer {
     cursor: pointer;
 }
 
-.report-area_podmenu input[type="radio"] { 
-    display: none; 
-}
-
-.report-area_menu-input:checked + .report-area_menu-name {
-    background-color: rgb(255, 255, 255);
-    font-size: 16px;
-    padding: 7px 15px;
-}
-
-.dark-mode .report-area_menu-input:checked +  .report-area_menu-name {
-    background-color: #252525;
-    font-size: 16px;
-    padding: 7px 15px;
-}
-
 .content-podmenu {
-    position: absolute;
+    position: relative;
     padding: 0 10px;
-    display: none;
     left: 0;
     right: 0;
+    margin-bottom: 10px;
 }
 
 .report-area_podmenu :checked + .report-area_menu-name {
@@ -1832,10 +1742,6 @@ footer {
     top: 1px; 
     border-radius: 5px 5px 0 0;
     z-index: 1;
-}
-
-.report-area_podmenu :checked ~ .content-podmenu {
-    display: block;
 }
 
 .content-podmenu nav ul{
@@ -2044,20 +1950,11 @@ footer {
     background-color: rgb(59, 59, 59);
 }
 
-
-
-.report-list{
-    height: auto;
-    max-height: calc(100vb - 220px) ;
-
-    overflow-y: auto;
-}
-
-
 .report-area {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
+    margin-bottom: 30px;
 }
 
 .report-area::-webkit-scrollbar {
@@ -2078,10 +1975,8 @@ footer {
     display: block;
     border-spacing: 0px;
     border-collapse: collapse;
-    height: 100%;
- 
+    height: auto;
     background-color: #ffffff;
-
 }
  
 .dark-mode .table_report-area {
@@ -2642,7 +2537,7 @@ th .resizer {
 
 .choose-product_area {
     position: absolute;
-    margin-top: 7px;
+    margin: 7px 0 0 20px;
     max-width: 422px;
     background-color: white;
     border: none; 
@@ -2651,6 +2546,9 @@ th .resizer {
     align-items: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
+
+
+
 
 .dark-mode .choose-product_area {
     background-color: #333;
@@ -2674,7 +2572,7 @@ th .resizer {
 }
 
 .table_body_container {
-    max-height: 200px; 
+    max-height: 180px; 
     overflow-y: auto;
 }
 
@@ -2721,24 +2619,102 @@ th .resizer {
 /*audit page*/
 .audit-area_page{
     margin-top: 60px;
-    height: 100vh;
-}
-
-.audit-area{
-    display: flex; 
+    display: flex;
     flex-direction: column;
 }
 
-
-
-.audit-area_page .column_cont{
-    margin-top: 180px;
+.audit-area {
     display: flex;
-    flex-direction: row;
+    height: auto; /* Добавляем высоту */
 }
 
 
+.audit_navigation {
 
+    position: -webkit-sticky;
+    position: sticky;
+    top: 60px;
+    width: 280px;
+    padding: 12px 0 8px;
+    font-size: 14px;
+    line-height: 17px;
+    background-color: #ffffff;
+    height: 100vh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.144);
+    border-radius: 0;
+    border-top-right-radius: 5px;
+    flex-shrink: 0; /* Запрещает сжиматься навигации */
+    align-self: flex-start;
+}
+
+/* .audit_navigation {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    background-color: rgb(255, 255, 255);
+    border: none;
+    top: 60px;
+    padding: 20px 0 0 0;
+    width: 300px;
+    min-width: 300px;
+    border-radius: 2px;
+
+    position: sticky;
+    z-index: 1000; 
+} */
+
+
+
+.dark-mode .audit_navigation {
+    background-color: #252525; 
+    box-shadow: none; 
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.062);
+}
+
+
+.audit_navigation li {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 7px 30px 7px 50px;
+    margin-bottom: 10px;
+    white-space: nowrap;
+    height: 25px;
+    font-weight: 500;  
+    transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+    position: relative;
+    align-items: center;
+}
+
+
+.audit_navigation li:hover {
+    /* background-color: #0072cf; */
+    background-color: rgb(223, 223, 223);
+    padding: 7px 30px 7px 60px;
+}
+
+.dark-mode .audit_navigation li:hover {
+    background-color: rgb(29, 29, 29);
+
+}
+
+.audit_navigation li.active_li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%; 
+    transform: translateX(-50%); 
+    width: 3px;
+    border: none;
+    height: 100%; 
+    background-color: #028dff; 
+}
+
+.dark-mode .audit_navigation li.active_li::before {
+    background-color: rgb(43, 236, 214); 
+}
 
 .dragging {
     opacity: 0.5;
@@ -2751,9 +2727,30 @@ th .resizer {
     opacity: 0.9;
 }
 
+.report-list{
+    margin-left: 30px;
+    overflow-y: auto;
+    max-height: 60vh;
+
+    
+}
+
+.report-list::-webkit-scrollbar {
+    width: 7px;
+}
+  
+.report-list::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.report-list::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #d3d3d3;
+}
 /*audit page end*/
 
 /* begin faq*/
+
 .FAQ_cont {  
     width: 60%;
     min-height: 1000px;
@@ -2789,7 +2786,6 @@ th .resizer {
     /* background-color: #252525; */
     border-bottom: 1px solid rgb(71, 71, 71);
 }
-
 
 
 .faq_question_solid {
