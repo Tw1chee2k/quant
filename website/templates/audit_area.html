@@ -8,20 +8,14 @@
             <div class="content-podmenu">
                 <nav>
                     <ul>
+
                         <section>
-                            <div class = "functions_menu">             
+                            <div class = "functions_menu">     
                                 <li id = "douwnload_readyreports_link">           
                                     <img src="{{ url_for('static', filename='img/upload.png')}}" alt="">
-                                    <a>Одобренные</a>   
+                                    <a>Загрузка</a>   
                                 </li>  
-                                <form id = "douwnload_readyreports_form" action="/export_ready_reports" method="POST" style = "display: none;"></form>
-                            </div>  
-                            <a class="functions_menu_name">
-                                Загрузка
-                            </a>
-                        </section>
-                        <section>
-                            <div class = "functions_menu">             
+                                <form id = "douwnload_readyreports_form" action="/export_ready_reports" method="POST" style = "display: none;"></form>        
                                 <li>           
                                     <img src="{{ url_for('static', filename='img/icon_sort.png')}}" alt="">
                                     <a>Сортировка</a>   
@@ -32,7 +26,7 @@
                                 </li>  
                             </div>  
                             <a class="functions_menu_name">
-                                Таблица
+                                
                             </a>
                         </section>
                         <section id = "filtr_section">
@@ -57,7 +51,7 @@
     </div>
     
     <div class="audit-area">
-        <nav class="audit_navigation">
+        <nav class="menu_profile_audit">
             <ul id="status-reportList">
                 <li data-action="not_viewed">
                     <a>Не просмотренные</a>

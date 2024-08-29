@@ -123,6 +123,43 @@ input[type="email"]:-webkit-autofill {
 input::-webkit-input-placeholder {  color: rgb(90, 90, 90); }
 .dark-mode input::-webkit-input-placeholder {  color: rgb(175, 175, 175); }
 
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    background-color: #ff4c4c; 
+    cursor: pointer;
+    position: relative;
+}
+
+input[type="checkbox"]::before {
+    content: '×'; /* Символ крестика */
+    display: flex; /* Используем flexbox для центрирования */
+    align-items: center; /* Вертикальное центрирование */
+    justify-content: center; /* Горизонтальное центрирование */
+    color: #ffffff; /* Белый цвет для символа */
+    font-size: 20px;
+    width: 100%; /* Занимает всю ширину контейнера */
+    height: 100%; /* Занимает всю высоту контейнера */
+    position: absolute; /* Абсолютное позиционирование */
+    top: 0; /* Привязываем к верхнему краю контейнера */
+    left: 0; /* Привязываем к левому краю контейнера */
+}
+
+input[type="checkbox"]:checked {
+    background-color: #4CAF50; 
+}
+
+input[type="checkbox"]:checked::before {
+    content: '✔'; 
+    font-size: 11px;
+    color: white;
+}
+
 .main_button{
     line-height: 1.5715;
     position: relative;
@@ -543,22 +580,18 @@ footer {
 
 .footer_cont .center_col_footer nav ul li{
     margin-bottom: 15px;
+    padding-bottom: 5px;
 }
+
+
 
 .footer_cont .right_col_footer{
     display:flex;
     flex-direction: column;
 }
 
-.footer_cont .right_col_footer nav{
-    height: auto;
-}
-
-.footer_cont .right_col_footer .telephone_info{
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-    transition: color 0.3s ease;
+.footer_cont .right_col_footer nav ul li{
+    margin-bottom: 15px;
 }
 
 .footer_cont .right_col_footer nav ul li:hover{
@@ -807,6 +840,14 @@ footer {
     border: 2px solid rgb(0, 146, 129);
 }
 
+.remember_cont input[type='checkbox']::before {
+    content: '';
+}
+
+.remember_cont input[type='checkbox']:checked  {
+    content: '';
+}
+
 
 .log_buttons_area{
     display:flex;
@@ -890,7 +931,7 @@ footer {
 /*beginPage.css begin*/
 .hellow_row {
     width: calc(100% - 240px);
-    height: calc(100vh - 120px);
+    min-height: calc(100vh - 120px);
     display: flex;
     flex-direction: row;
     justify-content: start;
@@ -925,6 +966,7 @@ footer {
     display: flex;
     flex-direction: column;
     max-width: 66.66666667%;
+    padding-bottom: 200px;
 }
 
 .hellow_row_name,
@@ -1485,7 +1527,7 @@ footer {
 
 
 .profile_page .personal-info_area td input{
-    width: 500px; 
+    width: 700px; 
     border: 1px solid rgb(217, 217, 217);  
     border-radius: 2px;    
     font-size: 14px;
@@ -1511,6 +1553,8 @@ footer {
     background-color: rgb(73, 73, 73);
     color: rgb(163, 163, 163);
 }
+
+
 
 .profile_page .personal-info_area td .pred_name:read-only{
     border: 1px solid rgb(217, 217, 217);  
@@ -1601,6 +1645,9 @@ footer {
     display: inline;
 }
 
+
+/* Показать иконки при наведении на input */
+
 /*show password input end*/
 
 
@@ -1616,31 +1663,53 @@ footer {
 .choose-organization_area {
     position: absolute;
     margin: 7px 0 0 50px;
-    width: 557px; 
+    width: 757px; 
     background-color: white;
     border: none; 
     z-index: 2; 
     display: none;
     align-items: center;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .dark-mode .choose-organization_area {
     background-color: #333;
 }
 
-.serch-organization_cont{
+.serch-cont{
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
     text-align: center;
     align-items: center;
     justify-content: left;
-    margin: 10px;
+    margin: 10px 20px;
 }
 
-.search_organization_input{
-    margin: 10px;
-    width: 180px;
+.modal-content .serch-cont{
+    margin: 10px 0;
+}
+
+.serch-cont a{
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.search_input{
+    width: 100%;
+    border: 1px solid rgb(217, 217, 217);
+    border-radius: 2px;
+    font-size: 13px;
+    padding: 0 40px 0 15px;
+    height: 30px;
+    font-weight: 500;
+    margin-left: 50px;
+    transition: border-color 0.3s ease;
+}
+
+.dark-mode .search_input{
+    color: rgb(255, 255, 255);
+    background-color:#5f5f5f;
+    border: 1px solid rgb(121, 121, 121);  
 }
 
 .choose-organization_area .table_body_container{
@@ -1780,9 +1849,11 @@ footer {
 
 #filtr_section{
     display: none;
+    
     align-items: center;
     vertical-align: middle;
     text-align: center;
+    align-items: center;
 }
 
 .filter_area{
@@ -1970,13 +2041,13 @@ footer {
 
 .table_report-area {
     border: none;
-    width: auto;
     font-size: 12px;
     display: block;
     border-spacing: 0px;
     border-collapse: collapse;
-    height: auto;
-    background-color: #ffffff;
+    background-color: #ffffff;    
+    height: 100%;
+
 }
  
 .dark-mode .table_report-area {
@@ -2024,6 +2095,9 @@ footer {
     width: 1000vb;
 }
 
+#showCommentsModal .order-table_titels tr th:last-child{
+    width:300px;
+}
 
 th.resizable {
     position: relative;	
@@ -2039,7 +2113,7 @@ th .resizer {
     user-select: none;
 }
 
-.table_report-area input {            
+.table_report-area input[type="text"] {            
     font-size: 12px;  
     font-weight: 500;  
     width: 100%;
@@ -2051,7 +2125,7 @@ th .resizer {
     min-width: min-content;
 }
 
-.dark-mode .table_report-area input{            
+.dark-mode .table_report-area input[type="text"]{            
     color: rgb(255, 255, 255);
 }
 
@@ -2342,10 +2416,11 @@ th .resizer {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
+
 }
 
 .dark-mode .spravochniki_area {
-    /* background-color:#4d4d4d; */
+    background-color:#4d4d4d;
 }
 
 .spravochniki_area::-webkit-scrollbar {
@@ -2354,7 +2429,7 @@ th .resizer {
 }
   
 .spravochniki_area::-webkit-scrollbar-track {
-    -webkit-box-shadow: 5px 5px 5px -5px rgba(224, 224, 224, 0.253) inset;
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(141, 64, 64, 0.253) inset;
 }
 
 .spravochniki_area::-webkit-scrollbar-thumb {
@@ -2618,7 +2693,7 @@ th .resizer {
 
 /*audit page*/
 .audit-area_page{
-    margin-top: 60px;
+    margin-top: 70px;
     display: flex;
     flex-direction: column;
 }
@@ -2629,50 +2704,33 @@ th .resizer {
 }
 
 
-.audit_navigation {
-
+.menu_profile_audit {
     position: -webkit-sticky;
-    position: sticky;
-    top: 60px;
-    width: 280px;
     padding: 12px 0 8px;
     font-size: 14px;
     line-height: 17px;
     background-color: #ffffff;
-    height: 100vh;
+    min-height: 100vh;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.144);
     border-radius: 0;
     border-top-right-radius: 5px;
-    flex-shrink: 0; /* Запрещает сжиматься навигации */
-    align-self: flex-start;
+
 }
 
-/* .audit_navigation {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    background-color: rgb(255, 255, 255);
-    border: none;
-    top: 60px;
-    padding: 20px 0 0 0;
-    width: 300px;
-    min-width: 300px;
-    border-radius: 2px;
 
-    position: sticky;
-    z-index: 1000; 
-} */
-
-
-
-.dark-mode .audit_navigation {
+.dark-mode .menu_profile_audit {
     background-color: #252525; 
     box-shadow: none; 
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.062);
 }
 
 
-.audit_navigation li {
+#status-reportList{
+    position: sticky;
+    top: 70px;    
+    width: 280px;
+}
+
+.menu_profile_audit li {
     display: flex;
     justify-content: space-between;
     list-style-type: none;
@@ -2689,18 +2747,18 @@ th .resizer {
 }
 
 
-.audit_navigation li:hover {
+.menu_profile_audit li:hover {
     /* background-color: #0072cf; */
     background-color: rgb(223, 223, 223);
     padding: 7px 30px 7px 60px;
 }
 
-.dark-mode .audit_navigation li:hover {
+.dark-mode .menu_profile_audit li:hover {
     background-color: rgb(29, 29, 29);
 
 }
 
-.audit_navigation li.active_li::before {
+.menu_profile_audit li.active_li::before {
     content: '';
     position: absolute;
     top: 0;
@@ -2712,13 +2770,12 @@ th .resizer {
     background-color: #028dff; 
 }
 
-.dark-mode .audit_navigation li.active_li::before {
+.dark-mode .menu_profile_audit li.active_li::before {
     background-color: rgb(43, 236, 214); 
 }
 
 .dragging {
     opacity: 0.5;
-
 }
 
 .count-img{
@@ -2729,24 +2786,8 @@ th .resizer {
 
 .report-list{
     margin-left: 30px;
-    overflow-y: auto;
-    max-height: 60vh;
-
-    
 }
 
-.report-list::-webkit-scrollbar {
-    width: 7px;
-}
-  
-.report-list::-webkit-scrollbar-track {
-    border-radius: 10px;
-}
-
-.report-list::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: #d3d3d3;
-}
 /*audit page end*/
 
 /* begin faq*/

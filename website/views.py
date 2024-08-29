@@ -633,78 +633,78 @@ def profile_password():
 @profile_complete
 @login_required
 def report_area():
-    if Report.query.count() == 0:  
-        Report_data = [
-            (current_user.organization.okpo, current_user.organization.full_name, 2024, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2025, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2026, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2027, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2028, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2029, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2030, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2031, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2032, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2033, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2034, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2035, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2036, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2037, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2038, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2039, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2040, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2041, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2042, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2043, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2044, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2045, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2046, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2047, 1, current_user.id),
-        ]
-        for data in Report_data:
-            report = Report(okpo=data[0], 
-                        organization_name=data[1], 
-                        year=data[2],
-                        quarter=data[3],
-                        user_id=data[4],
-                        )
-            db.session.add(report)   
-            db.session.commit()
+    # if Report.query.count() == 0:  
+    #     Report_data = [
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2024, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2025, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2026, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2027, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2028, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2029, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2030, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2031, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2032, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2033, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2034, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2035, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2036, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2037, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2038, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2039, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2040, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2041, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2042, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2043, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2044, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2045, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2046, 1, current_user.id),
+    #         (current_user.organization.okpo, current_user.organization.full_name, 2047, 1, current_user.id),
+    #     ]
+    #     for data in Report_data:
+    #         report = Report(okpo=data[0], 
+    #                     organization_name=data[1], 
+    #                     year=data[2],
+    #                     quarter=data[3],
+    #                     user_id=data[4],
+    #                     )
+    #         db.session.add(report)   
+    #         db.session.commit()
 
-        Vers_data = [
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  1),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  2),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  3),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  4),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  5),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  6),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  7),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  8),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  9),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  10),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  11),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  12),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  13),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  14),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  15),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  16),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  17),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  18),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  19),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  20),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  21),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  22),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  23),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  24),
-        ]
-        for vers in Vers_data:
-            version = Version_report(status=vers[0], 
-                        fio=vers[1], 
-                        telephone=vers[2],
-                        email=vers[3],
-                        report_id=vers[4],
-                        )
-            db.session.add(version)   
-            db.session.commit()
+    #     Vers_data = [
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  1),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  2),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  3),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  4),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  5),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  6),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  7),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  8),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  9),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  10),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  11),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  12),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  13),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  14),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  15),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  16),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  17),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  18),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  19),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  20),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  21),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  22),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  23),
+    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  24),
+    #     ]
+    #     for vers in Vers_data:
+    #         version = Version_report(status=vers[0], 
+    #                     fio=vers[1], 
+    #                     telephone=vers[2],
+    #                     email=vers[3],
+    #                     report_id=vers[4],
+    #                     )
+    #         db.session.add(version)   
+    #         db.session.commit()
 
     report = Report.query.filter_by(user_id=current_user.id).all()
     version = Version_report.query.filter_by().all()

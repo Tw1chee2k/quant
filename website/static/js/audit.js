@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     var reportRows = document.querySelectorAll('.report_row');
-    var navigationItems = document.querySelectorAll('.audit_navigation li');
+    var navigationItems = document.querySelectorAll('.menu_profile_audit li');
 
     var previousReportRow = null;
     var selectedReportId = null;
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    const navItems = document.querySelectorAll('.audit_navigation li[data-action]');
+    const navItems = document.querySelectorAll('.menu_profile_audit li[data-action]');
     
     navItems.forEach(item => {
         item.addEventListener('click', () => {

@@ -18,10 +18,16 @@
       <div class="header-center">
         <nav>
           <ul>
+   
               <li onclick="window.location.href='/'">Главная</li>
               <li onclick="window.location.href=''">Новости</li>
               <li onclick="window.location.href=''" >Контакты</li>
               <li onclick="window.location.href='/FAQ'" >FAQ</li>
+              {% if current_user.is_authenticated %}
+              {% else %}
+                <li onclick="window.location.href='/login'" >Войти</li>
+              {% endif %}
+
           </ul>
         </nav>
       </div>
@@ -48,7 +54,7 @@
             </div>
         </div>
         {% else %}
-          <li onclick="window.location.href='/login'" >Войти</li>
+
         {% endif %}
       </div>
     </header>
@@ -101,25 +107,19 @@
                 <ul>
                   <li onclick="window.location.href=''">Новости</li>
                   <li onclick="window.location.href=''" >Контакты</li>
-                  <li onclick="window.location.href=''" >Помощь</li>
+                  <li onclick="window.location.href=''" >FAQ</li>
                 </ul>
             </nav>
         </div>
         <div class = "right_col_footer">
           <nav>
               <ul>
-                <li onclick="window.location.href=''">@mail.ru</li>
+                <li onclick="window.location.href=''">...@mail.ru</li>
+                <li>+375.. / ...</li>
               </ul>
           </nav>
           <div class = "telephone_info">
-            <p>145</p>
-            <span>Бесплатно для абонентов Белтелеком<br></span>
-            <span>Для абонентов мобильных операторов по тарифам мобильных операторов<br><br>
-                  Время работы: пн-чт 9:00-18:00 обед 13:00-13:45
-                  пт 9:00-16:20 обед 13:00-13:20</span>
-            <p>сб-вс – выходные дни.</p>
-            <span> г. Минск, ул.Старовилинская, 54 </span>
-
+            <p></p
           </div>
 
 

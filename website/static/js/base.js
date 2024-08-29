@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-
-    
     const clearButtons = document.querySelectorAll('.clear-btn');
     clearButtons.forEach(btn => {
         btn.addEventListener('click', function() {
@@ -11,41 +9,26 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-
-    /*показ панели для выбора периода account*/
-    var link_period = document.getElementById('link_period');
-    var period_modal = document.getElementById('period_modal');
-    var close_period_modal = period_modal.querySelector('.close');
-
-
-    link_period.addEventListener('click', function() {
-        period_modal.style.display = 'block';
-        contextMenuReport.style.display = 'none';
-    });
-
-  
-    close_period_modal.addEventListener('click', function() {
-        period_modal.style.display = 'none';
-
-    });
-
-
-    period_modal.addEventListener('click', function(event) {
-        if (event.target === period_modal) {
-            period_modal.style.display = 'none';
-        }
-    });
-    /*end*/
-
-
-
-
     function setupPasswordToggle(passwordFieldId, showIconClass, hideIconClass) {
         const passwordField = document.querySelector(`#${passwordFieldId}`);
         const showPasswordIcon = document.querySelector(`.${showIconClass}`); 
         const hidePasswordIcon = document.querySelector(`.${hideIconClass}`);
-    
+        
         if (passwordField && showPasswordIcon && hidePasswordIcon) {
+            showPasswordIcon.style.display = 'none';
+            hidePasswordIcon.style.display = 'none';
+    
+            function showIcons() {
+                updateIconsVisibility();
+                showPasswordIcon.style.visibility = 'visible';
+                hidePasswordIcon.style.visibility = 'visible';
+            }
+    
+            function hideIcons() {
+                showPasswordIcon.style.visibility = 'hidden';
+                hidePasswordIcon.style.visibility = 'hidden';
+            }
+    
             function updateIconsVisibility() {
                 if (passwordField.type === 'password') {
                     showPasswordIcon.style.display = 'inline';
@@ -55,8 +38,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     hidePasswordIcon.style.display = 'inline';
                 }
             }
-
-            passwordField.addEventListener('input', updateIconsVisibility);
+    
+            passwordField.addEventListener('mouseover', showIcons);
+            showPasswordIcon.addEventListener('mouseover', showIcons);
+            hidePasswordIcon.addEventListener('mouseover', showIcons);
+    
+            passwordField.addEventListener('mouseout', hideIcons);
+            showPasswordIcon.addEventListener('mouseout', hideIcons);
+            hidePasswordIcon.addEventListener('mouseout', hideIcons);
+    
             showPasswordIcon.addEventListener('click', function() {
                 passwordField.type = 'text';
                 updateIconsVisibility();
@@ -66,31 +56,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 passwordField.type = 'password';
                 updateIconsVisibility();
             });
-    
-            updateIconsVisibility();
         }
     }
     
     setupPasswordToggle('password-field', 'show-icon', 'hide-icon');
     setupPasswordToggle('password-field1', 'show-icon1', 'hide-icon1');
-
-
-
-
-    // function updateUserActivity() {
-    //     fetch('/update_activity', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ action: 'update_activity' })
-    //     });
-    // }
-    
-    // document.addEventListener('mousemove', updateUserActivity);
-    // document.addEventListener('keydown', updateUserActivity);
-
-
     
 });
 
@@ -193,7 +163,6 @@ function edit_decrement_quarter() {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-
     function expandText(input) {
         if (!input.originalWidth) {
             input.originalWidth = input.style.width;
@@ -263,7 +232,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })();
     
-
     const userImgs = document.querySelectorAll('.icon_black, .icon_white');
     const user_hover_navigation = document.getElementById('user_hover_navigation');
     let timeoutId;
@@ -305,8 +273,6 @@ document.addEventListener('DOMContentLoaded', function () {
             timeoutId = setTimeout(hideUserHoverNavigation, 1000);
         });
     }
-    
-
 
     var numericInputs = document.querySelectorAll('.numericInput');
     numericInputs.forEach(function(input) {
@@ -440,7 +406,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.cursor = '';
         }
     });
-
 });
 
 let sortOrder = 'asc';
@@ -483,3 +448,25 @@ function sortTable() {
     console.log('end');
     
 }
+
+/*period modal*/
+var link_period = document.getElementById('link_period');
+var period_modal = document.getElementById('period_modal');
+var close_period_modal = period_modal.querySelector('.close');
+
+link_period.addEventListener('click', function() {
+    period_modal.style.display = 'block';
+    contextMenuReport.style.display = 'none';
+});
+
+close_period_modal.addEventListener('click', function() {
+    period_modal.style.display = 'none';
+
+});
+
+period_modal.addEventListener('click', function(event) {
+    if (event.target === period_modal) {
+        period_modal.style.display = 'none';
+    }
+});
+/*end*/

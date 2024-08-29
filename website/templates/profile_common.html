@@ -21,22 +21,21 @@
     </div>
 
     <div class="contener_row">
-        <nav class = "audit_navigation ">
-            <li class="active_li" onclick="window.location.href='/profile/common'">
-                Общее
-            </li>
-            <li onclick="window.location.href='/profile/password'">Конфиденциальность</li>
-   
-
-            <li onclick="window.location.href='/logout'">Выйти</li>
+        <nav class = "menu_profile_audit ">
+            <ul id="status-reportList">
+                <li class="active_li" onclick="window.location.href='/profile/common'">
+                    Общее
+                </li>
+                <li onclick="window.location.href='/profile/password'">Конфиденциальность</li>
+                <li onclick="window.location.href='/logout'">Выйти</li>
+            </ul>
         </nav>
         <div class="personal-info_area">
-
             {%if count_reports != 0%}
-                <form action="" method="">
+                <form action="" method=" ">
                     <table>
                         <tr>
-                            <td style = "padding-bottom: 94px;">Тип пользователя</div></td>
+                            <td style = "padding-bottom: 94px;"><span title = "Уровень доступа к функциям">Тип пользователя &#42;</span></div></td>
                             <td><input style = "margin-bottom: 80px;" type="text" value="{{current_user.type}}" readonly></td>
                         </tr>
                         <tr>
@@ -75,7 +74,7 @@
 
 
                         <tr>
-                            <td style = "padding-top: 80px;">Организация</td>
+                            <td style = "padding-top: 80px;"><span title = "Организация за которую отчитываются">Предприятие &#42;</span></td>
                             <td>
                                 <input style = "margin-top: 80px;" type="text" value="{{current_user.organization.full_name}}" readonly>
                             </td>
@@ -116,7 +115,7 @@
                 <form action="/add_personal_parametrs" method="POST">
                     <table>
                         <tr>
-                            <td style = "padding-bottom: 94px;">Тип пользователя</div></td>
+                            <td style = "padding-bottom: 94px;"><span title = "Уровень доступа к функциям">Тип пользователя &#42;</span></div></td>
                             <td><input style = "margin-bottom: 80px;" type="text" value="{{current_user.type}}" readonly></td>
                         </tr>
                         <tr>
@@ -164,14 +163,14 @@
                         </tr>
 
                         <tr>
-                            <td style = "padding-top: 80px;">Предприятие</td>
+                            <td style = "padding-top: 80px;"><span title = "Организация за которую отчитываются">Предприятие &#42;</span></td>
                             <td>
                                 <div class="clear-input_container">
                                     <input style = "margin-top: 80px;" class = "pred_name" type="text" placeholder="Выберите предприятие" name = "full_name_common" value="{{ current_user.organization.full_name if current_user.organization else '' }}" readonly>
                                     <span style = "margin-top: 40px;" class="clear-btn">&times;</span>
                                 </div>
                                 <div class="choose-organization_area">
-                                    <div class = "serch-organization_cont">
+                                    <div class = "serch-cont">
                                         <a>Поиск</a>
                                         <input type="text" name = "search_organization" placeholder="Наименование предприятия">
                                     </div>

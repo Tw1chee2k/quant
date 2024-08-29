@@ -91,10 +91,15 @@
                 </td>
             </tr>
             <tr>
-                <td></td>
-                <td style = "text-align: right;">
-            
-                    <button type="button" class="main_button" onclick="filterSentedReports()">Фильтр</button>
+                <td> 
+                    <button type="button" class="main_button" style="margin-left: 0;" 
+                        onclick="location.href='/audit_area/all_reports?year=&quarter='">
+                        Все периоды
+                    </button>
+                </td>
+                <td >
+                    <button type="button" class="main_button" onclick="filterSentedReports()">Выбранный период</button>
+                    
                 </td>
             </tr>
         </table>
