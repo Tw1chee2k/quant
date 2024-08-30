@@ -168,8 +168,6 @@ def add_personal_parametrs():
         full_name = request.form.get('full_name_common')
         okpo = request.form.get('okpo_common')
         ynp = request.form.get('ynp_common')
-        district = request.form.get('district_common')
-        city = request.form.get('city_common')
         ministry = request.form.get('ministry_common')
 
         if not name or not telephone or not full_name or not name or not second_name or not patronymic:
@@ -193,8 +191,6 @@ def add_personal_parametrs():
                     current_user.organization.full_name = full_name  
                     current_user.organization.okpo = okpo
                     current_user.organization.ynp = ynp
-                    current_user.organization.district = district  
-                    current_user.organization.city = city
                     current_user.organization.ministry = ministry
                 else:
                     if not existing_Organization:
@@ -203,8 +199,6 @@ def add_personal_parametrs():
                             full_name=full_name,
                             okpo=okpo,
                             ynp=ynp,
-                            district=district,
-                            city=city,
                             ministry=ministry
                         )
                         db.session.add(new_Organization)

@@ -574,41 +574,48 @@ def account():
 @views.route('/profile/common')
 @login_required
 def profile_common():
-    Brest_data_path = 'organizations/Брест.dbf'
     website_path = os.path.dirname(os.path.abspath(__file__)) 
 
-    Brest_data_path = os.path.join(website_path, 'organizations', 'Брест.dbf')
-    Vitebsk_data_path = os.path.join(website_path, 'organizations', 'Витебск.dbf')
-    Gomel_data_path = os.path.join(website_path, 'organizations', 'Гомель.dbf')
-    Grodno_data_path = os.path.join(website_path, 'organizations', 'Гродно.dbf')
-    Minsk_data_path = os.path.join(website_path, 'organizations', 'Минск.dbf')
-    MinskRegion_data_path = os.path.join(website_path, 'organizations', 'Минск_область.dbf')
-    Migilev_data_path = os.path.join(website_path, 'organizations', 'Могилев.dbf')
+    Brest_org_data_path = os.path.join(website_path, 'dop_info/organizations', 'Брест.dbf')
+    Vitebsk_org_data_path = os.path.join(website_path, 'dop_info/organizations', 'Витебск.dbf')
+    Gomel_org_data_path = os.path.join(website_path, 'dop_info/organizations', 'Гомель.dbf')
+    Grodno_org_data_path = os.path.join(website_path, 'dop_info/organizations', 'Гродно.dbf')
+    Minsk_org_data_path = os.path.join(website_path, 'dop_info/organizations', 'Минск.dbf')
+    MinskRegion_org_data_path = os.path.join(website_path, 'dop_info/organizations', 'Минск_область.dbf')
+    Migilev_org_data_path = os.path.join(website_path, 'dop_info/organizations', 'Могилев.dbf')
 
-    columns = ['OKPO', 'NAME1', 'NAME2', 'NAME3', 'NAME4', 'NAME5', 'NAME6', 'RAI', 'GOR', 'MIN', 'UNP']
+    columns_org = ['OKPO', 'NAME1', 'NAME2', 'NAME3', 'NAME4', 'NAME5', 'NAME6', 'MIN', 'UNP']
 
-    Brest_data = read_dbf(Brest_data_path, columns)
-    Vitebsk_data = read_dbf(Vitebsk_data_path, columns)
-    Gomel_data = read_dbf(Gomel_data_path, columns)
-    Grodno_data = read_dbf(Grodno_data_path, columns)
-    Minsk_data = read_dbf(Minsk_data_path, columns)
-    MinskRegion_data = read_dbf(MinskRegion_data_path, columns)
-    Migilev_data = read_dbf(Migilev_data_path, columns)
+    Brest_org_data = read_dbf(Brest_org_data_path, columns_org)
+    Vitebsk_org_data = read_dbf(Vitebsk_org_data_path, columns_org)
+    Gomel_org_data = read_dbf(Gomel_org_data_path, columns_org)
+    Grodno_org_data = read_dbf(Grodno_org_data_path, columns_org)
+    Minsk_org_data = read_dbf(Minsk_org_data_path, columns_org)
+    MinskRegion_org_data = read_dbf(MinskRegion_org_data_path, columns_org)
+    Migilev_org_data = read_dbf(Migilev_org_data_path, columns_org)
 
     city_all_data = pd.concat([
-        pd.DataFrame(Brest_data, columns=columns),
-        pd.DataFrame(Vitebsk_data, columns=columns),
-        pd.DataFrame(Gomel_data, columns=columns),
-        pd.DataFrame(Grodno_data, columns=columns),
-        pd.DataFrame(Minsk_data, columns=columns),
-        pd.DataFrame(MinskRegion_data, columns=columns),
-        pd.DataFrame(Migilev_data, columns=columns)
+        pd.DataFrame(Brest_org_data, columns=columns_org),
+        pd.DataFrame(Vitebsk_org_data, columns=columns_org),
+        pd.DataFrame(Gomel_org_data, columns=columns_org),
+        pd.DataFrame(Grodno_org_data, columns=columns_org),
+        pd.DataFrame(Minsk_org_data, columns=columns_org),
+        pd.DataFrame(MinskRegion_org_data, columns=columns_org),
+        pd.DataFrame(Migilev_org_data, columns=columns_org)
     ], ignore_index=True)
 
-    city_all_data_dict = city_all_data.to_dict(orient='records')
+    MinskRegion_min_data_path = os.path.join(website_path, 'dop_info/ministerstvo', 'MinskReg_min.dbf')
+    columns_min = ['MIN', 'NAME']
+    MinskRegion_min_data = read_dbf(MinskRegion_min_data_path, columns_min)
 
+    min_all_data = pd.DataFrame(MinskRegion_min_data, columns=columns_min)
+    merged_data = city_all_data.merge(min_all_data, on='MIN', how='left')
+
+    merged_data['MIN'] = merged_data['NAME']
+    merged_data = merged_data.drop(columns=['NAME'])
+
+    city_all_data_dict = merged_data.to_dict(orient='records')
     count_reports = Report.query.filter_by(user_id=current_user.id).count()
-
     if not current_user.organization:
         return render_template('profile_common.html', 
                             current_user=current_user, 
@@ -633,78 +640,38 @@ def profile_password():
 @profile_complete
 @login_required
 def report_area():
-    # if Report.query.count() == 0:  
-    #     Report_data = [
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2024, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2025, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2026, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2027, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2028, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2029, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2030, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2031, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2032, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2033, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2034, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2035, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2036, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2037, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2038, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2039, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2040, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2041, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2042, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2043, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2044, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2045, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2046, 1, current_user.id),
-    #         (current_user.organization.okpo, current_user.organization.full_name, 2047, 1, current_user.id),
-    #     ]
-    #     for data in Report_data:
-    #         report = Report(okpo=data[0], 
-    #                     organization_name=data[1], 
-    #                     year=data[2],
-    #                     quarter=data[3],
-    #                     user_id=data[4],
-    #                     )
-    #         db.session.add(report)   
-    #         db.session.commit()
+    if Report.query.count() == 0:  
+        Report_data = [
+            (current_user.organization.okpo, current_user.organization.full_name, 2024, 1, current_user.id),
+            (current_user.organization.okpo, current_user.organization.full_name, 2025, 1, current_user.id),
+            (current_user.organization.okpo, current_user.organization.full_name, 2026, 1, current_user.id),
+            (current_user.organization.okpo, current_user.organization.full_name, 2027, 1, current_user.id),
+        ]
+        for data in Report_data:
+            report = Report(okpo=data[0], 
+                        organization_name=data[1], 
+                        year=data[2],
+                        quarter=data[3],
+                        user_id=data[4],
+                        )
+            db.session.add(report)   
+            db.session.commit()
 
-    #     Vers_data = [
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  1),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  2),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  3),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  4),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  5),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  6),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  7),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  8),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  9),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  10),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  11),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  12),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  13),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  14),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  15),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  16),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  17),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  18),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  19),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  20),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  21),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  22),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  23),
-    #         ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  24),
-    #     ]
-    #     for vers in Vers_data:
-    #         version = Version_report(status=vers[0], 
-    #                     fio=vers[1], 
-    #                     telephone=vers[2],
-    #                     email=vers[3],
-    #                     report_id=vers[4],
-    #                     )
-    #         db.session.add(version)   
-    #         db.session.commit()
+        Vers_data = [
+            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  1),
+            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  2),
+            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  3),
+            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  4),
+        ]
+        for vers in Vers_data:
+            version = Version_report(status=vers[0], 
+                        fio=vers[1], 
+                        telephone=vers[2],
+                        email=vers[3],
+                        report_id=vers[4],
+                        )
+            db.session.add(version)   
+            db.session.commit()
 
     report = Report.query.filter_by(user_id=current_user.id).all()
     version = Version_report.query.filter_by().all()

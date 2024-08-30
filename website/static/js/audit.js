@@ -14,9 +14,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     showFilterButton.addEventListener('click', function () {
-        filterSection.style.display = filterSection.style.display === 'block' ? 'none' : 'block';
+        filterSection.classList.toggle('active');
+        
+        if (filterSection.classList.contains('active')) {
+            showFilterButton.classList.add('activefunctions_menu');
+        } else {
+            showFilterButton.classList.remove('activefunctions_menu');
+        }
     });
-
     
     function filterTable() {
         const okpoValue = document.getElementById('okpo-filter').value.toLowerCase();

@@ -45,8 +45,6 @@ class Organization(db.Model):
     full_name = db.Column(db.String(100))
     okpo = db.Column(db.Integer)
     ynp = db.Column(db.Integer)
-    district = db.Column(db.String(50))
-    city = db.Column(db.String(50))
     ministry = db.Column(db.String(50)) 
   
 class Report(db.Model):

@@ -92,18 +92,6 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Район</td>
-                            <td>    
-                                <input type="text" name = "district_common" value="{{current_user.organization.district if current_user.organization else ''}}" readonly>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Город</td>
-                            <td>    
-                                <input type="text" name = "city_common" value="{{current_user.organization.city if current_user.organization else ''}}" readonly>
-                            </td>
-                        </tr>
-                        <tr>
                             <td>Министерство</td>
                             <td>    
                                 <input type="text" name = "ministry_common" value="{{current_user.organization.ministry if current_user.organization else ''}}" readonly>
@@ -183,8 +171,6 @@
                                                             <td>{{row.NAME1}} {{row.NAME2}} {{row.NAME3}} {{row.NAME4}} {{row.NAME5}} {{row.NAME6}}</td>
                                                             <td style = "display: none;">{{row.OKPO}}</td>        
                                                             <td style = "display: none;">{{row.UNP}}</td>
-                                                            <td style = "display: none;">{{row.RAI}}</td>
-                                                            <td style = "display: none;">{{row.GOR}}</td>
                                                             <td style = "display: none;">{{row.MIN}}</td>
                                                         </tr>
                                                     {% endfor %}
@@ -208,21 +194,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Район</td>
-                            <td>    
-                                <input type="text" name = "district_common" value="{{current_user.organization.district if current_user.organization.district else ''}}" readonly>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Город</td>
-                            <td>    
-                                <input type="text" name = "city_common" value="{{current_user.organization.city if current_user.organization.city else ''}}" readonly>
-                            </td>
-                        </tr>
-                        <tr>
                             <td>Министерство</td>
                             <td>    
-                                <input type="text" name = "ministry_common" value="{{current_user.organization.ministry if current_user.organization.ministry else ''}}" readonly>
+                                <input type="text" name = "ministry_common"  value="{{current_user.organization.ministry if current_user.organization.ministry else ''}}" readonly>
                             </td>
                         </tr>
                     </table>
@@ -239,10 +213,8 @@
     var full_name_common = document.querySelector('input[name="full_name_common"]');
     var okpo_common = document.querySelector('input[name="okpo_common"]');
     var ynp_common = document.querySelector('input[name="ynp_common"]');
-    var district_common = document.querySelector('input[name="district_common"]');
-    var city_common = document.querySelector('input[name="city_common"]');
-    var ministry_common = document.querySelector('input[name="ministry_common"]');
 
+    var ministry_common = document.querySelector('input[name="ministry_common"]');
     var chooseOrganizationArea = document.querySelector('.choose-organization_area');
     var chooserOganizationTableBody = document.getElementById('chooserOganizationTableBody');
     
@@ -255,17 +227,12 @@
             chooseOrganizationArea.style.display = 'none';
             var OrganizationName = event.target.parentNode.querySelector('td:nth-child(1)').textContent;
             var OrganizationOked = event.target.parentNode.querySelector('td:nth-child(2)').textContent;
-
             var OrganizationYNP = event.target.parentNode.querySelector('td:nth-child(3)').textContent;
-            var OrganizationRAI = event.target.parentNode.querySelector('td:nth-child(4)').textContent;
-            var OrganizationGOR = event.target.parentNode.querySelector('td:nth-child(5)').textContent;
-            var OrganizationMIN = event.target.parentNode.querySelector('td:nth-child(6)').textContent;
+            var OrganizationMIN = event.target.parentNode.querySelector('td:nth-child(4)').textContent;
             
             full_name_common.value = OrganizationName;
             okpo_common.value = OrganizationOked;
             ynp_common.value = OrganizationYNP;
-            district_common.value = OrganizationRAI;
-            city_common.value = OrganizationGOR;
             ministry_common.value = OrganizationMIN;
         } 
     });
