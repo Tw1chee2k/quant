@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
-from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections, Message
+from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections, Message, News
 from . import db
 from werkzeug.security import generate_password_hash
 from sqlalchemy import asc, or_, desc
@@ -88,7 +88,6 @@ def beginPage():
                         is_active=True) 
             db.session.add(user)   
             db.session.commit()
-
     if DirUnit.query.count() == 0:   
         units_data = [
             (1, 'тыс. кВт. ч', 'тыс. кВт. ч'),
@@ -528,12 +527,26 @@ def beginPage():
                                  DateEnd=data[8])
             db.session.add(product)
         db.session.commit()
+    if News.query.count() == 0:   
+        news_data = [
+            ('..2024 будет проведено обновление системы учёта и обработки отчетов!', 'Уважаемые пользователи обработки отчетов! 18.07.2024 будет проведено обновление системы. В связи с этим некоторые возможности системы будут недоступны с 20:00 до 21:30 18.07.2024.', '7.jpg'),
+        ]
+        for i in news_data:
+            news = News(title=i[0], 
+                        text=i[1], 
+                        img_name=i[2]) 
+            db.session.add(news)   
+            db.session.commit()
+
 
     user_data = User.query.count()
     organization_data = Organization.query.count()
     report_data = Report.query.count()
 
+    latest_news = News.query.order_by(desc(News.id)).first()
+
     return render_template('beginPage.html', 
+                           latest_news=latest_news,
                            user=current_user, 
                            user_data = user_data, 
                            organization_data = organization_data, 

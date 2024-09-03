@@ -1,10 +1,9 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify, send_file, Response
+from flask import Blueprint, request, flash, redirect, url_for, send_file, Response
 from flask_login import login_user, logout_user, current_user, login_required, LoginManager
 
 from .models import User, Organization, Report, Version_report, DirUnit, DirProduct, Sections, Ticket, Message
 from . import db
 from sqlalchemy import func
-from sqlalchemy import asc
 from sqlalchemy import desc
 from sqlalchemy.orm import joinedload
 
@@ -33,12 +32,10 @@ import os
 import pandas as pd
 from tempfile import NamedTemporaryFile
 import dbf
-from io import StringIO
 
 import random
 import string
 
-from flask import session
 from itsdangerous import URLSafeTimedSerializer
 
 import zipfile

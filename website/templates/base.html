@@ -18,10 +18,11 @@
       <div class="header-center">
         <nav>
           <ul>
-   
+
               <li onclick="window.location.href='/'">Главная</li>
-              <li onclick="window.location.href=''">Новости</li>
+              <li id="newsLink"><a>Новости</a></li>
               <li onclick="window.location.href=''" >Контакты</li>
+              <li onclick="window.location.href=''" >Помощь</li>
               <li onclick="window.location.href='/FAQ'" >FAQ</li>
               {% if current_user.is_authenticated %}
               {% else %}
@@ -63,13 +64,10 @@
         {% if messages %}
           {% for category, message in messages %}
             <div class="alert {% if category == 'error' %}alert-danger{% else %}alert-success{% endif %} alert-dismissable fade show custom-alert" role="alert">
-              {% if category == 'error' %}
-                <img src="{{ url_for('static', filename='img/error.png')}}" alt="">
-              {% else %}
-                <img src="{{ url_for('static', filename='img/succes.png')}}" alt="">
-              {% endif %}
+              <img src="{{ url_for('static', filename='img/' + ('error.png' if category == 'error' else 'succes.png')) }}" alt="">
+
               <div class = "p_message_cont">
-                <p style = "font-weight: 600; padding-bottom: 5px;">{{category}}</p>
+                <p style = "font-weight: 600; padding-bottom: 5px;">{% if category == 'error' %} Ошибка {% else %} Успех {% endif %}</p>
                 <p> {{ message }} </p>
               </div>
               <div class="notif-progress"></div>
@@ -120,7 +118,7 @@
           </nav>
           <div class = "telephone_info">
             <p></p
-          </div>
+          
 
 
         </div>

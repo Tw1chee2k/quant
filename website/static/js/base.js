@@ -470,3 +470,8 @@ period_modal.addEventListener('click', function(event) {
     }
 });
 /*end*/
+
+document.getElementById("newsLink").addEventListener("click", function(event) {
+    event.preventDefault();
+    window.location.href = "/#news_row";
+});

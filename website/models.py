@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy.orm import relationship
 from sqlalchemy import Numeric
 from sqlalchemy.orm import backref
-from datetime import datetime, timedelta
+from datetime import datetime
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -32,12 +32,6 @@ class User(db.Model, UserMixin):
     def update_activity(self):
         self.last_active = datetime.now()
         db.session.commit()
-
-# class OnlineUser(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-#     last_active = db.Column(db.DateTime, nullable=False, default=datetime.now())
-#     user = db.relationship('User', backref=db.backref('online_users', lazy=True))
 
 class Organization(db.Model):
     __tablename__ = 'organization'
@@ -115,5 +109,11 @@ class Sections(db.Model):
     note = db.Column(db.String(200))
     product = relationship("DirProduct", foreign_keys=[id_product], backref="section")
 
-
+class News(db.Model):
+    __tablename__ = 'news'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100))
+    text = db.Column(db.String(300))
+    img_name = db.Column(db.String(20))
+    created_time = db.Column(db.DateTime, nullable=False, default=datetime.now())
     

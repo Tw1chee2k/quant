@@ -49,19 +49,17 @@
         </div>
     </div>
 </div>
-<div class="news-row">
+<div class="news-row" id = "news_row">
     <div class = "news-row-left">
         <div class="item_news">  
             <a class = "news_name">Новости</a>
-            <p class = "first_p">..2024 будет проведено обновление системы учёта и обработки отчетов!</p>
-            <p class = "second_p">Уважаемые пользователи обработки отчетов! 
-                18.07.2024 будет проведено обновление системы. 
-                В связи с этим некоторые возможности системы будут недоступны 
-                с 20:00 до 21:30 18.07.2024.</p>
+            <p class = "first_p">{{latest_news.title}}</p>
+            <p class = "second_p">{{latest_news.text}}</p>
         </div>
     </div>
     <div class = "news-row-right">
-         <img src="{{ url_for('static', filename='img/errors.jpg')}}" alt="">
+        <img src="{{ url_for('static', filename='img/news/' + latest_news.img_name) }}" alt="">
+
     </div>
 </div>
 {% endblock %}
