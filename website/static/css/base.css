@@ -936,7 +936,8 @@ footer {
     flex-direction: row;
     justify-content: start;
     align-items: left;
-    padding: 120px 0 0 120px;
+    padding: 120px 0 0 0;
+    padding-left: 7%;
   }
   
 /* .hellow_row::before {

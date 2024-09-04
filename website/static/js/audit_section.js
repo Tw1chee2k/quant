@@ -1,5 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
-   
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('addCommentModal') === 'true') {
+        var addCommentModal = document.getElementById('addCommentModal');
+        if (addCommentModal) {
+            addCommentModal.style.display = 'block';
+        }
+    }
+
     const sectionLinks = document.querySelectorAll('[data-section]');
     
     sectionLinks.forEach(link => {

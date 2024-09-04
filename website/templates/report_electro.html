@@ -484,12 +484,12 @@
             <table class="table_report-area" style = "width: 100%;">
                 <thead class="order-table_titels">
                     <tr>
-                        <th class="resizable" style = "white-space: nowrap;">Код продукции<div class="resizer"></div></th>
-                        <th class="resizable" style = "white-space: nowrap; min-width: 240px;">Наименование продукции<div class="resizer"></div></th>
-                        <th class="resizable" style = "white-space: nowrap;">Топливо<div class="resizer"></div></th>
-                        <th class="resizable" style = "white-space: nowrap;">Тепловая<div class="resizer"></div></th>
-                        <th class="resizable" style = "white-space: nowrap;">Электричество<div class="resizer"></div></th>
-                        <th class="resizable" style = "white-space: nowrap;">Код единицы измерения<div class="resizer"></div></th>
+                        <th style = "white-space: nowrap;">Код продукции</th>
+                        <th style = "white-space: nowrap; min-width: 240px;">Наименование продукции</th>
+                        <th style = "white-space: nowrap; width: 100px;">Топливо</th>
+                        <th style = "white-space: nowrap; width: 100px;">Тепло</th>
+                        <th style = "white-space: nowrap; width: 100px;">Электричество</th>
+                        <!-- <th class="resizable" style = "white-space: nowrap;">Код единицы измерения<div class="resizer"></div></th> -->
                         <!-- <th class="resizable" style = "white-space: nowrap;">Дата начала<div class="resizer"></div></th>
                         <th class="resizable" style = "white-space: nowrap;">Дата окончания<div class="resizer"></div></th> -->
                     </tr>
@@ -503,18 +503,18 @@
                         <td>
                             <input type = "text" title = "{{ row.NameProduct }}" value = "{{ row.NameProduct }}" readonly>
                         </td>
-                        <td>
-                            <input type="checkbox" name="control" {% if row.IsFuel %} checked {% endif %} onclick="return false;">
+                        <td style = "text-align: center;">
+                            <input type="checkbox"  {% if row.IsFuel %} checked {% endif %} onclick="return false;">
                         </td>
-                        <td>
-                            <input type="checkbox" name="control" {% if row.IsHeat %} checked {% endif %} onclick="return false;">
+                        <td style = "text-align: center;">
+                            <input type="checkbox"  {% if row.IsHeat %} checked {% endif %} onclick="return false;">
                         </td>
-                        <td>
-                            <input type="checkbox" name="control" {% if row.IsElectro %} checked {% endif %} onclick="return false;">
+                        <td style = "text-align: center;">
+                            <input type="checkbox"  {% if row.IsElectro %} checked {% endif %} onclick="return false;">
                         </td>
-                        <td>
+                        <!-- <td>
                             <input type = "text" title = "{{ row.IdUnit }}" value = "{{ row.IdUnit }}" readonly>
-                        </td>
+                        </td> -->
                         <!-- <td>   
                             {% if row.DateStart %}
                                 <input type = "text" title = "{{ row.DateStart }}" value = "{{ row.DateStart }}" readonly>
@@ -536,6 +536,7 @@
         </div>
     </div>
 </div>
+
 
 
 <div id="contextmenufuel" class="white-panel">

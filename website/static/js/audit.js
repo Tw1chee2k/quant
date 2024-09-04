@@ -165,21 +165,45 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.classList.remove('dragging');
                 var reportId = event.dataTransfer.getData('text/plain');
                 var action = this.dataset.action;
-    
+            
                 var activeReport = document.querySelector('.active-report');
                 if (activeReport && activeReport.dataset.id === reportId) {
                     reportIdInput.value = reportId;
                     actionInput.value = action;
-                    form.submit();
-                } else {
                     
+                    if (action === 'to_download'){
+                        form.submit();
+                    }
+                    else{
+                        // Показать модальное окно
+                        var modal = document.getElementById('ChooseAuditModal');
+                        modal.style.display = 'block';
+                
+                        var submitButton = modal.querySelector('button.main_button');
+                        submitButton.onclick = function() {
+                            modal.style.display = 'none'; // Скрываем модальное окно перед переходом
+                
+                            // Переход по пути с reportId
+                            window.location.href = `/audit_area/report/${reportId}?addCommentModal=true`;
+                        };
+                        var closeButton = modal.querySelector('button#close_submit');
+                        closeButton.onclick = function() {
+                            modal.style.display = 'none'; // Скрываем модальное окно перед отправкой формы
+                            
+                        };
+            
+                    }
+
+
+ 
                 }
-    
+            
                 if (previousReportRow !== null) {
                     previousReportRow.classList.remove('active-report');
                     previousReportRow = null;
                 }
             });
+            
         }
     });
 
@@ -194,7 +218,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     hideContextMenu();
 });
-
 
 document.addEventListener('DOMContentLoaded', () => {
     const navItems = document.querySelectorAll('.menu_profile_audit li[data-action]');

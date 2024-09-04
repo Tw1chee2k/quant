@@ -158,6 +158,54 @@
     </div>
 </div>
 
+<div id="ChooseAuditModal" class="modal">
+    <div class="modal-content">
+        <div class = "modal-header">
+            <h3 class = "change-position">Проверка</h3>
+            <a class="close">&times;</a>
+        </div>
+        <div class="spravochniki_area">
+            <table class = "modal_table">
+                <tr>
+                    <td>Для</td>
+                    <td>
+                        переход на страницу проверки отчета
+                    </td>
+                </tr>
+                <tr>
+                    <td>Закрыть</td>
+                    <td>
+                        комменатрий уже был оставлен, смена статуса отчета
+                    </td>
+                </tr>
+                <tr>
+                    <td> 
+                        <button 
+                            id = "open_report"
+                            type="button"
+                            class="main_button" 
+                            style="margin-left: 0;" 
+                            onclick="location.href=''">
+                            Оставить комментарий
+                        </button>
+                    </td>
+                    <td>
+                        <button 
+                            id = "close_submit"
+                            type="button" 
+                            class="main_button" 
+                            onclick="">
+                            Закрыть
+                        </button>
+                        
+                    </td>
+                </tr>
+            </table>  
+
+        </div>
+    </div>
+</div>
+
 <div id="contextMenu_report" class="white-panel">
     <button id="">
         <span>Просмотреть</span>
