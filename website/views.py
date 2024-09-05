@@ -671,10 +671,10 @@ def report_area():
             db.session.commit()
 
         Vers_data = [
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  1),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  2),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  3),
-            ('Одобрен', current_user.fio, current_user.telephone, current_user.email,  4),
+            ('Отправлен', current_user.fio, current_user.telephone, current_user.email,  1),
+            ('Отправлен', current_user.fio, current_user.telephone, current_user.email,  2),
+            ('Отправлен', current_user.fio, current_user.telephone, current_user.email,  3),
+            ('Отправлен', current_user.fio, current_user.telephone, current_user.email,  4),
         ]
         for vers in Vers_data:
             version = Version_report(status=vers[0], 

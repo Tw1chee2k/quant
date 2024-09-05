@@ -7,8 +7,66 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    const sectionLinks = document.querySelectorAll('[data-section]');
+    /*всплывающее окно с респондентом*/
+    var RespondentModal = document.getElementById('RespondentModal');
+    var RespondentLink = document.getElementById('RespondentLink');
+    var CloseRespondent = document.getElementById('CloseRespondent');
+    RespondentLink.addEventListener('click', function() {
+        RespondentModal.style.display = 'block';
+    });
+
+    CloseRespondent.addEventListener('click', function() {
+        RespondentModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target == RespondentModal) {
+            RespondentModal.style.display = 'none';
+        }
+    });
+    /*end*/
+
+    var addCommentModal = document.getElementById('addCommentModal');
+    var addCommentLink = document.getElementById('addCommentLink');
+    var CloseaddComment = document.getElementById('CloseaddComment');
     
+    addCommentLink.addEventListener('click', function(event) {
+        if (addCommentLink.style.opacity === '0.5') {
+            event.preventDefault();
+        } else {
+            addCommentModal.style.display = 'block';
+        }
+    });
+    
+    CloseaddComment.addEventListener('click', function() {
+        addCommentModal.style.display = 'none';
+    });
+    
+    window.addEventListener('click', function(event) {
+        if (event.target == addCommentModal) {
+            addCommentModal.style.display = 'none';
+        }
+    });
+
+
+    var showCommentsModal = document.getElementById('showCommentsModal');
+    var showCommentsLink = document.getElementById('showCommentsLink');
+    var CloseshowComments = document.getElementById('CloseshowComments');
+    showCommentsLink.addEventListener('click', function() {
+        showCommentsModal.style.display = 'block';
+    });
+
+    CloseshowComments.addEventListener('click', function() {
+        showCommentsModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target == showCommentsModal) {
+            showCommentsModal.style.display = 'none';
+        }
+    });
+
+    const sectionLinks = document.querySelectorAll('[data-section]');
     sectionLinks.forEach(link => {
         link.addEventListener('click', function() {
             const sectionId = this.getAttribute('data-section').replace('link', 'table');
@@ -104,59 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     /*end*/
 
-    /*всплывающее окно с респондентом*/
-    var RespondentModal = document.getElementById('RespondentModal');
-    var RespondentLink = document.getElementById('RespondentLink');
-    var CloseRespondent = document.getElementById('CloseRespondent');
-    RespondentLink.addEventListener('click', function() {
-        RespondentModal.style.display = 'block';
-    });
 
-    CloseRespondent.addEventListener('click', function() {
-        RespondentModal.style.display = 'none';
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target == RespondentModal) {
-            RespondentModal.style.display = 'none';
-        }
-    });
-    /*end*/
-
-    var addCommentModal = document.getElementById('addCommentModal');
-    var addCommentLink = document.getElementById('addCommentLink');
-    var CloseaddComment = document.getElementById('CloseaddComment');
-    addCommentLink.addEventListener('click', function() {
-        addCommentModal.style.display = 'block';
-    });
-
-    CloseaddComment.addEventListener('click', function() {
-        addCommentModal.style.display = 'none';
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target == addCommentModal) {
-            addCommentModal.style.display = 'none';
-        }
-    });
-
-
-    var showCommentsModal = document.getElementById('showCommentsModal');
-    var showCommentsLink = document.getElementById('showCommentsLink');
-    var CloseshowComments = document.getElementById('CloseshowComments');
-    showCommentsLink.addEventListener('click', function() {
-        showCommentsModal.style.display = 'block';
-    });
-
-    CloseshowComments.addEventListener('click', function() {
-        showCommentsModal.style.display = 'none';
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target == showCommentsModal) {
-            showCommentsModal.style.display = 'none';
-        }
-    });
 });
 
 document.getElementById('export-table-btn').addEventListener('click', function() {

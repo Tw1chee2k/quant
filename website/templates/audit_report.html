@@ -9,10 +9,12 @@
                     <ul>          
                         <section>
                             <div class = "functions_menu">
+                                
                                 <li id = "addCommentLink">
                                     <img src="{{ url_for('static', filename='img/icon_send.png')}}" alt="">
                                     <a>Сообщение</a>
-                                </li>                         
+                                </li> 
+                                                                      
                                 <li id = "RespondentLink">           
                                     <img src="{{ url_for('static', filename='img/icon_profile.png')}}" alt="">
                                     <a>Респондент</a>   
@@ -735,7 +737,35 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Получаем значение статуса из контекста
+        var currentStatus = "{{ current_version.status }}";
 
+        // Проверяем, равен ли статус 'Отправлен'
+        if (currentStatus !== 'Отправлен') {
+            updateauditVeiwButtonStyle(false);
+        } else {
+            updateauditVeiwButtonStyle(true);
+        }
+    });
+
+    function updateauditVeiwButtonStyle(activecommentLink) {
+        var addCommentLink = document.getElementById('addCommentLink');
+        
+        if (activecommentLink) {
+            addCommentLink.style.opacity = '1';
+            addCommentLink.style.cursor = 'pointer';
+            addCommentLink.querySelector('img').style.filter = 'none';
+            addCommentLink.querySelector('a').style.filter = 'none';
+        } else {
+            addCommentLink.style.opacity = '0.5';
+            addCommentLink.style.cursor = 'not-allowed';
+            addCommentLink.querySelector('img').style.filter = 'grayscale(100%)';
+            addCommentLink.querySelector('a').style.filter = 'grayscale(100%)';
+        }
+    }
+</script>
 
 <script src="{{ url_for('static', filename='js/audit_section.js') }}"></script>
 {% endblock %}

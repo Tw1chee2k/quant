@@ -60,25 +60,25 @@ document.addEventListener('DOMContentLoaded', function () {
             texts[index].style.display = isDragging ? 'none' : 'inline';
             
             const draggingStyle = isDragging ? 'rgb(96, 255, 122)' : '';
-            not_read.style.background = draggingStyle;
-            with_remarks.style.background = draggingStyle;
-            to_conf.style.background = draggingStyle;
+            // not_read.style.background = draggingStyle;
+            with_remarks.style.background = isDragging ? 'rgba(255, 186, 96)' : '';
+            to_conf.style.background = isDragging ? 'rgb(96, 255, 122)' : '';
             to_del.style.background = isDragging ? 'rgb(255, 96, 96)' : '';
 
             const colorStyle = isDragging ? 'black' : '';
-            not_read.style.color = colorStyle;
+            // not_read.style.color = colorStyle;
             with_remarks.style.color = colorStyle;
             to_conf.style.color = colorStyle;
             to_del.style.color = colorStyle;
 
             const paddingStyle = isDragging ? '20px 50px' : '';
-            not_read.style.padding = paddingStyle;
+            // not_read.style.padding = paddingStyle;
             with_remarks.style.padding = paddingStyle;
             to_conf.style.padding = paddingStyle;
             to_del.style.padding = paddingStyle;
 
             const marginStyle = isDragging ? '0' : '';
-            not_read.style.marginBottom = marginStyle;
+            // not_read.style.marginBottom = marginStyle;
             with_remarks.style.marginBottom = marginStyle;
             to_conf.style.marginBottom = marginStyle;
             to_del.style.marginBottom = marginStyle;
@@ -121,14 +121,20 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         row.addEventListener('dragstart', function(event) {
-            event.dataTransfer.setData('text/plain', this.dataset.id);
-            this.classList.add('dragging');
-            setDraggingState(true);
-            if (previousReportRow !== null) {
-                previousReportRow.classList.remove('active-report');
+            var status = this.querySelector('input[value="Не просмотрено"]').value;
+            if (status === 'Не просмотрено') {
+                event.dataTransfer.setData('text/plain', this.dataset.id);
+                this.classList.add('dragging');
+                setDraggingState(true);
+        
+                if (previousReportRow !== null) {
+                    previousReportRow.classList.remove('active-report');
+                }
+                this.classList.add('active-report');
+                previousReportRow = this;
+            } else {
+                event.preventDefault();
             }
-            this.classList.add('active-report');
-            previousReportRow = this;
         });
 
         row.addEventListener('dragend', function(event) {
@@ -145,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     navigationItems.forEach(function(item) {
         var action = item.dataset.action;
-        if (['not_viewed', 'remarks', 'to_download', 'to_delete'].includes(action)) {
+        if ([ 'remarks', 'to_download', 'to_delete'].includes(action)) {
             item.addEventListener('dragover', function(event) {
                 event.preventDefault();
             });
@@ -175,27 +181,33 @@ document.addEventListener('DOMContentLoaded', function () {
                         form.submit();
                     }
                     else{
-                        // Показать модальное окно
                         var modal = document.getElementById('ChooseAuditModal');
                         modal.style.display = 'block';
                 
                         var submitButton = modal.querySelector('button.main_button');
                         submitButton.onclick = function() {
-                            modal.style.display = 'none'; // Скрываем модальное окно перед переходом
-                
-                            // Переход по пути с reportId
+                            modal.style.display = 'none';
                             window.location.href = `/audit_area/report/${reportId}?addCommentModal=true`;
                         };
                         var closeButton = modal.querySelector('button#close_submit');
+
+
+                        if (action === 'not_viewed'){
+                            closeButton.textContent = 'К не просмотренным';
+                        }
+                        else if(action === 'remarks'){
+                            closeButton.textContent = 'К исправлению';
+                        }
+                        else{
+                            closeButton.textContent = 'К удалению';
+                        }
+
                         closeButton.onclick = function() {
-                            modal.style.display = 'none'; // Скрываем модальное окно перед отправкой формы
-                            
+                            modal.style.display = 'none';
+                            form.submit();
                         };
             
                     }
-
-
- 
                 }
             
                 if (previousReportRow !== null) {
@@ -207,6 +219,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+/*proverka comment modal*/
+var ChooseAudit_modal = document.getElementById('ChooseAuditModal');
+var close_ChooseAudit_modal = ChooseAudit_modal.querySelector('.close');
+
+close_ChooseAudit_modal.addEventListener('click', function() {
+    ChooseAudit_modal.style.display = 'none';
+
+});
+
+ChooseAudit_modal.addEventListener('click', function(event) {
+    if (event.target === ChooseAudit_modal) {
+        ChooseAudit_modal.style.display = 'none';
+    }
+});
+/*end*/
 
     
 

@@ -55,7 +55,7 @@
             <ul id="status-reportList">
                 <li data-action="not_viewed">
                     <a>Не просмотренные</a>
-                    <a class="count_reporst" draggable="false">
+                    <a class="count_reporst">
                         <img class="count-img" src="{{ url_for('static', filename='img/change_section.png')}}" style="display: none;">
                         <span class="add_plus" style="display: none;">+</span>
                         <span class="count-text">{{not_viewedReports_count}}</span>
@@ -130,7 +130,7 @@
                                 </td>
                                 <td>
                                     {% for version in row.versions %}            
-                                        <input type="text" id="report_category_{{ version.id }}" value="{{version.sent_time}}" readonly> 
+                                        <input type="text" value="{{version.sent_time}}" readonly> 
                                     {% endfor %}                             
                                 </td>
                                 <td>
@@ -142,9 +142,9 @@
                                 <td>
                                     {% for version in row.versions %}
                                         {% if version.status == 'Отправлен' %}
-                                            <input type="text" id="report_category_{{ version.id }}" value="Не просмотрено" readonly>
+                                            <input type="text"  value="Не просмотрено" readonly>
                                         {%else%}
-                                            <input type="text" id="report_category_{{ version.id }}" value="{{version.status}}" readonly>
+                                            <input type="text" value="{{version.status}}" readonly>
                                         {% endif %}
                                     {% endfor %}
                                 </td>
@@ -178,13 +178,12 @@
                         комменатрий уже был оставлен, смена статуса отчета
                     </td>
                 </tr>
-                <tr>
+                <tr class = "but_tr">
                     <td> 
                         <button 
                             id = "open_report"
                             type="button"
                             class="main_button" 
-                            style="margin-left: 0;" 
                             onclick="location.href=''">
                             Оставить комментарий
                         </button>
@@ -193,9 +192,7 @@
                         <button 
                             id = "close_submit"
                             type="button" 
-                            class="main_button" 
-                            onclick="">
-                            Закрыть
+                            class="main_button">
                         </button>
                         
                     </td>

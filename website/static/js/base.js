@@ -1047,6 +1047,9 @@ period_modal.addEventListener('click', function(event) {
 });
 /*end*/
 
+
+
+
 function smoothScroll(target) {
     const [path, hash] = target.split('#');
     if (window.location.pathname === path) {

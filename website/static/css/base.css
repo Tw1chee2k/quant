@@ -53,6 +53,14 @@ body.dimmed {
     --color6: #444444;
 
     --color7: rgb(96, 255, 122);
+
+
+
+
+
+    --remarksclr: rgba(255, 186, 96, 0.705);
+    --odobrclr: rgb(96, 255, 122, 0.705);
+    --delclr: rgb(255, 96, 96, 0.705);
 }
 
 .blurred-background {
@@ -2369,12 +2377,21 @@ th .resizer {
     text-align: right;
 }
 
+
 .modal-content button{
     font-size: 14px;
     margin: 0;
-    margin: 30px 0 0 100px;
+    margin: 30px 0 0 0;
     width: 200px;
     height: 35px;
+}
+
+.modal_table .but_tr td:first-child {
+    text-align: left;
+}
+
+.modal_table .but_tr td:last-child {
+    text-align: right;
 }
 
 .dark-mode .modal-content {
