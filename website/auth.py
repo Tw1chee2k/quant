@@ -167,7 +167,7 @@ def add_personal_parametrs():
         ynp = request.form.get('ynp_common')
         ministry = request.form.get('ministry_common')
 
-        if not name or not telephone or not full_name or not name or not second_name or not patronymic:
+        if not name or not telephone or not full_name or not name or not second_name:
             flash('Заполните все обязательные строки', 'error')
             return redirect(url_for('views.profile_common'))
         else:

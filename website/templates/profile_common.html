@@ -74,7 +74,7 @@
 
 
                         <tr>
-                            <td style = "padding-top: 80px;"><span title = "Организация за которую отчитываются">Предприятие &#42;</span></td>
+                            <td style = "padding-top: 80px; "><span title = "Организация за которую отчитываются">Предприятие &#42;</span></td>
                             <td>
                                 <input style = "margin-top: 80px;" type="text" value="{{current_user.organization.full_name}}" readonly>
                             </td>
@@ -144,7 +144,7 @@
                             <td>Отчество</td>
                             <td>                    
                                 <div class="clear-input_container">
-                                    <input type="text" name = "patronymic_common" placeholder="Введите отчество"value="{{current_user.fio.split()[2] if current_user.fio else ''}}" required>
+                                    <input type="text" name = "patronymic_common" placeholder="Введите отчество (не обязательно)"value="{{current_user.fio.split()[2] if current_user.fio else ''}}">
                                     <span class="clear-btn">&times;</span>
                                 </div>
                             </td>

@@ -1110,6 +1110,7 @@ footer {
     color: #028dff;   
     font-weight: 600;
     text-align: center;
+    align-items: center;
 }
 
 .dark-mode .stat_count{
@@ -1136,7 +1137,7 @@ footer {
 
 .news-row {
     max-width: 100%;
-    margin: 20px 0;
+    margin: 0 0;
     height: auto;
     display: flex;
     flex-direction: row;
