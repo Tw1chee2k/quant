@@ -28,7 +28,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color:rgb(247, 247, 247);
+    background-color:#fff;
     color: rgb(0, 0, 0);
 }
 
@@ -342,54 +342,66 @@ header nav ul {
 
 /*them toggle*/
 
+/* Основной стиль переключателя */
 .header-right label {
     margin-right: 220px;
-	width:60px;
-	height:25px;
-	position: relative;
-	display: block;
-	background: #ebebeb;
-	border-radius: 100px;
-	box-shadow: inset 0px 5px 15px rgba(0,0,0,0.4), inset 0px -5px 15px rgba(255,255,255,0.4);
-	cursor: pointer;
-	transition: 0.3s;
+    width: 60px;
+    height: 30px;
+    position: relative;
+    display: block;
+    background: linear-gradient(145deg, #f0f0f0, #d8d8d8);
+    border-radius: 50px;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.2), inset -2px -2px 5px rgba(255,255,255,0.7);
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
-.header-right label:after {
-	content: "";
-	width:15px;
-	height: 15px;
-	position: absolute;
-	top:5px;
-	left:5px;
-	background: linear-gradient(180deg, #028dff,#ffffff);
-	border-radius: 180px;
-	box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
-	transition: 0.3s;
+/* Псевдоэлемент для луны */
+.header-right label::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle at 30% 30%, #f9d71c, #f5a623); /* Луна */
+    border-radius: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    transition: all 0.4s ease;
 }
 
+/* Скрываем input */
 .header-right input {
-	width: 0;
-	height: 0;
-	visibility: hidden;
+    width: 0;
+    height: 0;
+    visibility: hidden;
 }
 
+/* Темная тема для переключателя */
 .header-right input:checked + label {
-	background: #242424;
+    background: linear-gradient(145deg, #3a3a3a, #242424);
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(50,50,50,0.4);
 }
 
+/* Перемещение луны при переключении на темную тему */
 .header-right input:checked + label:after {
-	left:55px;
-	transform: translateX(-100%);
-	background: linear-gradient(180deg,#303030,#cfcfcf);
+    left: 35px;
+    background: radial-gradient(circle at 30% 30%, #e0e0e0, #b0b0b0); /* Цвет для луны в темной теме */
+    box-shadow: 0 0 10px rgba(255,255,255,0.4); /* Светящийся эффект */
+    transform: translateY(-50%) translateX(0);
 }
 
-.header-right label:active:after{
-
+/* При нажатии на переключатель - эффект нажатия */
+.header-right label:active::after {
+    width: 22px;
+    height: 22px;
 }
 
+/* Фон переключателя изменяется при активации темы */
 .header-right input:checked + label + .background {
-	background:#242424;
+    background: #242424;
+    transition: background 0.3s ease;
 }
 
 
@@ -791,7 +803,7 @@ footer {
 .aftorization_data input,
 .registration_data input{
     background: rgba(255, 255, 255, 0);
-    width: 480px;
+    width: 370px;
     height: 20px;
     margin: 10px 5px;
     border: none; 
@@ -1046,10 +1058,12 @@ footer {
     max-width: 100%;
     height: 50vb;
     min-height: 390px;
-    background-color: #028dff; 
+    /* background-color:  #ffa500; */
+    background-color: #028dff;
     display: flex;
     flex-direction: row;
-    justify-content: center;    
+    justify-content: center; 
+
 }
 
 .dark-mode .statistics-row {
@@ -1058,12 +1072,14 @@ footer {
 
 .statistics-row-left{
 
+
 }
 
 .statistics-row-left img{
     width: 870px;
     height: 100%;
-    object-fit: cover;box-shadow: 0 0 10px rgba(0, 0, 0, 0.301);
+    object-fit: cover;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.301); */
 }
 
 .statistics-row-right{
@@ -1071,7 +1087,8 @@ footer {
     height: auto;
     display: flex;
     flex-direction: column;
-    background-color:rgb(247, 247, 247);
+    /* background-color:rgb(247, 247, 247); */
+    background-color: white;
     justify-content: center;
     margin-right: 90px;
 
@@ -1092,6 +1109,7 @@ footer {
     font-size: 50px;    
     color: #028dff;   
     font-weight: 600;
+    text-align: center;
 }
 
 .dark-mode .stat_count{
@@ -1118,12 +1136,12 @@ footer {
 
 .news-row {
     max-width: 100%;
-    margin: 40px 0;
+    margin: 20px 0;
     height: auto;
-
     display: flex;
     flex-direction: row;
     justify-content: center;
+
 
 }
 
@@ -1136,9 +1154,10 @@ footer {
     height: auto;
     display: flex;
     flex-direction: column;
-    margin-left: 40px;
+
     padding: 40px 60px;
     justify-content: start;
+    background-color: white;
 
 }
 
@@ -1152,10 +1171,11 @@ footer {
 }
 
 .news-row-right img{
-    width: 600px;
+    width: 650px;
     height: 100%;
-    object-fit: cover;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.301);
+    object-fit: cover;    
+    margin-right: 60px;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.301); */
 }
 
 
@@ -1336,6 +1356,8 @@ footer {
 .account_cont .account_functions .account_messages{
     display: flex;
     flex-direction: column;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    height: 100%;
 }
 
 .account_messageArea{
@@ -1344,7 +1366,7 @@ footer {
     align-items:  center;
     border: none;
     background-color: white;
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     width: 474px;
     height: 52px;
     font-weight: 600;
@@ -1359,7 +1381,7 @@ footer {
 .dark-mode .account_messageArea{
     color: white;
     background-color:  #252525;      
-    /* box-shadow: 0 0 1px rgba(255, 255, 255, 0.1);  */
+    box-shadow: none; 
     border-bottom: 2px solid #333333;
 }
 

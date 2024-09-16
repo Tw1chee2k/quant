@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function setupEventListeners(element) {
-        element.addEventListener('mouseenter', function() {
+        element.addEventListener('click', function() {
             clearTimeout(timeoutId);
             showUserHoverNavigation();
         });

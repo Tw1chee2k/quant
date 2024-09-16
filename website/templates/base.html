@@ -18,7 +18,6 @@
       <div class="header-center">
         <nav>
           <ul>
-
               <li onclick="window.location.href='/'">Главная</li>
               <li onclick="smoothScroll('/#news_row')">Новости</li>
               <li onclick="window.location.href=''" >Контакты</li>
@@ -33,20 +32,21 @@
         </nav>
       </div>
       <div class="header-right">
- 
         <input type="checkbox" id="darkmode-toggle"/>
         <label for="darkmode-toggle">
           
         </label>
+
+        
         {% if current_user.is_authenticated %}
         <div class="user-container">
             <img 
-              onclick="window.location.href='/account'" 
+
               class = "icon_white"
               src="{{ url_for('static', filename='img/icon_white-user.png')}}" 
               alt="">
             <img 
-              onclick="window.location.href='/account'" 
+             
               class = "icon_black"
               src="{{ url_for('static', filename='img/icon_black-user.png')}}" alt="">
             <div id="user_hover_navigation" class="user_hover_navigation">
