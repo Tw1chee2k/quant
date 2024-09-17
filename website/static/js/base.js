@@ -1,7 +1,3 @@
-
-
-
-
 const clearButtons = document.querySelectorAll('.clear-btn');
 clearButtons.forEach(btn => {
     btn.addEventListener('click', function() {
@@ -244,7 +240,49 @@ numeric_dotInputs.forEach(function(input) {
 /* end numbers + dot only */
 
 
+
 document.addEventListener('DOMContentLoaded', function () {
+      /* menuButton */
+  const menuButton = document.getElementById('menu-button');
+  const headerCenter = document.querySelector('.header-center');
+  let timeoutmenuButton;
+
+  function showheaderCenter() {
+      if (headerCenter) {
+          headerCenter.classList.remove('hidden');
+          headerCenter.classList.add('show');
+          console.log('Панель показана'); // Отладка
+      }  
+    }
+  function hideheaderCenter() {
+      if (headerCenter) {
+          headerCenter.classList.remove('show');
+          headerCenter.classList.add('hidden');
+          console.log('Панель скрыта'); // Отладка
+      }
+  }
+
+  function setupEventmenuButton(element) {
+      element.addEventListener('click', function() {
+          clearTimeout(timeoutmenuButton); 
+          showheaderCenter();
+          setTimeout(hideheaderCenter, 2000); 
+      });
+  }
+
+  if (menuButton && headerCenter) {
+      setupEventmenuButton(menuButton);
+
+      headerCenter.addEventListener('mouseenter', function() {
+          clearTimeout(timeoutmenuButton); 
+          showheaderCenter();
+          setTimeout(hideheaderCenter, 2000);
+      });
+    } 
+  
+  /* end menuButton */
+
+
     /* show and hide buttons passwords */
     setupPasswordToggle('password-field', 'show-icon', 'hide-icon');
     setupPasswordToggle('password-field1', 'show-icon1', 'hide-icon1');
@@ -298,10 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
         element.addEventListener('click', function() {
             clearTimeout(timeoutId);
             showUserHoverNavigation();
-        });
-
-        element.addEventListener('mouseleave', function() {
-            timeoutId = setTimeout(hideUserHoverNavigation, 1000);
+            setTimeout(hideUserHoverNavigation, 2000);
         });
     }
 
@@ -314,7 +349,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         user_hover_navigation.addEventListener('mouseleave', function() {
-            timeoutId = setTimeout(hideUserHoverNavigation, 1000);
+            timeoutId = setTimeout(hideUserHoverNavigation, 2000);
         });
     }
     /* end hoveruser panel */

@@ -1,0 +1,279 @@
+  /* static/css/custom.css */
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.navbar, .footer {
+    width: 100%;
+}
+
+.container-fluid {
+    width: 100%;
+    padding: 0;
+}
+
+@media (max-width: 1440px){  
+    /*header*/
+
+
+    header{
+      font-size: 15px;
+    }
+
+    .name_app{
+        display: none;
+    }
+
+    #menu-button {
+        display: block;
+    }
+
+    .header-left,
+    .header-right,
+    .header-center{
+        padding: 0;
+        margin: 0;
+    } 
+
+    .header-right label{
+        margin: 0;
+        margin-right: 40%;
+        height: 25px;
+
+    }
+    .header-right label::after{
+        margin: 0;
+        margin-right: 40%;
+        width: 15px;
+        height: 15px;
+    }
+
+
+    .header-right label:active::after {
+        width: 17px;
+        height: 17px;
+    }
+
+ 
+    .header-center {
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        right: 0;
+        padding: 10px;
+        opacity: 0;
+        top: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease, top 0.5s ease, visibility 0s 0.5s;
+        z-index: 100;
+        width: 140px;
+        height: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 20px;
+        font-size: 14px;
+    }
+    
+    .dark-mode .header-center{
+        background-color: #252525;
+        box-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+    .header-center.show {
+        opacity: 1;
+        top: 65px;
+        visibility: visible; 
+        transition: opacity 0.5s ease, top 0.5s ease;
+    }
+    
+    .header-center.hidden {
+        opacity: 0;
+        visibility: hidden; 
+        transition: opacity 0.5s ease, top 0.5s ease, visibility 0s 0.5s;
+    }
+    
+    .header-center nav ul {
+        display: flex; 
+        flex-direction: column;
+        text-align: left;
+        align-items: start;
+    }
+    
+    .header-center nav ul li {
+        margin: 0;
+        margin-bottom: 30px;
+        cursor: pointer;  
+    }
+
+    .header-center nav ul li:last-child {
+        margin-bottom: 0;
+
+    }
+
+    .dropdown-content.show {
+        display: flex;
+        margin: 0;
+        flex-direction: column; 
+        padding: 10px 5px ;
+    }
+    /*header end*/
+
+ 
+}    
+
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+
+    /*hellow_row*/
+    .hellow_row {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        padding: 120px 0 0 0;
+        align-items: center;
+    }
+
+    .hellow_row_name,
+    .hellow_row_dop_name{
+        font-size: 20px;
+
+    }
+
+    .hellow_buttonarea {
+        text-align: center;
+    }
+
+    .hellow_buttonarea button{
+        width: 200px;
+        height: 40px;
+        font-size: 13px;
+    }
+    /*hellow_row end*/
+
+
+    /* Контейнер с количеством пользователей, организац...*/
+    .statistics-row {
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        background-color: transparent;
+    }
+
+    .statistics-row-left img {
+        width: 100%; 
+        height: auto;
+        object-fit: cover;
+    }
+
+    .statistics-row-right {
+        position: absolute;
+        top: 50%; 
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%; 
+        height: 100%;
+        margin: 0;
+        background-color: rgba(255, 255, 255, 0.8); 
+      
+    }
+
+    .item_stat:nth-child(2){
+        margin: 6% 0
+    }
+
+    .stat_count {
+        font-size: 32px;
+    }
+
+    .stat_name {
+        font-size: 14px; 
+    }
+    /* end*/
+
+
+    /* news_row */
+    .news-row {
+        padding: 6% 10% 0;
+        flex-direction: column;
+    }
+
+    .news-row-left{
+        width: 100%;
+        padding: 0;
+    }
+
+    .news-row-right{
+
+    }
+
+    .news-row-right img{
+        /* width: 100%;
+        height: 100%;
+        object-fit: cover;    
+        margin: 0;
+        padding: 0; */
+        display: none;
+    }
+
+
+    .item_news{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .news_name{
+        font-size: 133%;
+        padding-bottom: 6%;
+        
+    }
+
+
+
+    .item_news .first_p{
+        font-size: 110%;
+        line-height: 23px;
+
+    }
+
+    .item_news .second_p{
+        font-size: 100%;
+        line-height: 23px;
+
+    }
+
+
+
+    /* news_row end*/  
+
+
+    /* footer*/  
+
+    .footer_cont {
+        flex-direction: column;
+    }
+
+    .center_col_footer{
+        display: none;
+    }
+
+    .left_col_footer,
+    .center_col_footer,
+    .right_col_footer{
+        flex: 0 0 100%;
+        max-width: 100%;
+        justify-content: left;
+    }
+
+
+    /* footer end*/  
+}
+  
+  /* Активное меню */
+  .header-center.active {
+    display: block;
+  }

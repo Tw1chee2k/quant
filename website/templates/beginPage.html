@@ -13,7 +13,7 @@
         <div class = "hellow_row_dop_name">
             в соответствии с нормативными документами по нормированию расхода топливно-энергетических ресурсов
         </div>
-        <div> 
+        <div class = "hellow_buttonarea"> 
             {% if current_user.is_authenticated and user.type != 'Аудитор'%}
                 <button onclick="window.location.href='/report_area'" type="" class = "main_button">Подать отчет</button>
             {% elif current_user.is_authenticated and user.type == 'Аудитор' %}
@@ -38,7 +38,7 @@
             <a class = "stat_name">предприятий</a>
         </div>
 
-        <div class="item_stat" style = "padding: 50px 0;">
+        <div class="item_stat">
             <div class = "stat_count">{{report_data}}</div>
             <a class = "stat_name">отчетов</a>
         </div>

@@ -5,17 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adap.css') }}">
     <title>{% block title %}Base{% endblock %}</title>
   </head>
   <body>  
 
     <header>
       <div class="header-left">
-          <img src="" alt="">
-         <a href="/">Erespondent-Online</a>
+         <nav>
+          <ul>  
+              <li class = "name_app" onclick="window.location.href='/'"> 
+                <img src="" alt="">
+                <a href="/">Erespondent-Online</a>
+              </li>
+
+              <li id="menu-button"> 
+                <a>
+                    <img class = "img_black" src="{{ url_for('static', filename='img/menu_black.png')}}" alt="">
+                    <img  class = "img_white" src="{{ url_for('static', filename='img/menu.png')}}" alt="">
+                </a>
+              </li> 
+
+          </ul>
+        </nav>
       </div>
       <div class="header-center">
+        
         <nav>
           <ul>
               <li onclick="window.location.href='/'">Главная</li>
@@ -27,9 +42,10 @@
               {% else %}
                 <li onclick="window.location.href='/login'" >Войти</li>
               {% endif %}
-
           </ul>
         </nav>
+
+        
       </div>
       <div class="header-right">
         <input type="checkbox" id="darkmode-toggle"/>
@@ -87,6 +103,7 @@
 
         </script>    
       <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/baseadap.js') }}"></script>
     {% endblock %}
 
 
