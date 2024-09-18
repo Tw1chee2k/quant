@@ -120,13 +120,70 @@ body {
         padding: 10px 5px ;
     }
     /*header end*/
+    
+    
+    /*acc */
+    .account_links{
+        padding-bottom: 10px;
+    }
+  
+    .account_cont .privetstvie_cont{
+        font-size: 20px;
+    }
 
- 
+
+    .account_cont .account_functions{
+        flex-direction: column;
+        width: 100%;
+        margin: 10px 0 20px 0;
+        width: calc(100% - 20px);
+        padding: 0 10px;
+      
+    }
+
+    .account_buttons{
+        width: 100%;  font-size: 13px;
+    }
+
+    .account_cont .account_functions .account_messages{
+        width: calc(100% - 10px);
+        margin: 0 5px;
+        
+    }
+
+    .message_cont .mes{
+        width: 100%;
+    }
+    /*acc end*/
 }    
 
 
 /* Для мобильных устройств */
 @media (max-width: 768px) {
+
+    /*-----------------------mes*/
+    .custom-alert {
+
+        right: -500px;
+        width: 25vb;
+    }    
+    /*-----------------------mes end*/
+
+    /*log_reg*/
+    .log_reg_form{
+        box-shadow: none;
+        padding: 30px; 
+    }
+
+
+    .link_cont{
+        
+        padding: 20px 0 60px 0 ;
+     
+    }
+    
+    /*log_reg end*/
+
 
     /*hellow_row*/
     .hellow_row {
@@ -163,10 +220,14 @@ body {
         background-color: transparent;
     }
 
+    .dark-mode .statistics-row {
+
+    }
+
     .statistics-row-left img {
         width: 100%; 
-        height: auto;
-        object-fit: cover;
+        height: 370px;
+        background-color: transparent;
     }
 
     .statistics-row-right {
@@ -178,7 +239,10 @@ body {
         height: 100%;
         margin: 0;
         background-color: rgba(255, 255, 255, 0.8); 
-      
+    }
+
+    .dark-mode .statistics-row-right {
+        background-color: rgba(0, 0, 0, 0.699); 
     }
 
     .item_stat:nth-child(2){
@@ -243,7 +307,6 @@ body {
     .item_news .second_p{
         font-size: 100%;
         line-height: 23px;
-
     }
 
 
