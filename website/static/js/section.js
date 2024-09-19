@@ -209,6 +209,27 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         xhr.send();
     }
+    /*всплывающее окно с inf vers*/
+    var INFModal = document.getElementById('INFModal');
+    var INFLink = document.getElementById('INFLink');
+    var CloseINF = document.getElementById('CloseINF');
+
+    INFLink.addEventListener('click', function() {
+        INFModal.style.display = 'block';
+    });
+
+    CloseINF.addEventListener('click', function() {
+        INFModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target == INFModal) {
+            INFModal.style.display = 'none';
+        }
+    });
+    /*end*/
+
+
 
     /*всплывающее окно с единицами измерения*/
     var DirUnitModal = document.getElementById('DirUnitModal');

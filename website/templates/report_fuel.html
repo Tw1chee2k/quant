@@ -72,6 +72,10 @@
                         </section>
                         <section>
                             <div class="functions_menu">
+                                <li id = "INFLink">           
+                                    <img src="{{ url_for('static', filename='img/.png')}}" alt="">
+                                    <a>Инф.</a>   
+                                </li> 
                                 <li id="DirUnitLink">
                                     <img src="{{ url_for('static', filename='img/icon_UOM.png') }}" alt="">
                                     <a>Ед. изм.</a>
@@ -102,14 +106,10 @@
                 <img class = "img_white" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
             </span>
             <span>
-                <a>Топливо ({{current_report.id}}, {{current_version.id}})</a>
+                <!-- <a>Топливо ({{current_report.id}}, {{current_version.id}})</a> -->
+                <a>Топливо</a>
             </span>
-            <span>
-                <a style = "font-size: 12px;">ОКПО: "{{current_report.okpo}}", 
-                    Наименование предприятия: "{{current_report.organization_name}}", 
-                    Год: {{current_report.year}}, 
-                    Квартал: {{current_report.quarter}}. </a>
-            </span>
+
         </div>
     </div>
 
@@ -400,7 +400,7 @@
                 <tr>
                     <td><span>[A]</span> Наименование вида продукции (работ, услуг)</td>
                     <td>
-                        <input type="text" name="name_of_product" style = "width: 400px; text-align: left;" readonly>
+                        <input type="text" name="name_of_product" style = " text-align: left;" readonly>
                         <div class="choose-product_area">
                             <div class = "serchProduct_cont">
                                 <a>Фильтр</a>
@@ -527,7 +527,7 @@
                     <td>Примечание</td>
                     <td>
                         <input
-                            style = "width: 400px; text-align: left;"          
+                            style = "text-align: left;"          
                             type="text"
                             name="note"
                             autocomplete="off"
@@ -551,13 +551,65 @@
             </table>    
             <button 
                 type = "submit" 
-                class = "main_button"
+                class = "main_button report-submit"
                 >Добавить
             </button>              
         </form>   
     </div>
 </div>
 
+
+<div id="INFModal" class="modal">
+    <div class="modal-content">
+        <div class = "modal-header">
+            <h3 class = "change-position">Информация об отчете</h3>
+            <a id = "CloseINF" class="close">&times;</a>
+        </div>
+        <table class="modal_table">
+            <tr>
+                <td>Наименование предприятия</td>
+                <td>
+                    <input 
+                        type="text" 
+                        style = ""
+                        value = "{{current_report.organization_name}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>ОКПО</td>
+                <td>
+                    <input 
+                        type="text" 
+                        value = "{{current_report.okpo}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>Год</td>
+                <td>
+                    <input 
+                        type="text" 
+                        value = "{{current_report.year}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>Квартал</td>
+                <td>
+                    <input 
+                        type="text" 
+                        value = "{{current_report.quarter}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 
 
 

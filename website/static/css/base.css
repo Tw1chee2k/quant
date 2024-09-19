@@ -60,7 +60,7 @@ body.dimmed {
     --delclr: rgb(255, 96, 96, 0.705);
 }
 
-/* .blurred-background {
+.blurred-background {
     position: absolute;
     top: 0;
     left: 0;
@@ -78,7 +78,7 @@ body.dimmed {
     background: linear-gradient(615deg, var(--color4), var(--color5), var(--color6));
     animation: gradient-animation-dark 15s ease infinite;  
     opacity: 1;
-} */
+}
 
 @keyframes gradient-animation {
     0% {
@@ -338,6 +338,11 @@ header nav ul {
 }
 
 
+.short_name_app{
+    display: none;
+    padding-right: 25px;
+}
+
 
 .header-right {
     text-align: right;
@@ -461,6 +466,7 @@ header nav ul {
 .header-center nav ul li {
     margin: 0 20px; 
     transition: color 0.3s ease;
+    cursor: pointer;
 }
 
 .header-center nav ul li:hover {
@@ -1480,7 +1486,10 @@ footer {
     display: flex;
     flex-direction: row;
     justify-content: left;
-    margin: 0 0 20px 82px;
+    margin: 10px 20px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    align-items: center;
 }
 
 .rotation-fromareas_info span {
@@ -1842,14 +1851,16 @@ footer {
     font-weight: 500;
     top: 0;
     left: 0;
+    width: 100%;
+    overflow-x: auto;
 }
 
 .report-area_menu-name {
     padding: 5px 10px;
     margin: 0;    
     display: inline-block;    
-    /* transition: background-color 0.3s ease, color 0.3s ease; */
     cursor: pointer;
+    
 }
 
 .content-podmenu {
@@ -1860,7 +1871,7 @@ footer {
     margin-bottom: 10px;
 }
 
-.report-area_podmenu :checked + .report-area_menu-name {
+.report-area_podmenu + .report-area_menu-name {
     position: relative; 
     top: 1px; 
     border-radius: 5px 5px 0 0;
@@ -2416,6 +2427,8 @@ th .resizer {
     max-height: 500px;
     max-width: 900px;
     position: relative;
+    overflow-y: auto;
+
 }
 
 .modal-content form{
@@ -2423,12 +2436,14 @@ th .resizer {
 }
 
 
-.modal-content button{
+.modal-content .report-submit{
     font-size: 14px;
     margin: 0;
-    margin: 30px 0 0 0;
+    margin-top: 20px;
     width: 200px;
-    height: 35px;
+    height: 100%;
+
+   
 }
 
 .modal_table .but_tr td:first-child {
@@ -2438,6 +2453,7 @@ th .resizer {
 .modal_table .but_tr td:last-child {
     text-align: right;
 }
+
 
 .dark-mode .modal-content {
     background-color:#333;
@@ -2529,7 +2545,12 @@ th .resizer {
     font-size: 12px; 
     font-weight: 500;   
     text-align: left;
+    align-items: center;
+
+    vertical-align: middle;
 }
+
+
 
 .modal_table .input-container {
     display: flex;
@@ -2546,6 +2567,7 @@ th .resizer {
     text-align: center;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
+    margin: 0 0 0 20px;
 }
 
 .dark-mode .modal_table .input-container .inc_button {
@@ -2603,6 +2625,8 @@ th .resizer {
     border: 1px solid rgb(217, 217, 217);  
     font-weight: 500; 
 }
+
+
 
 .dark-mode .modal_table input{
     color: rgb(255, 255, 255);
@@ -2680,7 +2704,7 @@ th .resizer {
 .choose-product_area {
     position: absolute;
     margin: 7px 0 0 20px;
-    max-width: 422px;
+    width: auto;
     background-color: white;
     border: none; 
     z-index: 2; 

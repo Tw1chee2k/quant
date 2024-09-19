@@ -24,7 +24,14 @@ body {
 
     .name_app{
         display: none;
+    }    
+    
+
+
+    .short_name_app{
+        display: block;
     }
+
 
     #menu-button {
         display: block;
@@ -156,6 +163,17 @@ body {
     }
     /*acc end*/
 }    
+
+
+@media (max-width: 800px) {
+    .report-area_menu{
+
+    }
+
+}
+
+
+
 
 
 /* Для мобильных устройств */
@@ -332,8 +350,39 @@ body {
         justify-content: left;
     }
 
-
     /* footer end*/  
+
+
+    /* modal */ 
+
+    .modal-content {
+        border-radius: 5px;
+        background-color: rgb(255, 255, 255);
+        margin: 30% auto;    
+        max-width: 100%;
+    }
+
+
+
+    .modal_table tr td{
+        
+        display: flex;
+
+    }
+
+    .modal_table tr td input{
+        margin: 0;
+   
+    }
+
+    .modal_table .input-container .inc_button {
+        margin: 0;
+    }
+    
+
+    /* modal end*/ 
+
+
 }
   
   /* Активное меню */

@@ -72,6 +72,10 @@
                         </section>
                         <section>
                             <div class="functions_menu">
+                                <li id = "INFLink">           
+                                    <img src="{{ url_for('static', filename='img/.png')}}" alt="">
+                                    <a>Инф.</a>   
+                                </li> 
                                 <li id="DirUnitLink">
                                     <img src="{{ url_for('static', filename='img/icon_UOM.png') }}" alt="">
                                     <a>Ед. изм.</a>
@@ -101,15 +105,10 @@
                 <img class = "img_white" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
             </span>
             <span>
-                <a>Тепло ({{current_report.id}}, {{current_version.id}})</a>
+                <!-- <a>Топливо ({{current_report.id}}, {{current_version.id}})</a> -->
+                <a>Тепло</a>
             </span>
-            <span>
-                <a style = "font-size: 12px;">ОКПО: "{{current_report.okpo}}", 
-                    <!-- УНП: "{{current_user.organization.ynp}}", -->
-                    Наименование предприятия: {{current_report.organization_name}}, 
-                    Год: {{current_report.year}}, 
-                    Квартал: {{current_report.quarter}}. </a>
-            </span>
+
         </div>
     </div>
     <div class = "report-area">
@@ -558,6 +557,57 @@
         </form>   
     </div>
 </div>
+<div id="INFModal" class="modal">
+    <div class="modal-content">
+        <div class = "modal-header">
+            <h3 class = "change-position">Информация об отчете</h3>
+            <a id = "CloseINF" class="close">&times;</a>
+        </div>
+        <table class="modal_table">
+            <tr>
+                <td>Наименование предприятия</td>
+                <td>
+                    <input 
+                        type="text" 
+                        style = "width: 350px;"
+                        value = "{{current_report.organization_name}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>ОКПО</td>
+                <td>
+                    <input 
+                        type="text" 
+                        value = "{{current_report.okpo}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>Год</td>
+                <td>
+                    <input 
+                        type="text" 
+                        value = "{{current_report.year}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>Квартал</td>
+                <td>
+                    <input 
+                        type="text" 
+                        value = "{{current_report.quarter}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 <div id="DirUnitModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -659,7 +709,57 @@
     </div>
 </div>
 
-
+<div id="INFModal" class="modal">
+    <div class="modal-content">
+        <div class = "modal-header">
+            <h3 class = "change-position">Информация об отчете</h3>
+            <a id = "CloseINF" class="close">&times;</a>
+        </div>
+        <table class="modal_table">
+            <tr>
+                <td>Наименование предприятия</td>
+                <td>
+                    <input 
+                        type="text" 
+                        style = "width: 350px;"
+                        value = "{{current_report.organization_name}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>ОКПО</td>
+                <td>
+                    <input 
+                        type="text" 
+                        value = "{{current_report.okpo}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>Год</td>
+                <td>
+                    <input 
+                        type="text" 
+                        value = "{{current_report.year}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>Квартал</td>
+                <td>
+                    <input 
+                        type="text" 
+                        value = "{{current_report.quarter}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 
 <div id="contextmenufuel" class="white-panel">
     <button id = "link_changefuel_modal">
