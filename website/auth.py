@@ -620,11 +620,11 @@ def add_section_param():
         else:
             flash('Версия не найдена', 'error') 
     if section_number == '1':
-        return redirect(url_for('views.report_fuel', id=current_version_id))
+        return redirect(url_for('views.report_section', report_type='fuel', id=current_version_id))
     elif section_number == '2':
-        return redirect(url_for('views.report_heat', id=current_version_id))
+        return redirect(url_for('views.report_section', report_type='heat', id=current_version_id))
     elif section_number == '3':
-        return redirect(url_for('views.report_electro', id=current_version_id))
+        return redirect(url_for('views.report_section', report_type='electro', id=current_version_id))
 
 @auth.route('/change_section', methods=['POST'])
 def change_section():
@@ -723,11 +723,11 @@ def change_section():
             flash('Версия не найдена', 'error')
 
         if(current_section.section_number == 1):
-            return redirect(url_for('views.report_fuel', id=id_version))
+            return redirect(url_for('views.report_section', report_type='fuel', id=id_version))
         elif(current_section.section_number == 2):
-            return redirect(url_for('views.report_heat', id=id_version))
+            return redirect(url_for('views.report_section', report_type='heat', id=id_version))
         elif(current_section.section_number == 3):
-            return redirect(url_for('views.report_electro', id=id_version))  
+            return redirect(url_for('views.report_section', report_type='electro', id=id_version))
 
 @auth.route('/remove_section/<id>', methods=['POST'])
 def remove_section(id):
@@ -767,11 +767,11 @@ def remove_section(id):
             flash('Версия не найдена', 'error')
 
         if(section_numberDELsection == 1):
-            return redirect(url_for('views.report_fuel', id=id_version))
+            return redirect(url_for('views.report_section', report_type='fuel', id=id_version))
         elif(section_numberDELsection == 2):
-            return redirect(url_for('views.report_heat', id=id_version))
+            return redirect(url_for('views.report_section', report_type='heat', id=id_version))
         elif(section_numberDELsection == 3):
-            return redirect(url_for('views.report_electro', id=id_version))
+            return redirect(url_for('views.report_section', report_type='electro', id=id_version))
         
 @auth.route('/control_version/<id>', methods=['POST'])
 def control_version(id):

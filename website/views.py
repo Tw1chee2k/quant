@@ -713,24 +713,55 @@ def report_area():
                            organization=organization,
                            version=version)
 
-@views.route('/report_area/fuel/<int:id>')
+@views.route('/report_area/<string:report_type>/<int:id>')
 @profile_complete
 @login_required
 @owner_only
-def report_fuel(id):
-    dirUnit = DirUnit.query.filter_by().all()
-    dirProduct = DirProduct.query.filter(DirProduct.IsFuel == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
+def report_section(report_type, id):
+    dirUnit = DirUnit.query.all()
+    
+    if report_type == 'fuel':
+        dirProduct = DirProduct.query.filter(
+            DirProduct.IsFuel == True,
+            ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])
+        ).order_by(asc(DirProduct.CodeProduct)).all()
+        section_number = 1
+        sections_data = [
+            (id, 288, 9100, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 285, 9010, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 282, 9001, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+        ]
+    elif report_type == 'heat':
+        dirProduct = DirProduct.query.filter(
+            DirProduct.IsHeat == True,
+            ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])
+        ).order_by(asc(DirProduct.CodeProduct)).all()
+        section_number = 2
+        sections_data = [
+            (id, 290, 9100, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 287, 9010, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 284, 9001, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+        ]
+    elif report_type == 'electro':
+        dirProduct = DirProduct.query.filter(
+            DirProduct.IsElectro == True,
+            ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])
+        ).order_by(asc(DirProduct.CodeProduct)).all()
+        section_number = 3
+        sections_data = [
+            (id, 292, 9100, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 289, 9010, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 286, 9001, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+        ]
+    else:
+        return render_template('views.not_found', error = 'Ошибка при выборе типа отчета')
+
     current_version = Version_report.query.filter_by(id=id).first()
     current_report = Report.query.filter_by(id=current_version.report_id).first()
     
-    sections = Sections.query.filter_by(id_version=current_version.id, section_number=1).all()
+    sections = Sections.query.filter_by(id_version=current_version.id, section_number=section_number).all()
 
     if not sections:
-        sections_data = [
-            (id, 288, 9100, 1, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-            (id, 285, 9010, 1, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-            (id, 282, 9001, 1, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-        ]
         for data in sections_data:
             section = Sections(
                 id_version=data[0],
@@ -743,107 +774,16 @@ def report_fuel(id):
                 Consumed_Fact=data[7],
                 Consumed_Total_Quota=data[8],
                 Consumed_Total_Fact=data[9],
-                total_differents = data[10],
+                total_differents=data[10],
                 note=data[11]
             )
             db.session.add(section)
         db.session.commit()
-    sections = Sections.query.filter_by(id_version=current_version.id, section_number=1).order_by(desc(Sections.id)).all()
-    return render_template('report_fuel.html', 
-        sections=sections,              
-        dirUnit=dirUnit,
-        dirProduct=dirProduct,
-        current_user=current_user, 
-        current_report=current_report,
-        current_version=current_version
-    )
 
-@views.route('/report_area/heat/<int:id>')
-@profile_complete
-@login_required
-@owner_only
-def report_heat(id):
-    dirUnit = DirUnit.query.filter_by().all()
-    dirProduct = DirProduct.query.filter(DirProduct.IsHeat == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
+    sections = Sections.query.filter_by(id_version=current_version.id, section_number=section_number).order_by(desc(Sections.id)).all()
     
-    current_version = Version_report.query.filter_by(id=id).first()
-    current_report = Report.query.filter_by(id=current_version.report_id).first()
-   
-    sections = Sections.query.filter_by(id_version=current_version.id, section_number=2).all()
-    specific_codes = ['9001', '9010', '9100']
-
-    if not sections:
-        sections_data = [
-            (id, 290, 9100, 2, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-            (id, 287, 9010, 2, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-            (id, 284, 9001, 2, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-        ]
-        for data in sections_data:
-            section = Sections(
-                id_version=data[0],
-                id_product=data[1],
-                code_product=data[2],
-                section_number=data[3],
-                Oked=data[4],
-                produced=data[5],
-                Consumed_Quota=data[6],
-                Consumed_Fact=data[7],
-                Consumed_Total_Quota=data[8],
-                Consumed_Total_Fact=data[9 ],
-                total_differents = data[10],
-                note=data[11]
-            )
-            db.session.add(section)
-        db.session.commit()
-    sections = Sections.query.filter_by(id_version=current_version.id, section_number=2).order_by(desc(Sections.id)).all()
-    return render_template('report_heat.html', 
-        sections=sections,              
-        dirUnit=dirUnit,
-        dirProduct=dirProduct,
-        current_user=current_user, 
-        current_report=current_report,
-        current_version=current_version
-    )
-
-@views.route('/report_area/electro/<int:id>')
-@profile_complete
-@login_required
-@owner_only
-def report_electro(id):
-    dirUnit = DirUnit.query.filter_by().all()
-    dirProduct = DirProduct.query.filter(DirProduct.IsElectro == True, ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])).order_by(asc(DirProduct.CodeProduct)).all()
-    
-    current_version = Version_report.query.filter_by(id=id).first()
-    current_report = Report.query.filter_by(id=current_version.report_id).first()
-    
-    sections = Sections.query.filter_by(id_version=current_version.id, section_number=3).all()
-
-
-    if not sections:
-        sections_data = [
-            (id, 289, 9100, 3, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-            (id, 286, 9010, 3, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-            (id, 283, 9001, 3, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-        ]
-        for data in sections_data:
-            section = Sections(
-                id_version=data[0],
-                id_product=data[1],
-                code_product=data[2],
-                section_number=data[3],
-                Oked=data[4],
-                produced=data[5],
-                Consumed_Quota=data[6],
-                Consumed_Fact=data[7],
-                Consumed_Total_Quota=data[8],
-                Consumed_Total_Fact=data[9],
-                total_differents = data[10],
-                note=data[11]
-            )
-            db.session.add(section)
-        db.session.commit()
-    sections = Sections.query.filter_by(id_version=current_version.id, section_number=3).order_by(desc(Sections.id)).all()
-    return render_template('report_electro.html', 
+    return render_template('report_sections.html', 
+        section_number=section_number,
         sections=sections,              
         dirUnit=dirUnit,
         dirProduct=dirProduct,

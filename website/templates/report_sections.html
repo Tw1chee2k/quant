@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Раздел Топливо{% endblock %}
+{% block title %}Раздел {{section_number}}{% endblock %}
 {% block content %}
 <div class = "report-area_page">
     <div class = "report-area_menu">
@@ -18,16 +18,25 @@
                         </section>           
                         <section>
                             <div class = "functions_menu">
-                                <li onclick="window.location.href='/report_area/fuel/{{current_version.id}}'" class = "activefunctions_menu">         
+                                <li onclick="window.location.href='/report_area/fuel/{{current_version.id}}'" 
+                                {%if section_number == 1 %} 
+                                    class = "activefunctions_menu"
+                                {%endif%}>         
                                     <img src="{{ url_for('static', filename='img/Toplivo.png')}}" alt="">
                                     <a>Топливо</a>   
                                 </li>
-                                <li onclick="window.location.href='/report_area/heat/{{current_version.id}}'">                      
+                                <li onclick="window.location.href='/report_area/heat/{{current_version.id}}'"
+                                {%if section_number == 2 %} 
+                                    class = "activefunctions_menu"
+                                {%endif%}>                      
                                     <img src="{{ url_for('static', filename='img/Teplo.png')}}" alt="">
                                     <a>Тепло</a>
                                 </li>
 
-                                <li onclick="window.location.href='/report_area/electro/{{current_version.id}}'"  >           
+                                <li onclick="window.location.href='/report_area/electro/{{current_version.id}}'" 
+                                {%if section_number == 3 %} 
+                                    class = "activefunctions_menu"
+                                {%endif%} >           
                                     <img src="{{ url_for('static', filename='img/Electro.png')}}" alt="">
                                     <a>Электро</a>   
                                 </li>  
@@ -95,7 +104,15 @@
                 <img class = "img_white" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
             </span>
             <span>
-                <a>Топливо</a>
+                {%if section_number == 1 %} 
+                    <a>Топливо</a>
+
+                {%elif section_number == 2 %}
+                    <a>Тепло</a>
+
+                {%elif section_number == 3 %}
+                    <a>Электричество</a>
+                {%endif%}
             </span>
         </div>
     </div>
@@ -110,8 +127,14 @@
                     <th class="resizable" rowspan="2" style = "white-space: nowrap;">Код по ОКЭД<div class="resizer"></div></th>
                     <th class="resizable" rowspan="2">Единица измерения<div class="resizer"></div></th>
                     <th class="resizable" rowspan="2">Произведено продукции (работ, услуг) за отчетный период<div class="resizer"></div></th>
-                    <th class="resizable" colspan="2">Израсходовано на единицу продукции (работы, услуги) за отчетный период, кг у.т.<div class="resizer"></div></th>
-                    <th class="resizable" colspan="3">Израсходовано на всю произведенную продукцию (работу, услугу) за отчетный период, т у.т.<div class="resizer"></div></th>
+                    <th class="resizable" colspan="2">Израсходовано на единицу продукции (работы, услуги) за отчетный период, 
+                        {%if section_number == 1 %}кг у.т.{%elif section_number == 2 %}Мкал{%elif section_number == 3 %}кВтч{%endif%}
+                        <div class="resizer"></div>
+                    </th>
+                    <th class="resizable" colspan="3">Израсходовано на всю произведенную продукцию (работу, услугу) за отчетный период, 
+                        {%if section_number == 1 %} т у.т.{%elif section_number == 2 %}Гкал{%elif section_number == 3 %}тыс.кВтч{%endif%}
+                        <div class="resizer"></div>
+                    </th>
                     <th class="resizable" rowspan="2">Примечание<div class="resizer"></div></th>
                     <th rowspan="2"></th>
                 </tr>
@@ -408,7 +431,7 @@
                             name="add_id_product"
                             readonly
                         >
-                        <input type="hidden" value="1" name="section_number" id="section_number" readonly>
+                        <input type="hidden" value="{{section_number}}" name="section_number" id="section_number" readonly>
                     </td>
                 </tr>
             </table>    
