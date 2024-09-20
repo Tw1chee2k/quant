@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var close_changefuel_modal = document.getElementById('close_changefuel_modal');
     var remove_section = document.getElementById('remove_section');
 
+    close_changefuel_modal.addEventListener('click', function() {
+        changefuel_modal.style.display = 'none';
+    });
+
+
     fuelRows.forEach(function(row, index) {
         row.addEventListener('click', function(event) {
             if (event.button === 0 && this.dataset.id) {
@@ -165,23 +170,44 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     var nameOfProductInput = document.querySelector('input[name="name_of_product"]');
+
+
+
+
     var add_id_productInput = document.querySelector('input[name="add_id_product"]');
     var chooseProductArea = document.querySelector('.choose-product_area');
     var chooseProdTableBody = document.getElementById('chooseProdTableBody');
     var noResultsRow = document.getElementById('noResultsRow');
-    
-    nameOfProductInput.addEventListener('focus', function() {
-        chooseProductArea.style.display = 'block';
+
+
+    var nameOfProductButton = document.getElementById('nameOfProductButton');
+
+
+    nameOfProductButton.addEventListener('click', function() {
+        if (chooseProductArea.style.display === 'none' || chooseProductArea.style.display === '') {
+            chooseProductArea.style.display = 'block';
+            nameOfProductButton.textContent = '-';
+
+        } else {
+            chooseProductArea.style.display = 'none';
+            nameOfProductButton.textContent = '+';
+        }
     });
+
     
     chooseProdTableBody.addEventListener('click', function(event) {
         if (event.target.tagName === 'TD') {
             var productName = event.target.parentNode.querySelector('td:nth-child(2)').textContent;
             var productId = event.target.parentNode.querySelector('td:nth-child(4)').textContent;
             nameOfProductInput.value = productName;
+            nameOfProductInput.title = productName;
             add_id_productInput.value = productId;
+            
             chooseProductArea.style.display = 'none';
+            nameOfProductButton.textContent = '+';
+         
         }
+       
     });
 
     remove_section.addEventListener('click', function() {
@@ -275,36 +301,31 @@ document.querySelector('input[name="search_product"]').addEventListener('input',
     var filterText = this.value.trim().toLowerCase();
     var chooseProductArea = document.querySelector('.choose-product_area');
     var chooseProdTableBody = document.querySelector('#chooseProdTableBody');
-    var noResultsproduct = document.getElementById('noResultsRow');
+    const noResultsproduct = document.getElementById('noResultsRow');
 
-    if (filterText.length > 0) {
-        chooseProductArea.style.display = 'block';
-    } else {
-        chooseProductArea.style.display = 'none';
-    }
+    var hasVisibleRows = false;
+
 
     Array.from(chooseProdTableBody.querySelectorAll('tr')).forEach(function(row) {
         var codeProduct = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
         var productName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+    
         if (codeProduct.includes(filterText) || productName.includes(filterText)) {
             row.style.display = '';
-            noResultsproduct.style.display = 'block';
-        } else { 
-            row.style.display = 'none';
+            hasVisibleRows = true;
+        } else {
+            row.style.display = 'none'; 
         }
     });
-});
-
-document.addEventListener('click', function(event) {
-    var chooseProductArea = document.querySelector('.choose-product_area');
-    var nameOfProductInput = document.querySelector('input[name="name_of_product"]');
-    var search_productInput = document.querySelector('input[name="search_product"]')
-
-    if (!chooseProductArea.contains(event.target) && event.target !== nameOfProductInput) {
-        search_productInput.value = '';
-        chooseProductArea.style.display = 'none';
+    
+    if (!hasVisibleRows) {
+        noResultsproduct.style.display = 'block';
+    } else {
+        noResultsproduct.style.display = 'none';
     }
 });
+
+
 
 
 document.querySelector('#chooseProdTableBody').addEventListener('click', function(event) {

@@ -251,14 +251,12 @@ document.addEventListener('DOMContentLoaded', function () {
       if (headerCenter) {
           headerCenter.classList.remove('hidden');
           headerCenter.classList.add('show');
-          console.log('Панель показана'); // Отладка
       }  
     }
   function hideheaderCenter() {
       if (headerCenter) {
           headerCenter.classList.remove('show');
           headerCenter.classList.add('hidden');
-          console.log('Панель скрыта'); // Отладка
       }
   }
 

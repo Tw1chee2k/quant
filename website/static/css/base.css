@@ -25,6 +25,9 @@ html::-webkit-scrollbar-thumb {
     background-color: #d3d3d3;
 } */
 
+
+
+
 body {
     display: flex;
     flex-direction: column;
@@ -1425,14 +1428,14 @@ footer {
     overflow-y: auto; 
 }
 
-.message_cont::-webkit-scrollbar {
+/* .message_cont::-webkit-scrollbar {
     width: 5px;    
 }
   
 .message_cont::-webkit-scrollbar-thumb {
     background-color:#d3d3d3;
     border-radius: 5px;
-}
+} */
 
 .message_cont .mes{
     display: flex;box-sizing: border-box;
@@ -1486,8 +1489,8 @@ footer {
     display: flex;
     flex-direction: row;
     justify-content: left;
-    margin: 10px 20px;
-    margin-top: 0;
+    margin: 10px 50px;
+
     margin-bottom: 20px;
     align-items: center;
 }
@@ -1779,19 +1782,6 @@ footer {
     max-height: 240px;
 }
 
-.choose-organization_area .table_body_container::-webkit-scrollbar {
-    width: 7px;
-}
-  
-.choose-organization_area .table_body_container::-webkit-scrollbar-track {
-    -webkit-box-shadow:none;
-}
-
-.choose-organization_area .table_body_container::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: #d8d6d6;
-    cursor: pointer;
-}
 
 #chooserOganizationTableBody tr:hover{
     background-color: #ebebeb;
@@ -1855,6 +1845,34 @@ footer {
     overflow-x: auto;
 }
 
+.report-area_menu::-webkit-scrollbar, 
+.report-area::-webkit-scrollbar,
+.choose-product_area::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+}
+  
+.report-area_menu::-webkit-scrollbar-track,
+.report-area::-webkit-scrollbar-track,
+.choose-product_area::-webkit-scrollbar-track{
+    border-radius: 10px;
+}
+
+.report-area_menu::-webkit-scrollbar-thumb,
+.report-area::-webkit-scrollbar-thumb,
+.choose-product_area::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #d3d3d3;
+}
+
+.dark-mode .report-area_menu::-webkit-scrollbar-thumb,
+.dark-mode .report-area::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #616161;
+}
+
+
 .report-area_menu-name {
     padding: 5px 10px;
     margin: 0;    
@@ -1868,7 +1886,6 @@ footer {
     padding: 0 10px;
     left: 0;
     right: 0;
-    margin-bottom: 10px;
 }
 
 .report-area_podmenu + .report-area_menu-name {
@@ -2095,17 +2112,9 @@ footer {
     flex-direction: row;
     overflow-x: auto;
     margin-bottom: 30px;
+    margin-top: 10px;
 }
 
-.report-area::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-}
-
-.report-area::-webkit-scrollbar-thumb {
-    background-color:rgb(221, 221, 221); 
-    border-radius: 5px;
-}
 
 
 .table_report-area {
@@ -2424,7 +2433,7 @@ th .resizer {
     padding: 20px;
     width: fit-content;
     height:fit-content;
-    max-height: 500px;
+    /* max-height: 500px; */
     max-width: 900px;
     position: relative;
     overflow-y: auto;
@@ -2436,15 +2445,18 @@ th .resizer {
 }
 
 
+
+
 .modal-content .report-submit{
     font-size: 14px;
     margin: 0;
     margin-top: 20px;
     width: 200px;
-    height: 100%;
+    height: 33px;
 
    
 }
+
 
 .modal_table .but_tr td:first-child {
     text-align: left;
@@ -2463,14 +2475,17 @@ th .resizer {
 .modal-header{
     display: flex;
     justify-content: space-between;
-    vertical-align: middle;
-    text-align: center;
-    align-items: center;
+
     margin-bottom: 20px;
 }
 
 .change-position{
     cursor: move;
+    text-align: center;
+    display: flex;
+    align-items: center;
+
+    vertical-align: middle;
 }
 
 .close {
@@ -2506,19 +2521,6 @@ th .resizer {
     background-color:#4d4d4d;
 }
 
-.spravochniki_area::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-}
-  
-.spravochniki_area::-webkit-scrollbar-track {
-    -webkit-box-shadow: 5px 5px 5px -5px rgba(141, 64, 64, 0.253) inset;
-}
-
-.spravochniki_area::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: #d8d6d6;
-}
 /*end */
 
 
@@ -2545,12 +2547,9 @@ th .resizer {
     font-size: 12px; 
     font-weight: 500;   
     text-align: left;
-    align-items: center;
-
+    align-items: end;
     vertical-align: middle;
 }
-
-
 
 .modal_table .input-container {
     display: flex;
@@ -2617,8 +2616,9 @@ th .resizer {
 .modal_table input{
     height: 26px;  
     width: 100px;
+
     padding: 0 10px;
-    margin: 0 20px;
+    margin-left: 20px;
     text-align: right;
     font-size: 12px; 
     border-radius: 5px;
@@ -2703,21 +2703,26 @@ th .resizer {
 
 .choose-product_area {
     position: absolute;
-    margin: 7px 0 0 20px;
-    width: auto;
+    right: 20px;
+    max-width: 400px;
+    height: auto;
+    max-height: 300px;
+    overflow-y: auto;
     background-color: white;
     border: none; 
-    z-index: 2; 
+    z-index: 100; 
     display: none;
     align-items: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
-
-
-
 
 .dark-mode .choose-product_area {
     background-color: #333;
+}
+
+.product_area .order-table_titels {
+    top: 0;
+    position: sticky;
 }
 
 .serchProduct_cont{
@@ -2729,12 +2734,10 @@ th .resizer {
     margin: 10px;
 }
 
-.choose-product_area .table_report-area thead {
+.serchProduct_cont input[name = "search_product"]{
     width: 100%;
-}
-
-.choose-product_area .table_report-area tbody {
-    width: 100%;
+    margin: 0 20px;
+    max-width: none;
 }
 
 .table_body_container {
@@ -2742,18 +2745,33 @@ th .resizer {
     overflow-y: auto;
 }
 
-.table_body_container::-webkit-scrollbar {
-    width: 5px;
-}
-  
-.table_body_container::-webkit-scrollbar-track {
-    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+#nameOfProductButton{
+    height: calc(100% - 6px);
+    display: flex;
+    text-align: center;
+    width: 25px;
+    justify-content: center;
+    vertical-align: middle;
+    font-size: 22px;
+    align-items: center;
+    font-weight: 500;
+    cursor: pointer;
+    position: absolute; 
+    padding: 2px;
+    top: 0;
+    right: 0; 
+    background-color: #f0f0f0;
+    border: 1px solid rgb(217, 217, 217);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
-.table_body_container::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: #d8d6d6;
+.dark-mode #nameOfProductButton{
+    color: white;
+    background-color: #3b3b3b;
+    border: 1px solid rgb(121, 121, 121);  
 }
+
 
 .search_product_input{
     margin: 10px;
@@ -2768,15 +2786,14 @@ th .resizer {
     background-color: #6e6e6e;
 }
 
-.choose-product_area input{
-    max-width: 422px;
-}
+
 
 .choose-product_area button{
     font-size: 12px;
     margin: 3px 20px 0 0;
     width: 180px;
     height: 35px;
+    z-index: 1;
 }
 
 /*sections page end*/
