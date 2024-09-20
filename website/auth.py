@@ -535,7 +535,12 @@ def add_section_param():
                     proverka_section = Sections.query.filter_by(id_version=current_version_id, section_number=section_number, id_product=current_product.IdProduct).first()
                     if proverka_section:
                         flash('Такой вид продукции уже существует', 'error')
-                        return redirect(url_for('views.report_fuel', id=current_version_id))
+                        if section_number == '1':
+                            return redirect(url_for('views.report_section', report_type='fuel', id=current_version_id))
+                        elif section_number == '2':
+                            return redirect(url_for('views.report_section', report_type='heat', id=current_version_id))
+                        elif section_number == '3':
+                            return redirect(url_for('views.report_section', report_type='electro', id=current_version_id))
                     else:
                         new_section = Sections(
                             id_version=current_version_id,
@@ -789,7 +794,7 @@ def control_version(id):
             for key, section in sections.items():
                 if section is None or not section.note:
                     flash('Примечание с кодом строки "9010" обязательно для заполнения', 'error')
-                    return redirect(url_for(f'views.report_{key}', id=id_version))
+                    return redirect(url_for('views.report_section', report_type=key, id=id_version))
             
             current_version.status = 'Контроль пройден'
             db.session.commit()
