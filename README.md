@@ -1,4 +1,5 @@
-A web-based reporting application
+A web application for compiling reports on energy consumption of various enterprises.
+
 ![image](https://github.com/user-attachments/assets/3b554370-e926-434c-ba5d-f3cdb3b0d28c)
 
 ![image](https://github.com/user-attachments/assets/9e6f4546-8fc9-45f2-b0dd-77137d03211f)
