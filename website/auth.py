@@ -51,7 +51,7 @@ def load_user(id):
     return User.query.get(int(id))
 
 @auth.route('/login', methods=['GET', 'POST'])
-def login():
+async def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = str(request.form.get('password'))
@@ -74,12 +74,12 @@ def login():
 
 @auth.route('/logout')
 @login_required
-def logout():
+async def logout():
     logout_user()
     flash('Выполнен выход из аккаунта', 'success')
     return redirect(url_for('views.login'))
 
-def send_email(message_body, recipient_email):
+async def send_email(message_body, recipient_email):
     smtp_server = 'smtp.mail.ru'
     smtp_port = 587 
     email_address = 'tw1.ofcompay@mail.ru'  
@@ -95,16 +95,16 @@ def send_email(message_body, recipient_email):
     server.send_message(message)
     server.quit()
 
-def send_activation_email(user):
+async def send_activation_email(user):
     token = generate_activation_token(user.email)
     activation_link = url_for('auth.activate_account', token=token, _external=True)
     message_body = f'Чтобы активировать вашу учетную запись, перейдите по следующей ссылке: {activation_link}'
     send_email(message_body, user.email)
 
-def generate_activation_token(email):
+async def generate_activation_token(email):
     return serializer.dumps(email, salt='email-confirm')
 
-def confirm_activation_token(token, expiration=3600):
+async def confirm_activation_token(token, expiration=3600):
     try:
         email = serializer.loads(token, salt='email-confirm', max_age=expiration)
     except:
@@ -112,7 +112,7 @@ def confirm_activation_token(token, expiration=3600):
     return email
 
 @auth.route('/sign', methods=['GET', 'POST'])
-def sign():
+async def sign():
     if request.method == 'POST':
         email = request.form.get('email')
         password1 = request.form.get('password1')
@@ -140,7 +140,7 @@ def sign():
     return redirect(url_for('views.sign'))
 
 @auth.route('/activate/<token>')
-def activate_account(token):
+async def activate_account(token):
     email = confirm_activation_token(token)
     if email:
         user = User.query.filter_by(email=email).first_or_404()
@@ -153,7 +153,7 @@ def activate_account(token):
         return redirect(url_for('auth.sign'))
 
 @auth.route('/add_personal_parametrs', methods=['GET', 'POST'])
-def add_personal_parametrs():
+async def add_personal_parametrs():
     if request.method == 'POST':
 
         name = request.form.get('name_common')
@@ -211,22 +211,22 @@ def add_personal_parametrs():
 
         return redirect(url_for('views.profile_common'))
 
-def update_user_activity():
+async def update_user_activity():
     if current_user.is_authenticated:
         current_user.update_activity()
 
 @auth.before_request
-def before_request():
+async def before_request():
     update_user_activity()
 
 @auth.route('/update_activity', methods=['POST'])
-def update_activity():
+async def update_activity():
     if current_user.is_authenticated:
         current_user.update_activity()
     return '', 204
 
 @auth.route('/profile/password', methods=['GET', 'POST'])
-def profile_password():
+async def profile_password():
     if request.method == 'POST':
         old_password = request.form.get('old_password')
         new_password = request.form.get('new_password')
@@ -250,14 +250,14 @@ def profile_password():
             flash('Введите пароль ', 'error')
     return redirect(url_for('views.profile_password'))
 
-def gener_password():
+async def gener_password():
     length=8
     characters = string.ascii_letters + string.digits
     password = ''.join(random.choice(characters) for _ in range(length))
     return password
 
 @auth.route('/relod_password', methods=['POST'])
-def relod_password():
+async def relod_password():
     email = request.form.get('email_relod')
 
     if not email:
@@ -279,7 +279,7 @@ def relod_password():
         return redirect(url_for('views.login'))
 
 @auth.route('/create_new_report', methods=['POST'])
-def create_new_report():
+async def create_new_report():
     if request.method == 'POST':    
         organization_name = request.form.get('modal_organization_name')
         okpo = request.form.get('modal_organization_okpo')
@@ -313,7 +313,7 @@ def create_new_report():
             flash(f'Отчет {year} года {quarter} квартала уже существует', 'error')
     return redirect(url_for('views.report_area'))
     
-def last_quarter():
+async def last_quarter():
     current_mounth = datetime.now().strftime("%m")
     if (current_mounth == '01' or current_mounth == '02' or current_mounth == '03'):
         last_quarter_value = 4
@@ -325,7 +325,7 @@ def last_quarter():
         last_quarter_value = 3
     return last_quarter_value
   
-def year_fourMounth_ago():
+async def year_fourMounth_ago():
     current_date = datetime.now()
     months_to_subtract = 4
     new_date = current_date - timedelta(days=months_to_subtract * 30)
@@ -333,7 +333,7 @@ def year_fourMounth_ago():
     return year_4_months_ago
 
 @auth.route('/update_report', methods=['POST'])
-def update_report():
+async def update_report():
     if request.method == 'POST':
         id = request.form.get('modal_report_id')
         okpo = request.form.get('modal_report_okpo')
@@ -377,7 +377,7 @@ def update_report():
         return redirect(url_for('views.report_area'))
     
 @auth.route('/сopy_report', methods=['POST'])
-def сopy_report():
+async def сopy_report():
     if request.method == 'POST':
         coppy_report_id = request.form.get('coppy_report_id')
 
@@ -439,7 +439,7 @@ def сopy_report():
         return redirect(url_for('views.report_area'))
 
 @auth.route('/delete_report/<report_id>', methods=['POST'])
-def delete_report(report_id):
+async def delete_report(report_id):
     if request.method == 'POST':
         current_report = Report.query.filter_by(id = report_id).first()
         versions = Version_report.query.filter_by(report_id = report_id).all()
@@ -467,7 +467,7 @@ def delete_report(report_id):
         return redirect(url_for('views.report_area'))
     
 @auth.route('/create_new_report_version/<int:id>', methods=['POST'])
-def create_new_report_version(id):
+async def create_new_report_version(id):
     if request.method == 'POST':
         new_version_report = Version_report(
             fio = current_user.fio,
@@ -481,7 +481,7 @@ def create_new_report_version(id):
     return redirect(url_for('views.report_area'))
 
 @auth.route('/delete_version/<int:id>', methods=['POST'])
-def delete_version(id):
+async def delete_version(id):
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=id).first()
         if current_version:
@@ -506,7 +506,7 @@ def delete_version(id):
     return redirect(url_for('views.report_area'))
 
 @auth.route('/add_section_param', methods=['POST'])
-def add_section_param():
+async def add_section_param():
     if request.method == 'POST':
         current_version_id = request.form.get('current_version')
         name = request.form.get('name_of_product')
@@ -632,7 +632,7 @@ def add_section_param():
         return redirect(url_for('views.report_section', report_type='electro', id=current_version_id))
 
 @auth.route('/change_section', methods=['POST'])
-def change_section():
+async def change_section():
     if request.method == 'POST':
         id_version = request.form.get('current_version')
         id_fuel = request.form.get('id')
@@ -735,7 +735,7 @@ def change_section():
             return redirect(url_for('views.report_section', report_type='electro', id=id_version))
 
 @auth.route('/remove_section/<id>', methods=['POST'])
-def remove_section(id):
+async def remove_section(id):
     if request.method == 'POST':
         delete_section = Sections.query.filter_by(id=id).first()
         id_version = delete_section.id_version
@@ -779,7 +779,7 @@ def remove_section(id):
             return redirect(url_for('views.report_section', report_type='electro', id=id_version))
         
 @auth.route('/control_version/<id>', methods=['POST'])
-def control_version(id):
+async def control_version(id):
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=id).first()
         id_version = current_version.id
@@ -805,7 +805,7 @@ def control_version(id):
         return redirect(url_for('views.report_area'))
     
 @auth.route('/agreed_version/<id>', methods=['POST'])
-def agreed_version(id):
+async def agreed_version(id):
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=id).first()
         if current_version.status == 'Контроль пройден':     
@@ -820,7 +820,7 @@ def agreed_version(id):
         return redirect(url_for('views.report_area'))
     
 @auth.route('/sent_version/<id>', methods=['POST'])
-def sent_version(id):
+async def sent_version(id):
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=id).first()
         if current_version.status == 'Согласовано':
@@ -844,7 +844,7 @@ def sent_version(id):
         return redirect(url_for('views.report_area'))
 
 @auth.route('/change_category_report', methods=['POST'])
-def change_category_report():
+async def change_category_report():
     action = request.form.get('action')
     report_id = request.form.get('reportId')
     url = request.form.get('url')
@@ -901,7 +901,7 @@ def change_category_report():
             return "Version not found", 404
 
 @auth.route('/send_comment', methods=['POST'])
-def send_comment():
+async def send_comment():
     if request.method == 'POST':
         version_id = request.form.get('version_id')
         resp_email = request.form.get('resp_email')
@@ -928,7 +928,7 @@ def send_comment():
         return redirect(url_for('views.audit_report', id = version_id))
 
 @auth.route('/export_table', methods=['POST'])
-def export_table():
+async def export_table():
     if request.method == 'POST':
         version_id = int(request.form.get('version_id'))
 
@@ -1058,7 +1058,7 @@ def export_table():
         return send_file(output, as_attachment=True, download_name='table_report.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
 @auth.route('/export_version/<id>', methods=['POST'])
-def export_version(id):
+async def export_version(id):
     if request.method == 'POST':
         version_id = id
 
@@ -1188,7 +1188,7 @@ def export_version(id):
         return send_file(output, as_attachment=True, download_name='table_report.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
 @auth.route('/print_ticket/<int:id>', methods=['POST'])
-def print_ticket(id):
+async def print_ticket(id):
     if request.method == 'POST':
         ticket = Ticket.query.get(id)
         version_report = ticket.version_report
@@ -1232,7 +1232,7 @@ def print_ticket(id):
         return send_file(buffer, as_attachment=True, download_name="ticket.pdf", mimetype="application/pdf")
     
 @auth.route('/export_ready_reports', methods=['POST'])
-def export_ready_reports():
+async def export_ready_reports():
     if request.method == 'POST':
         versions = Version_report.query.options(
             joinedload(Version_report.report),

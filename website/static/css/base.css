@@ -33,6 +33,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     background-color:#fff;
+    overflow-x: hidden;
     color: rgb(0, 0, 0);
 }
 
@@ -343,7 +344,7 @@ header nav ul {
 
 .short_name_app{
     display: none;
-    padding-right: 25px;
+    padding-right: 35px;
 }
 
 
@@ -777,7 +778,7 @@ footer {
     display: flex;
     flex-direction: row;
     text-transform: uppercase;
-    padding: 20px 120px 60px 15px ;
+    padding: 20px 100px 60px 15px ;
     cursor: pointer;
 }
 
@@ -1284,7 +1285,7 @@ footer {
     color: rgb(255, 255, 255);
     height: 136px;
     width: 100%;
-    max-width: 1190px;
+    max-width: 1170px;
     background-image: url('../img/begin_name2.jpg');
     text-shadow: 1px 1px 2px black;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.144);
@@ -2633,6 +2634,8 @@ th .resizer {
     background-color: #4d4d4d;
     border: 1px solid rgb(121, 121, 121);  
 }
+
+
 
 /* .modal_table select{
     height: 26px;  

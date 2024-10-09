@@ -92,18 +92,22 @@
             </tr>
             <tr>
                 <td> 
-                    <button type="button" class="main_button" style="margin-left: 0;" 
+                    <button 
+                        type="button"
+                        class="main_button" 
                         onclick="location.href='/audit_area/all_reports?year=&quarter='">
                         Все периоды
                     </button>
                 </td>
-                <td >
-                    <button type="button" class="main_button" onclick="filterSentedReports()">Выбранный период</button>
-                    
+                <td> 
+                    <button 
+                        type="button" 
+                        class="main_button" 
+                        onclick="filterSentedReports()">Выбранный период
+                    </button>
                 </td>
             </tr>
         </table>
     </div>
 </div>
-
 {% endblock %}

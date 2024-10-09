@@ -242,42 +242,40 @@ numeric_dotInputs.forEach(function(input) {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-      /* menuButton */
-  const menuButton = document.getElementById('menu-button');
-  const headerCenter = document.querySelector('.header-center');
-  let timeoutmenuButton;
-
-  function showheaderCenter() {
-      if (headerCenter) {
-          headerCenter.classList.remove('hidden');
-          headerCenter.classList.add('show');
-      }  
+    /* menuButton */
+    const menuButton = document.getElementById('menu-button');
+    const headerCenter = document.querySelector('.header-center');
+    
+    function showHeaderCenter() {
+        if (headerCenter) {
+            headerCenter.classList.remove('hidden');
+            headerCenter.classList.add('show');
+        }
     }
-  function hideheaderCenter() {
-      if (headerCenter) {
-          headerCenter.classList.remove('show');
-          headerCenter.classList.add('hidden');
-      }
-  }
-
-  function setupEventmenuButton(element) {
-      element.addEventListener('click', function() {
-          clearTimeout(timeoutmenuButton); 
-          showheaderCenter();
-          setTimeout(hideheaderCenter, 2000); 
-      });
-  }
-
-  if (menuButton && headerCenter) {
-      setupEventmenuButton(menuButton);
-
-      headerCenter.addEventListener('mouseenter', function() {
-          clearTimeout(timeoutmenuButton); 
-          showheaderCenter();
-          setTimeout(hideheaderCenter, 2000);
-      });
-    } 
-  
+    
+    function hideHeaderCenter() {
+        if (headerCenter) {
+            headerCenter.classList.remove('show');
+            headerCenter.classList.add('hidden');
+        }
+    }
+    
+    if (menuButton && headerCenter) {
+        menuButton.addEventListener('click', function(event) {
+            showHeaderCenter();
+            event.stopPropagation();
+        });
+    
+        document.addEventListener('click', function(event) {
+            if (!headerCenter.contains(event.target) && !menuButton.contains(event.target)) {
+                hideHeaderCenter();
+            }
+        });
+    
+        headerCenter.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    }
   /* end menuButton */
 
 
@@ -290,24 +288,24 @@ document.addEventListener('DOMContentLoaded', function () {
     const themeToggle = document.getElementById('darkmode-toggle');
     const body = document.body;
     const currentTheme = localStorage.getItem('theme') || 'light';
-    
+
     if (currentTheme === 'dark') {
-        body.classList.add('dark-mode');
-        themeToggle.checked = true; 
+        body.classList.add('dark-mode');     
     } else {
         body.classList.add('light-mode');
-        themeToggle.checked = false;
     }
-    
-    themeToggle.addEventListener('change', () => {
-        if (themeToggle.checked) {
-            body.classList.add('dark-mode');
-            body.classList.remove('light-mode');
-            localStorage.setItem('theme', 'dark');
-        } else {
+
+    themeToggle.addEventListener('click', () => {
+        if (body.classList.contains('dark-mode')) {
             body.classList.add('light-mode');
             body.classList.remove('dark-mode');
             localStorage.setItem('theme', 'light');
+            themeToggle.textContent = 'Темная тема';
+        } else {
+            body.classList.add('dark-mode');
+            body.classList.remove('light-mode');
+            localStorage.setItem('theme', 'dark');
+            themeToggle.textContent = 'Светлая тема';
         }
     });
     /* end change theme */
@@ -316,40 +314,43 @@ document.addEventListener('DOMContentLoaded', function () {
     const userImgs = document.querySelectorAll('.icon_black, .icon_white');
     const user_hover_navigation = document.getElementById('user_hover_navigation');
     let timeoutId;
-
+    
     function showUserHoverNavigation() {
         if (user_hover_navigation) {
             user_hover_navigation.classList.remove('hidden');
             user_hover_navigation.classList.add('show');
         }
     }
+    
     function hideUserHoverNavigation() {
         if (user_hover_navigation) {
             user_hover_navigation.classList.remove('show');
             user_hover_navigation.classList.add('hidden');
         }
     }
-
+    
     function setupEventListeners(element) {
-        element.addEventListener('click', function() {
+        element.addEventListener('click', function(event) {
             clearTimeout(timeoutId);
             showUserHoverNavigation();
-            setTimeout(hideUserHoverNavigation, 2000);
+            event.stopPropagation(); 
         });
     }
-
-    if (userImgs.length > 0 && user_hover_navigation) {
-        userImgs.forEach(setupEventListeners);
-
-        user_hover_navigation.addEventListener('mouseenter', function() {
-            clearTimeout(timeoutId);
-            showUserHoverNavigation();
-        });
-
-        user_hover_navigation.addEventListener('mouseleave', function() {
-            timeoutId = setTimeout(hideUserHoverNavigation, 2000);
-        });
-    }
+    
+    // Для всех иконок добавляем обработчик клика
+    userImgs.forEach(setupEventListeners);
+    
+    // Обработчик клика для документа
+    document.addEventListener('click', function(event) {
+        if (!user_hover_navigation.contains(event.target)) {
+            hideUserHoverNavigation();
+        }
+    });
+    
+    // Остановим скрытие, если клик был внутри user_hover_navigation
+    user_hover_navigation.addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
     /* end hoveruser panel */
 
     /* change size column in table */
