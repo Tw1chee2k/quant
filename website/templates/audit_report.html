@@ -18,6 +18,10 @@
                                 <li id = "RespondentLink">           
                                     <img src="{{ url_for('static', filename='img/icon_profile.png')}}" alt="">
                                     <a>Респондент</a>   
+                                </li> 
+                                <li id = "INFLink">           
+                                    <img src="{{ url_for('static', filename='img/icon_reports.png')}}" alt="">
+                                    <a>Отчет</a>   
                                 </li>  
                                 <li id = "showCommentsLink">           
                                     <img src="{{ url_for('static', filename='img/komments.png')}}" alt="">
@@ -98,14 +102,7 @@
                 <img class = "img_white" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
             </span>
             <span>
-                <a>Проверка отчета №{{current_version.id}}</a>
-            </span>
-            <span>
-                <a style = "font-size: 12px;">
-                    ОКПО: "{{current_report.okpo}}", 
-                    Наименование предприятия: {{current_report.organization_name}}, 
-                    Год: {{current_report.year}}, 
-                    Квартал: {{current_report.quarter}}. </a>
+                <a>Проверка отчета</a>
             </span>
         </div>
     </div>
@@ -697,6 +694,58 @@
     </div>
 </div>
 
+<div id="INFModal" class="modal">
+    <div class="modal-content">
+        <div class = "modal-header">
+            <h3 class = "change-position">Информация об отчете</h3>
+            <a id = "CloseINF" class="close">&times;</a>
+        </div>
+        <table class="modal_table">
+            <tr>
+                <td>Наименование предприятия</td>
+                <td>
+                    <input 
+                        style = "width: 250px"
+                        type="text"
+                        value = "{{current_report.organization_name}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>ОКПО</td>
+                <td>
+                    <input 
+                        type="text" 
+                        value = "{{current_report.okpo}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>Год</td>
+                <td>
+                    <input 
+                        type="text" 
+                        value = "{{current_report.year}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+            <tr>
+                <td>Квартал</td>
+                <td>
+                    <input 
+                        type="text" 
+                        value = "{{current_report.quarter}}"
+                        readonly
+                    >
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
 <div id="showCommentsModal" class="modal">
     <div class="modal-content">
         <div class = "modal-header">
@@ -740,10 +789,8 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Получаем значение статуса из контекста
         var currentStatus = "{{ current_version.status }}";
-
-        // Проверяем, равен ли статус 'Отправлен'
+    
         if (currentStatus !== 'Отправлен') {
             updateauditVeiwButtonStyle(false);
         } else {

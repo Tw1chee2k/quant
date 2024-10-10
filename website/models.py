@@ -62,6 +62,7 @@ class Version_report(db.Model):
     fio = db.Column(db.String(30))
     telephone = db.Column(db.String(20))    
     email = db.Column(db.String(50))
+    hasNot = db.Column(db.Boolean, default=False)
     report_id = db.Column(db.Integer, db.ForeignKey('report.id'))
     sections = db.relationship('Sections', backref='version_report', lazy=True, cascade="all, delete-orphan")
 

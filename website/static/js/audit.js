@@ -51,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function () {
         var imgs = document.querySelectorAll('.count-img');
         var texts = document.querySelectorAll('.count-text');
         
-        var not_read = document.querySelector('li[data-action="not_viewed"]');
         var with_remarks = document.querySelector('li[data-action="remarks"]');
         var to_conf = document.querySelector('li[data-action="to_download"]');
         var to_del = document.querySelector('li[data-action="to_delete"]');
@@ -59,29 +58,47 @@ document.addEventListener('DOMContentLoaded', function () {
         imgs.forEach((img, index) => {
             texts[index].style.display = isDragging ? 'none' : 'inline';
             
-            const draggingStyle = isDragging ? 'rgb(96, 255, 122)' : '';
-            // not_read.style.background = draggingStyle;
             with_remarks.style.background = isDragging ? 'rgba(255, 186, 96)' : '';
             to_conf.style.background = isDragging ? 'rgb(96, 255, 122)' : '';
             to_del.style.background = isDragging ? 'rgb(255, 96, 96)' : '';
 
             const colorStyle = isDragging ? 'black' : '';
-            // not_read.style.color = colorStyle;
             with_remarks.style.color = colorStyle;
             to_conf.style.color = colorStyle;
             to_del.style.color = colorStyle;
 
             const paddingStyle = isDragging ? '20px 50px' : '';
-            // not_read.style.padding = paddingStyle;
             with_remarks.style.padding = paddingStyle;
             to_conf.style.padding = paddingStyle;
             to_del.style.padding = paddingStyle;
 
             const marginStyle = isDragging ? '0' : '';
-            // not_read.style.marginBottom = marginStyle;
             with_remarks.style.marginBottom = marginStyle;
             to_conf.style.marginBottom = marginStyle;
             to_del.style.marginBottom = marginStyle;
+        });
+    }
+
+
+    function setDraggingStatetoNonread(isDragging) {
+        var imgs = document.querySelectorAll('.count-img');
+        var texts = document.querySelectorAll('.count-text');
+        
+        var not_read = document.querySelector('li[data-action="not_viewed"]');
+        imgs.forEach((img, index) => {
+            texts[index].style.display = isDragging ? 'none' : 'inline';
+            
+            const draggingStyle = isDragging ? 'rgb(96, 255, 122)' : '';
+            not_read.style.background = draggingStyle;
+
+            const colorStyle = isDragging ? 'black' : '';
+            not_read.style.color = colorStyle;
+
+            const paddingStyle = isDragging ? '20px 50px' : '';
+            not_read.style.padding = paddingStyle;
+
+            const marginStyle = isDragging ? '0' : '';
+            not_read.style.marginBottom = marginStyle;
         });
     }
 
@@ -121,25 +138,29 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         row.addEventListener('dragstart', function(event) {
-            var status = this.querySelector('input[value="Не просмотрено"]').value;
-            if (status === 'Не просмотрено') {
-                event.dataTransfer.setData('text/plain', this.dataset.id);
+            var reportId = this.dataset.id; 
+            var fifthColumnValue = this.children[5].querySelector('input').value;
+
+            if (fifthColumnValue === 'Не просмотрено') {
+                event.dataTransfer.setData('text/plain', reportId);
                 this.classList.add('dragging');
                 setDraggingState(true);
-        
-                if (previousReportRow !== null) {
-                    previousReportRow.classList.remove('active-report');
-                }
-                this.classList.add('active-report');
-                previousReportRow = this;
             } else {
                 event.preventDefault();
             }
+            
+            if (previousReportRow !== null) {
+                previousReportRow.classList.remove('active-report');
+            }
+            this.classList.add('active-report');
+            previousReportRow = this;
+          
         });
-
+        
         row.addEventListener('dragend', function(event) {
             this.classList.remove('dragging');
             setDraggingState(false);
+            setDraggingStatetoNonread(false);
         });
 
         row.addEventListener('dblclick', function() {
@@ -151,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     navigationItems.forEach(function(item) {
         var action = item.dataset.action;
-        if ([ 'remarks', 'to_download', 'to_delete'].includes(action)) {
+        if (['remarks', 'to_download', 'to_delete'].includes(action)) {
             item.addEventListener('dragover', function(event) {
                 event.preventDefault();
             });
@@ -177,37 +198,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     reportIdInput.value = reportId;
                     actionInput.value = action;
                     
-                    if (action === 'to_download'){
-                        form.submit();
-                    }
-                    else{
-                        var modal = document.getElementById('ChooseAuditModal');
-                        modal.style.display = 'block';
-                
-                        var submitButton = modal.querySelector('button.main_button');
-                        submitButton.onclick = function() {
-                            modal.style.display = 'none';
-                            window.location.href = `/audit_area/report/${reportId}?addCommentModal=true`;
-                        };
-                        var closeButton = modal.querySelector('button#close_submit');
-
-
-                        if (action === 'not_viewed'){
-                            closeButton.textContent = 'К не просмотренным';
-                        }
-                        else if(action === 'remarks'){
-                            closeButton.textContent = 'К исправлению';
-                        }
-                        else{
-                            closeButton.textContent = 'К удалению';
-                        }
-
-                        closeButton.onclick = function() {
-                            modal.style.display = 'none';
-                            form.submit();
-                        };
-            
-                    }
+                    form.submit();
+                 
                 }
             
                 if (previousReportRow !== null) {
@@ -279,3 +271,6 @@ document.getElementById('douwnload_readyreports_link').addEventListener('click',
 window.onload = function() {
     document.getElementById('url-input').value = window.location.href;
 };
+
+
+

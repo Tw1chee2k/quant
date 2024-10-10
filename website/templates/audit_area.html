@@ -50,6 +50,30 @@
         </div>
     </div>
     
+    <div class = "rotation-fromareas" >
+        <div class = "rotation-fromareas_info"> 
+            <span>
+                <a class = "hover_a" id = "link_period">Период</a>
+            </span>
+            <span> 
+                <img class = "img_black" src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
+                <img class = "img_white" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
+            </span>
+            <span>
+                
+                <a>
+                    {% if year_filter == '' and quarter_filter == '' %} 
+                        Всё время
+                    {%else%}
+                        {{year_filter}} год, {{quarter_filter}} квартал
+                    {%endif%}
+                </a>
+
+                
+            </span>
+        </div>
+    </div>
+
     <div class="audit-area">
         <nav class="menu_profile_audit">
             <ul id="status-reportList">
@@ -108,9 +132,10 @@
                             <th class="resizable" style="white-space: nowrap; min-width: 380px;">Организация<div class="resizer"></div></th>
                             <th class="resizable" style="white-space: nowrap; min-width: 140px;">Код ОКПО<div class="resizer"></div></th>
                             <th class="resizable" style="white-space: nowrap; min-width: 140px;">Дата поступления<div class="resizer"></div></th>
+                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Статус<div class="resizer"></div></th>
                             <th class="resizable" style="white-space: nowrap; min-width: 100px;">Год<div class="resizer"></div></th>
                             <th class="resizable" style="white-space: nowrap; min-width: 100px;">Квартал<div class="resizer"></div></th>
-                            <th class="resizable" style="white-space: nowrap; min-width: 140px;">Статус<div class="resizer"></div></th>
+                            
                             <th rowspan="2"></th>
                         </tr>
                     </thead>
@@ -128,26 +153,26 @@
                                 <td>
                                     <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
                                 </td>
-                                <td>
-                                    {% for version in row.versions %}            
-                                        <input type="text" value="{{version.sent_time}}" readonly> 
-                                    {% endfor %}                             
-                                </td>
+                                    {% for version in row.versions %}     
+                                        <td>       
+                                            <input type="text" value="{{version.sent_time}}" readonly> 
+                                        </td> 
+                                        <td>
+                                            {% if version.status == 'Отправлен' %}
+                                                <input type="text"  value="Не просмотрено" readonly>
+                                            {%else%}
+                                                <input type="text" value="{{version.status}}" readonly>
+                                            {% endif %}
+                                        </td> 
+                                    {% endfor %} 
+
                                 <td>
                                     <input type="text" id="report_year" value="{{ row.year }}" readonly>
                                 </td>
                                 <td>
                                     <input type="text" id="report_quarter" value="{{ row.quarter }}" readonly>
                                 </td>
-                                <td>
-                                    {% for version in row.versions %}
-                                        {% if version.status == 'Отправлен' %}
-                                            <input type="text"  value="Не просмотрено" readonly>
-                                        {%else%}
-                                            <input type="text" value="{{version.status}}" readonly>
-                                        {% endif %}
-                                    {% endfor %}
-                                </td>
+               
                                 <td></td>
                             </tr>
                         {% endfor %}
@@ -161,24 +186,12 @@
 <div id="ChooseAuditModal" class="modal">
     <div class="modal-content">
         <div class = "modal-header">
-            <h3 class = "change-position">Проверка</h3>
+            <h3 class = "change-position">Подтвердите действие</h3>
             <a class="close">&times;</a>
         </div>
         <div class="spravochniki_area">
             <table class = "modal_table">
-                <tr>
-                    <td>Для</td>
-                    <td>
-                        переход на страницу проверки отчета
-                    </td>
-                </tr>
-                <tr>
-                    <td>Закрыть</td>
-                    <td>
-                        комменатрий уже был оставлен, смена статуса отчета
-                    </td>
-                </tr>
-                <tr class = "but_tr">
+                <tr >
                     <td> 
                         <button 
                             id = "open_report"
@@ -187,14 +200,6 @@
                             onclick="location.href=''">
                             Оставить комментарий
                         </button>
-                    </td>
-                    <td>
-                        <button 
-                            id = "close_submit"
-                            type="button" 
-                            class="main_button">
-                        </button>
-                        
                     </td>
                 </tr>
             </table>  
@@ -207,6 +212,55 @@
     <button id="">
         <span>Просмотреть</span>
     </button>
+</div>
+
+<div id="period_modal" class="modal">
+    <div class="modal-content">
+        <div class = "modal-header">
+            <h3 class = "change-position">Выберите период</h3>
+            <a class="close">&times;</a>
+        </div>
+        <table class="modal_table">      
+            <tr>
+                <td>Год</td>
+                <td>
+                    <div class="input-container">
+                        <button class = "inc_button" type="button" style = "margin: 0 0 0 70px;" onclick="decrement_year()">-</button>
+                        <input  class = "inc_dis_input" type="text" id="quantity_year" value="{{year_today}}" name="modal_report_year" readonly>
+                        <button class = "dis_button" type="button" style = "margin: 0;" onclick="increment_year()">+</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Квартал</td>
+                <td>
+                    <div class="input-container">
+                        <button class = "inc_button" type="button" style = "margin: 0 0 0 70px;" onclick="decrement_quarter()">-</button>
+                        <input  class = "inc_dis_input" type="text" id="quantity_quarter" value="1" name="modal_report_quarter" readonly>
+                        <button class = "dis_button" type="button" style = "margin: 0;" onclick="increment_quarter()">+</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td> 
+                    <button 
+                        type="button"
+                        class="main_button" 
+                        onclick="location.href='/audit_area/all_reports?year=&quarter='">
+                        Все периоды
+                    </button>
+                </td>
+                <td style = "text-align: right;"> 
+                    <button 
+                       
+                        type="button" 
+                        class="main_button" 
+                        onclick="filterSentedReports()">Выбранный период
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 <script src="{{ url_for('static', filename='js/audit.js') }}"></script>

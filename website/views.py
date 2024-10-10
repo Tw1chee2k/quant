@@ -574,11 +574,13 @@ def sign():
 def login():
     return render_template('login.html', user=current_user)
 
+
+year_today = datetime.now().year
+
 @views.route('/account')
 @login_required
 def account():
     messages = Message.query.filter_by(user=current_user).order_by(Message.id.desc()).all()
-    year_today = datetime.now().year
     return render_template('account.html', 
                            year_today=year_today,
                            current_user=current_user, 
@@ -873,7 +875,8 @@ def audit_area(status):
                            to_deleteReports_count=counts['Готов к удалению'],
                            all_count = counts['Отправлен'] + counts['Есть замечания'] + counts['Одобрен'] + counts['Готов к удалению'],
                            year_filter=year_filter,
-                           quarter_filter=quarter_filter)
+                           quarter_filter=quarter_filter,
+                           year_today=year_today,)
 
 @views.route('/audit_area/report/<int:id>')
 @login_required

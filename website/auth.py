@@ -211,7 +211,7 @@ async def add_personal_parametrs():
 
         return redirect(url_for('views.profile_common'))
 
-async def update_user_activity():
+def update_user_activity():
     if current_user.is_authenticated:
         current_user.update_activity()
 
@@ -825,7 +825,8 @@ async def sent_version(id):
         current_version = Version_report.query.filter_by(id=id).first()
         if current_version.status == 'Согласовано':
             current_version.status = 'Отправлен'
-            current_version.sent_time = datetime.now()
+            if current_version.sent_time == None:
+                current_version.sent_time = datetime.now()
             db.session.commit()
             flash('Отчет отправлен', 'successful')
 
@@ -855,6 +856,10 @@ async def change_category_report():
 
         if current_version is not None: 
             user = User.query.filter_by(email=current_version.email).first()
+
+            if not current_version.hasNot and action != 'to_download':
+                flash('Необходимо уточнить о каких ошибках идет речь', 'error')
+                return redirect(url_for('views.audit_report', id=current_version.id)) 
 
             if action == 'not_viewed':
                 status_itog = 'Отправлен'
@@ -891,6 +896,7 @@ async def change_category_report():
             else:
                 flash('Неизвестное действие', 'error')
 
+            current_version.hasNot = False
             current_version.status = status_itog
             db.session.commit()
 
@@ -919,6 +925,8 @@ async def send_comment():
             )
 
             db.session.add(new_comment)
+            current_version.hasNot = True
+
             db.session.commit()
 
             flash('Комментарий создан', 'success')
