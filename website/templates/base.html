@@ -41,9 +41,9 @@
               <li onclick="window.location.href='/login'" >Войти</li>
             {% endif %}
               <li onclick="window.location.href='/'">Главная</li>
-              <li onclick="smoothScroll('/#news_row')">Новости</li>
-              <li onclick="window.location.href=''" >Контакты</li>
-              <li onclick="window.location.href=''" >Помощь</li>
+              <li onclick="smoothScroll('/news')">Новости</li>
+              <li onclick="window.location.href='/contacts'" >Контакты</li>
+              <li onclick="window.location.href='/help'" >Помощь</li>
               <li onclick="window.location.href='/FAQ'" >FAQ</li>
 
           </ul>
@@ -68,7 +68,7 @@
               src="{{ url_for('static', filename='img/icon_black-user.png')}}" alt="">
             <div id="user_hover_navigation" class="user_hover_navigation">
                 <button class = "user_hover_navigation_account" onclick="window.location.href='/account'">Личный кабинет</button>
-                <button class = "user_hover_navigation_account" id="darkmode-toggle">Сменить тему</button>
+                <!-- <button class = "user_hover_navigation_account" id="darkmode-toggle">Сменить тему</button> -->
                 <button class = "user_hover_navigation_logout" onclick="window.location.href='/logout'">Выйти</button>
             </div>
         </div>
@@ -115,16 +115,17 @@
         <div class = "left_col_footer">
           <nav>
             <ul>
-                <li onclick="window.location.href=''">Система проверки отчетов</li>
+                <li onclick="window.location.href=''">Erespondent-Online</li>
             </ul>
           </nav>
         </div>      
         <div class = "center_col_footer">
             <nav>
                 <ul>
-                  <li onclick="window.location.href=''">Новости</li>
-                  <li onclick="window.location.href=''" >Контакты</li>
-                  <li onclick="window.location.href=''" >FAQ</li>
+                  <li onclick="window.location.href='/news'">Новости</li>
+                  <li onclick="window.location.href='/contacts'" >Контакты</li>
+                  <li onclick="window.location.href='/help'" >Помощь</li>
+                  <li onclick="window.location.href='/FAQ'" >FAQ</li>
                 </ul>
             </nav>
         </div>

@@ -165,8 +165,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         row.addEventListener('dblclick', function() {
             var reportId = this.dataset.id;
+            
             var url = "/audit_area/report/" + reportId;
             window.location.href = url;
+
         });
     });
 

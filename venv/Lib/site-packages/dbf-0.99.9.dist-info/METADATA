@@ -1,0 +1,36 @@
+Metadata-Version: 2.1
+Name: dbf
+Version: 0.99.9
+Summary: Pure python package for reading/writing dBase, FoxPro, and Visual FoxPro .dbf files (including memos)
+Home-page: https://github.com/ethanfurman/dbf
+Author: Ethan Furman
+Author-email: ethan@stoneleaf.us
+License: BSD License
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python
+Classifier: Topic :: Database
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides: dbf
+Requires-Dist: aenum
+
+
+Currently supports dBase III, Clipper, FoxPro, and Visual FoxPro tables. Text is returned as unicode, and codepage settings in tables are honored. Memos and Null fields are supported.  Documentation needs work, but author is very responsive to e-mails.
+
+Not supported: index files (but can create tempory non-file indexes), auto-incrementing fields, and Varchar fields.
+
+Installation:  `pip install dbf`
+
+

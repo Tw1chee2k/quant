@@ -1,0 +1,455 @@
+What's New
+==========
+
+
+0.99.001
+--------
+
+Vapor objects are now Falsey
+'@' TimeStamp column type added to db3 tables
+fix encoding error when exporting csv files
+
+
+0.99.000
+--------
+
+BACKWARDS INCOMPATIBLE CHANGE:
+new records will have unspecified fields that are nullable set to Null
+
+
+0.98.004
+--------
+
+change default input encoding from 'ascii' to 'utf-8'
+improve unicode supporto
+default field case is now upper
+FieldnameList is used to support both upper- and lower-case field checks
+fix memo block size changing to default when copying
+
+
+0.98.003
+--------
+
+fix repr of Record and RecordTemplate
+fix > and >= for Date
+
+
+0.98.002
+--------
+
+fix file extension handling.
+
+
+0.98.001
+--------
+
+allow dbf files without .dbf ending
+allow any case for accessing field names
+
+
+0.98.000
+--------
+
+fix resize_field to work on empty tables
+fix export to fixed-width by using codecs.open
+allow non-standard characters in field names (with warnings)
+
+
+0.97.011
+--------
+
+allow '00000000' as a null date in dbf files
+
+
+0.97.010
+--------
+
+fixed nullable-field access in vfp tables
+
+
+0.97.009
+--------
+
+allow tzinfo addition/change in DateTime.combine()
+fix strptime for Time
+hook into datetime.datetime and .date equality comparisons
+
+
+0.97.008
+--------
+
+Marshalling a DateTime now works
+
+
+0.97.007
+--------
+
+add pytz support to Time and DateTime
+Marshalling a DateTime sends as UTC if possible
+
+
+0.97.004
+--------
+
+Fix bug in VFP doubles
+
+
+0.97.003
+--------
+
+Fix field creation flag handling
+Allow (redundant) "binary" flag on binary type fields
+
+
+0.97.002
+--------
+
+Fix fp/FoxBase table header creation
+
+
+0.97.001
+--------
+
+Can now open dbf files as read-only when lacking write permissions.
+
+
+0.97.000
+--------
+
+Moved to a single 2/3 code base.
+Opening a database now defaults to dbf.READ_ONLY; can also use dbf.READ_WRITE;
+the corresponding strings are no longer supported.
+
+
+0.96.008
+--------
+
+Handle vfp_double with decimal (Foxpro uses it for display purposes)
+    (thanks, Joshua Adelman!)
+
+
+0.96.007
+--------
+
+rev: 168   rename tests to test
+
+
+0.96.006
+--------
+
+restore pql
+
+
+0.96.005
+--------
+
+fix create_backup to use the active codepage, which may be different from
+the table's codepage
+
+
+0.96.004
+--------
+
+change duplicate NUMERIC to FLOAT
+add Float fields to tests
+change from_csv to write directly to disk if to_disk requested
+fix erronious access to _dirty in RecordTemplate
+
+
+0.96.003
+--------
+
+add 'basestring' to ver_2.py
+add 'basestring' to ver_2.py
+
+
+0.96.000
+--------
+
+add support for Python 3
+convert from module to package layout
+remove pql
+fix Time and DateTime signatures: microsec --> microseconds
+fix Time and DateTime .now() to truncate microseconds past thousands
+
+
+0.95.014
+--------
+
+use a sparse container for the table -- should make very large dbf files usable
+
+
+0.95.013
+--------
+
+Null fields properly ignored if table doesn't support it
+
+
+0.95.012
+--------
+
+adjust setup.py to require enum34
+
+add custom data types to xmlrpclib.Marshaller (marshalled as the underlying
+type)
+
+add support for storing numbers as scientific notation
+
+fixed DateTime.now() and Time.now() to only return milliseconds
+
+
+0.95.008
+--------
+
+fix Period.__contains__
+
+add new default_data_type to Table.__init__ of 'enhanced' which selects all
+the custom data types (Char, Logical, Date, DateTime)
+
+add string input type to Date, Time, and DateTime
+
+
+0.95.007
+--------
+
+Add .fromfloat() to Time
+
+Add .tofloat() to Time
+
+Add Period for matching various time periods 
+
+
+0.95.006
+--------
+
+Add .format() and .replace() to Date, Time, and DateTime
+
+Add nesting to Table context manager
+
+Add enumerations IsoDay, RelativeDay, IsoMonth, RelativeMonth
+
+
+0.95.003
+--------
+
+Fixed issue with incorrect memo size in base file (thanks, Glenn!)
+
+Memo file extensions now have the same casing as the dbf file's, and are
+searched for that way (thanks again, Glenn!)
+
+
+0.95.002
+--------
+
+Fixed the version number in this file for the last release. :/
+
+string slices now work for RecordTemplate
+
+
+0.95.001
+--------
+
+Miscellaneous bugs squashed.
+
+backup tables are created in the same location as the original table if TMP,
+TEMP, nor DBF_TEMP are defined in the environment
+
+delete() and undelete() now support RecordTemplate
+
+Process() and Templates() now support start, stop, and filter to allow finer
+control of which records will be returned.
+
+Added Relation, which makes linking two tables together on a common field easier.
+Not persistent.
+
+xBase-Compatibility Break: added utf8 codepage (xf0).
+
+Backwards-Compatibility Break: reverted Logical.__eq__ to return True if Logical
+is True, False otherwise; this properly mimics the behavior of using True/False/None
+directly.  If the previous behavior is desired, use Quantum instead (it uses the
+states On/Off/Other), or use `if some_var is Unknown: ... ; elif some_var ... ; else ... `.
+
+Many thanks to all who have helped with ideas and bug fixes.
+
+
+0.94.004
+--------
+
+Templates now use same (custom) data types as table they are created
+from.
+
+Added Index.index_search(match, start=None, stop=None, nearest=False, partial=False)
+which returns the index of the first match.  If nearest is False and nothing is found
+a NotFoundError is raised, otherwise the index of where the match would be is
+returned
+
+Added IndexLocation, which is a subclass of long and is returned by Index.index_search.
+Unlike normal numbers where 0 == False and anything else == True, IndexLocation is True if
+the number represents a found match, and False if the number represents where a match
+should be (a False value will only be returned if nearest == True).
+
+Backwards-Compatibility Break: memory-only tables are now specified with on_disk=True
+instead of bracketing the filename with ':'.  Removed dbf.codepage() and dbf.encoding()
+as users can directly access dbf.default_codepage and dbf.input_decoding.
+
+Backwards-Compatibility Break: .use_deleted no longer used (it disappeared sometime
+between .90.0 and now). Rationale: the deleted flag is just that: a flag.  The record is
+still present and still available.  If you don't want to use it, either check if the
+record has been deleted (dbf.is_deleted(record)) or create an index that doesn't include
+the deleted records... or pack the table and actually remove the records for good.
+
+
+0.94.003
+--------
+
+Minor bug fixes, more documentation.
+
+
+0.94.001
+--------
+
+Added support for Clipper's large Character fields (up to 65,519)
+
+More code clean-up and slight breakage::
+
+    - _Dbf* has had '_Dbf' removed  (_DbfRecord --> Record)
+    - DbfTable --> Table (Table factory function removed)
+
+
+0.94.000
+--------
+
+Massive backwards incompatible changes.
+
+export() method removed from Tables and made into a normal function.
+
+All non-underscore methods removed from the record class and made into
+normal functions::
+
+    - delete_record --> delete
+    - field_names --> field_names
+    - gather_records --> gather
+    - has_been_deleted --> is_deleted
+    - record_number --> recno
+    - reset_record --> reset
+    - scatter_records --> scatter
+    - undelete_record --> undelete
+    - write_record --> write
+
+Transaction methods removed entirely.
+
+Can use strings as start/stop of slices: `record['name':'age']`
+
+Record templates now exist, and are much like records except that they are
+not directly tied to a table and can be freely modified.  They can be created
+by either the `dbf.create_template` function or the `table.create_template` method.
+
+scatter() now returns a RecordTemplate instead of a dict, but the as_type parameter
+can be used to get dicts (or tuples, lists, whatever)
+
+
+0.93.020
+--------
+    Finished changes so other Python implementations should work (PyPy
+    definitely does).
+
+    Table signature changed -- `read_only`, `meta_only`, and `keep_memos`
+    dropped.
+
+    tables now have a `status` attribute which will be one of `closed`,
+    'read_only`, or `read_write`
+
+    `.append` no longer returns the newly added record (use table[-1] if you need it)
+    `.find` method removed (use `.query` instead);
+    `.sql` method removed (use `.query` instead);
+    `.size` renamed to `.field_size`;
+    `.type` renamed to `.field_type` (which returns a FieldType named tuple);
+
+    the way to change records has changed:
+
+        to update any/all fields at once:
+            record.write_record(field1=..., field2=...)
+
+            or
+
+            record.gather_fields(dict)
+
+        to update one field at a time:
+            2.6, 2.7 (2.5 using `from __future__ import with_statement`)
+            with record:
+                record.field1 = ...
+                record.field2 = ...
+
+            or
+
+            for record in dbf.Process(table | records):
+                record.field1 = ...
+                record.field2 = ...
+
+    attempting to change a field outside of these two methods will raise a
+    `DbfError`.
+
+    Changing behavior based on a transaction:
+
+        record.gather_fields()
+
+            if a transaction is not running this will write to disk
+            (no changes made if error occurs, exception reraised)
+
+            if a transaction is running, and an error occurs, the calling code
+            is responsible for calling .rollback_transaction() or otherwise
+            handling the problem (exception is reraised)
+
+        record.reset_record()
+
+            if a transaction is not running the changes are written to disk
+
+            if a transaction is running the changes are not written to disk
+
+    `xxx in table` and `xxx in record` used to be a field-name check - it is
+    now a record / value check; use `xxx in table.field_names` and
+    `xxx in record.field_names` to do the field-name check.
+
+    added equality/inequality check for records, which can be compared against
+    other records / dicts / tuples (field/key order does not matter for
+    record-record nor record-dict checks).
+
+
+0.93.011
+--------
+    `with` will work now.  Really.
+
+    Started making changes so dbf will work with the non-CPython
+    implementations (at this point it is not reliable).
+
+
+0.93.010
+--------
+    Table now returns a closed database; .open() must now be called before
+    accessing the records.
+    Note: fields, number of records, table type, and other metadata is
+    available on closed tables.
+
+    Finished adding support for 'F' (aka 'N') field types in dBase III tables;
+    this is a practicality beats purity issue as the F type is not part of the
+    db3 standard, but is exactly the same as N and other programs will use it
+    instead of N when creating db3 tables.
+
+
+0.93.000
+--------
+    PEP 8 changes (yo --> self, someMethod --> some_method)
+
+
+0.92.002
+--------
+    added more support for the Null type in the other custome data types
+
+
+0.91.001
+--------
+    Removed __del__ from dbf records; consequently they no longer autosave when
+    going out of scope.  Either call .write_record() explicitly, or use the new
+    Write iterator which will call .write_record for you.
+
+    Finished adding Null support (not supported in db3 tables)

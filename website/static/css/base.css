@@ -49,11 +49,11 @@ body.dimmed {
 }
 
 :root {
-    --color1: rgb(238, 246, 253);
-    --color2: rgba(0, 128, 255, 0.6);
-    --color3: rgb(216, 236, 255);
+    --color1: rgb(156, 209, 255);
+    --color2: rgba(184, 220, 255, 0.6);
+    --color3: rgb(129, 194, 255);
 
-    --color4: #333;
+    --color4: #055e64;
     --color5: rgb(0, 146, 129);
     --color6: #444444;
 
@@ -2499,7 +2499,7 @@ th .resizer {
 }
 
 .modal_table .сenter_butmodel{
-    
+
 }
 
 /*end */
@@ -2514,7 +2514,6 @@ th .resizer {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
-
 }
 
 .dark-mode .spravochniki_area {

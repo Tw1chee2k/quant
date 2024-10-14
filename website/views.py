@@ -751,9 +751,9 @@ def report_section(report_type, id):
         ).order_by(asc(DirProduct.CodeProduct)).all()
         section_number = 3
         sections_data = [
-            (id, 292, 9100, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-            (id, 289, 9010, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-            (id, 286, 9001, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 289, 9100, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 286, 9010, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
+            (id, 283, 9001, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
         ]
     else:
         return render_template('views.not_found', error = 'Ошибка при выборе типа отчета')
@@ -912,3 +912,20 @@ def FAQ():
         current_user=current_user
     )
 
+@views.route('/news')
+def news():
+    return render_template('news.html', 
+        current_user=current_user
+    )
+
+@views.route('/help')
+def help():
+    return render_template('help.html', 
+        current_user=current_user
+    )
+
+@views.route('/contacts')
+def contacts():
+    return render_template('contacts.html', 
+        current_user=current_user
+    )

@@ -285,29 +285,29 @@ document.addEventListener('DOMContentLoaded', function () {
     /* end show and hide buttons passwords */
 
     /* change theme */
-    const themeToggle = document.getElementById('darkmode-toggle');
-    const body = document.body;
-    const currentTheme = localStorage.getItem('theme') || 'light';
+    // const themeToggle = document.getElementById('darkmode-toggle');
+    // const body = document.body;
+    // const currentTheme = localStorage.getItem('theme') || 'light';
 
-    if (currentTheme === 'dark') {
-        body.classList.add('dark-mode');     
-    } else {
-        body.classList.add('light-mode');
-    }
+    // if (currentTheme === 'dark') {
+    //     body.classList.add('dark-mode');     
+    // } else {
+    //     body.classList.add('light-mode');
+    // }
 
-    themeToggle.addEventListener('click', () => {
-        if (body.classList.contains('dark-mode')) {
-            body.classList.add('light-mode');
-            body.classList.remove('dark-mode');
-            localStorage.setItem('theme', 'light');
-            themeToggle.textContent = 'Темная тема';
-        } else {
-            body.classList.add('dark-mode');
-            body.classList.remove('light-mode');
-            localStorage.setItem('theme', 'dark');
-            themeToggle.textContent = 'Светлая тема';
-        }
-    });
+    // themeToggle.addEventListener('click', () => {
+    //     if (body.classList.contains('dark-mode')) {
+    //         body.classList.add('light-mode');
+    //         body.classList.remove('dark-mode');
+    //         localStorage.setItem('theme', 'light');
+    //         themeToggle.textContent = 'Темная тема';
+    //     } else {
+    //         body.classList.add('dark-mode');
+    //         body.classList.remove('light-mode');
+    //         localStorage.setItem('theme', 'dark');
+    //         themeToggle.textContent = 'Светлая тема';
+    //     }
+    // });
     /* end change theme */
 
     /* hoveruser panel */

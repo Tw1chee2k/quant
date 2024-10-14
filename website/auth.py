@@ -1248,8 +1248,8 @@ async def export_ready_reports():
         ).filter_by(status="Одобрен").all()
 
         if not versions:
-            flash('Отсутствуют одобренные отчеты', 'error')
-            return redirect(url_for('views.audit_area'))
+       
+            return 'Отсутствуют одобренные отчеты'
 
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED) as zip_file:
