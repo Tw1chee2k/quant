@@ -6,7 +6,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/adap.css') }}">
-    <title>{% block title %}Base{% endblock %}</title>
+    <title>{% block title %}Erespondent-Online{% endblock %}</title>
   </head>
   <body>  
 
@@ -43,7 +43,6 @@
               <li onclick="window.location.href='/'">Главная</li>
               <li onclick="smoothScroll('/news')">Новости</li>
               <li onclick="window.location.href='/contacts'" >Контакты</li>
-              <li onclick="window.location.href='/help'" >Помощь</li>
               <li onclick="window.location.href='/FAQ'" >FAQ</li>
 
           </ul>
@@ -124,7 +123,6 @@
                 <ul>
                   <li onclick="window.location.href='/news'">Новости</li>
                   <li onclick="window.location.href='/contacts'" >Контакты</li>
-                  <li onclick="window.location.href='/help'" >Помощь</li>
                   <li onclick="window.location.href='/FAQ'" >FAQ</li>
                 </ul>
             </nav>

@@ -1,10 +1,43 @@
 {% extends "base.html" %}
-{% block title %}Контакты{% endblock %}
 {% block content %}
-<div class="FAQ_cont">
-    
-</div>
-<script>
+<div class="blurred-background"></div>
 
-</script>
+<div class="contacts_cont">
+    <div class="contacts_box">
+        <div class="contacts_info">
+            <div class="contacts_info_name">
+                <a>Контакты</a>
+            </div>
+            <div class="contacts_content">
+                <div class="contacts_content_row">
+                    <img  src="{{ url_for('static', filename='img/point_of_place.png')}}" alt="">
+                    <a>220013, г. Минск, ул.Беломорская, 18</a>
+                </div>
+                <div class="contacts_content_row">
+                    <img  src="{{ url_for('static', filename='img/email.png')}}" alt="">
+                    <a>app_info@ddc.by</a>
+                </div>
+                <div class="contacts_content_row">
+                    <img  src="{{ url_for('static', filename='img/telephone.png')}}" alt="">
+                    <a>145
+                        Бесплатно для абонентов Белтелеком
+                        Для абонентов мобильных операторов по тарифам мобильных операторов
+                        Время работы: пн.-чт. 9:00-18:00
+                        пт. 9:00-16:20
+                        сб.-вс. – выходные дни.</a>
+                </div>
+            </div>
+        </div>  
+        <div style="position:relative; overflow:hidden;">
+            <iframe class="contacts_map" 
+                    src="https://yandex.by/map-widget/v1/?indoorLevel=1&ll=27.553503%2C53.904416&mode=whatshere&whatshere%5Bpoint%5D=27.553504%2C53.904416&whatshere%5Bzoom%5D=17&z=16&controls=none" 
+                    frameborder="1" 
+                    allowfullscreen="true" 
+                    style="position:relative; ">
+            </iframe>
+        </div>
+        
+
+    </div>
+</div>
 {% endblock %}

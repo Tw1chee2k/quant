@@ -11,6 +11,11 @@ html, body {
     margin: 0;
 }
 
+
+a{
+    text-decoration: none;
+    color: black;
+}
 /* html::-webkit-scrollbar {
     width: 7px;
 }
@@ -291,7 +296,7 @@ header {
     
     background-color: white;
     
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); 
     height: 60px;
     padding: 0 20px;
 
@@ -1293,8 +1298,11 @@ footer {
     font-weight: 600;
 }
   
+.privetstvie_cont a{
+    color: white;
+}
+
 .dark-mode .account_cont .privetstvie_cont{
-    
     background-image: url('../img/begin_name1.png');
 
 }
@@ -1314,19 +1322,18 @@ footer {
 
 .account_buttons{
     display: flex;
-    flex-direction: row;
     align-items:  center;
+    justify-content: space-between;
     border: none;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-
     width: 505px;
     max-width: 505px;
     height: 82px;
     font-weight: 600;
     border-radius: 2px;
     margin: 10px 0;
-    padding: 0 20px;
+    padding: 0 30px;
     font-size: 15px;
     transition: color 0.3s ease;
     transition: background-color 0.3s ease, padding 0.3s ease;
@@ -1339,9 +1346,10 @@ footer {
     box-shadow: 0 0 1px rgba(255, 255, 255, 0.1); 
 }
   
+
 .account_buttons:hover{
     background-color: #e6f6ff;
-    padding: 0 20px 0 30px;
+    padding: 0 20px 0 40px;
 }
 
 .dark-mode .account_buttons:hover{
@@ -1352,13 +1360,20 @@ footer {
     outline: none;
 }
   
-.account_buttons img{
+.first_path{
+    display: flex;
+}
+
+.account_buttons .first_path img{
     width: 36px;
     margin: 0 40px 0 0;
 }
   
-.account_buttons span{
+.account_buttons .first_path span{
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .buttons_account_add_report{
@@ -2819,9 +2834,9 @@ th .resizer {
     padding: 12px 0 8px;
     font-size: 14px;
     line-height: 17px;
-    background-color: #ffffff;
+    background-color: #f5f5f5;
     min-height: 100vh;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.144);
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.144); */
     border-radius: 0;
     border-top-right-radius: 5px;
 
@@ -2978,14 +2993,79 @@ th .resizer {
     padding: 10px 40px;
 }
 
-  /*faq.css end*/
+/*faq.css end*/
+
+
+/*contacts.css end*/
+.contacts_cont{
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.contacts_box{
+    height: fit-content;
+    background-color:#ffffff;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    display: flex;
+}
+
+.contacts_info{
+    padding: 20px;
+    width:400px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    justify-content: center;
+}
+
+.contacts_info_name{
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.contacts_info_name a{
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.contacts_content{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 40px;
+
+}
+
+.contacts_content_row{
+    display: flex;
+    flex-direction: row;
+    align-items:start;
+    margin-bottom: 10px;
+    
+}
+
+.contacts_content_row img{
+    width: 25px;
+    height: 25px;
+    margin-right: 15px;
+}
+
+.contacts_content_row a{
+    font-size: 18px;
+}
+
+.contacts_map{
+    width: 800px;
+    height: 600px;
+    border: none;
+}
 
 
 
-
-
-
-
+/*contacts.css end*/
 
 
   /* static/css/custom.css */
