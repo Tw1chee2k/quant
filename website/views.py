@@ -914,8 +914,10 @@ def FAQ():
 
 @views.route('/news')
 def news():
+    all_news = News.query.filter_by().all()
     return render_template('news.html', 
-        current_user=current_user
+        current_user=current_user,
+        all_news=all_news
     )
 
 @views.route('/help')

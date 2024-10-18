@@ -7,64 +7,71 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    /*всплывающее окно с респондентом*/
-    var RespondentModal = document.getElementById('RespondentModal');
-    var RespondentLink = document.getElementById('RespondentLink');
-    var CloseRespondent = document.getElementById('CloseRespondent');
-    RespondentLink.addEventListener('click', function() {
-        RespondentModal.style.display = 'block';
-    });
+/* всплывающее окно с респондентом */
+var RespondentModal = document.getElementById('RespondentModal');
+var RespondentLink = document.getElementById('RespondentLink');
+var CloseRespondent = document.getElementById('CloseRespondent');
 
-    CloseRespondent.addEventListener('click', function() {
-        RespondentModal.style.display = 'none';
-    });
+RespondentLink.addEventListener('click', function() {
+    RespondentModal.classList.add('active'); // Добавляем класс 'active'
+});
 
-    window.addEventListener('click', function(event) {
-        if (event.target == RespondentModal) {
-            RespondentModal.style.display = 'none';
-        }
-    });
-    /*end*/
+CloseRespondent.addEventListener('click', function() {
+    RespondentModal.classList.remove('active'); // Убираем класс 'active'
+});
 
-    var addCommentModal = document.getElementById('addCommentModal');
-    var addCommentLink = document.getElementById('addCommentLink');
-    var CloseaddComment = document.getElementById('CloseaddComment');
-    
-    addCommentLink.addEventListener('click', function(event) {
-        if (addCommentLink.style.opacity === '0.5') {
-            event.preventDefault();
-        } else {
-            addCommentModal.style.display = 'block';
-        }
-    });
-    
-    CloseaddComment.addEventListener('click', function() {
-        addCommentModal.style.display = 'none';
-    });
-    
-    window.addEventListener('click', function(event) {
-        if (event.target == addCommentModal) {
-            addCommentModal.style.display = 'none';
-        }
-    });
+window.addEventListener('click', function(event) {
+    if (event.target == RespondentModal) {
+        RespondentModal.classList.remove('active'); // Убираем класс 'active'
+    }
+});
+/* end */
 
+/* модальное окно добавления комментария */
+var addCommentModal = document.getElementById('addCommentModal');
+var addCommentLink = document.getElementById('addCommentLink');
+var CloseaddComment = document.getElementById('CloseaddComment');
 
-    var showCommentsModal = document.getElementById('showCommentsModal');
-    var showCommentsLink = document.getElementById('showCommentsLink');
-    var CloseshowComments = document.getElementById('CloseshowComments');
-    showCommentsLink.addEventListener('click', function() {
-        showCommentsModal.style.display = 'block';
-    });
+addCommentLink.addEventListener('click', function(event) {
+    if (addCommentLink.style.opacity === '0.5') {
+        event.preventDefault();
+    } else {
+        addCommentModal.classList.add('active'); // Добавляем класс 'active'
+    }
+});
 
-    CloseshowComments.addEventListener('click', function() {
-        showCommentsModal.style.display = 'none';
-    });
+CloseaddComment.addEventListener('click', function() {
+    addCommentModal.classList.remove('active'); // Убираем класс 'active'
+});
 
-    window.addEventListener('click', function(event) {
-        if (event.target == showCommentsModal) {
-            showCommentsModal.style.display = 'none';
-        }
-    });
+window.addEventListener('click', function(event) {
+    if (event.target == addCommentModal) {
+        addCommentModal.classList.remove('active'); // Убираем класс 'active'
+    }
+});
+
+/* end */
+
+/* модальное окно показа комментариев */
+var showCommentsModal = document.getElementById('showCommentsModal');
+var showCommentsLink = document.getElementById('showCommentsLink');
+var CloseshowComments = document.getElementById('CloseshowComments');
+
+showCommentsLink.addEventListener('click', function() {
+    showCommentsModal.classList.add('active'); // Добавляем класс 'active'
+});
+
+CloseshowComments.addEventListener('click', function() {
+    showCommentsModal.classList.remove('active'); // Убираем класс 'active'
+});
+
+window.addEventListener('click', function(event) {
+    if (event.target == showCommentsModal) {
+        showCommentsModal.classList.remove('active'); // Убираем класс 'active'
+    }
+});
+/* end */
+
 
     const sectionLinks = document.querySelectorAll('[data-section]');
     sectionLinks.forEach(link => {
@@ -123,64 +130,66 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    /*всплывающее окно с единицами измерения*/
-    var DirUnitModal = document.getElementById('DirUnitModal');
-    var DirUnitLink = document.getElementById('DirUnitLink');
-    var CloseDirUnit = document.getElementById('CloseDirUnit');
+/* всплывающее окно с единицами измерения */
+var DirUnitModal = document.getElementById('DirUnitModal');
+var DirUnitLink = document.getElementById('DirUnitLink');
+var CloseDirUnit = document.getElementById('CloseDirUnit');
 
-    DirUnitLink.addEventListener('click', function() {
-        DirUnitModal.style.display = 'block';
-    });
+DirUnitLink.addEventListener('click', function() {
+    DirUnitModal.classList.add('active'); // Добавляем класс 'active'
+});
 
-    CloseDirUnit.addEventListener('click', function() {
-        DirUnitModal.style.display = 'none';
-    });
+CloseDirUnit.addEventListener('click', function() {
+    DirUnitModal.classList.remove('active'); // Убираем класс 'active'
+});
 
-    window.addEventListener('click', function(event) {
-        if (event.target == DirUnitModal) {
-            DirUnitModal.style.display = 'none';
-        }
-    });
-    /*end*/
+window.addEventListener('click', function(event) {
+    if (event.target === DirUnitModal) {
+        DirUnitModal.classList.remove('active'); // Убираем класс 'active'
+    }
+});
+/* end */
 
-    /*всплывающее окно с продуктами*/
-    var DirProductModal = document.getElementById('DirProductModal');
-    var DirProductLink = document.getElementById('DirProductLink');
-    var CloseDirProduct = document.getElementById('CloseDirProduct');
-    DirProductLink.addEventListener('click', function() {
-        DirProductModal.style.display = 'block';
-    });
+/* всплывающее окно с продуктами */
+var DirProductModal = document.getElementById('DirProductModal');
+var DirProductLink = document.getElementById('DirProductLink');
+var CloseDirProduct = document.getElementById('CloseDirProduct');
 
-    CloseDirProduct.addEventListener('click', function() {
-        DirProductModal.style.display = 'none';
-    });
+DirProductLink.addEventListener('click', function() {
+    DirProductModal.classList.add('active'); // Добавляем класс 'active'
+});
 
-    window.addEventListener('click', function(event) {
-        if (event.target == DirProductModal) {
-            DirProductModal.style.display = 'none';
-        }
-    });
-    /*end*/
+CloseDirProduct.addEventListener('click', function() {
+    DirProductModal.classList.remove('active'); // Убираем класс 'active'
+});
 
-    /*всплывающее окно с inf vers*/
-    var INFModal = document.getElementById('INFModal');
-    var INFLink = document.getElementById('INFLink');
-    var CloseINF = document.getElementById('CloseINF');
+window.addEventListener('click', function(event) {
+    if (event.target === DirProductModal) {
+        DirProductModal.classList.remove('active'); // Убираем класс 'active'
+    }
+});
+/* end */
 
-    INFLink.addEventListener('click', function() {
-        INFModal.style.display = 'block';
-    });
+/* всплывающее окно с inf vers */
+var INFModal = document.getElementById('INFModal');
+var INFLink = document.getElementById('INFLink');
+var CloseINF = document.getElementById('CloseINF');
 
-    CloseINF.addEventListener('click', function() {
-        INFModal.style.display = 'none';
-    });
+INFLink.addEventListener('click', function() {
+    INFModal.classList.add('active'); // Добавляем класс 'active'
+});
 
-    window.addEventListener('click', function(event) {
-        if (event.target == INFModal) {
-            INFModal.style.display = 'none';
-        }
-    });
-    /*end*/
+CloseINF.addEventListener('click', function() {
+    INFModal.classList.remove('active'); // Убираем класс 'active'
+});
+
+window.addEventListener('click', function(event) {
+    if (event.target === INFModal) {
+        INFModal.classList.remove('active'); // Убираем класс 'active'
+    }
+});
+/* end */
+
 
 });
 

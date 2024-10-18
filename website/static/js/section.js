@@ -8,9 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var close_changefuel_modal = document.getElementById('close_changefuel_modal');
     var remove_section = document.getElementById('remove_section');
 
-    close_changefuel_modal.addEventListener('click', function() {
-        changefuel_modal.style.display = 'none';
-    });
+
 
 
     fuelRows.forEach(function(row, index) {
@@ -39,19 +37,77 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+
+    function openModal() {
+        var activeRow = document.querySelector('.section_row.active-report');
+        if (activeRow) {
+            var productName = activeRow.querySelector('.product-name_fuel').value;
+            document.getElementById('modal_product_name').value = productName;
+            document.getElementById('modal_oked').value = activeRow.querySelector('input[name="Oked_fuel"]').value;
+            document.getElementById('modal_produced').value = activeRow.querySelector('input[name="produced_fuel"]').value;
+            document.getElementById('modal_Consumed_Quota').value = activeRow.querySelector('input[name="Consumed_Quota_fuel"]').value;
+            document.getElementById('modal_Consumed_Fact').value = activeRow.querySelector('input[name="Consumed_Fact_fuel"]').value;
+            document.getElementById('modal_Consumed_Total_Quota').value = activeRow.querySelector('input[name="Consumed_Total_Quota_fuel"]').value;
+            document.getElementById('modal_Consumed_Total_Fact').value = activeRow.querySelector('input[name="Consumed_Total_Fact_fuel"]').value;
+            document.getElementById('modal_note').value = activeRow.querySelector('input[name="note_fuel"]').value;
+            document.getElementById('modal_id').value = selectedfuelId;
+    
+            var inputs = document.querySelectorAll('#changefuel_modal input[type="text"]');
+            var isOtherConsumption = productName === "Прочее потребление";
+            var is7000 = productName === "Предельный уровень потребления (объекты непроизводственного характера, коммунально-бытового назначения и другие)";
+    
+            inputs.forEach(function(input, index) {
+                if (isOtherConsumption) {
+                    if (index < inputs.length - 2) {
+                        input.style.color = "rgb(132, 132, 132)";
+                        input.readOnly = true;
+                    } else {
+                        input.style.color = "";
+                        input.readOnly = false;
+                    }
+                    input.required = index >= inputs.length - 2;
+                } 
+                else if (is7000){
+                    if (index === 5 || index === 6 || index === 7) {
+                        input.readOnly = false;
+                        input.style.color = "";
+                    }
+                    else {
+                        input.style.color = "rgb(132, 132, 132)";
+                        input.readOnly = true;
+                    }
+                }
+                else {
+                    if (index === 0 || index === 1 || index === 4 || index === 5) {
+                        input.style.color = "rgb(132, 132, 132)";
+                        input.readOnly = true;
+                    }
+                    else {
+                        input.style.color = "";
+                        input.readOnly = false;
+                    }
+                }            
+            });
+    
+            changefuel_modal.classList.add('active');
+        }
+    }
+    
+    close_changefuel_modal.addEventListener('click', function() {
+        changefuel_modal.classList.remove('active');
+    });
+    
     document.getElementById('link_changefuel_modal').addEventListener('click', function() {
         if (selectedfuelId) {
             openModal();
         }
     });
+    
     window.addEventListener('click', function(event) {
         contextmenufuel.style.display = 'none';
         if (event.target == changefuel_modal) {
-            changefuel_modal.style.display = 'none';
+            changefuel_modal.classList.remove('active');
         }
-    });
-    document.querySelector('.close').addEventListener('click', function() {
-        changefuel_modal.style.display = 'none';
     });
 
     function selectRow(row, index) {
@@ -90,90 +146,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function openModal() {
-        var activeRow = document.querySelector('.section_row.active-report');
-        if (activeRow) {
-            var productName = activeRow.querySelector('.product-name_fuel').value;
-            document.getElementById('modal_product_name').value = productName;
-            document.getElementById('modal_oked').value = activeRow.querySelector('input[name="Oked_fuel"]').value;
-            document.getElementById('modal_produced').value = activeRow.querySelector('input[name="produced_fuel"]').value;
-            document.getElementById('modal_Consumed_Quota').value = activeRow.querySelector('input[name="Consumed_Quota_fuel"]').value;
-            document.getElementById('modal_Consumed_Fact').value = activeRow.querySelector('input[name="Consumed_Fact_fuel"]').value;
-            document.getElementById('modal_Consumed_Total_Quota').value = activeRow.querySelector('input[name="Consumed_Total_Quota_fuel"]').value;
-            document.getElementById('modal_Consumed_Total_Fact').value = activeRow.querySelector('input[name="Consumed_Total_Fact_fuel"]').value;
-            document.getElementById('modal_note').value = activeRow.querySelector('input[name="note_fuel"]').value;
-            document.getElementById('modal_id').value = selectedfuelId;
-    
-            var inputs = document.querySelectorAll('#changefuel_modal input[type="text"]');
-            var isOtherConsumption = productName === "Прочее потребление";
-            var is7000 = productName === "Предельный уровень потребления (объекты непроизводственного характера, коммунально-бытового назначения и другие)";
-
-            inputs.forEach(function(input, index) {
-                if (isOtherConsumption) {
-                    if (index < inputs.length - 2) {
-                        input.style.color = "rgb(132, 132, 132)";
-                        input.readOnly = true;
-                        
-                    } else {
-                        input.style.color = "";
-                        input.readOnly = false;
-                    }
-                    input.required = index >= inputs.length - 2;
-                } 
-                else if (is7000){
-                    if (index === 5 || index === 6 || index === 7) {
-                        input.readOnly = false;
-                        input.style.color = "";
-                    }
-                    else {
-                        input.style.color = "rgb(132, 132, 132)";
-                        input.readOnly = true;
-                        
-                    }
-                }
-                else {
-                    if (index === 0 || index === 1 || index === 4 || index === 5) {
-                        input.style.color = "";
-                        input.readOnly = true;
-                        input.style.color = "rgb(132, 132, 132)";
-                        
-                    }
-                    else {
-                        input.style.color = "";
-                        input.readOnly = false;
-                    }
-                }            
-            });
-
-            changefuel_modal.style.display = 'block';
-        }
-    }
-    
     var link_addSection_modal = document.querySelector('[data-action="link_addSection_modal"]');
     var addSection_modal = document.getElementById('addSection_modal');
     var close_addSection_modal = addSection_modal.querySelector('.close');
-
+    
     link_addSection_modal.addEventListener('click', function() {
         contextmenufuel.style.display = 'none';
-        addSection_modal.style.display = 'block';
+        addSection_modal.classList.add('active'); 
     });
-
+    
     close_addSection_modal.addEventListener('click', function() {
-        addSection_modal.style.display = 'none';
+        addSection_modal.classList.remove('active'); 
     });
-
+    
     window.addEventListener('click', function(event) {
         contextmenufuel.style.display = 'none';
         if (event.target == addSection_modal) {
-            addSection_modal.style.display = 'none';
+            addSection_modal.classList.remove('active'); 
         }
     });
 
+
     var nameOfProductInput = document.querySelector('input[name="name_of_product"]');
-
-
-
-
     var add_id_productInput = document.querySelector('input[name="add_id_product"]');
     var chooseProductArea = document.querySelector('.choose-product_area');
     var chooseProdTableBody = document.getElementById('chooseProdTableBody');
@@ -235,66 +229,68 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         xhr.send();
     }
-    /*всплывающее окно с inf vers*/
+
+    
+    /* всплывающее окно с inf vers */
     var INFModal = document.getElementById('INFModal');
     var INFLink = document.getElementById('INFLink');
     var CloseINF = document.getElementById('CloseINF');
 
     INFLink.addEventListener('click', function() {
-        INFModal.style.display = 'block';
+        INFModal.classList.add('active'); // Добавляем класс 'active'
     });
 
     CloseINF.addEventListener('click', function() {
-        INFModal.style.display = 'none';
+        INFModal.classList.remove('active'); // Убираем класс 'active'
     });
 
     window.addEventListener('click', function(event) {
         if (event.target == INFModal) {
-            INFModal.style.display = 'none';
+            INFModal.classList.remove('active'); // Убираем класс 'active' при клике вне модального окна
         }
     });
-    /*end*/
+    /* end */
 
-
-
-    /*всплывающее окно с единицами измерения*/
+    /* всплывающее окно с единицами измерения */
     var DirUnitModal = document.getElementById('DirUnitModal');
     var DirUnitLink = document.getElementById('DirUnitLink');
     var CloseDirUnit = document.getElementById('CloseDirUnit');
 
     DirUnitLink.addEventListener('click', function() {
-        DirUnitModal.style.display = 'block';
+        DirUnitModal.classList.add('active'); // Добавляем класс 'active'
     });
 
     CloseDirUnit.addEventListener('click', function() {
-        DirUnitModal.style.display = 'none';
+        DirUnitModal.classList.remove('active'); // Убираем класс 'active'
     });
 
     window.addEventListener('click', function(event) {
         if (event.target == DirUnitModal) {
-            DirUnitModal.style.display = 'none';
+            DirUnitModal.classList.remove('active'); // Убираем класс 'active' при клике вне модального окна
         }
     });
-    /*end*/
+    /* end */
 
-    /*всплывающее окно с продуктами*/
+    /* всплывающее окно с продуктами */
     var DirProductModal = document.getElementById('DirProductModal');
     var DirProductLink = document.getElementById('DirProductLink');
     var CloseDirProduct = document.getElementById('CloseDirProduct');
+
     DirProductLink.addEventListener('click', function() {
-        DirProductModal.style.display = 'block';
+        DirProductModal.classList.add('active'); // Добавляем класс 'active'
     });
 
     CloseDirProduct.addEventListener('click', function() {
-        DirProductModal.style.display = 'none';
+        DirProductModal.classList.remove('active'); // Убираем класс 'active'
     });
 
     window.addEventListener('click', function(event) {
         if (event.target == DirProductModal) {
-            DirProductModal.style.display = 'none';
+            DirProductModal.classList.remove('active'); // Убираем класс 'active' при клике вне модального окна
         }
     });
-    /*end*/
+    /* end */
+
 });
 
 document.querySelector('input[name="search_product"]').addEventListener('input', function() {

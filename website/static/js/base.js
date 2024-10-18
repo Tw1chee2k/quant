@@ -1,3 +1,15 @@
+//header
+const header = document.querySelector('.fixed-header');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 0) {
+        header.style.backgroundColor = 'white';
+    } else {
+        header.style.backgroundColor = 'transparent';
+    }
+});
+//end
+
+
 const clearButtons = document.querySelectorAll('.clear-btn');
 clearButtons.forEach(btn => {
     btn.addEventListener('click', function() {
@@ -660,7 +672,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     /*end*/
 
-    /*показ панели для редактирования параметров отчета*/
+    /* показ панели для редактирования параметров отчета */
     var link_change_report = document.getElementById('link_change_report');
     var link_add_report = document.getElementById('link_add_report');
     var link_coppy_report = document.getElementById('link_coppy_report');
@@ -668,7 +680,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var change_report_modal = document.getElementById('change_report_modal');
     var add_report_modal = document.getElementById('add_report_modal');
     var coppy_report_modal = document.getElementById('coppy_report_modal');
-   
+
     var close_change_report_modal = change_report_modal.querySelector('.close');
     var close_add_report_modal = add_report_modal.querySelector('.close');
     var close_coppy_report_modal = coppy_report_modal.querySelector('.close');
@@ -690,12 +702,12 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('modal_report_year').value = reportYear;
             document.getElementById('modal_report_quarter').value = reportQuarter;
         }
-        change_report_modal.style.display = 'block';
+        change_report_modal.classList.add('active');
         contextMenuReport.style.display = 'none';
     });
 
     link_add_report.addEventListener('click', function() {
-        add_report_modal.style.display = 'block';
+        add_report_modal.classList.add('active');
         contextMenuReport.style.display = 'none';
     });
 
@@ -706,42 +718,41 @@ document.addEventListener('DOMContentLoaded', function () {
             var reportId = reportRow.querySelector('#report_id').value;
             document.getElementById('copped_id').value = reportId;
         }
-        coppy_report_modal.style.display = 'block';
+        coppy_report_modal.classList.add('active');
         contextMenuReport.style.display = 'none';
     });
 
     close_change_report_modal.addEventListener('click', function() {
-        change_report_modal.style.display = 'none';
+        change_report_modal.classList.remove('active');
     });
 
     close_coppy_report_modal.addEventListener('click', function() {
-        coppy_report_modal.style.display = 'none';
-
+        coppy_report_modal.classList.remove('active');
     });
 
     close_add_report_modal.addEventListener('click', function() {
-        add_report_modal.style.display = 'none';
-
+        add_report_modal.classList.remove('active');
     });
 
     change_report_modal.addEventListener('click', function(event) {
         if (event.target === change_report_modal) {
-            change_report_modal.style.display = 'none';
+            change_report_modal.classList.remove('active');
         }
     });
 
     coppy_report_modal.addEventListener('click', function(event) {
         if (event.target === coppy_report_modal) {
-            coppy_report_modal.style.display = 'none';
+            coppy_report_modal.classList.remove('active');
         }
     });
 
     add_report_modal.addEventListener('click', function(event) {
         if (event.target === add_report_modal) {
-            add_report_modal.style.display = 'none';
+            add_report_modal.classList.remove('active');
         }
     });
-    /*end*/
+    /* end */
+
 
 
     var add_versionButton = document.getElementById('add_versionButton');
@@ -1059,27 +1070,27 @@ function sortTable() {
 }
 /* end sort tablel by tt dif */
 
-/*period modal*/
+/* period modal */
 var link_period = document.getElementById('link_period');
 var period_modal = document.getElementById('period_modal');
 var close_period_modal = period_modal.querySelector('.close');
 
 link_period.addEventListener('click', function() {
-    period_modal.style.display = 'block';
+    period_modal.classList.add('active'); // Добавляем класс 'active'
     contextMenuReport.style.display = 'none';
 });
 
 close_period_modal.addEventListener('click', function() {
-    period_modal.style.display = 'none';
-
+    period_modal.classList.remove('active'); // Убираем класс 'active'
 });
 
 period_modal.addEventListener('click', function(event) {
     if (event.target === period_modal) {
-        period_modal.style.display = 'none';
+        period_modal.classList.remove('active'); // Убираем класс 'active'
     }
 });
-/*end*/
+/* end */
+
 
 
 

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-
+<div class="blurred-background"></div>
 <div class="hellow_row">
     <!-- <video autoplay loop muted>
         <source src="{{ url_for('static', filename='video/    .mp4') }}" type="video/mp4">
@@ -48,6 +48,7 @@
         </div>
     </div>
 </div>
+
 <div class="news-row" id = "news_row">
     <div class = "news-row-left">
         <div class="item_news">  
@@ -58,7 +59,12 @@
     </div>
     <div class = "news-row-right">
         <img src="{{ url_for('static', filename='img/news/' + latest_news.img_name) }}" alt="">
-
     </div>
 </div>
+<!-- <div class="askquestion-row">
+    <div class="askquestion_form">
+        
+    </div>
+</div> -->
+
 {% endblock %}

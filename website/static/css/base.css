@@ -14,7 +14,7 @@ html, body {
 
 a{
     text-decoration: none;
-    color: black;
+
 }
 /* html::-webkit-scrollbar {
     width: 7px;
@@ -284,34 +284,24 @@ header {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
-
     text-align: center;
-    align-items: center;
-    
+    align-items: center; 
     position: fixed;
     top: 0;
     left: 0;
     z-index: 100;
-
-    
-    background-color: white;
-    
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); 
     height: 60px;
     padding: 0 20px;
-
+    transition: background 0.3s;
     width: calc(100% - 40px); 
     font-size: 16px;
     font-weight: 500;
 }
 
 .dark-mode header{
-    color: white;
-    
+    color: white; 
     background-color:#252525;
 }
-
-
 
 header nav ul {
     display: flex;
@@ -973,14 +963,15 @@ footer {
 
 /*beginPage.css begin*/
 .hellow_row {
-    width: calc(100% - 240px);
-    min-height: calc(100vh - 120px);
+    width: calc(100% );
+    min-height: calc(100vh - 180px);
     display: flex;
     flex-direction: row;
     justify-content: start;
     align-items: left;
-    padding: 120px 0 0 0;
+    padding: 180px 0 0 0;
     padding-left: 7%;
+
   }
   
 /* .hellow_row::before {
@@ -1080,6 +1071,7 @@ footer {
 /* Контейнер с количеством пользователей, организац...*/
 .statistics-row {
     max-width: 100%;
+    box-shadow: 0 -15px 30px 10px rgba(0, 0, 0, 0.1);
 
     /* background-color:  #ffa500; */
     background-color: #028dff;
@@ -1099,7 +1091,7 @@ footer {
 }
 
 .statistics-row-left img{
-    width: 870px;
+    width: 650px;
     height: 100%;
     object-fit: cover;
     /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.301); */
@@ -1133,7 +1125,7 @@ footer {
 }
 
 .stat_count{
-    font-size: 50px;    
+    font-size: 40px;    
     color: #028dff;   
     font-weight: 600;
     text-align: center;
@@ -1157,9 +1149,6 @@ footer {
 /* end*/
 
 
-
-
-
 /* news_row */
 
 .news-row {
@@ -1169,8 +1158,6 @@ footer {
     display: flex;
     flex-direction: row;
     justify-content: center;
-
-
 }
 
 .dark-mode .news-row {
@@ -1225,7 +1212,7 @@ footer {
 }
 
 .item_news .first_p{
-    font-size: 24px;
+    font-size: 22px;
     padding-bottom: 30px;
     font-weight: 600;
     line-height: 33px;
@@ -1243,11 +1230,10 @@ footer {
 
 /* hz-row */
 
-.hz-row {
+.askquestion-row {
     max-width: 100%;
-    /* box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);  */
     height: 400px;
-    background-color:rgb(247, 247, 247);
+    background-color:rgb(255, 255, 255);
     display: flex;
     flex-direction: row;
     justify-content: center;    
@@ -1257,6 +1243,12 @@ footer {
     background-color:#333;
     color: white;
 }
+
+.askquestion_form{
+    width: 400px;
+}
+
+
 
 /* hz-row end*/
 
@@ -2432,7 +2424,8 @@ th .resizer {
 
 /* ----------------------modal_window begin */
 .modal {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -2440,7 +2433,14 @@ th .resizer {
     width: 100%;  
     height: 100%;
     background-color: rgba(0,0,0,0.4);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
+
+.modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
 
 .modal-content {
     border-radius: 5px;
@@ -2454,7 +2454,14 @@ th .resizer {
     max-width: 900px;
     position: relative;
     overflow-y: auto;
+    opacity: 0;
+    transform: scale(0.8); 
+    transition: opacity 0.3s ease, transform 0.2s ease, width 0.2s ease;
+}
 
+.modal.active .modal-content {
+    opacity: 1;
+    transform: scale(1);
 }
 
 .modal-content form{
@@ -2915,8 +2922,153 @@ th .resizer {
 
 /*audit page end*/
 
-/* begin faq*/
+/* begin news*/
+.news_cont{
+    width: 1000px;
+    min-height: calc(100vh - 60px) ;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
 
+.news_cont_title{
+    font-size: 24px;
+    font-weight: 400;
+    padding: 40px 0;
+}
+
+.latest_news{
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+
+.latest_news .news_item {
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.latest_news .news_item img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.news_list_scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding-bottom: 10px;
+}
+
+.news_list_scroll::-webkit-scrollbar {
+    height: 5px;
+}
+
+.news_list_scroll::-webkit-scrollbar-thumb {
+    background-color: #e6e6e6;
+    border-radius: 4px;
+    cursor: grab;
+}
+
+.news_list_scroll::-webkit-scrollbar-thumb:active {
+    cursor: grabbing;
+}
+
+.news_list_scroll::-webkit-scrollbar-thumb:hover {
+    background: #e6e6e6;
+}
+
+.small_news_item {
+    width: 300px;
+    height: 200px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.small_news_item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.news_title_container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8)); /* Градиент */
+    padding: 120px 0 40px 0;
+    color: white;
+    text-align: center;
+}
+
+.news_overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    transition: opacity 0.3s ease;
+    text-align: center;
+}
+
+
+.news_text{
+    max-width: 500px;
+    padding: 40px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.news_list_scroll .news_text{
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.news_title{
+    padding: 0 20px;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.news_list_scroll .news_title{
+    padding: 0 10px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
+.news_item:hover img {
+    filter: blur(5px);
+}
+
+.news_item:hover .news_overlay {
+    opacity: 1;
+}
+
+
+
+/* end news*/
+
+/* begin faq*/
 .FAQ_cont {  
     width: 60%;
     min-height: 1000px;
