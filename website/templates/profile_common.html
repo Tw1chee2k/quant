@@ -32,8 +32,8 @@
                 <form action="" method=" ">
                     <table>
                         <tr>
-                            <td style = "padding-bottom: 94px;"><span title = "Уровень доступа к функциям">Тип пользователя &#42;</span></div></td>
-                            <td><input style = "margin-bottom: 80px;" type="text" value="{{current_user.type}}" readonly></td>
+                            <td><span title = "Уровень доступа к функциям">Тип пользователя &#42;</span></div></td>
+                            <td><input type="text" value="{{current_user.type}}" readonly></td>
                         </tr>
                         <tr>
                             <td>E-mail</td>
@@ -48,30 +48,28 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style = "padding-top: 80px;">Фамилия</td>
+                            <td>Фамилия</td>
                             <td>                    
-                                <input  style = "margin-top: 80px;" type="text"  value="{{current_user.fio.split()[0]}}" readonly>
+                                <input type="text" value="{{current_user.fio.split()[0]}}" readonly>
                             </td>
                         </tr>
                         <tr>
                             <td>Имя</td>
                             <td>                    
-                                <input type="text"  value="{{current_user.fio.split()[1]}}" readonly>
+                                <input type="text" value="{{current_user.fio.split()[1]}}" readonly>
                             </td>
                         </tr>
                         <tr>
                             <td>Отчество</td>
                             <td>                    
-                                <input type="text"  value="{{current_user.fio.split()[2]}}" readonly>
+                                <input type="text" value="{{current_user.fio.split()[2]}}" readonly>
                             </td>
                         </tr>
-
-
-
                         <tr>
-                            <td style = "padding-top: 80px; "><span title = "Организация за которую отчитываются">Предприятие &#42;</span></td>
                             <td>
-                                <input style = "margin-top: 80px;" type="text" value="{{current_user.organization.full_name}}" readonly>
+                                <span title = "Организация за которую отчитываются">Предприятие &#42;</span></td>
+                            <td>
+                                <input type="text" value="{{current_user.organization.full_name}}" readonly>
                             </td>
                         </tr>
                         <tr>
@@ -98,8 +96,8 @@
                 <form action="/add_personal_parametrs" method="POST">
                     <table>
                         <tr>
-                            <td style = "padding-bottom: 94px;"><span title = "Уровень доступа к функциям">Тип пользователя &#42;</span></div></td>
-                            <td><input style = "margin-bottom: 80px;" type="text" value="{{current_user.type}}" readonly></td>
+                            <td><span title = "Уровень доступа к функциям">Тип пользователя &#42;</span></div></td>
+                            <td><input type="text" value="{{current_user.type}}" readonly></td>
                         </tr>
                         <tr>
                             <td>E-mail</td>
@@ -118,11 +116,11 @@
                         </tr>
 
                         <tr>
-                            <td style = "padding-top: 80px;">Фамилия</td>
+                            <td>Фамилия</td>
                             <td>                    
                                 <div class="clear-input_container">
-                                    <input style = "margin-top: 80px;" type="text" name = "second_name_common" placeholder="Введите фамилию"value="{{current_user.fio.split()[0] if current_user.fio else ''}}" required>
-                                    <span style = "margin-top: 40px;" class="clear-btn">&times;</span>
+                                    <input type="text" name = "second_name_common" placeholder="Введите фамилию"value="{{current_user.fio.split()[0] if current_user.fio else ''}}" required>
+                                    <span class="clear-btn">&times;</span>
                                 </div>
                             </td>
                         </tr>
@@ -146,11 +144,11 @@
                         </tr>
 
                         <tr>
-                            <td style = "padding-top: 80px;"><span title = "Организация за которую отчитываются">Предприятие &#42;</span></td>
+                            <td><span title = "Организация за которую отчитываются">Предприятие &#42;</span></td>
                             <td>
                                 <div class="clear-input_container">
-                                    <input style = "margin-top: 80px;" class = "pred_name" type="text" placeholder="Выберите предприятие" name = "full_name_common" value="{{ current_user.organization.full_name if current_user.organization else '' }}" readonly>
-                                    <span style = "margin-top: 40px;" class="clear-btn">&times;</span>
+                                    <input class = "pred_name" type="text" placeholder="Выберите предприятие" name = "full_name_common" value="{{ current_user.organization.full_name if current_user.organization else '' }}" readonly>
+                                    <span class="clear-btn">&times;</span>
                                 </div>
                                 <div class="choose-organization_area">
                                     <div class = "serch-cont">

@@ -14,6 +14,12 @@
       <div class="header-left">
          <nav>
           <ul>  
+            <li id="menu-button"> 
+              <a>
+                  <img class = "img_black" src="{{ url_for('static', filename='img/menu_black.png')}}" alt="">
+                  <img  class = "img_white" src="{{ url_for('static', filename='img/menu.png')}}" alt="">
+              </a>
+            </li> 
               <li class = "name_app" onclick="window.location.href='/'"> 
                 <img src="" alt="">
                 <a href="/">Erespondent-Online</a>
@@ -22,12 +28,7 @@
                 <img src="" alt="">
                 <a href="/">Er-Online</a>
               </li>
-              <li id="menu-button"> 
-                <a>
-                    <img class = "img_black" src="{{ url_for('static', filename='img/menu_black.png')}}" alt="">
-                    <img  class = "img_white" src="{{ url_for('static', filename='img/menu.png')}}" alt="">
-                </a>
-              </li> 
+              
 
           </ul>
         </nav>
@@ -36,7 +37,7 @@
         
         <nav>
           <ul>
-
+              <a class="close_header_center">&times;</a>
               <li onclick="window.location.href='/'">Главная</li>
               <li onclick="smoothScroll('/news')">Новости</li>
               <li onclick="window.location.href='/contacts'" >Контакты</li>
@@ -53,29 +54,26 @@
         
        
         <div class="user-container">
-  
+          
             <img 
-
               class = "icon_white"
               src="{{ url_for('static', filename='img/icon_white-user.png')}}" 
               alt="">
             <img 
-             
               class = "icon_black"
               src="{{ url_for('static', filename='img/icon_black-user.png')}}" alt="">
-            <div id="user_hover_navigation" class="user_hover_navigation">
-              {% if current_user.is_authenticated %}
-                <button class = "user_hover_navigation_account" onclick="window.location.href='/account'">Личный кабинет</button>
-                  <!-- <button class = "user_hover_navigation_account" id="darkmode-toggle">Сменить тему</button> -->
-                <button class = "user_hover_navigation_logout" onclick="window.location.href='/logout'">Выйти</button>
-              
-              {% else %}
-                <button class = "user_hover_navigation_logout" onclick="window.location.href='/login'">Войти</button>
-              {% endif %}
-              
-
             
-            </div>
+        </div>
+        <div id="user_hover_navigation" class="user_hover_navigation">
+          <a class="close_user_hover_navigation">&times;</a>
+          {% if current_user.is_authenticated %}
+            <button class = "user_hover_navigation_account" onclick="window.location.href='/account'">Личный кабинет</button>
+              <!-- <button class = "user_hover_navigation_account" id="darkmode-toggle">Сменить тему</button> -->
+            <button class = "user_hover_navigation_logout" onclick="window.location.href='/logout'">Выйти</button>
+          
+          {% else %}
+            <button class = "user_hover_navigation_logout" onclick="window.location.href='/login'">Войти</button>
+          {% endif %}
         </div>
 
       </div>

@@ -257,7 +257,13 @@ document.addEventListener('DOMContentLoaded', function () {
     /* menuButton */
     const menuButton = document.getElementById('menu-button');
     const headerCenter = document.querySelector('.header-center');
+    const close_header_center = document.querySelector('.close_header_center');
     
+    close_header_center.addEventListener('click', function () {
+        headerCenter.classList.remove('show');
+        headerCenter.classList.add('hidden');
+    });
+
     function showHeaderCenter() {
         if (headerCenter) {
             headerCenter.classList.remove('hidden');
@@ -327,6 +333,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const user_hover_navigation = document.getElementById('user_hover_navigation');
     let timeoutId;
     
+    const close_user_hover_navigation = document.querySelector('.close_user_hover_navigation');
+    
+    close_user_hover_navigation.addEventListener('click', function () {
+        user_hover_navigation.classList.remove('show');
+        user_hover_navigation.classList.add('hidden');
+    });
+
     function showUserHoverNavigation() {
         if (user_hover_navigation) {
             user_hover_navigation.classList.remove('hidden');

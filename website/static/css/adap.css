@@ -11,8 +11,6 @@
 
 @media (max-width: 1440px){  
     /*header*/
-
-
     header{
       font-size: 15px;
     }
@@ -20,56 +18,56 @@
     .name_app{
         display: none;
     }    
-    
-
 
     .short_name_app{
         display: block;
     }
 
 
-    
-    
     /*acc */
     .account_links{
         padding-bottom: 10px;
     }
   
     .account_cont .privetstvie_cont{
-        font-size: 20px;
+        width: 100%;
     }
-
 
     .account_cont .account_functions{
-        flex-direction: column;
-        width: 100%;
-        margin: 10px 0 20px 0;
-        width: calc(100% - 20px);
-        padding: 0 10px;
-      
+        width: 900px;
     }
 
+    .buttons_account_add_report span{
+        font-size: 13px;
+    }
+    
     .account_buttons{
-        width: 100%;  font-size: 13px;
+        width: 400px;
+        font-size: 13px;
     }
 
     .account_cont .account_functions .account_messages{
-        width: calc(100% - 10px);
-        margin: 0 5px;
-        
+        width: calc(400px - 10px);
+        margin: 0 5px;    
     }
 
-    .message_cont .mes{
-        width: 100%;
-    }
     /*acc end*/
+
+    /*profile common*/
+    .profile_page .personal-info_area td input{
+        width: 310px; 
+    }
+
+    .choose-organization_area {
+        max-width: 367px; 
+    }
+    /*profile common end*/
+
+
+
 }    
 
-
-
-
 @media (max-width: 1000px) {
-    
     #menu-button {
         display: block;
     }
@@ -85,20 +83,19 @@
         position: absolute;
         background-color: white;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
+        border-radius: 0;
         right: 0;
         padding: 10px;
         opacity: 0;
         top: 0;
         visibility: hidden;
-        transition: opacity 0.5s ease, top 0.5s ease, visibility 0s 0.5s;
+        transition: left 0.5s ease, visibility 0s 0.5s;
         z-index: 100;
-        width: 120px;
-        height: auto;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 20px;
-        font-size: 13px;
+        width: calc(100% - 120px);
+        height: 100vh;
+        left: -430px;
+        padding: 60px;
+        font-size: 17px;
     }
     
     .dark-mode .header-center{
@@ -108,28 +105,52 @@
 
     .header-center.show {
         opacity: 1;
-        top: 61px;
-        visibility: visible; 
-        transition: opacity 0.5s ease, top 0.5s ease;
+        left: 0;
+        visibility: visible;
+        transition: opacity 0.5s ease, left 0.5s ease;
     }
     
     .header-center.hidden {
         opacity: 0;
-        visibility: hidden; 
-        transition: opacity 0.5s ease, top 0.5s ease, visibility 0s 0.5s;
+        left: -430px;
+        transition: opacity 0.5s ease, left 0.5s ease, visibility 0s 0.7s;
+        visibility: hidden;
+    }
+
+    .close_header_center {
+        position: absolute;
+        right: 50px;
+        top: 30px;
+        display: block;
+        color: #aaa;
+        float: right;
+        text-align: end;
+        font-size: 35px;
+        font-weight: bold;
     }
     
+    .close_header_center:hover,
+    .close_header_center:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .header-center nav {
+        width: fit-content;
+    }
 
     .header-center nav ul {
         display: flex; 
         flex-direction: column;
         text-align: left;
         align-items: start;
+        width: fit-content;
     }
     
     .header-center nav ul li {
         margin: 0;
-        margin-bottom: 30px;
+        margin-bottom: 50px;
         cursor: pointer;  
     }
 
@@ -143,7 +164,125 @@
         flex-direction: column; 
         padding: 10px 5px;
     }
+
+    .close_user_hover_navigation {
+        position: absolute;
+        right: 50px;
+        top: 30px;
+        display: block;
+        color: #aaa;
+        float: right;
+        text-align: end;
+        font-size: 35px;
+        font-weight: bold;
+    }
+    
+    .close_user_hover_navigation:hover,
+    .close_user_hover_navigation:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .user_hover_navigation {
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 0;
+        right: 0;
+        padding: 10px;
+        opacity: 0;
+        top: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, right 0.5s ease, visibility 0s 0.5s;
+        z-index: 100;
+        width:  calc(100% - 120px);
+        height: 100vh;
+        right: -430px;
+        padding: 60px;       
+    }
+    
+    .user_hover_navigation button{
+        font-size: 17px;
+        margin-bottom: 50px;
+        padding: 0;
+        font-weight: 500;
+    }
+
+    .user_hover_navigation.show {
+        top:0;
+        opacity: 1;
+        right: 0;
+        visibility: visible;
+        transition: opacity 0.5s ease, right 0.5s ease;
+    }
+
+    .user_hover_navigation.hidden {
+        opacity: 0;
+        right: -430px;
+        transition: opacity 0.5s ease, right 0.5s ease, visibility 0s 0.7s; /* Задержка для visibility */
+        visibility: hidden;
+    }   
     /*header end*/
+
+
+    /*account */  
+    .account_cont .privetstvie_cont{
+        font-size: 20px;
+        width: calc(100% - 20px);
+    }
+
+    .account_cont .account_functions{
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+    }
+
+    .account_buttons{
+        margin: 0 auto;
+    }
+
+    .account_messages{
+        margin: 0 auto;
+    }
+    /*account end*/
+
+
+
+
+    /*profile common*/
+
+    .profile_page .personal-info_area tr td{
+        display: flex;
+        flex-direction: row;
+        padding: 0;
+    }
+
+    .personal-info_area table{
+        display: flex;
+        flex-direction: row;
+    }
+
+    .profile_page .personal-info_area td input{
+  
+        margin-left: 0;
+    }
+
+    .choose-organization_area{
+        margin: 0;
+    }
+
+
+    .profile_page .personal-info_area table tr:nth-child(1) td, /* Тип пользователя */
+    .profile_page .personal-info_area table tr:nth-child(3) td, /* Номер телефона */
+    .profile_page .personal-info_area table tr:nth-child(6) td  /* Отчество */
+    {
+        padding-bottom: 10px; /* Добавляет отступ в 20px внутри ячеек */
+    }
+
+
+
+    /*profile common end*/
 
 
 }
@@ -157,7 +296,6 @@
 
     /*-----------------------mes*/
     .custom-alert {
-
         right: -500px;
         width: 25vb;
     }    
@@ -169,13 +307,9 @@
         padding: 30px; 
     }
 
-
-    .link_cont{
-        
+    .link_cont{ 
         padding: 20px 0 60px 0 ;
-     
     }
-    
     /*log_reg end*/
 
 
@@ -244,11 +378,11 @@
     }
 
     .stat_count {
-        font-size: 32px;
+        font-size: 44px;
     }
 
     .stat_name {
-        font-size: 14px; 
+        font-size: 16px; 
     }
     /* end*/
 
@@ -277,7 +411,6 @@
         display: none;
     }
 
-
     .item_news{
         display: flex;
         flex-direction: column;
@@ -285,31 +418,23 @@
     }
 
     .news_name{
-        font-size: 133%;
+        font-size: 111%;
         padding-bottom: 6%;
-        
     }
-
-
 
     .item_news .first_p{
         font-size: 110%;
         line-height: 23px;
-
     }
 
     .item_news .second_p{
         font-size: 100%;
         line-height: 23px;
     }
-
-
-
     /* news_row end*/  
 
 
     /* footer*/  
-
     .footer_cont {
         flex-direction: column;
     }
@@ -325,12 +450,9 @@
         max-width: 100%;
         justify-content: left;
     }
-
     /* footer end*/  
 
-
     /* modal */ 
-
     .modal-content {
         border-radius: 0;
         background-color: rgb(255, 255, 255);
@@ -338,12 +460,9 @@
         top: 60px; 
         max-width: none;
         max-height: none; 
-
         padding: 20px;
- 
         width: calc(100% - 40px);
         height: calc(100% - 60px);
-
     }
 
     .close{
@@ -374,7 +493,6 @@
         overflow-x: auto;
         background-color: white;
         border: none; 
-    
         display: none;
         align-items: center;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -383,15 +501,22 @@
     .choose-product_area tr {
        display: flex;
        height:fit-content;
-
     }
 
-    /* modal end*/ 
+    /* account*/ 
+    .account_buttons{
+      
+    }
+
+    .account_messages{
+        width: 100px;
+    }
+
+    /* account end*/ 
 
 
 }
   
-  /* Активное меню */
-  .header-center.active {
-    display: block;
-  }
+  
+
+
