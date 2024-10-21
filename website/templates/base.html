@@ -36,10 +36,7 @@
         
         <nav>
           <ul>
-            {% if current_user.is_authenticated %}
-            {% else %}
-              <li onclick="window.location.href='/login'" >Войти</li>
-            {% endif %}
+
               <li onclick="window.location.href='/'">Главная</li>
               <li onclick="smoothScroll('/news')">Новости</li>
               <li onclick="window.location.href='/contacts'" >Контакты</li>
@@ -54,8 +51,9 @@
 
 
         
-        {% if current_user.is_authenticated %}
+       
         <div class="user-container">
+  
             <img 
 
               class = "icon_white"
@@ -66,14 +64,20 @@
               class = "icon_black"
               src="{{ url_for('static', filename='img/icon_black-user.png')}}" alt="">
             <div id="user_hover_navigation" class="user_hover_navigation">
+              {% if current_user.is_authenticated %}
                 <button class = "user_hover_navigation_account" onclick="window.location.href='/account'">Личный кабинет</button>
-                <!-- <button class = "user_hover_navigation_account" id="darkmode-toggle">Сменить тему</button> -->
+                  <!-- <button class = "user_hover_navigation_account" id="darkmode-toggle">Сменить тему</button> -->
                 <button class = "user_hover_navigation_logout" onclick="window.location.href='/logout'">Выйти</button>
+              
+              {% else %}
+                <button class = "user_hover_navigation_logout" onclick="window.location.href='/login'">Войти</button>
+              {% endif %}
+              
+
+            
             </div>
         </div>
-        {% else %}
 
-        {% endif %}
       </div>
     </header>
     <main> 
@@ -114,7 +118,7 @@
         <div class = "left_col_footer">
           <nav>
             <ul>
-                <li onclick="window.location.href=''">Erespondent-Online</li>
+                <li onclick="window.location.href='/'">Erespondent-Online</li>
             </ul>
           </nav>
         </div>      

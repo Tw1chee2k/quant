@@ -525,6 +525,7 @@ header nav ul {
     width: 30px;
     height: auto;
     cursor: pointer;
+
 }
 
 .user_hover_navigation button {
@@ -1071,8 +1072,8 @@ footer {
 /* Контейнер с количеством пользователей, организац...*/
 .statistics-row {
     max-width: 100%;
-    box-shadow: 0 -15px 30px 10px rgba(0, 0, 0, 0.1);
 
+    margin-top: 220px;
     /* background-color:  #ffa500; */
     background-color: #028dff;
     display: flex;
@@ -1186,10 +1187,11 @@ footer {
 }
 
 .news-row-right img{
+
     width: 650px;
     height: 100%;
     object-fit: cover;    
-    margin-right: 60px;
+    /* margin-right: 60px; */
     /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.301); */
 }
 
@@ -2919,153 +2921,78 @@ th .resizer {
 .report-list{
     margin-left: 30px;
 }
-
 /*audit page end*/
 
 /* begin news*/
-.news_cont{
-    width: 1000px;
-    min-height: calc(100vh - 60px) ;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+.news_cont {
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
-    margin-top: 60px;
-    margin-bottom: 60px;
+    padding: 20px;
+    margin-bottom: 40px;
 }
 
-.news_cont_title{
-    font-size: 24px;
-    font-weight: 400;
-    padding: 40px 0;
-}
-
-.latest_news{
+.news_cont_title {
+    font-size: 32px;
     text-align: center;
-    align-items: center;
-    display: flex;
-    justify-content: center;
+    margin-bottom: 20px;
+    font-weight: 600;
 }
 
+.news_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
 
-.latest_news .news_item {
+}
+
+.news_item {
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    max-width: 400px;
+}
+
+.news_item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.news_img {
     width: 100%;
-    height: auto;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
-}
-
-.latest_news .news_item img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-}
-
-.news_list_scroll {
-    display: flex;
-    overflow-x: auto;
-    gap: 15px;
-    padding-bottom: 10px;
-}
-
-.news_list_scroll::-webkit-scrollbar {
-    height: 5px;
-}
-
-.news_list_scroll::-webkit-scrollbar-thumb {
-    background-color: #e6e6e6;
-    border-radius: 4px;
-    cursor: grab;
-}
-
-.news_list_scroll::-webkit-scrollbar-thumb:active {
-    cursor: grabbing;
-}
-
-.news_list_scroll::-webkit-scrollbar-thumb:hover {
-    background: #e6e6e6;
-}
-
-.small_news_item {
-    width: 300px;
     height: 200px;
-    flex-shrink: 0;
-    position: relative;
-}
-
-.small_news_item img {
-    width: 100%;
-    height: 100%;
     object-fit: cover;
 }
 
-.news_title_container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8)); /* Градиент */
-    padding: 120px 0 40px 0;
-    color: white;
-    text-align: center;
+.news_content {
+    padding: 15px;
 }
 
-.news_overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
-    opacity: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    transition: opacity 0.3s ease;
-    text-align: center;
-}
-
-
-.news_text{
-    max-width: 500px;
-    padding: 40px;
+.news_title {
     font-size: 20px;
-    font-weight: 500;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
-.news_list_scroll .news_text{
-    padding: 10px;
-    font-size: 20px;
-    font-weight: 500;
-}
-
-.news_title{
-    padding: 0 20px;
-    font-size: 25px;
-    font-weight: 500;
-}
-
-.news_list_scroll .news_title{
-    padding: 0 10px;
-    font-size: 16px;
-    font-weight: 500;
+.news_text {
+    font-size: 14px;
+    color: #666;
 }
 
 
-.news_item:hover img {
-    filter: blur(5px);
+.news_list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
 }
 
-.news_item:hover .news_overlay {
-    opacity: 1;
+.news_list_scroll {
+    overflow-x: auto;
+    white-space: nowrap;
 }
-
-
-
 /* end news*/
 
 /* begin faq*/
@@ -3152,16 +3079,19 @@ th .resizer {
 .contacts_cont{
     margin: 0 auto;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+
     height: 100vh;
+    margin-top: 60px;
 }
 
 .contacts_box{
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
     height: fit-content;
     background-color:#ffffff;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
     display: flex;
 }
 

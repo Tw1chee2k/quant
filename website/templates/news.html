@@ -1,37 +1,40 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="news_cont">
-    <a class="news_cont_title">Новости</a>
-    <div></div>
-    
-    {% if all_news %}
-        <div class="latest_news">
-            <div class="news_item">
-                <img src="{{ url_for('static', filename='img/news/' + all_news[-1].img_name) }}" alt="">
-                <div class="news_title_container">
-                    <a class="news_title">{{ all_news[-1].title }}</a>
-                </div>
-                <div class="news_overlay">
-                    <a class="news_text">{{ all_news[-1].text }}</a>
-                </div>
-            </div>
-        </div>
 
-        <div class="news_list_scroll">
-            {% for i in all_news[:-1] %}
-                <div class="news_item small_news_item">
-                    <img src="{{ url_for('static', filename='img/news/' + i.img_name) }}" alt="">
-                    <div class="news_title_container">
-                        <a class="news_title">{{ i.title[:20] }}{% if i.title|length > 20 %}...{% endif %}</a>
-                    </div>
-                    <div class="news_overlay">
-                        <a class="news_text">{{ i.text[:15] }}{% if i.text|length > 15 %}...{% endif %}</a>
+<div class="profile_page">
+    <div class = "rotation-fromareas">
+        <div class = "rotation-fromareas_info" style = "margin: 70px 0 70px 82px;"> 
+            <span>
+                <a class = "hover_a" href="/">Главная</a>
+            </span>
+            <span> 
+                <img class = "img_black" src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
+                <img class = "img_white" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
+            </span>
+            <span>
+                <a>Новости</a>
+            </span>
+        </div>
+    </div>
+    <div class="news_cont">
+        
+        
+        <div class="news_grid">
+            {% if all_news %}
+            {% for all_news in all_news %}
+                <div class="latest_news news_item">
+                    <img class="news_img" src="{{ url_for('static', filename='img/news/' + all_news.img_name) }}" alt="news image">
+                    <div class="news_content">
+                        <h3 class="news_title">{{ all_news.title }}</h3>
+                        <p class="news_text">{{ all_news.text[:50] }}{% if all_news.text|length > 50 %}...{% endif %}</p>
                     </div>
                 </div>
             {% endfor %}
+            {% else %}
+                <p>Новости отсутствуют.</p>
+            {% endif %}
         </div>
-    {% else %}
-        <p>Новости отсутствуют.</p>
-    {% endif %}
+    </div>
+
 </div>
 {% endblock %}

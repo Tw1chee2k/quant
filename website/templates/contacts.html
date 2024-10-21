@@ -1,8 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="blurred-background"></div>
+
 
 <div class="contacts_cont">
+    <div class = "rotation-fromareas">
+        <div class = "rotation-fromareas_info" style = "margin: 70px 0 70px 82px;"> 
+            <span>
+                <a class = "hover_a" href="/">Главная</a>
+            </span>
+            <span> 
+                <img class = "img_black" src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
+                <img class = "img_white" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
+            </span>
+            <span>
+                <a>Контакты</a>
+            </span>
+        </div>
+    </div>
     <div class="contacts_box">
         <div class="contacts_info">
             <div class="contacts_info_name">
