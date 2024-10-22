@@ -20,6 +20,46 @@ clearButtons.forEach(btn => {
     });
 });
 
+function searchUnit() {
+    let input = document.getElementById('searchUnit').value.toLowerCase();
+    let rows = document.querySelectorAll('.table_report-area .dirUnit tr');
+
+    rows.forEach(row => {
+        let code = row.cells[0].querySelector('input').value.toLowerCase();
+        let name = row.cells[1].querySelector('input').value.toLowerCase();
+        
+        if (code.includes(input) || name.includes(input)) {
+            row.style.display = ''; 
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+function searchUnitProduct() {
+    // Получаем значение из поля ввода
+    let input = document.getElementById('searchUnitProduct').value.toLowerCase();
+
+    // Находим все строки в таблице
+    let rows = document.querySelectorAll('.dirUnitProduct tr');
+
+    // Перебираем все строки таблицы
+    rows.forEach(row => {
+        // Получаем значения ячеек с кодом и наименованием продукции
+        let code = row.cells[0].querySelector('input').value.toLowerCase();
+        let name = row.cells[1].querySelector('input').value.toLowerCase();
+        
+        // Проверяем, содержат ли код или наименование введённый текст
+        if (code.includes(input) || name.includes(input)) {
+            row.style.display = '';  // Показываем строку, если есть совпадение
+        } else {
+            row.style.display = 'none';  // Скрываем строку, если нет совпадения
+        }
+    });
+}
+
+
+
 function setupPasswordToggle(passwordFieldId, showIconClass, hideIconClass) {
     const passwordField = document.querySelector(`#${passwordFieldId}`);
     const showPasswordIcon = document.querySelector(`.${showIconClass}`); 

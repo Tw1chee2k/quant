@@ -282,7 +282,7 @@ header {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 100;
+    z-index:1;
     height: 60px;
     padding: 0 20px;
     transition: background 0.3s;
@@ -494,7 +494,7 @@ header nav ul {
     top: 0;
     visibility: hidden;
     transition: opacity 0.5s ease, top 0.5s ease, visibility 0s 0.5s;
-    z-index: 100;
+    z-index: 6;
 }
 
 /* .dark-mode .user_hover_navigation {
@@ -1016,7 +1016,7 @@ footer {
     text-transform: uppercase;
     text-align: left;
     font-weight: 600;
-    z-index: 2;
+
 }
 
 .hellow_row_name{
@@ -1072,10 +1072,10 @@ footer {
 .hellow_buttonarea button{
     height: 50px;
     width: 260px;
-    z-index: 1;
+
     padding: 0 30px;
     font-size: 16px;
-    z-index: 22;
+
 }
 
 .hellow_row_right{
@@ -1774,7 +1774,7 @@ footer {
 
 .serch-cont{
     display: flex;
-    justify-content: space-between;
+
     text-align: center;
     align-items: center;
     justify-content: left;
@@ -1792,7 +1792,7 @@ footer {
 }
 
 .search_input{
-    width: 30px;
+    width: 100%;
     border: 1px solid rgb(217, 217, 217);
     border-radius: 2px;
     font-size: 13px;
@@ -2554,15 +2554,23 @@ th .resizer {
     margin-top: 10px;
     max-height: 400px;
     margin-bottom: 5px;    
-    width: 100%;
-    display: flex;
-    flex-direction: row;
+    width: fit-content;
+
     overflow-x: auto;
+
 }
 
 .dark-mode .spravochniki_area {
     background-color:#4d4d4d;
 }
+
+
+
+
+
+
+
+
 
 /*end */
 
@@ -2705,11 +2713,12 @@ th .resizer {
 } */
 
 
-#RespondentModal .modal_table input{
-    width: 200px;
+#RespondentModal .modal_table input,
+#addCommentModal .modal_table input{
+    width: 270px;
     text-align: left;
 }
-
+/* 
 #addCommentModal .modal_table input,
 #addCommentModal .modal_table textarea{
     height: 26px;  
@@ -2736,7 +2745,7 @@ th .resizer {
     color: rgb(255, 255, 255);
     background-color: #4d4d4d;
     border: 1px solid rgb(121, 121, 121);  
-}
+} */
 
 .modal_table input:required-invalid{
     border: 2px solid red;
@@ -2945,7 +2954,7 @@ th .resizer {
 
 /* begin news*/
 .news_cont {
-    width: 100%;
+    width: calc(100% - 40px);
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
@@ -2973,7 +2982,7 @@ th .resizer {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
     overflow: hidden;
-    max-width: 400px;
+    max-width: 350px;
 }
 
 .news_item:hover {
@@ -3101,9 +3110,8 @@ th .resizer {
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    height: 100vh;
-    margin-top: 60px;
+    min-height: 100vh;
+    margin: 60px 0;
 }
 
 .contacts_box{
@@ -3113,6 +3121,7 @@ th .resizer {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     display: flex;
+    width: fit-content;
 }
 
 .contacts_info{

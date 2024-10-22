@@ -63,7 +63,20 @@
     }
     /*profile common end*/
 
+    /*contacts*/
+    .contacts_box{
+        display: flex;
+        flex-direction: column;
+        width: 700px;
+    }
 
+    .contacts_map{
+        width: 100%;
+        height: 500px;
+        border: none;
+    }
+    
+    /*contacts end*/
 
 }    
 
@@ -225,6 +238,15 @@
     }   
     /*header end*/
 
+    .statistics-row-right {
+        margin-right: 0;
+    }
+
+    .statistics-row-left img{
+        width: 550px;
+        height: 100%;
+    }
+
 
     /*account */  
     .account_cont .privetstvie_cont{
@@ -279,8 +301,6 @@
     {
         padding-bottom: 10px; /* Добавляет отступ в 20px внутри ячеек */
     }
-
-
 
     /*profile common end*/
 
@@ -354,7 +374,7 @@
 
     .statistics-row-left img {
         width: 100%; 
-        height: 370px;
+        height: 530px;
         background-color: transparent;
     }
 
@@ -457,12 +477,13 @@
         border-radius: 0;
         background-color: rgb(255, 255, 255);
         margin: 0 auto;   
-        top: 60px; 
+        top: 0;
         max-width: none;
         max-height: none; 
         padding: 20px;
         width: calc(100% - 40px);
-        height: calc(100% - 60px);
+        height: 100%;
+        z-index: 5;
     }
 
     .close{
@@ -488,7 +509,7 @@
         top: 150px;
         max-width: none;
         width: 100%;
-        height: 300px;
+        max-height: 300px;
         overflow-y: auto;
         overflow-x: auto;
         background-color: white;
@@ -503,6 +524,10 @@
        height:fit-content;
     }
 
+    .spravochniki_area {
+        max-height: calc(100vh - 140px);
+    }
+
     /* account*/ 
     .account_buttons{
       
@@ -514,7 +539,28 @@
 
     /* account end*/ 
 
+    /*contacts*/
+    .contacts_box{
+        width: 100%;
+        border-radius: 0;
+        box-shadow: none;
 
+    }
+
+    .contacts_info{
+        width: calc(100% - 40px);
+    }
+
+    .contacts_map{
+   
+
+        border: none;
+    }
+    
+    .contacts_content_row a{
+        font-size: 14px;
+    }
+    /*contacts end*/
 }
   
   

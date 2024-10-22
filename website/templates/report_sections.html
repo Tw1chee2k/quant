@@ -628,17 +628,19 @@
         </div>
         <div class = "serch-cont">
             <a>Поиск</a>
-            <input class = "search_input" type="text" placeholder="Код/Наименование (пока что не работает)">
+            <input class="search_input" type="text" placeholder="Код/Наименование" id = "searchUnit" onkeyup="searchUnit()">
+
         </div>
         <div class="spravochniki_area">
             <table class="table_report-area">
                 <thead class="order-table_titels">
                     <tr>  
-                        <th class="resizable" style = "white-space: nowrap; min-width: 200px;">Код<div class="resizer"></div></th>
-                        <th class="resizable" style = "white-space: nowrap; max-width: 200px;">Наименование<div class="resizer"></div></th>
+                        <th style = "white-space: nowrap;">Код единицы измерения</th>
+                        <th style = "white-space: nowrap;">Наименование</th>
+                        <th style = "white-space: nowrap; display: none;"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class = "dirUnit">
                     {% for row in dirUnit %}
                     <tr>
                         <td style="text-align: left;">
@@ -663,7 +665,8 @@
         </div>
         <div class = "serch-cont">
             <a>Поиск</a>
-            <input class = "search_input" type="text" name = "" placeholder="Код/Наименование (пока что не работает)">
+            <input class="search_input" type="text" placeholder="Код/Наименование" id = "searchUnitProduct" onkeyup="searchUnitProduct()">
+
         </div>
         <div class="spravochniki_area">
             <table class="table_report-area" style = "width: 100%;">
@@ -679,7 +682,7 @@
                         <th class="resizable" style = "white-space: nowrap;">Дата окончания<div class="resizer"></div></th> -->
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="dirUnitProduct">
                     {% for row in dirProduct %}
                     <tr>  
                         <td>
