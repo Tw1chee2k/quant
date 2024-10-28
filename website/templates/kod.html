@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="blurred-background"></div>
+<div class="page_log_reg">
+    <div class="log_reg_contener">
+        <div class="log_reg_img"></div>
+    
+        <div class="log_reg_form"> 
+            <form action="/kod" method="POST">
+                <div class="link_cont">
+                    <a onclick="window.location.href='/login'" style="margin-right: 19px;">Введите код для активации</a>
+                </div>
+                <div class="authorization_data">
+                    <div class="activation_code_container">
+                        {% for i in range(5) %}
+                        <input
+                            type="text"
+                            name="activation_code_{{ i }}"
+                            maxlength="1"
+                            class="activation_code_input"
+                            required
+                        />
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="log_buttons_area">
+                    <button type="submit" class="submit_button main_button">Отправить</button>
+                </div>
+            </form>
+        
+            <div class = "forgot_cont">
+                <button class = 'relod_button' id = "relod_button_kod" type="submit">Отправить ещё раз?</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputs = document.querySelectorAll('.activation_code_input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', () => {
+                if (input.value && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+                else if (!input.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+    
+            input.addEventListener('keydown', (e) => {
+                if (e.key === "Backspace" && index > 0 && !input.value) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+    
+        inputs[0].addEventListener('paste', (e) => {
+            e.preventDefault();
+            const pasteData = e.clipboardData.getData('text');
+        
+            pasteData.split('').forEach((char, i) => {
+                if (i < inputs.length) {
+                    inputs[i].value = char;
+                }
+            });
+
+            inputs[Math.min(pasteData.length - 1, inputs.length - 1)].focus();
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const resendButton = document.getElementById('relod_button_kod');
+    
+        resendButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            fetch('/resend_code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(data.message); 
+                    resendButton.disabled = true; 
+                    
+                    setTimeout(() => {
+                        resendButton.disabled = false; // Разблокировка кнопки
+                    }, 30000); // 30000 ms = 30 секунд
+                } else {
+                    alert(data.message); // Сообщение об ошибке
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка при отправке кода:', error);
+                alert('Не удалось отправить код. Попробуйте еще раз позже.');
+            });
+        });
+    });
+</script>
+{% endblock %}

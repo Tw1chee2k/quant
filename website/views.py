@@ -40,31 +40,7 @@ def profile_complete(f):
 
 @views.route('/')
 def beginPage():
-
     if User.query.count() == 0:   
-        # organizations_data = [
-        #     ('Региональное управление №1 (Брестская область)', '111', '111'),         
-        #     ('Региональное управление №2 (Витебская область)', '222', '222'),  
-        #     ('Региональное управление №3 (Гомельская область)', '333', '333'),  
-        #     ('Региональное управление №4 (Гродненская область)', '444', '444'),  
-        #     ('Региональное управление №5 (Минская область)', '555', '555'),  
-        #     ('Региональное управление №6 (Могилевская область)', '666', '666'),  
-        #     ('Региональное управление №7 (Минск)', '777', '777'),  
-        #     (' №8 ()', '888', '888'),
-        #     ('УО Новопольский ГАЭК', '35678438', '253314532'),
-        #     ('Борисовский завод медицинских препаратов', '05799746', '600125834'),
-        #     ('Руп "КВАНТ-АС"', '12345678', '453234532'),
-        # ]
-        # organizations = {}
-        # for organization_data in organizations_data:
-        #     new_org = Organization(full_name=organization_data[0], 
-        #                         okpo=organization_data[1], 
-        #                         ynp=organization_data[2])
-        #     db.session.add(new_org)
-        #     db.session.commit()  
-
-        #     organizations[new_org.id] = new_org
-
         users_data = [
             ('Аудитор', 'BrestReg@gmail.com', None, None, generate_password_hash('1234')),
             ('Аудитор', 'VitebskReg@gmail.com', None, None, generate_password_hash('1234')),
@@ -84,8 +60,8 @@ def beginPage():
                         email=user_data[1], 
                         fio=user_data[2],
                         telephone=user_data[3],
-                        password=user_data[4],
-                        is_active=True) 
+                        password=user_data[4]
+                        ) 
             db.session.add(user)   
             db.session.commit()
     if DirUnit.query.count() == 0:   
@@ -538,7 +514,6 @@ def beginPage():
             db.session.add(news)   
             db.session.commit()
 
-
     user_data = User.query.count()
     organization_data = Organization.query.count()
     report_data = Report.query.count()
@@ -573,6 +548,10 @@ def sign():
 @views.route('/login')
 def login():
     return render_template('login.html', user=current_user)
+
+@views.route('/kod')
+def kod():
+    return render_template('kod.html', user=current_user)
 
 
 year_today = datetime.now().year
@@ -912,6 +891,13 @@ def FAQ():
         current_user=current_user
     )
 
+@views.route('/FAQ/<int:id>')
+def FAQ_question(id):
+    
+    return render_template(f'Questions/{id}.html', 
+        current_user=current_user
+    )
+
 @views.route('/news')
 def news():
     all_news = News.query.filter_by().all()
@@ -931,3 +917,4 @@ def contacts():
     return render_template('contacts.html', 
         current_user=current_user
     )
+

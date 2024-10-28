@@ -58,7 +58,8 @@
                 {% if messages %}
                     {% for row in messages %}
                     <div class = "mes">
-                        <div class = "time_mes">{{row.create_time}}</div>
+                        <div class = "time_mes">{{row.create_time}} - {%if row.sender == 'Администратор'%}{{row.sender}} {%else%} Система {%endif%}</div>
+                       
                         <div class = "text_mes">{{row.text}}</div>
                     </div>
                     {%endfor%}

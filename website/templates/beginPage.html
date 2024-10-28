@@ -61,10 +61,20 @@
         <img src="{{ url_for('static', filename='img/news/' + latest_news.img_name) }}" alt="">
     </div>
 </div>
-<div class="askquestion-row">
-    <div class="askquestion_form">
-        
+{%if current_user.is_authenticated%}
+    <div class="askquestion-row">
+        <div class="askquestion_form">
+            <div class="news_name">Задайте свой вопрос</div>
+            <form action="">
+                <input type="text" name="fio" value = "{{current_user.fio}}" readonly>
+                <textarea type="text" name="text" placeholder="Опишите проблему" value = ""></textarea>
+                <input type="text" name="email" value = "{{current_user.email}}" readonly>
+                <input type="text" name="phone" value = "{{current_user.telephone}}" readonly>
+                <button type = "submit" class="main_button">Отправить вопрос</button>
+            </form>
+        </div>
     </div>
-</div>
+{%else%}
 
+{%endif%}
 {% endblock %}

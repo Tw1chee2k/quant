@@ -9,6 +9,7 @@ from datetime import datetime
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     create_time = db.Column(db.Date, default=datetime.now())
+    sender = db.Column(db.String(20), default=None)
     text = db.Column(db.String(200))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', backref=backref('messages', lazy=True, cascade="all, delete-orphan"))
@@ -21,10 +22,7 @@ class User(db.Model, UserMixin):
     fio = db.Column(db.String(30))
     telephone = db.Column(db.String(20))
     password = db.Column(db.String(50))
-    is_active = db.Column(db.Boolean, default=False)
     last_active = db.Column(db.DateTime, nullable=False, default=datetime.now())
-    # activation_token = db.Column(db.String(120))
-    # token_expiration = db.Column(db.DateTime) 
     organization_id = db.Column(db.Integer(), db.ForeignKey('organization.id'))
     reports = db.relationship('Report', backref='user', lazy=True, cascade="all, delete-orphan")
     organization = db.relationship('Organization', backref=backref('users', lazy=True, single_parent=True))

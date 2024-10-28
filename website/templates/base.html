@@ -54,15 +54,8 @@
         
        
         <div class="user-container">
-          
-            <img 
-              class = "icon_white"
-              src="{{ url_for('static', filename='img/icon_white-user.png')}}" 
-              alt="">
-            <img 
-              class = "icon_black"
-              src="{{ url_for('static', filename='img/icon_black-user.png')}}" alt="">
-            
+          {% set icon_path = 'img/icon_black-user.png' if current_user.is_authenticated else 'img/log.png' %}
+          <img class="icon_black" src="{{ url_for('static', filename=icon_path) }}" alt="">
         </div>
         <div id="user_hover_navigation" class="user_hover_navigation">
           <a class="close_user_hover_navigation">&times;</a>

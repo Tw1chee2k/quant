@@ -1,4 +1,4 @@
-from flask import Blueprint, request, flash, redirect, url_for, send_file, Response
+from flask import Blueprint, jsonify, request, flash, redirect, session, url_for, send_file, Response
 from flask_login import login_user, logout_user, current_user, login_required, LoginManager
 
 from .models import User, Organization, Report, Version_report, DirUnit, DirProduct, Sections, Ticket, Message
@@ -36,50 +36,46 @@ import dbf
 import random
 import string
 
-from itsdangerous import URLSafeTimedSerializer
-
 import zipfile
 import io
 
 auth = Blueprint('auth', __name__)
 login_manager = LoginManager()
 
-serializer = URLSafeTimedSerializer('your_secret_key')
-
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
 
 @auth.route('/login', methods=['GET', 'POST'])
-async def login():
+def login():
     if request.method == 'POST':
         email = request.form.get('email')
-        password = str(request.form.get('password'))
-        remember = True if request.form.get('remember') else False 
+        password = request.form.get('password')
+        remember = True if request.form.get('remember') else False
 
-        if email != '' or password != '':
+        if email and password:
             user = User.query.filter(func.lower(User.email) == func.lower(email)).first()
-            if user:    
+            if user:      
                 if check_password_hash(user.password, password):
                     flash('Авторизация прошла успешно', 'success')
-                    login_user(user, remember=remember) 
+                    login_user(user, remember=remember)
                     return redirect(url_for('views.account'))
                 else:
-                    flash('Не правильный пароль ', 'error')
+                    flash('Неправильный пароль', 'error')    
             else:
                 flash('Нет пользователя с таким email', 'error')
         else:
-            flash('Введите данные для авторизации', 'error')   
-    return redirect(url_for('views.login'))
+            flash('Введите данные для авторизации', 'error')
+        return redirect(url_for('views.login'))
 
 @auth.route('/logout')
 @login_required
-async def logout():
+def logout():
     logout_user()
     flash('Выполнен выход из аккаунта', 'success')
     return redirect(url_for('views.login'))
 
-async def send_email(message_body, recipient_email):
+def send_email(message_body, recipient_email):
     smtp_server = 'smtp.mail.ru'
     smtp_port = 587 
     email_address = 'tw1.ofcompay@mail.ru'  
@@ -95,24 +91,14 @@ async def send_email(message_body, recipient_email):
     server.send_message(message)
     server.quit()
 
-async def send_activation_email(user):
-    token = generate_activation_token(user.email)
-    activation_link = url_for('auth.activate_account', token=token, _external=True)
-    message_body = f'Чтобы активировать вашу учетную запись, перейдите по следующей ссылке: {activation_link}'
-    send_email(message_body, user.email)
-
-async def generate_activation_token(email):
-    return serializer.dumps(email, salt='email-confirm')
-
-async def confirm_activation_token(token, expiration=3600):
-    try:
-        email = serializer.loads(token, salt='email-confirm', max_age=expiration)
-    except:
-        return False
-    return email
+def send_activation_email(email):
+    activation_kod = gener_password()
+    session['activation_code'] = activation_kod
+    message_body = f'Чтобы активировать вашу учетную запись, введите код активации: {activation_kod}' 
+    send_email(message_body, email)
 
 @auth.route('/sign', methods=['GET', 'POST'])
-async def sign():
+def sign():
     if request.method == 'POST':
         email = request.form.get('email')
         password1 = request.form.get('password1')
@@ -125,35 +111,63 @@ async def sign():
                 flash('Некорректный адрес электронной почты', 'error') 
             elif password1 != password2:
                 flash('Ошибка в подтверждении пароля', 'error') 
-            else:
-                new_user = User(
-                    email=email,  
-                    password=generate_password_hash(password1)
-                )
-                db.session.add(new_user)
-                db.session.commit()
-                send_activation_email(new_user)
+            else:      
+                session['temp_user'] = {
+                    'email': email,
+                    'password': generate_password_hash(password1)
+                }
+
+                send_activation_email(email) 
                 flash('Регистрация прошла успешно! Проверьте свою почту для активации аккаунта.', 'success')
-                return redirect(url_for('views.sign'))
+                
+                return redirect(url_for('views.kod'))
+
         else:
             flash('Введите данные для регистрации', 'error')    
+
     return redirect(url_for('views.sign'))
 
-@auth.route('/activate/<token>')
-async def activate_account(token):
-    email = confirm_activation_token(token)
+@auth.route('/kod', methods=['GET', 'POST'])
+def kod():
+    if request.method == 'POST':
+        input_code = ''.join([
+            request.form.get(f'activation_code_{i}', '') for i in range(5)
+        ])
+
+        if input_code == session.get('activation_code'):
+            new_user = User(
+                email=session['temp_user']['email'],
+                password=session['temp_user']['password']
+            )
+            db.session.add(new_user)
+            db.session.commit()
+
+            session.pop('temp_user', None)
+            session.pop('activation_code', None)
+
+            flash('Аккаунт успешно активирован!', 'success')
+            return redirect(url_for('views.login'))
+        else:
+            flash('Некорректный код активации', 'error')
+    return redirect(url_for('views.kod'))
+
+@auth.route('/resend_code', methods=['POST'])
+def resend_code():
+    email = session.get('temp_user', {}).get('email')
+    
     if email:
-        user = User.query.filter_by(email=email).first_or_404()
-        user.is_active = True
-        db.session.commit()
-        flash('Аккаунт успешно активирован!', 'success')
-        return redirect(url_for('auth.login'))
+        new_activation_code = gener_password()
+        session['activation_code'] = new_activation_code
+        message_body = f'Ваш новый код активации: {new_activation_code}'
+        send_email(message_body, email)
+        
+        return jsonify({'status': 'success', 'message': 'Код активации отправлен повторно!'})
     else:
-        flash('Ссылка для активации недействительна или просрочена', 'error')
-        return redirect(url_for('auth.sign'))
+        return jsonify({'status': 'error', 'message': 'Не удалось отправить код повторно.'}), 400
+
 
 @auth.route('/add_personal_parametrs', methods=['GET', 'POST'])
-async def add_personal_parametrs():
+def add_personal_parametrs():
     if request.method == 'POST':
 
         name = request.form.get('name_common')
@@ -216,17 +230,17 @@ def update_user_activity():
         current_user.update_activity()
 
 @auth.before_request
-async def before_request():
+def before_request():
     update_user_activity()
 
 @auth.route('/update_activity', methods=['POST'])
-async def update_activity():
+def update_activity():
     if current_user.is_authenticated:
         current_user.update_activity()
     return '', 204
 
 @auth.route('/profile/password', methods=['GET', 'POST'])
-async def profile_password():
+def profile_password():
     if request.method == 'POST':
         old_password = request.form.get('old_password')
         new_password = request.form.get('new_password')
@@ -250,14 +264,15 @@ async def profile_password():
             flash('Введите пароль ', 'error')
     return redirect(url_for('views.profile_password'))
 
-async def gener_password():
-    length=8
-    characters = string.ascii_letters + string.digits
+def gener_password():
+    length=5
+    characters = string.digits
+    # characters = string.ascii_letters + string.digits
     password = ''.join(random.choice(characters) for _ in range(length))
     return password
 
 @auth.route('/relod_password', methods=['POST'])
-async def relod_password():
+def relod_password():
     email = request.form.get('email_relod')
 
     if not email:
@@ -279,7 +294,7 @@ async def relod_password():
         return redirect(url_for('views.login'))
 
 @auth.route('/create_new_report', methods=['POST'])
-async def create_new_report():
+def create_new_report():
     if request.method == 'POST':    
         organization_name = request.form.get('modal_organization_name')
         okpo = request.form.get('modal_organization_okpo')
@@ -313,7 +328,7 @@ async def create_new_report():
             flash(f'Отчет {year} года {quarter} квартала уже существует', 'error')
     return redirect(url_for('views.report_area'))
     
-async def last_quarter():
+def last_quarter():
     current_mounth = datetime.now().strftime("%m")
     if (current_mounth == '01' or current_mounth == '02' or current_mounth == '03'):
         last_quarter_value = 4
@@ -325,7 +340,7 @@ async def last_quarter():
         last_quarter_value = 3
     return last_quarter_value
   
-async def year_fourMounth_ago():
+def year_fourMounth_ago():
     current_date = datetime.now()
     months_to_subtract = 4
     new_date = current_date - timedelta(days=months_to_subtract * 30)
@@ -333,7 +348,7 @@ async def year_fourMounth_ago():
     return year_4_months_ago
 
 @auth.route('/update_report', methods=['POST'])
-async def update_report():
+def update_report():
     if request.method == 'POST':
         id = request.form.get('modal_report_id')
         okpo = request.form.get('modal_report_okpo')
@@ -377,7 +392,7 @@ async def update_report():
         return redirect(url_for('views.report_area'))
     
 @auth.route('/сopy_report', methods=['POST'])
-async def сopy_report():
+def сopy_report():
     if request.method == 'POST':
         coppy_report_id = request.form.get('coppy_report_id')
 
@@ -439,7 +454,7 @@ async def сopy_report():
         return redirect(url_for('views.report_area'))
 
 @auth.route('/delete_report/<report_id>', methods=['POST'])
-async def delete_report(report_id):
+def delete_report(report_id):
     if request.method == 'POST':
         current_report = Report.query.filter_by(id = report_id).first()
         versions = Version_report.query.filter_by(report_id = report_id).all()
@@ -467,7 +482,7 @@ async def delete_report(report_id):
         return redirect(url_for('views.report_area'))
     
 @auth.route('/create_new_report_version/<int:id>', methods=['POST'])
-async def create_new_report_version(id):
+def create_new_report_version(id):
     if request.method == 'POST':
         new_version_report = Version_report(
             fio = current_user.fio,
@@ -481,7 +496,7 @@ async def create_new_report_version(id):
     return redirect(url_for('views.report_area'))
 
 @auth.route('/delete_version/<int:id>', methods=['POST'])
-async def delete_version(id):
+def delete_version(id):
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=id).first()
         if current_version:
@@ -506,7 +521,7 @@ async def delete_version(id):
     return redirect(url_for('views.report_area'))
 
 @auth.route('/add_section_param', methods=['POST'])
-async def add_section_param():
+def add_section_param():
     if request.method == 'POST':
         current_version_id = request.form.get('current_version')
         name = request.form.get('name_of_product')
@@ -632,7 +647,7 @@ async def add_section_param():
         return redirect(url_for('views.report_section', report_type='electro', id=current_version_id))
 
 @auth.route('/change_section', methods=['POST'])
-async def change_section():
+def change_section():
     if request.method == 'POST':
         id_version = request.form.get('current_version')
         id_fuel = request.form.get('id')
@@ -735,7 +750,7 @@ async def change_section():
             return redirect(url_for('views.report_section', report_type='electro', id=id_version))
 
 @auth.route('/remove_section/<id>', methods=['POST'])
-async def remove_section(id):
+def remove_section(id):
     if request.method == 'POST':
         delete_section = Sections.query.filter_by(id=id).first()
         id_version = delete_section.id_version
@@ -779,7 +794,7 @@ async def remove_section(id):
             return redirect(url_for('views.report_section', report_type='electro', id=id_version))
         
 @auth.route('/control_version/<id>', methods=['POST'])
-async def control_version(id):
+def control_version(id):
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=id).first()
         id_version = current_version.id
@@ -805,7 +820,7 @@ async def control_version(id):
         return redirect(url_for('views.report_area'))
     
 @auth.route('/agreed_version/<id>', methods=['POST'])
-async def agreed_version(id):
+def agreed_version(id):
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=id).first()
         if current_version.status == 'Контроль пройден':     
@@ -820,7 +835,7 @@ async def agreed_version(id):
         return redirect(url_for('views.report_area'))
     
 @auth.route('/sent_version/<id>', methods=['POST'])
-async def sent_version(id):
+def sent_version(id):
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=id).first()
         if current_version.status == 'Согласовано':
@@ -845,7 +860,7 @@ async def sent_version(id):
         return redirect(url_for('views.report_area'))
 
 @auth.route('/change_category_report', methods=['POST'])
-async def change_category_report():
+def change_category_report():
     action = request.form.get('action')
     report_id = request.form.get('reportId')
     url = request.form.get('url')
@@ -907,7 +922,7 @@ async def change_category_report():
             return "Version not found", 404
 
 @auth.route('/send_comment', methods=['POST'])
-async def send_comment():
+def send_comment():
     if request.method == 'POST':
         version_id = request.form.get('version_id')
         resp_email = request.form.get('resp_email')
@@ -936,7 +951,7 @@ async def send_comment():
         return redirect(url_for('views.audit_report', id = version_id))
 
 @auth.route('/export_table', methods=['POST'])
-async def export_table():
+def export_table():
     if request.method == 'POST':
         version_id = int(request.form.get('version_id'))
 
@@ -1066,7 +1081,7 @@ async def export_table():
         return send_file(output, as_attachment=True, download_name='table_report.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
 @auth.route('/export_version/<id>', methods=['POST'])
-async def export_version(id):
+def export_version(id):
     if request.method == 'POST':
         version_id = id
 
@@ -1196,7 +1211,7 @@ async def export_version(id):
         return send_file(output, as_attachment=True, download_name='table_report.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
 @auth.route('/print_ticket/<int:id>', methods=['POST'])
-async def print_ticket(id):
+def print_ticket(id):
     if request.method == 'POST':
         ticket = Ticket.query.get(id)
         version_report = ticket.version_report
@@ -1240,7 +1255,7 @@ async def print_ticket(id):
         return send_file(buffer, as_attachment=True, download_name="ticket.pdf", mimetype="application/pdf")
     
 @auth.route('/export_ready_reports', methods=['POST'])
-async def export_ready_reports():
+def export_ready_reports():
     if request.method == 'POST':
         versions = Version_report.query.options(
             joinedload(Version_report.report),
