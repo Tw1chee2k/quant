@@ -22,6 +22,7 @@
         <div class="news_grid">
             {% if all_news %}
             {% for all_news in all_news %}
+            <a href="/news/{{ all_news.id }}">
                 <div class="latest_news news_item">
                     <img class="news_img" src="{{ url_for('static', filename='img/news/' + all_news.img_name) }}" alt="news image">
                     <div class="news_content">
@@ -29,6 +30,7 @@
                         <p class="news_text">{{ all_news.text[:50] }}{% if all_news.text|length > 50 %}...{% endif %}</p>
                     </div>
                 </div>
+            </a>
             {% endfor %}
             {% else %}
                 <p>Новости отсутствуют.</p>

@@ -1328,3 +1328,25 @@ def export_ready_reports():
             mimetype='application/zip',
             headers={"Content-Disposition": "attachment;filename=reports.zip"}
         )
+
+@auth.route('/sent_for_admin', methods=['POST'])
+def sent_for_admin():
+    if request.method == 'POST':
+        text = request.form.get('text')
+        if text:
+            admins = User.query.filter_by(type = "Администратор").all()
+            if admins:
+                for i in admins:
+                    new_message = Message(
+                        sender = current_user.id,
+                        text = text,
+                        user_id = i.id
+                    )
+                    db.session.add(new_message)
+                    db.session.commit()
+                flash('Сообщение отправлено', 'succes')
+            else:
+                flash('Администраторов нет', 'error')
+        else:
+            flash('Пустое сообщение', 'error')
+    return redirect(url_for('views.beginPage'))

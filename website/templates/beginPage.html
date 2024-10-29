@@ -65,9 +65,9 @@
     <div class="askquestion-row">
         <div class="askquestion_form">
             <div class="news_name">Задайте свой вопрос</div>
-            <form action="">
+            <form action="/sent_for_admin" method="POST">
                 <input type="text" name="fio" value = "{{current_user.fio}}" readonly>
-                <textarea type="text" name="text" placeholder="Опишите проблему" value = ""></textarea>
+                <textarea type="text" name="text" placeholder="Опишите проблему" value = "" required></textarea>
                 <input type="text" name="email" value = "{{current_user.email}}" readonly>
                 <input type="text" name="phone" value = "{{current_user.telephone}}" readonly>
                 <button type = "submit" class="main_button">Отправить вопрос</button>

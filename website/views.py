@@ -898,6 +898,14 @@ def FAQ_question(id):
         current_user=current_user
     )
 
+@views.route('/news/<int:id>')
+def news_post(id):
+    post = News.query.filter_by(id = id).first()
+    return render_template(f'Posts/1.html', 
+        current_user=current_user,
+        post=post
+    )
+
 @views.route('/news')
 def news():
     all_news = News.query.filter_by().all()
