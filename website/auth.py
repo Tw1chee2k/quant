@@ -1257,14 +1257,30 @@ def print_ticket(id):
 @auth.route('/export_ready_reports', methods=['POST'])
 def export_ready_reports():
     if request.method == 'POST':
-        versions = Version_report.query.options(
-            joinedload(Version_report.report),
-            joinedload(Version_report.sections).joinedload(Sections.product)
-        ).filter_by(status="Одобрен").all()
+        year_filter = request.form.get('year_filter')
+        quarter_filter = request.form.get('quarter_filter')
+
+        if year_filter and quarter_filter:
+            versions = Version_report.query.options(
+                joinedload(Version_report.report),
+                joinedload(Version_report.sections).joinedload(Sections.product)
+            ).join(Report).filter(
+                Version_report.status == "Одобрен",
+                Report.year == year_filter,
+                Report.quarter == quarter_filter
+            ).all()
+        else:
+            versions = Version_report.query.options(
+                joinedload(Version_report.report),
+                joinedload(Version_report.sections).joinedload(Sections.product)
+            ).filter(
+                Version_report.status == "Одобрен"
+            ).all()
+
 
         if not versions:
-       
-            return 'Отсутствуют одобренные отчеты'
+            flash('Отсутствуют одобренные отчеты')
+            return
 
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED) as zip_file:
@@ -1328,6 +1344,7 @@ def export_ready_reports():
             mimetype='application/zip',
             headers={"Content-Disposition": "attachment;filename=reports.zip"}
         )
+
 
 @auth.route('/sent_for_admin', methods=['POST'])
 def sent_for_admin():

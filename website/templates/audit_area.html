@@ -14,7 +14,10 @@
                                     <img src="{{ url_for('static', filename='img/upload.png')}}" alt="">
                                     <a>Загрузка</a>   
                                 </li>  
-                                <form id = "douwnload_readyreports_form" action="/export_ready_reports" method="POST" style = "display: none;"></form>        
+                                <form id = "douwnload_readyreports_form" action="/export_ready_reports" method="POST" style = "display: none;">
+                                    <input type = "hidden" name = "year_filter" value = "{% if year_filter == '' and quarter_filter == '' %}{%else%}{{year_filter}}{%endif%}">         
+                                    <input type = "hidden" name = "quarter_filter" value = "{% if year_filter == '' and quarter_filter == '' %}{%else%}{{quarter_filter}}{%endif%}">
+                                </form>        
                                 <li>           
                                     <img src="{{ url_for('static', filename='img/icon_sort.png')}}" alt="">
                                     <a>Сортировка</a>   
@@ -208,7 +211,7 @@
 </div>
 
 <div id="contextMenu_report" class="white-panel">
-    <button id="">
+    <button data-action="checkSectionsButton">
         <span>Просмотреть</span>
     </button>
 </div>

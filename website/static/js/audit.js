@@ -274,5 +274,15 @@ window.onload = function() {
     document.getElementById('url-input').value = window.location.href;
 };
 
-
+document.querySelector('[data-action="checkSectionsButton"]').addEventListener('click', function() {
+    var activeVersionRow = document.querySelector('.report_row.active-report');
+    if (activeVersionRow) {
+        var id = activeVersionRow.dataset.id;
+        var url = "/audit_area/report/" + id;
+        console.log(id);
+        window.location.href = url;
+    } else {
+        alert('Нет активного отчета. Пожалуйста, выберите отчет.');
+    }
+    });
 
