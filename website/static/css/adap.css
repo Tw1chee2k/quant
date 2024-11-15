@@ -34,6 +34,7 @@
 
     .short_name_app{
         display: block;
+        white-space: nowrap;
     }
 
 
@@ -103,6 +104,7 @@
     .header-center{
         padding: 0;
         margin: 0;
+
     } 
 
     .header-center {
@@ -116,7 +118,7 @@
         top: 0;
         visibility: hidden;
         transition: left 0.5s ease, visibility 0s 0.5s;
-        z-index: 100;
+        z-index: 99;
         width: calc(100% - 120px);
         height: 100vh;
         left: -430px;
@@ -145,14 +147,20 @@
 
     .close_header_center {
         position: absolute;
-        right: 50px;
-        top: 30px;
+        width: 100%;
+       
+        background-color: #028dff;
+        left:0;
+        bottom: 10%;
         display: block;
-        color: #aaa;
-        float: right;
-        text-align: end;
+        color: #ffffff;
+        height: 200px;
+        text-align: center;
         font-size: 35px;
-        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 400;
     }
     
     .close_header_center:hover,
@@ -293,13 +301,13 @@
         padding: 0;
     }
 
-    .personal-info_area table{
-        display: flex;
-        flex-direction: row;
+    .security-container, 
+    .clear-input_container{
+        width: 100%;
+
     }
 
     .profile_page .personal-info_area td input{
-  
         margin-left: 0;
     }
 
@@ -418,6 +426,8 @@
         font-size: 16px; 
     }
     /* end*/
+
+
 
 
     /* news_row */
@@ -549,8 +559,81 @@
     .account_messages{
         width: 100px;
     }
-
     /* account end*/ 
+    
+
+    /*profilecommon */
+    .profile_page{
+        margin-top: 170px;
+    }
+
+    .rotation-fromareas_info {
+        margin: 50px 40px;
+        margin-bottom: 60px;
+    }
+    
+    .profile_page .rotation-fromareas_info {
+        display: none;
+    }
+
+    .profile_page .personal-info_area{
+        height: 100%;
+        width: 100%;
+        
+        padding: 0 30px;
+
+    }
+
+    
+    .profile_page .personal-info_area table{
+        height: 100%;
+        width: 100%;
+        
+  
+
+    }
+
+    .show_dop_menu{
+        display: block;
+
+    }
+
+    .show_dop_menu ul{
+        display: flex;
+        flex-direction: row;  
+        justify-content: space-between;   
+        padding: 30px 30px;
+        position: fixed;
+        top: 55px;
+        box-shadow: 0 10px 10px rgb(0, 0, 0, 0.1);
+        width: calc(100% - 60px);
+        background-color: white;
+        z-index: 1;
+    }
+
+    .show_dop_menu ul li{
+        list-style-type: none;         
+        background-color: white;
+    }
+
+    .show_dop_menu li.active_li::before {
+        content: '';
+        position: absolute;
+      
+        bottom: 20%; 
+        transform: translateX(-50%); 
+        width: 100px; 
+        border: none;
+        height: 3px;
+        background-color: #028dff; 
+    }
+
+    .profile_page .personal-info_area td input{
+        width: 100%; 
+        
+    }
+
+    /*profilecommon end*/
 
     /*contacts*/
     .contacts_box{
@@ -565,8 +648,6 @@
     }
 
     .contacts_map{
-   
-
         border: none;
     }
     
@@ -574,6 +655,14 @@
         font-size: 14px;
     }
     /*contacts end*/
+
+
+    .menu_profile_audit {
+        display: none;
+    
+    }
+
+
 }
   
   

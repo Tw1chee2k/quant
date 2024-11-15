@@ -61,7 +61,7 @@
         <img src="{{ url_for('static', filename='img/news/' + latest_news.img_name) }}" alt="">
     </div>
 </div>
-{%if current_user.is_authenticated%}
+{%if current_user.is_authenticated and current_user.fio and current_user.telephone%}
     <div class="askquestion-row">
         <div class="askquestion_form">
             <div class="news_name">Задайте свой вопрос</div>

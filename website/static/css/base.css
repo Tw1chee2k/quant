@@ -285,7 +285,7 @@ header {
     z-index:1;
     height: 60px;
     padding: 0 20px;
-    transition: background 0.3s;
+    transition: background 0.3s, box-shadow 0.3s;
     width: calc(100% - 40px); 
     font-size: 16px;
     font-weight: 500;
@@ -819,17 +819,14 @@ footer {
 .registration_data input{
     background: rgba(255, 255, 255, 0);
     width: 100%;
-
     box-sizing: border-box;
     height: 20px;
     margin: 10px 0;
     padding: 15px 20px;
     border: none; 
     border-bottom: 1px solid rgb(56, 56, 56); 
-    color: black;
-    
+    color: black; 
     outline: none;
-    z-index: 2;
     font-size: 15px;
 }
 
@@ -1485,7 +1482,7 @@ footer {
     align-items:  center;
     border: none;
     background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
  
     max-width: 515px;
     height: 52px;
@@ -1530,16 +1527,15 @@ footer {
 } */
 
 .message_cont .mes{
-    display: flex;box-sizing: border-box;
+    display: flex;
+    box-sizing: border-box;
     flex-direction: column;
     padding: 20px;
-
     background-color: rgb(255, 255, 255);
     border-bottom: 2px solid #dfdfdf;
 }
 
 .dark-mode .message_cont .mes{
-    
     background-color:  #252525;
     border-bottom: 2px solid #333333;
 }
@@ -1553,7 +1549,6 @@ footer {
 
 .message_cont .mes .text_mes{
     font-size: 14px;
-
     /* color:#00ca00; */
     font-weight: 500;
 }
@@ -1581,9 +1576,9 @@ footer {
     display: flex;
     flex-direction: row;
     justify-content: left;
-    margin: 10px 50px;
 
-    margin-bottom: 20px;
+    margin: 70px 0 70px 82px;
+
     align-items: center;
 }
 
@@ -2985,6 +2980,11 @@ th .resizer {
 
 }
 
+.show_dop_menu{
+    display: none;
+
+}
+
 
 .menu_profile_audit {
     position: -webkit-sticky;
@@ -3235,6 +3235,7 @@ th .resizer {
 .p_img img {
     width: 100%; 
     max-width: 400px;
+
     height: auto; 
     border-radius: 8px; 
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);

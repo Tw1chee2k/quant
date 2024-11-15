@@ -1,9 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class="show_dop_menu">
+    <ul>
+        <li  class="active_li" onclick="window.location.href='/profile/common'">Общее</li>
+        <li onclick="window.location.href='/profile/password'">Конф.</li>
+        <li onclick="window.location.href='/logout'">Выйти</li>
+    </ul>    
+</div>
+
+
 <div class="profile_page">
     <div class = "rotation-fromareas">
-        <div class = "rotation-fromareas_info" style = "margin: 70px 0 70px 82px;"> 
+        <div class = "rotation-fromareas_info"> 
             <span>
                 <a class = "hover_a" href="/account">Личный кабинет</a>
             </span>
@@ -16,7 +25,6 @@
             </span>
         </div>
     </div>
-
     <div class="contener_row">
         <nav class = "menu_profile_audit ">
             <ul id="status-reportList">

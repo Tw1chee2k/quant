@@ -33,7 +33,7 @@ def profile_complete(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not current_user.fio or not current_user.telephone or not current_user.organization_id:
-            flash('Профиль пользователя не полностью заполнен. Пожалуйста, заполните все обязательные поля.', 'error')
+            flash('Пожалуйста, заполните все обязательные поля.', 'error')
             return redirect(url_for('views.profile_common'))
         return f(*args, **kwargs)
     return decorated_function
@@ -51,8 +51,7 @@ def beginPage():
             ('Аудитор', 'Minsk@gmail.com',  None, None, generate_password_hash('1234')),
             ('Аудитор', 'HZ@gmail.com',  None, None, generate_password_hash('1234')),
             ('Администратор', 'tw1che.2k@gmail.com', 'Сидоров Максим Андреевич','+375445531847', generate_password_hash('1234')),
-            ('Респондент', 'clown4lenix@gmail.com', 'Шапавалов Алексей Юрьевич','+375447317128', generate_password_hash('1234')),
-            ('Респондент', 'info@kvantas-as', 'Санников Вячеслав Степанович','365 04 33', generate_password_hash('1234')),
+            ('Респондент', 'info@kvantas-as', 'Санников Вячеслав Степанович','3650433', generate_password_hash('1234')),
             ('Респондент', 'maxsidorov2017@gmail.com', 'Харлап Алексей Игорьевич','+375296470299', generate_password_hash('1234')),
         ]
         for user_data in users_data:
