@@ -61,7 +61,8 @@
     }
 
     .account_cont .account_functions .account_messages{
-        width: calc(400px - 10px);
+        width: calc(100% - 10px);
+        max-width: 450px;
         margin: 0 5px;    
     }
 
@@ -272,17 +273,18 @@
     /*account */  
     .account_cont .privetstvie_cont{
         font-size: 20px;
-        width: calc(100% - 20px);
+        width: 100%;
     }
 
     .account_cont .account_functions{
-        display: flex;
-        flex-direction: column;
-        width: fit-content;
+        width: calc(100% - 60px);
+        margin: 0 30px;
     }
+
 
     .account_buttons{
         margin: 0 auto;
+        width: 340px;
     }
 
     .account_messages{
@@ -304,11 +306,11 @@
     .security-container, 
     .clear-input_container{
         width: 100%;
-
+     
     }
 
     .profile_page .personal-info_area td input{
-        margin-left: 0;
+        margin-left: 0;   
     }
 
     .choose-organization_area{
@@ -427,6 +429,38 @@
     }
     /* end*/
 
+    /*account */  
+    .account_cont .privetstvie_cont{
+
+    }
+
+    .account_cont .account_functions{
+        width: calc(100% - 40px);
+
+      
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .account_buttons{
+        margin: 0;
+        width: 100%;
+        max-width: 450px;
+    }
+
+    .account_messages{
+
+    }
+
+    .account_messageArea{
+
+    
+    }
+
+
+
+    /*account end*/
 
 
 
@@ -595,7 +629,8 @@
 
     .show_dop_menu{
         display: block;
-
+        z-index: 2;
+        background-color: white;
     }
 
     .show_dop_menu ul{

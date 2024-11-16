@@ -612,16 +612,14 @@ def profile_common():
     if not current_user.organization:
         return render_template('profile_common.html', 
                             current_user=current_user, 
-                            count_reports=count_reports,
-                            city_all_data_dict=city_all_data_dict
+                            count_reports=count_reports
                             )
     else:
         organization = Organization.query.filter_by(id=current_user.organization.id).first()
         return render_template('profile_common.html', 
                             user=current_user, 
                             organization=organization,
-                            count_reports=count_reports,
-                            city_all_data_dict=city_all_data_dict
+                            count_reports=count_reports
                             )
 
 @views.route('/profile/password')

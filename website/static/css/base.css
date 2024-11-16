@@ -494,7 +494,7 @@ header nav ul {
     top: 0;
     visibility: hidden;
     transition: opacity 0.5s ease, top 0.5s ease, visibility 0s 0.5s;
-    z-index: 6;
+    z-index: 99;
 }
 
 /* .dark-mode .user_hover_navigation {
@@ -1404,7 +1404,9 @@ footer {
     height: 82px;
     font-weight: 600;
     border-radius: 2px;
-    margin: 10px 0;
+    margin: 0;
+
+    margin-bottom: 10px;
     padding: 0 30px;
     font-size: 15px;
     transition: color 0.3s ease;
@@ -1469,8 +1471,9 @@ footer {
 
 .account_cont .account_functions .account_messages{
     display: flex;
-
-    width: 515px;
+    max-width: 515px;
+ 
+    width: 100%;
     flex-direction: column;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     height: 100%;
@@ -1483,8 +1486,8 @@ footer {
     border: none;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
- 
-    max-width: 515px;
+    width: calc(100% - 40px);
+
     height: 52px;
     font-weight: 600;
     border-radius: 0;
@@ -1512,8 +1515,7 @@ footer {
 }
 
 .message_cont{
-    max-width: 514px;
-    max-height: 302px; 
+    width: 100%;
     overflow-y: auto; 
 }
 
