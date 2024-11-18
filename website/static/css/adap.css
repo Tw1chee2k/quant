@@ -95,6 +95,25 @@
 
 }    
 
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.overlay.show {
+    opacity: 1;
+    pointer-events: auto; /* Включает взаимодействие */
+}
+
 @media (max-width: 1000px) {
     #menu-button {
         display: block;
@@ -119,11 +138,12 @@
         top: 0;
         visibility: hidden;
         transition: left 0.5s ease, visibility 0s 0.5s;
-        z-index: 99;
-        width: calc(100% - 120px);
+        z-index:2;
+        width: calc(100% - 120px - 20%);
         height: 100vh;
         left: -430px;
         padding: 60px;
+        padding-top: 100px;
         font-size: 17px;
     }
     
@@ -231,10 +251,11 @@
         visibility: hidden;
         transition: opacity 0.3s ease, right 0.5s ease, visibility 0s 0.5s;
         z-index: 100;
-        width:  calc(100% - 120px);
+        width:  calc(100% - 120px - 20%);
         height: 100vh;
         right: -430px;
-        padding: 60px;       
+        padding: 60px;
+        padding-top: 100px;       
     }
     
     .user_hover_navigation button{
@@ -259,6 +280,14 @@
         visibility: hidden;
     }   
     /*header end*/
+
+    .news-row {
+   
+        display: flex;
+        flex-direction: column;
+    }
+
+
 
     .statistics-row-right {
         margin-right: 0;
@@ -306,7 +335,7 @@
     .security-container, 
     .clear-input_container{
         width: 100%;
-     
+        z-index: 0;
     }
 
     .profile_page .personal-info_area td input{
@@ -467,7 +496,6 @@
     /* news_row */
     .news-row {
         padding: 6% 10% 0;
-        flex-direction: column;
     }
 
     .news-row-left{
@@ -602,9 +630,16 @@
     }
 
     .rotation-fromareas_info {
+        margin: 50px 25px;
+       
+    }
+
+    .report-area_page .profile_page .rotation-fromareas_info {
         margin: 50px 40px;
         margin-bottom: 60px;
     }
+
+
     
     .profile_page .rotation-fromareas_info {
         display: none;
@@ -643,7 +678,7 @@
         box-shadow: 0 10px 10px rgb(0, 0, 0, 0.1);
         width: calc(100% - 60px);
         background-color: white;
-        z-index: 1;
+        z-index: 0;
     }
 
     .show_dop_menu ul li{
@@ -692,10 +727,10 @@
     /*contacts end*/
 
 
-    .menu_profile_audit {
+    /* .profile_page .menu_profile_audit {
         display: none;
     
-    }
+    } */
 
 
 }

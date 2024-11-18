@@ -169,7 +169,6 @@ def resend_code():
 @auth.route('/add_personal_parametrs', methods=['GET', 'POST'])
 def add_personal_parametrs():
     if request.method == 'POST':
-
         name = request.form.get('name_common')
         second_name = request.form.get('second_name_common')
         patronymic = request.form.get('patronymic_common')
@@ -180,6 +179,8 @@ def add_personal_parametrs():
         okpo = request.form.get('okpo_common')
         ynp = request.form.get('ynp_common')
         ministry = request.form.get('ministry_common')
+
+        organiz_full_name = Organization.query.filter_by(full_name = full_name).first()
 
         if not name or not telephone or not full_name or not name or not second_name:
             flash('Заполните все обязательные строки', 'error')
@@ -193,36 +194,19 @@ def add_personal_parametrs():
             current_user.fio = fio
             existing_telephone = User.query.filter(User.id != current_user.id, User.telephone == telephone).first()
 
-            if not existing_telephone:
-                current_user.telephone = telephone
-                existing_Organization = Organization.query.filter_by(full_name=full_name).first()
-
-                if current_user.organization:
-
-                    current_user.organization.full_name = full_name  
-                    current_user.organization.okpo = okpo
-                    current_user.organization.ynp = ynp
-                    current_user.organization.ministry = ministry
-                else:
-                    if not existing_Organization:
-
-                        new_Organization = Organization(
-                            full_name=full_name,
-                            okpo=okpo,
-                            ynp=ynp,
-                            ministry=ministry
-                        )
-                        db.session.add(new_Organization)
-                        current_user.organization = new_Organization
-                    else:
-                        flash('Организация с таким названием уже существует.', 'error')
-                        return redirect(url_for('views.profile_common'))  
-
-                db.session.commit()
-                flash('Данные успешно обновлены.', 'success')
-            else: 
+            if existing_telephone:
                 flash('Пользователь с таким номером телефона уже существует.', 'error')
+            else: 
+                current_user.telephone = telephone
+                existing_userOrg = User.query.filter_by(organization_id=organiz_full_name.id).first()
 
+                if existing_userOrg:
+                    flash('Аккаунт с такой организацией уже существует.', 'error')
+                else: 
+                    current_user.organization_id = organiz_full_name.id
+                    db.session.commit()
+                    flash('Данные успешно обновлены.', 'success')
+                    return redirect(url_for('views.profile_common'))  
         return redirect(url_for('views.profile_common'))
 
 def update_user_activity():

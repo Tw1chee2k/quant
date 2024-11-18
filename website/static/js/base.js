@@ -3,10 +3,10 @@ const header = document.querySelector('.fixed-header');
 window.addEventListener('scroll', () => {
     if (window.scrollY > 0) {
         header.style.backgroundColor = 'white';
-        header.style.boxShadow = '0 0 20px rgb(0, 0, 0, 0.1)';
+        // header.style.boxShadow = '0 0 20px rgb(0, 0, 0, 0.1)';
     } else {
         header.style.backgroundColor = 'transparent';
-        header.style.boxShadow = 'none';
+        // header.style.boxShadow = 'none';
     }
 });
 //end
@@ -299,28 +299,28 @@ document.addEventListener('DOMContentLoaded', function () {
     /* menuButton */
     const menuButton = document.getElementById('menu-button');
     const headerCenter = document.querySelector('.header-center');
-    const close_header_center = document.querySelector('.close_header_center');
+    const userHoverNavigation = document.getElementById('user_hover_navigation');
+    const closeHeaderCenter = document.querySelector('.close_header_center');
+    const overlay = document.querySelector('.overlay');
     
-    close_header_center.addEventListener('click', function () {
-        headerCenter.classList.remove('show');
-        headerCenter.classList.add('hidden');
-    });
-
     function showHeaderCenter() {
-        if (headerCenter) {
+        if (headerCenter && overlay) {
+            userHoverNavigation.classList.add('hidden');
             headerCenter.classList.remove('hidden');
             headerCenter.classList.add('show');
+            overlay.classList.add('show');
         }
     }
     
     function hideHeaderCenter() {
-        if (headerCenter) {
+        if (headerCenter && overlay) {
             headerCenter.classList.remove('show');
             headerCenter.classList.add('hidden');
+            overlay.classList.remove('show');
         }
     }
     
-    if (menuButton && headerCenter) {
+    if (menuButton && headerCenter && overlay) {
         menuButton.addEventListener('click', function(event) {
             showHeaderCenter();
             event.stopPropagation();
@@ -335,6 +335,8 @@ document.addEventListener('DOMContentLoaded', function () {
         headerCenter.addEventListener('click', function(event) {
             event.stopPropagation();
         });
+    
+       
     }
   /* end menuButton */
 
@@ -372,27 +374,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* hoveruser panel */
     const userImgs = document.querySelectorAll('.icon_black, .icon_white');
-    const user_hover_navigation = document.getElementById('user_hover_navigation');
     let timeoutId;
     
-    const close_user_hover_navigation = document.querySelector('.close_user_hover_navigation');
-    
-    close_user_hover_navigation.addEventListener('click', function () {
-        user_hover_navigation.classList.remove('show');
-        user_hover_navigation.classList.add('hidden');
-    });
-
     function showUserHoverNavigation() {
-        if (user_hover_navigation) {
-            user_hover_navigation.classList.remove('hidden');
-            user_hover_navigation.classList.add('show');
+        if (userHoverNavigation && overlay) {
+            headerCenter.classList.add('hidden');
+            userHoverNavigation.classList.remove('hidden');
+            userHoverNavigation.classList.add('show');
+            overlay.classList.add('show');
         }
     }
     
     function hideUserHoverNavigation() {
-        if (user_hover_navigation) {
-            user_hover_navigation.classList.remove('show');
-            user_hover_navigation.classList.add('hidden');
+        if (userHoverNavigation && overlay) {
+            userHoverNavigation.classList.remove('show');
+            userHoverNavigation.classList.add('hidden');
+            overlay.classList.remove('show');
         }
     }
     
@@ -400,11 +397,23 @@ document.addEventListener('DOMContentLoaded', function () {
         element.addEventListener('click', function(event) {
             clearTimeout(timeoutId);
             showUserHoverNavigation();
-            event.stopPropagation(); 
+            event.stopPropagation();
         });
     }
     
-    // Для всех иконок добавляем обработчик клика
+    if (userHoverNavigation && overlay) {
+        document.addEventListener('click', function(event) {
+            if (!userHoverNavigation.contains(event.target)) {
+                hideUserHoverNavigation();
+            }
+        });
+    
+        userHoverNavigation.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    }
+    
+    // Для всех иконок обработчик клика
     userImgs.forEach(setupEventListeners);
     
     // Обработчик клика для документа
@@ -414,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     
-    // Остановим скрытие, если клик был внутри user_hover_navigation
+    //  скрытие, если клик был внутри user_hover_navigation
     user_hover_navigation.addEventListener('click', function(event) {
         event.stopPropagation();
     });

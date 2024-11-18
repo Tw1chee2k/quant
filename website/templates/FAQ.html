@@ -8,8 +8,7 @@
                 <a class = "hover_a" href="/">Главная</a>
             </span>
             <span> 
-                <img class = "img_black" src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
-                <img class = "img_white" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
+                <img src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
             </span>
             <span>
                 <a>Часто задаваемые вопросы</a>
@@ -32,7 +31,6 @@
                     </li>
                 </ul>  
 
-
                 <li data-content="authorization_faq">
                     <a>Авторизация</a>
                     <svg fill="#002762" height="12" viewBox="0 0 7 12" width="7" xmlns="http://www.w3.org/2000/svg">
@@ -45,7 +43,6 @@
                     </li>
                 </ul>
 
-                
                 <li data-content="profile_faq"> 
                     <a>Личный кабинет</a>
                     <svg fill="#002762" height="12" viewBox="0 0 7 12" width="7" xmlns="http://www.w3.org/2000/svg">
@@ -94,8 +91,6 @@
             <div>
                 <a>В случае отсутстивия ответа на вопрос обратитесь в поддержку</a>
             </div>
-            
-
         </div>
     </div>
 
@@ -111,7 +106,6 @@
             const contentElement = document.getElementById(contentId);
             const svg = item.querySelector('svg');
     
-            // Закрыть все другие элементы
             contentContainers.forEach(container => {
                 if (container !== contentElement) {
                     container.style.display = 'none';
@@ -121,8 +115,7 @@
                     }
                 }
             });
-    
-            // Переключить отображение текущего элемента
+
             if (contentElement.style.display === 'none' || contentElement.style.display === '') {
                 contentElement.style.display = 'block';
                 svg.classList.add('rotate-180');
@@ -133,9 +126,6 @@
         });
     });
 
-    
-    
-    
 </script>
 {% endblock %}
 

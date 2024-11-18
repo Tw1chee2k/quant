@@ -1,4 +1,3 @@
-import os
 from os import path
 from flask import Flask
 from flask_login import LoginManager
@@ -7,8 +6,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_babel import Babel
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
-from flask_admin.contrib.sqla import ModelView
-from flask_admin import BaseView, expose
 
 db = SQLAlchemy()
 DB_NAME = "database.db"

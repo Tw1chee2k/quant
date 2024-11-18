@@ -9,15 +9,14 @@
     <title>{% block title %}Erespondent-Online{% endblock %}</title>
   </head>
   <body>  
-
+    <div class="overlay hidden"></div>
     <header class="fixed-header">
       <div class="header-left">
          <nav>
           <ul>  
             <li id="menu-button"> 
               <a>
-                  <img class = "img_black" src="{{ url_for('static', filename='img/menu_black.png')}}" alt="">
-                  <img  class = "img_white" src="{{ url_for('static', filename='img/menu.png')}}" alt="">
+                  <img src="{{ url_for('static', filename='img/menu_black.png')}}" alt="">
               </a>
             </li> 
               <li class = "name_app" onclick="window.location.href='/'"> 
@@ -28,49 +27,32 @@
                 <img src="" alt="">
                 <a href="/">Er-Online</a>
               </li>
-              
-
           </ul>
         </nav>
       </div>
       <div class="header-center">
-        
         <nav>
           <ul>
-              <a class="close_header_center">&times;</a>
-             
-
               <li onclick="window.location.href='/'">Главная</li>
               <li onclick="smoothScroll('/news')">Новости</li>
               <li onclick="window.location.href='/contacts'" >Контакты</li>
               <li onclick="window.location.href='/FAQ'" >FAQ</li>
-
           </ul>
         </nav>
-
-        
       </div>
-      <div class="header-right">
-
-
-        
-       
+      <div class="header-right">   
         <div class="user-container">
           {% set icon_path = 'img/icon_black-user.png' if current_user.is_authenticated else 'img/log.png' %}
           <img class="icon_black" src="{{ url_for('static', filename=icon_path) }}" alt="">
         </div>
         <div id="user_hover_navigation" class="user_hover_navigation">
-          <a class="close_user_hover_navigation">&times;</a>
           {% if current_user.is_authenticated %}
             <button class = "user_hover_navigation_account" onclick="window.location.href='/account'">Личный кабинет</button>
-              <!-- <button class = "user_hover_navigation_account" id="darkmode-toggle">Сменить тему</button> -->
             <button class = "user_hover_navigation_logout" onclick="window.location.href='/logout'">Выйти</button>
-          
           {% else %}
             <button class = "user_hover_navigation_logout" onclick="window.location.href='/login'">Войти</button>
           {% endif %}
         </div>
-
       </div>
     </header>
     <main> 
@@ -79,7 +61,6 @@
           {% for category, message in messages %}
             <div class="alert {% if category == 'error' %}alert-danger{% else %}alert-success{% endif %} alert-dismissable fade show custom-alert" role="alert">
               <img src="{{ url_for('static', filename='img/' + ('error.png' if category == 'error' else 'succes.png')) }}" alt="">
-
               <div class = "p_message_cont">
                 <p style = "font-weight: 600; padding-bottom: 5px;">{% if category == 'error' %} Ошибка {% else %} Успех {% endif %}</p>
                 <p> {{ message }} </p>
@@ -90,20 +71,13 @@
         {% endif %}
       {% endwith %}
 
-
     {% block content %} 
     {% endblock %}
 
-
-
-    {% block javascript %}
-    <script>
-
-        </script>    
+    {% block javascript %} 
       <script src="{{ url_for('static', filename='js/base.js') }}"></script>
       <script src="{{ url_for('static', filename='js/adap.js') }}"></script>
     {% endblock %}
-
 
     </main>
     <footer>
@@ -133,14 +107,8 @@
           </nav>
           <div class = "telephone_info">
             <p></p>
-          
-
         </div>
       </div>
-
     </footer>
-    <script>
-
-    </script>
   </body> 
 </html>

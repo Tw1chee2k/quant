@@ -1,7 +1,7 @@
 import os
-from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
-from flask_admin import Admin, AdminIndexView, expose
-from flask_login import login_required, current_user
+from flask import flash, redirect, url_for
+from flask_admin import AdminIndexView, expose
+from flask_login import current_user
 from functools import wraps
 from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections
 from datetime import datetime, timedelta

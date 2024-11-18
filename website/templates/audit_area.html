@@ -7,7 +7,6 @@
             <div class="content-podmenu">
                 <nav>
                     <ul>
-
                         <section>
                             <div class = "functions_menu">     
                                 <li id = "douwnload_readyreports_link">           
@@ -28,7 +27,6 @@
                                 </li>  
                             </div>  
                             <a class="functions_menu_name">
-                                
                             </a>
                         </section>
                         <section id = "filtr_section">
@@ -42,8 +40,7 @@
                                     <input type="text" id="organization-filter" placeholder="Организация" value=""> 
                                 </div>       
                             </div>
-                            <a class="functions_menu_name">
-                                
+                            <a class="functions_menu_name"> 
                             </a>
                         </section>
                     </ul>
@@ -58,20 +55,16 @@
                 <a class = "hover_a" id = "link_period">Период</a>
             </span>
             <span> 
-                <img class = "img_black" src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
-                <img class = "img_white" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
+                <img src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
             </span>
             <span>
-                
                 <a>
                     {% if year_filter == '' and quarter_filter == '' %} 
                         Всё время
                     {%else%}
                         {{year_filter}} год, {{quarter_filter}} квартал
                     {%endif%}
-                </a>
-
-                
+                </a>         
             </span>
         </div>
     </div>
@@ -124,7 +117,6 @@
                 </form>
             </ul>
         </nav>
-
         <div class="report-list">
             <div class="report-area" >
                 <table class="table_report-area">
@@ -137,7 +129,6 @@
                             <th class="resizable" style="white-space: nowrap; min-width: 140px;">Статус<div class="resizer"></div></th>
                             <th class="resizable" style="white-space: nowrap; min-width: 100px;">Год<div class="resizer"></div></th>
                             <th class="resizable" style="white-space: nowrap; min-width: 100px;">Квартал<div class="resizer"></div></th>
-                            
                             <th rowspan="2"></th>
                         </tr>
                     </thead>
@@ -167,14 +158,12 @@
                                             {% endif %}
                                         </td> 
                                     {% endfor %} 
-
                                 <td>
                                     <input type="text" id="report_year" value="{{ row.year }}" readonly>
                                 </td>
                                 <td>
                                     <input type="text" id="report_quarter" value="{{ row.quarter }}" readonly>
                                 </td>
-               
                                 <td></td>
                             </tr>
                         {% endfor %}
@@ -193,7 +182,7 @@
         </div>
         <div class="spravochniki_area">
             <table class = "modal_table">
-                <tr >
+                <tr>
                     <td> 
                         <button 
                             id = "open_report"
@@ -205,7 +194,6 @@
                     </td>
                 </tr>
             </table>  
-
         </div>
     </div>
 </div>
@@ -254,7 +242,6 @@
                 </td>
                 <td style = "text-align: right;"> 
                     <button 
-                       
                         type="button" 
                         class="main_button" 
                         onclick="filterSentedReports()">Выбранный период

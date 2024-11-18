@@ -9,7 +9,6 @@
     </ul>    
 </div>
 
-
 <div class="profile_page">
     <div class = "rotation-fromareas">
         <div class = "rotation-fromareas_info"> 
@@ -17,8 +16,7 @@
                 <a class = "hover_a" href="/account">Личный кабинет</a>
             </span>
             <span> 
-                <img class = "img_black" src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
-                <img class = "img_white" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
+                <img src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
             </span>
             <span>
                 <a>Профиль пользователя</a>
@@ -179,36 +177,14 @@
                                         <div class="table_body_container">
                                             <table class="table_report-area">
                                                 <tbody id="chooserOganizationTableBody">
-                                                    <!-- {% for row in city_all_data_dict %}
+                                                    {% for row in organization %}
                                                         <tr data-id="{{ row.id }}">     
-                                                            <td>{{row.NAME1}} {{row.NAME2}} {{row.NAME3}} {{row.NAME4}} {{row.NAME5}} {{row.NAME6}}</td>
-                                                            <td style = "display: none;">{{row.OKPO}}</td>        
-                                                            <td style = "display: none;">{{row.UNP}}</td>
-                                                            <td style = "display: none;">{{row.MIN}}</td>
+                                                            <td>{{row.full_name}}</td>
+                                                            <td style = "display: none;">{{row.okpo}}</td>        
+                                                            <td style = "display: none;">{{row.ynp}}</td>
+                                                            <td style = "display: none;">{{row.ministry}}</td>
                                                         </tr>
-                                                    {% endfor %} -->
-                                                    
-                                                    <tr>     
-                                                        <td>название </td>
-                                       
-                                                    </tr>
-                                                    <tr>     
-                                                        <td>название </td>
-                                           
-                                                    </tr>
-                                                    <tr>     
-                                                        <td>название </td>
-                                    
-                                                    </tr>
-                                                    <tr>     
-                                                        <td>название </td>
-                                                 
-                                                    </tr>
-                                                    <tr>     
-                                                        <td>название </td>
-                                     
-                                                    </tr>
-
+                                                    {% endfor %}
                                                 </tbody>
                                             </table>
                                         </div>

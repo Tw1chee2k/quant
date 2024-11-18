@@ -1,24 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="profile_page">
+<div class="info_page">
     <div class = "rotation-fromareas">
         <div class = "rotation-fromareas_info"> 
             <span>
                 <a class = "hover_a" href="/">Главная</a>
             </span>
             <span> 
-                <img class = "img_black" src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
-                <img class = "img_white" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
+                <img src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
             </span>
-            <span>
                 <a>Новости</a>
             </span>
         </div>
     </div>
     <div class="news_cont">
-        
-        
         <div class="news_grid">
             {% if all_news %}
             {% for all_news in all_news %}
@@ -37,6 +33,6 @@
             {% endif %}
         </div>
     </div>
-
 </div>
+
 {% endblock %}
