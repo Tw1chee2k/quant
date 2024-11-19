@@ -1,2 +1,9 @@
 .vscode
-__pycach__
+__pycach_
+*.pyc
+*.pyo
+*.db
+*.sqlite3
+.env
+.vscode/
+venv/
