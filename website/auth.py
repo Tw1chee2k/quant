@@ -911,7 +911,9 @@ def send_comment():
         version_id = request.form.get('version_id')
         resp_email = request.form.get('resp_email')
         text = request.form.get('text')
-        cleaned_text = ' '.join(text.split())
+
+        cleaned_text = text
+        # cleaned_text = ' '.join(text.split())
 
         current_version = Version_report.query.filter_by(id=version_id).first()
 
