@@ -35,69 +35,69 @@
         </nav>
         <div class="personal-info_area">
             {%if count_reports != 0%}
-                <form action="" method=" ">
-                    <table>
-                        <tr>
-                            <td><span title = "Уровень доступа к функциям">Тип пользователя &#42;</span></div></td>
-                            <td><input type="text" value="{{current_user.type}}" readonly></td>
-                        </tr>
-                        <tr>
-                            <td>E-mail</td>
-                            <td>                        
-                                <input type="text" value="{{current_user.email}}" readonly>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Номер телефона</td>
-                            <td>
-                                <input type="text" value="{{current_user.telephone}}" readonly>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Фамилия</td>
-                            <td>                    
-                                <input type="text" value="{{current_user.fio.split()[0]}}" readonly>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Имя</td>
-                            <td>                    
-                                <input type="text" value="{{current_user.fio.split()[1]}}" readonly>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Отчество</td>
-                            <td>                    
-                                <input type="text" value="{{current_user.fio.split()[2]}}" readonly>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span title = "Организация за которую отчитываются">Предприятие &#42;</span></td>
-                            <td>
-                                <input type="text" value="{{current_user.organization.full_name}}" readonly>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>ОКПО</td>
-                            <td>
-                                <input type="text" name = "okpo_common" value="{{current_user.organization.okpo if current_user.organization else ''}} " readonly>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>УНП</td>
-                            <td>    
-                                <input type="text" name = "ynp_common" value="{{current_user.organization.ynp if current_user.organization else ''}}" readonly>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Министерство</td>
-                            <td>    
-                                <input type="text" name = "ministry_common" value="{{current_user.organization.ministry if current_user.organization else ''}}" readonly>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+            <form action="" method=" ">
+                <table>
+                    <tr>
+                        <td><span title = "Уровень доступа к функциям">Тип пользователя &#42;</span></div></td>
+                        <td><input type="text" value="{{current_user.type}}" readonly></td>
+                    </tr>
+                    <tr>
+                        <td>E-mail</td>
+                        <td>                        
+                            <input type="text" value="{{current_user.email}}" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Номер телефона</td>
+                        <td>
+                            <input type="text" value="{{current_user.telephone}}" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Фамилия</td>
+                        <td>                    
+                            <input type="text" value="{{current_user.fio.split()[0]}}" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Имя</td>
+                        <td>                    
+                            <input type="text" value="{{current_user.fio.split()[1]}}" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Отчество</td>
+                        <td>                    
+                            <input type="text" value="{{current_user.fio.split()[2]}}" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span title = "Организация за которую отчитываются">Предприятие &#42;</span></td>
+                        <td>
+                            <input type="text" value="{{current_user.organization.full_name}}" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ОКПО</td>
+                        <td>
+                            <input type="text" name = "okpo_common" value="{{current_user.organization.okpo if current_user.organization else ''}} " readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>УНП</td>
+                        <td>    
+                            <input type="text" name = "ynp_common" value="{{current_user.organization.ynp if current_user.organization else ''}}" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Министерство</td>
+                        <td>    
+                            <input type="text" name = "ministry_common" value="{{current_user.organization.ministry if current_user.organization else ''}}" readonly>
+                        </td>
+                    </tr>
+                </table>
+            </form>
             {%else%}
                 <form action="/add_personal_parametrs" method="POST">
                     <table>
@@ -164,50 +164,32 @@
                         <tr>
                             <td><span title = "Организация за которую отчитываются">Предприятие &#42;</span></td>
                             <td>
-                                <div class="clear-input_container">
-                                    <input class = "pred_name" type="text" placeholder="Выберите предприятие" name = "full_name_common" value="{{ current_user.organization.full_name if current_user.organization else '' }}" readonly>
-                                    <span class="clear-btn">&times;</span>
-                                </div>
-                                <div class="choose-organization_area">
-                                    <div class = "serch-cont">
-                                        <a>Поиск</a>
-                                        <input type="text" name = "search_organization" placeholder="Наименование предприятия">
-                                    </div>
-                                    <div>
-                                        <div class="table_body_container">
-                                            <table class="table_report-area">
-                                                <tbody id="chooserOganizationTableBody">
-                                                    {% for row in organization %}
-                                                        <tr data-id="{{ row.id }}">     
-                                                            <td>{{row.full_name}}</td>
-                                                            <td style = "display: none;">{{row.okpo}}</td>        
-                                                            <td style = "display: none;">{{row.ynp}}</td>
-                                                            <td style = "display: none;">{{row.ministry}}</td>
-                                                        </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
+                                <input class = "pred_name" type="text" placeholder="Выбранное предприятие" name = "full_name_common" value="{{ current_user.organization.full_name if current_user.organization else '' }}" readonly>
                             </td>
                         </tr>
                         <tr>
+                            <td></td>
+                            <td>
+                                <button type = "button" class = "main_button_gray" id = "link_chooseOrgModal">Выбрать предприятие</button>
+                            </td>
+                        </tr>
+
+                        <tr>
                             <td>ОКПО</td>
                             <td>
-                                <input type="text" name = "okpo_common" value="{{current_user.organization.okpo if current_user.organization.okpo else ''}} " readonly>
+                                <input type="text" placeholder="Окпо" name = "okpo_common" value="{{current_user.organization.okpo if current_user.organization.okpo else ''}} " readonly>
                             </td>
                         </tr>
                         <tr>
                             <td>УНП</td>
                             <td>    
-                                <input type="text" name = "ynp_common" value="{{current_user.organization.ynp if current_user.organization.ynp else ''}}" readonly>
+                                <input type="text" name = "ynp_common" placeholder="Унп" value="{{current_user.organization.ynp if current_user.organization.ynp else ''}}" readonly>
                             </td>
                         </tr>
                         <tr>
                             <td>Министерство</td>
                             <td>    
-                                <input type="text" name = "ministry_common"  value="{{current_user.organization.ministry if current_user.organization.ministry else ''}}" readonly>
+                                <input type="text" name = "ministry_common"  placeholder="Министерство" value="{{current_user.organization.ministry if current_user.organization.ministry else ''}}" readonly>
                             </td>
                         </tr>
                     </table>
@@ -220,57 +202,93 @@
         </div>
     </div>
 </div>
+
+
+<div id="chooseOrgModal" class="modal">
+    <div class="modal-content">
+        <div class = "modal-header">
+            <h3 class = "change-position">Выбирите организацию</h3>
+            <a class="close">&times;</a>
+        </div>
+        <div class = "serch-cont">
+            <a>Поиск</a>
+            <input class="search_input" type="text" placeholder="Наименование предприятия" name = "search_organization">
+        </div>
+        <div class="spravochniki_area">
+            <table class="table_report-area">
+                <tbody id="chooserOganizationTableBody">
+                    {% for row in organization %}
+                        <tr data-id="{{ row.id }}">     
+                            <td>{{row.full_name}}</td>
+                            <td style = "display: none;">{{row.okpo}}</td>        
+                            <td style = "display: none;">{{row.ynp}}</td>
+                            <td style = "display: none;">{{row.ministry}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
 <script>
     var full_name_common = document.querySelector('input[name="full_name_common"]');
     var okpo_common = document.querySelector('input[name="okpo_common"]');
     var ynp_common = document.querySelector('input[name="ynp_common"]');
-
     var ministry_common = document.querySelector('input[name="ministry_common"]');
-    var chooseOrganizationArea = document.querySelector('.choose-organization_area');
+    
+    var chooseOrgModal = document.getElementById('chooseOrgModal');
     var chooserOganizationTableBody = document.getElementById('chooserOganizationTableBody');
     
-    full_name_common.addEventListener('focus', function() {
-        chooseOrganizationArea.style.display = 'block';
-    });
     
-    chooserOganizationTableBody.addEventListener('click', function(event) {
+    chooserOganizationTableBody.addEventListener('click', function (event) {
         if (event.target.tagName === 'TD') {
-            chooseOrganizationArea.style.display = 'none';
-            var OrganizationName = event.target.parentNode.querySelector('td:nth-child(1)').textContent;
-            var OrganizationOked = event.target.parentNode.querySelector('td:nth-child(2)').textContent;
-            var OrganizationYNP = event.target.parentNode.querySelector('td:nth-child(3)').textContent;
-            var OrganizationMIN = event.target.parentNode.querySelector('td:nth-child(4)').textContent;
-            
-            full_name_common.value = OrganizationName;
-            okpo_common.value = OrganizationOked;
-            ynp_common.value = OrganizationYNP;
-            ministry_common.value = OrganizationMIN;
-        } 
-    });
+            chooseOrgModal.classList.remove('active');
     
-    document.addEventListener('click', function(event) {
-        var search_organization = document.querySelector('input[name="search_organization"]');
-        if (!chooseOrganizationArea.contains(event.target) && event.target !== full_name_common) {
-            chooseOrganizationArea.style.display = 'none';
-            search_organization.value = '';
+            var selectedRow = event.target.parentNode;
+            full_name_common.value = selectedRow.querySelector('td:nth-child(1)').textContent.trim();
+            okpo_common.value = selectedRow.querySelector('td:nth-child(2)').textContent.trim();
+            ynp_common.value = selectedRow.querySelector('td:nth-child(3)').textContent.trim();
+            ministry_common.value = selectedRow.querySelector('td:nth-child(4)').textContent.trim();
         }
     });
+    
 
-    document.querySelector('input[name="search_organization"]').addEventListener('input', function() {
-        var filterText = this.value.trim().toLowerCase();   
-        var chooserOganizationTableBody = document.querySelector('#chooserOganizationTableBody');
-
-        Array.from(chooserOganizationTableBody.querySelectorAll('tr')).forEach(function(row) {      
-            var OrgName = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
-            var codeOrg = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-            if (codeOrg.includes(filterText) || OrgName.includes(filterText)) {
+    document.querySelector('input[name="search_organization"]').addEventListener('input', function () {
+        var filterText = this.value.trim().toLowerCase();
+        Array.from(chooserOganizationTableBody.querySelectorAll('tr')).forEach(function (row) {
+            var orgName = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+            var orgCode = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+    
+            if (orgName.includes(filterText) || orgCode.includes(filterText)) {
                 row.style.display = '';
-            } else { 
+            } else {
                 row.style.display = 'none';
             }
         });
-
     });
+    
+    /* chooseOrgModal modal */
+    var link_chooseOrgModal = document.getElementById('link_chooseOrgModal');
+    var chooseOrgModal = document.getElementById('chooseOrgModal');
+    var ClosechooseOrgModal = chooseOrgModal.querySelector('.close');
+
+    link_chooseOrgModal.addEventListener('click', function() {
+        chooseOrgModal.classList.add('active');
+        contextMenuReport.style.display = 'none';
+    });
+
+    ClosechooseOrgModal.addEventListener('click', function() {
+        chooseOrgModal.classList.remove('active');
+    });
+
+    chooseOrgModal.addEventListener('click', function(event) {
+        if (event.target === chooseOrgModal) {
+            chooseOrgModal.classList.remove('active');
+        }
+    });
+    /* end */
 </script>
 {% endblock %}
 

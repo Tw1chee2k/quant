@@ -1134,43 +1134,27 @@ function sortTable() {
 }
 /* end sort tablel by tt dif */
 
+
 /* period modal */
 var link_period = document.getElementById('link_period');
 var period_modal = document.getElementById('period_modal');
 var close_period_modal = period_modal.querySelector('.close');
 
 link_period.addEventListener('click', function() {
-    period_modal.classList.add('active'); // Добавляем класс 'active'
+    period_modal.classList.add('active');
     contextMenuReport.style.display = 'none';
 });
 
 close_period_modal.addEventListener('click', function() {
-    period_modal.classList.remove('active'); // Убираем класс 'active'
+    period_modal.classList.remove('active'); 
 });
 
 period_modal.addEventListener('click', function(event) {
     if (event.target === period_modal) {
-        period_modal.classList.remove('active'); // Убираем класс 'active'
+        period_modal.classList.remove('active');
     }
 });
 /* end */
-
-
-
-
-
-function smoothScroll(target) {
-    const [path, hash] = target.split('#');
-    if (window.location.pathname === path) {
-        document.getElementById(hash).scrollIntoView({
-            behavior: 'smooth'
-        });
-    } else {
-        window.location.href = target;
-    }
-}
-
-
 
 
 
