@@ -656,10 +656,7 @@ footer {
 .log_reg_contener{
     display: flex;
     flex-direction: row;     
-
     border-radius: 5px;
-    /* border-top-left-radius: 0;
-    border-bottom-left-radius: 0;   */
 }
 
 .log_reg_info{
@@ -676,21 +673,14 @@ footer {
 }
 
 .log_reg_form {
-    /* background-color: rgb(255, 255, 255);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    /* margin-left: 500px; */
-
     background: rgba(255, 255, 255, 0.2);
     display: flex; 
     flex-direction: column;
     text-align: center;
     align-items: center;
-
     padding: 30px;    
     border-radius: 5px;
-    /* border-top-left-radius: 0;
-    border-bottom-left-radius: 0;     */
 }
 
 .link_cont{
@@ -749,21 +739,18 @@ footer {
 .activation_code_input{
     background: rgba(255, 255, 255, 0);
     width: 40px;
-
     text-align: center;
     height: 50px;
-
-
     border: none; 
     border-bottom: 1px solid rgb(56, 56, 56); 
-    color: black;
-    
+    color: black; 
     outline: none;
-
     font-size: 17px;
 }
 
-.log_reg_form input::-webkit-input-placeholder {  color: rgb(0, 0, 0); }
+.log_reg_form input::-webkit-input-placeholder {  
+    color: rgb(0, 0, 0); 
+}
 
 .log_reg_form .remember_cont {
     border: none;
@@ -801,7 +788,6 @@ footer {
     content: '';
 }
 
-
 .log_buttons_area{
     display:flex;
     flex-direction: column;
@@ -813,7 +799,6 @@ footer {
     margin-top: 10px;
     padding: 5px 20px;
     width: 100%;
- 
     height: 34px;
     cursor: pointer;
     border: none;
@@ -1893,6 +1878,7 @@ footer {
     display: flex; 
     flex-direction: row;
     height: 110px;
+    margin-bottom: 5px;
 }
 
 #filtr_section {
@@ -1941,7 +1927,7 @@ footer {
 .functions_menu_name{
     font-weight: 600;
     font-family: 13px;
-    margin-bottom: 3px;
+    margin: 0 0 5px 0;
 }
 
 .content-podmenu nav ul li{
@@ -1949,10 +1935,12 @@ footer {
     display: flex;
     border-radius: 5px;
     flex-direction: column;
+    justify-content: space-between;
     margin: 7px;
     align-items: center;
     text-align: center;
-    width: 65px;    
+    width: 65px; 
+    height: 65px;   
     padding: 15px;
     cursor: pointer;
     transition: background-color 0.3s ease, padding 0.3s ease;
@@ -2608,11 +2596,7 @@ th .resizer {
     flex-direction: column;
 }
 
-.audit-area {
-    display: flex;
-    height: auto; /* Добавляем высоту */
 
-}
 
 .show_dop_menu{
     display: none;
@@ -2620,7 +2604,9 @@ th .resizer {
 }
 
 
-.menu_profile_audit {
+
+
+.left_menu {
     position: -webkit-sticky;
     padding: 12px 0 8px;
     font-size: 14px;
@@ -2630,14 +2616,9 @@ th .resizer {
     /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.144); */
     border-radius: 0;
     border-top-right-radius: 5px;
-
+    width: fit-content;
 }
 
-#status-reportList{
-    position: sticky;
-    top: 70px;    
-    width: 280px;
-}
 
 #status-faqlist{
     position: sticky;
@@ -2645,7 +2626,7 @@ th .resizer {
     width: 330px;
 }
 
-.menu_profile_audit li {
+.left_menu li {
     display: flex;
     justify-content: space-between;
     list-style-type: none;
@@ -2661,22 +2642,17 @@ th .resizer {
     align-items: center;
 }
 
-.menu_profile_audit .content {
+.left_menu .content {
     margin-left: 20px;
 }
 
-
-
-.menu_profile_audit .content li {
+.left_menu .content li {
     font-size: 13px;
     font-weight: 400;  
     padding: 7px 30px 7px 50px;
 }
 
-
-
-
-.menu_profile_audit li svg{
+.left_menu li svg{
     margin-left: 25px;
     transition: transform 0.3s ease; 
 
@@ -2684,23 +2660,20 @@ th .resizer {
 
 .rotate-180 {
     transform: rotate(-90deg);
-
 }
 
-.menu_profile_audit li a{    
+.left_menu li a{    
     word-wrap: break-word; 
     white-space: normal;
     color: black;
 }
 
-
-.menu_profile_audit li:hover {
-    /* background-color: #0072cf; */
+.left_menu li:hover {
     background-color: rgb(223, 223, 223);
     padding: 7px 30px 7px 60px;
 }
 
-.menu_profile_audit li.active_li::before {
+.left_menu li.active_li::before {
     content: '';
     position: absolute;
     top: 0;
@@ -2714,16 +2687,6 @@ th .resizer {
 
 .dragging {
     opacity: 0.5;
-}
-
-.count-img{
-    width: 33px; 
-    height: auto;
-    opacity: 0.9;
-}
-
-.report-list{
-    margin-left: 30px;
 }
 /*audit page end*/
 
@@ -2747,7 +2710,6 @@ th .resizer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
-
 }
 
 .news_item {
@@ -2786,7 +2748,6 @@ th .resizer {
     color: #666;
 }
 
-
 .news_list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -2798,14 +2759,6 @@ th .resizer {
     white-space: nowrap;
 }
 /* end news*/
-
-
-/* begin faq*/
-
-
-
-/*faq.css end*/
-
 
 /*contacts.css end*/
 .contacts_cont{
@@ -2850,7 +2803,6 @@ th .resizer {
     display: flex;
     flex-direction: column;
     padding-bottom: 40px;
-
 }
 
 .contacts_content_row{
@@ -2858,7 +2810,6 @@ th .resizer {
     flex-direction: row;
     align-items:start;
     margin-bottom: 10px;
-    
 }
 
 .contacts_content_row img{
@@ -2877,4 +2828,738 @@ th .resizer {
     border: none;
 }
 /*contacts.css end*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* static/css/custom.css */
+
+  .navbar, .footer {
+    width: 100%;
+}
+
+.container-fluid {
+    width: 100%;
+    padding: 0;
+}
+
+@media (max-width: 1500px){  
+
+}    
+
+
+@media (max-width: 1440px){  
+    /*header*/
+    header{
+      font-size: 15px;
+    }
+
+    .name_app{
+        display: none;
+    }    
+
+    .short_name_app{
+        display: block;
+        white-space: nowrap;
+    }
+
+
+    /*acc */
+    .account_links{
+        padding-bottom: 10px;
+    }
+  
+    .account_cont .privetstvie_cont{
+        width: 100%;
+    }
+
+    .account_cont .account_functions{
+        width: 900px;
+    }
+
+    .buttons_account_add_report span{
+        font-size: 13px;
+    }
+    
+    .account_buttons{
+        width: 400px;
+        font-size: 13px;
+    }
+
+    .account_cont .account_functions .account_messages{
+        width: calc(100% - 10px);
+        max-width: 450px;
+        margin: 0 5px;    
+    }
+
+    /*acc end*/
+
+    /*profile common*/
+    .profile_page .personal-info_area td input{
+        width: 310px; 
+    }
+
+    .choose-organization_area {
+        max-width: 367px; 
+    }
+    /*profile common end*/
+
+    /*contacts*/
+    .contacts_box{
+        display: flex;
+        flex-direction: column;
+        width: 700px;
+    }
+
+    .contacts_map{
+        width: 100%;
+        height: 500px;
+        border: none;
+    }
+    
+    /*contacts end*/
+
+}    
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.overlay.show {
+    opacity: 1;
+    pointer-events: auto; /* Включает взаимодействие */
+}
+
+@media (max-width: 1000px) {
+    #menu-button {
+        display: block;
+    }
+
+    .header-left,
+    .header-right,
+    .header-center{
+        padding: 0;
+        margin: 0;
+
+    } 
+
+    .header-center {
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 0;
+        right: 0;
+        padding: 10px;
+        opacity: 0;
+        top: 0;
+        visibility: hidden;
+        transition: left 0.5s ease, visibility 0s 0.5s;
+        z-index:2;
+        width: calc(100% - 120px - 20%);
+        height: 100vh;
+        left: -430px;
+        padding: 60px;
+        padding-top: 100px;
+        font-size: 17px;
+    }
+
+    .header-center.show {
+        opacity: 1;
+        left: 0;
+        visibility: visible;
+        transition: opacity 0.5s ease, left 0.5s ease;
+    }
+    
+    .header-center.hidden {
+        opacity: 0;
+        left: -430px;
+        transition: opacity 0.5s ease, left 0.5s ease, visibility 0s 0.7s;
+        visibility: hidden;
+    }
+
+    .close_header_center {
+        position: absolute;
+        width: 100%;
+       
+        background-color: #028dff;
+        left:0;
+        bottom: 10%;
+        display: block;
+        color: #ffffff;
+        height: 200px;
+        text-align: center;
+        font-size: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 400;
+    }
+    
+    .close_header_center:hover,
+    .close_header_center:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .header-center nav {
+        width: fit-content;
+    }
+
+    .header-center nav ul {
+        display: flex; 
+        flex-direction: column;
+        text-align: left;
+        align-items: start;
+        width: fit-content;
+    }
+    
+    .header-center nav ul li {
+        margin: 0;
+        margin-bottom: 50px;
+        cursor: pointer;  
+    }
+
+    .header-center nav ul li:last-child {
+        margin-bottom: 0;
+    }
+
+    .dropdown-content.show {
+        display: flex;
+        margin: 0;
+        flex-direction: column; 
+        padding: 10px 5px;
+    }
+
+    .close_user_hover_navigation {
+        position: absolute;
+        right: 50px;
+        top: 30px;
+        display: block;
+        color: #aaa;
+        float: right;
+        text-align: end;
+        font-size: 35px;
+        font-weight: bold;
+    }
+    
+    .close_user_hover_navigation:hover,
+    .close_user_hover_navigation:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .user_hover_navigation {
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 0;
+        right: 0;
+        padding: 10px;
+        opacity: 0;
+        top: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, right 0.5s ease, visibility 0s 0.5s;
+        z-index: 100;
+        width:  calc(100% - 120px - 20%);
+        height: 100vh;
+        right: -430px;
+        padding: 60px;
+        padding-top: 100px;       
+    }
+    
+    .user_hover_navigation button{
+        font-size: 17px;
+        margin-bottom: 50px;
+        padding: 0;
+        font-weight: 500;
+    }
+
+    .user_hover_navigation.show {
+        top:0;
+        opacity: 1;
+        right: 0;
+        visibility: visible;
+        transition: opacity 0.5s ease, right 0.5s ease;
+    }
+
+    .user_hover_navigation.hidden {
+        opacity: 0;
+        right: -430px;
+        transition: opacity 0.5s ease, right 0.5s ease, visibility 0s 0.7s; /* Задержка для visibility */
+        visibility: hidden;
+    }   
+    /*header end*/
+
+    .news-row {
+   
+        display: flex;
+        flex-direction: column;
+    }
+
+
+
+    .statistics-row-right {
+        margin-right: 0;
+    }
+
+    .statistics-row-left img{
+        width: 550px;
+        height: 100%;
+    }
+
+
+    /*account */  
+    .account_cont .privetstvie_cont{
+        font-size: 20px;
+        width: 100%;
+    }
+
+    .account_cont .account_functions{
+        width: calc(100% - 60px);
+        margin: 0 30px;
+    }
+
+
+    .account_buttons{
+        margin: 0 auto;
+        width: 340px;
+    }
+
+    .account_messages{
+        margin: 0 auto;
+    }
+    /*account end*/
+
+
+
+
+    /*profile common*/
+
+    .profile_page .personal-info_area tr td{
+        display: flex;
+        flex-direction: row;
+        padding: 0;
+    }
+
+    .security-container, 
+    .clear-input_container{
+        width: 100%;
+        z-index: 0;
+    }
+
+    .profile_page .personal-info_area td input{
+        margin-left: 0;   
+    }
+
+    .choose-organization_area{
+        margin: 0;
+    }
+
+
+    .profile_page .personal-info_area table tr:nth-child(1) td, /* Тип пользователя */
+    .profile_page .personal-info_area table tr:nth-child(3) td, /* Номер телефона */
+    .profile_page .personal-info_area table tr:nth-child(6) td  /* Отчество */
+    {
+        padding-bottom: 10px; /* Добавляет отступ в 20px внутри ячеек */
+    }
+
+    /*profile common end*/
+
+
+}
+
+
+
+
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+
+    /*-----------------------mes*/
+    .custom-alert {
+        right: -500px;
+        width: 25vb;
+    }    
+    /*-----------------------mes end*/
+
+    /*log_reg*/
+    .log_reg_form{
+        box-shadow: none;
+        padding: 30px; 
+    }
+
+    .link_cont{ 
+        padding: 20px 0 60px 0 ;
+    }
+    /*log_reg end*/
+
+
+    /*hellow_row*/
+    .hellow_row {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        padding: 120px 0 0 0;
+        align-items: center;
+    }
+
+    .hellow_row_name,
+    .hellow_row_dop_name{
+        font-size: 20px;
+
+    }
+
+    .hellow_buttonarea {
+        text-align: center;
+    }
+
+    .hellow_buttonarea button{
+        width: 200px;
+        height: 40px;
+        font-size: 13px;
+    }
+    /*hellow_row end*/
+
+
+    /* Контейнер с количеством пользователей, организац...*/
+    .statistics-row {
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        background-color: transparent;
+    }
+
+    .statistics-row-left img {
+        width: 100%; 
+        height: 530px;
+        background-color: transparent;
+    }
+
+    .statistics-row-right {
+        position: absolute;
+        top: 50%; 
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%; 
+        height: 100%;
+        margin: 0;
+        background-color: rgba(255, 255, 255, 0.8); 
+    }
+
+    .item_stat:nth-child(2){
+        margin: 6% 0
+    }
+
+    .stat_count {
+        font-size: 44px;
+    }
+
+    .stat_name {
+        font-size: 16px; 
+    }
+    /* end*/
+
+    /*account */  
+    .account_cont .privetstvie_cont{
+
+    }
+
+    .account_cont .account_functions{
+        width: calc(100% - 40px);
+
+      
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .account_buttons{
+        margin: 0;
+        width: 100%;
+        max-width: 450px;
+    }
+
+    .account_messages{
+
+    }
+
+    .account_messageArea{
+
+    
+    }
+
+
+
+    /*account end*/
+
+
+
+    /* news_row */
+    .news-row {
+        padding: 6% 10% 0;
+    }
+
+    .news-row-left{
+        width: 100%;
+        padding: 0;
+    }
+
+    .news-row-right{
+
+    }
+
+    .news-row-right img{
+        /* width: 100%;
+        height: 100%;
+        object-fit: cover;    
+        margin: 0;
+        padding: 0; */
+        display: none;
+    }
+
+    .item_news{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .news_name{
+        font-size: 111%;
+        padding-bottom: 6%;
+    }
+
+    .item_news .first_p{
+        font-size: 110%;
+        line-height: 23px;
+    }
+
+    .item_news .second_p{
+        font-size: 100%;
+        line-height: 23px;
+    }
+    /* news_row end*/  
+
+
+    /* footer*/  
+    .footer_cont {
+        flex-direction: column;
+    }
+
+    .center_col_footer{
+        display: none;
+    }
+
+    .left_col_footer,
+    .center_col_footer,
+    .right_col_footer{
+        flex: 0 0 100%;
+        max-width: 100%;
+        justify-content: left;
+    }
+    /* footer end*/  
+
+    /* modal */ 
+    .modal-content {
+        border-radius: 0;
+        background-color: rgb(255, 255, 255);
+        margin: 0 auto;   
+        top: 0;
+        max-width: none;
+        max-height: none; 
+        padding: 20px;
+        width: calc(100% - 40px);
+        height: 100%;
+        z-index: 5;
+    }
+
+    .close{
+        font-size: 30px;
+        margin-left: 20px;
+    }
+
+    .modal_table  tr td{
+        display: flex;
+    }
+
+    .modal_table tr td input{
+        margin: 0;
+    }
+
+    .modal_table .input-container .inc_button {
+        margin: 0;
+    }
+ 
+    .choose-product_area {
+        position: absolute;
+        right: 0;
+        top: 150px;
+        max-width: none;
+        width: 100%;
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: auto;
+        background-color: white;
+        border: none; 
+        display: none;
+        align-items: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .choose-product_area tr {
+       display: flex;
+       height:fit-content;
+    }
+
+    .spravochniki_area {
+        max-height: calc(100vh - 140px);
+    }
+
+    /* account*/ 
+    .account_buttons{
+      
+    }
+
+    .account_messages{
+        width: 100px;
+    }
+    /* account end*/ 
+    
+
+    /*profilecommon */
+    .profile_page{
+        margin-top: 170px;
+    }
+
+    .rotation-fromareas_info {
+        margin: 50px 25px;
+       
+    }
+
+    .report-area_page .profile_page .rotation-fromareas_info {
+        margin: 50px 40px;
+        margin-bottom: 60px;
+    }
+
+
+    
+    .profile_page .rotation-fromareas_info {
+        display: none;
+    }
+
+    .profile_page .personal-info_area{
+        height: 100%;
+        width: 100%;
+        
+        padding: 0 30px;
+
+    }
+
+    
+    .profile_page .personal-info_area table{
+        height: 100%;
+        width: 100%;
+        
+  
+
+    }
+
+    .show_dop_menu{
+        display: block;
+        z-index: 2;
+        background-color: white;
+    }
+
+    .show_dop_menu ul{
+        display: flex;
+        flex-direction: row;  
+        justify-content: space-between;   
+        padding: 30px 30px;
+        position: fixed;
+        top: 55px;
+        box-shadow: 0 10px 10px rgb(0, 0, 0, 0.1);
+        width: calc(100% - 60px);
+        background-color: white;
+        z-index: 0;
+    }
+
+    .show_dop_menu ul li{
+        list-style-type: none;         
+        background-color: white;
+    }
+
+    .show_dop_menu li.active_li::before {
+        content: '';
+        position: absolute;
+      
+        bottom: 20%; 
+        transform: translateX(-50%); 
+        width: 100px; 
+        border: none;
+        height: 3px;
+        background-color: #028dff; 
+    }
+
+    .profile_page .personal-info_area td input{
+        width: 100%; 
+        
+    }
+
+    /*profilecommon end*/
+
+    /*contacts*/
+    .contacts_box{
+        width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+
+    }
+
+    .contacts_info{
+        width: calc(100% - 40px);
+    }
+
+    .contacts_map{
+        border: none;
+    }
+    
+    .contacts_content_row a{
+        font-size: 14px;
+    }
+    /*contacts end*/
+
+
+    .profile_page .left_menu {
+        display: none;
+    
+    }
+
+
+}
+  
+  
+
 

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     var reportRows = document.querySelectorAll('.report_row');
-    var navigationItems = document.querySelectorAll('.menu_profile_audit li');
+    var navigationItems = document.querySelectorAll('.menu_audit li');
 
     var previousReportRow = null;
     var selectedReportId = null;
@@ -49,15 +49,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function setDraggingState(isDragging) {
         var imgs = document.querySelectorAll('.count-img');
-        var texts = document.querySelectorAll('.count-text');
+;
         
+
         var with_remarks = document.querySelector('li[data-action="remarks"]');
         var to_conf = document.querySelector('li[data-action="to_download"]');
         var to_del = document.querySelector('li[data-action="to_delete"]');
     
         imgs.forEach((img, index) => {
-            texts[index].style.display = isDragging ? 'none' : 'inline';
-            
+   
+          
+
+
             with_remarks.style.background = isDragging ? 'rgba(255, 186, 96)' : '';
             to_conf.style.background = isDragging ? 'rgb(96, 255, 122)' : '';
             to_del.style.background = isDragging ? 'rgb(255, 96, 96)' : '';
@@ -81,13 +84,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     function setDraggingStatetoNonread(isDragging) {
-        var imgs = document.querySelectorAll('.count-img');
-        var texts = document.querySelectorAll('.count-text');
-        
+
+
         var not_read = document.querySelector('li[data-action="not_viewed"]');
         imgs.forEach((img, index) => {
-            texts[index].style.display = isDragging ? 'none' : 'inline';
-            
+
             const draggingStyle = isDragging ? 'rgb(96, 255, 122)' : '';
             not_read.style.background = draggingStyle;
 
@@ -241,12 +242,12 @@ ChooseAudit_modal.addEventListener('click', function(event) {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const navItems = document.querySelectorAll('.menu_profile_audit li[data-action]');
+    const navItems = document.querySelectorAll('.menu_audit li[data-action]');
     
     navItems.forEach(item => {
         item.addEventListener('click', () => {
-            navItems.forEach(i => i.classList.remove('active_li'));
-            item.classList.add('active_li');
+            navItems.forEach(i => i.classList.remove('activefunctions_menu'));
+            item.classList.add('activefunctions_menu');
             
             const action = item.getAttribute('data-action');
             window.location.href = `/audit_area/${action}?year=${getQueryParam('year')}&quarter=${getQueryParam('quarter')}`;
@@ -261,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentAction = window.location.pathname.split('/').pop();
     navItems.forEach(item => {
         if (item.getAttribute('data-action') === currentAction) {
-            item.classList.add('active_li');
+            item.classList.add('activefunctions_menu');
         }
     });
 });
