@@ -1,3 +1,15 @@
+//header
+const sticky_menu = document.querySelector('.sticky_menu');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 0) {
+        sticky_menu.style.boxShadow = '0 10px 10px rgb(0, 0, 0, 0.1)';
+    } else {
+        sticky_menu.style.boxShadow = 'none';
+    }
+});
+//end
+
+
 document.addEventListener('DOMContentLoaded', function () {
     var reportRows = document.querySelectorAll('.report_row');
     var navigationItems = document.querySelectorAll('.menu_audit li');
@@ -125,18 +137,20 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
             if (this.dataset.id) {
                 selectedReportId = this.dataset.id;
-
+        
                 if (previousReportRow !== null) {
                     previousReportRow.classList.remove('active-report');
                 }
                 this.classList.add('active-report');
                 previousReportRow = this;
-
-                contextMenuReport.style.top = event.clientY + 'px';
-                contextMenuReport.style.left = event.clientX + 'px';
+        
+                // Установка правильных координат для контекстного меню
+                contextMenuReport.style.top = event.pageY + 'px'; // Вертикальная позиция
+                contextMenuReport.style.left = event.pageX + 'px'; // Горизонтальная позиция
                 contextMenuReport.style.display = 'flex';
             }
         });
+        
 
         row.addEventListener('dragstart', function(event) {
             var reportId = this.dataset.id; 

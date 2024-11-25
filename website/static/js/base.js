@@ -1038,5 +1038,5 @@ function handleModal(modalElement, openLink, closeLink) {
     });
 }
 
-handleModal(document.getElementById('period_modal'), document.getElementById('link_period'), document.getElementById('Closeperiod_modal'));
+handleModal(document.getElementById('period_modal'), document.getElementById('link_period'), period_modal.querySelector('.close'));
 

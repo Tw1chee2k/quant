@@ -2,126 +2,125 @@
 {% block content %}
 
 <div class="audit-area_page">
-    <div class="report-area_menu">
-        <div class="report-area_podmenu">
-            <div class="content-podmenu">
-                <nav>
-                    <ul>
-                        <section>
-                            <div class = "functions_menu">
-                                <nav >
-                                    <ul class="menu_audit" id="status-reportList">     
-                                        <li data-action="not_viewed"> 
-                                            <img class="count-img" src="{{ url_for('static', filename='img/sl_1.png')}}">          
-                                            <!-- <a>Не просмотр.</a> -->
-                                            <a class="count_reporst">   
-                                                <span>Непросм.</span>
-                                                <!-- <span class="count-text">{{not_viewedReports_count}}</span> -->
-                                            </a>
-                                        </li>
-                                        <li data-action="remarks">   
-                                            <img class="count-img" src="{{ url_for('static', filename='img/sl_2.png')}}">             
-                                            <!-- <a>Замечания</a> -->
-                                            <a class="count_reporst">
-                                                <span>Зам.</span>
-                                                <!-- <span class="count-text">{{remarksReports_count}}</span> -->
-                                            </a> 
-                                        </li>
-                                        <li data-action="to_download">   
-                                            <img class="count-img" src="{{ url_for('static', filename='img/sl_3.png')}}">              
-                                            <!-- <a>Одобренные</a> -->
-                                            <a class="count_reporst"> 
-                                                <span>Одобр.</span>
-                                                <!-- <span class="count-text">{{to_downloadReports_count}}</span> -->
-                                            </a>
-                                        </li>  
-                                        <li data-action="to_delete"> 
-                                            <img class="count-img" src="{{ url_for('static', filename='img/sl_4.png')}}">                
-                                            <!-- <a>Готов к удалению</a> -->
-                                            <a class="count_reporst">
-                                                <span>Удал.</span>
-                                                <!-- <span class="count-text">{{to_deleteReports_count}}</span> -->
-                                            </a>
-                                        </li>  
-                                        <li data-action="all_reports">           
-                                            <img class="count-img" src="{{ url_for('static', filename='img/sl_5.png')}}">                
-                                            <!-- <a>Все</a> -->
-                                            <a class="count_reporst">
-                                                <span>Все</span>
-                                                <!-- <span class="count-text">{{all_count}}</span> -->
-                                            </a>
-                                        </li>  
-                                        <form id="change-category-form" style="display: none;" method="post" action="/change_category_report">
-                                            <input type="hidden" name="reportId" id="report-id-input">
-                                            <input type="hidden" name="action" id="action-input">
-                                            <input type="hidden" name="url" id="url-input">
-                                        </form>
-                                    </ul>
-                                </nav>
-                            </div>  
-                            <a class="functions_menu_name">
-                                Статус отчета
-                            </a>
-                        </section>
-                        <section>
-                            <div class = "functions_menu">     
-                                <li id = "douwnload_readyreports_link">           
-                                    <img src="{{ url_for('static', filename='img/upload.png')}}" alt="">
-                                    <a>Загрузка</a>   
-                                </li>  
-                                <form id = "douwnload_readyreports_form" action="/export_ready_reports" method="POST" style = "display: none;">
-                                    <input type = "hidden" name = "year_filter" value = "{% if year_filter == '' and quarter_filter == '' %}{%else%}{{year_filter}}{%endif%}">         
-                                    <input type = "hidden" name = "quarter_filter" value = "{% if year_filter == '' and quarter_filter == '' %}{%else%}{{quarter_filter}}{%endif%}">
-                                </form>        
-                                <li>           
-                                    <img src="{{ url_for('static', filename='img/icon_sort.png')}}" alt="">
-                                    <a>Сортировка</a>   
-                                </li>  
-                                <li id = "show-filter">           
-                                    <img src="{{ url_for('static', filename='img/filter.png')}}" alt="">
-                                    <a>Фильтр</a>   
-                                </li>  
-                            </div>  
-                            <a class="functions_menu_name">
-                            </a>
-                        </section>
-                        <section id = "filtr_section">
-                            <div class="filter_area">
-                                <div class="filter_type">                                
-                                    <a>ОКПО</a>  
-                                    <input type="text" id="okpo-filter" placeholder="Код ОКПО" value="">
+    <div class="sticky_menu">
+        <div class="report-area_menu">
+            <div class="report-area_podmenu">
+                <div class="content-podmenu">
+                    <nav>
+                        <ul>
+                            <section>
+                                <div class = "functions_menu">     
+                                    <li id = "douwnload_readyreports_link">           
+                                        <img src="{{ url_for('static', filename='img/upload.png')}}" alt="">
+                                        <a>Загрузка</a>   
+                                    </li>  
+                                    <li id = "link_period">           
+                                        <img src="{{ url_for('static', filename='img/.png')}}" alt="">
+                                        <a>↓ Период</a>   
+                                    </li>  
+                                </div>                         
+                                <a class="functions_menu_name">        
+                                     {% if year_filter == '' and quarter_filter == '' %} 
+                                        Всё время
+                                    {%else%}
+                                        {{year_filter}} год, {{quarter_filter}} квартал
+                                    {%endif%}     
+                                </a>
+                            </section>
+                            
+                            <section>
+                                <div class = "functions_menu">
+                                    <nav>
+                                        <ul class="menu_audit" id="status-reportList">     
+                                            <li data-action="not_viewed"> 
+                                                <img class="count-img" src="{{ url_for('static', filename='img/sl_1.png')}}">          
+                                                <!-- <a>Не просмотр.</a> -->
+                                                <a class="count_reporst">   
+                                                    <span>Непросм.</span>
+                                                    <!-- <span class="count-text">{{not_viewedReports_count}}</span> -->
+                                                </a>
+                                            </li>
+                                            <li data-action="remarks">   
+                                                <img class="count-img" src="{{ url_for('static', filename='img/sl_2.png')}}">             
+                                                <!-- <a>Замечания</a> -->
+                                                <a class="count_reporst">
+                                                    <span>Зам.</span>
+                                                    <!-- <span class="count-text">{{remarksReports_count}}</span> -->
+                                                </a> 
+                                            </li>
+                                            <li data-action="to_download">   
+                                                <img class="count-img" src="{{ url_for('static', filename='img/sl_3.png')}}">              
+                                                <!-- <a>Одобренные</a> -->
+                                                <a class="count_reporst"> 
+                                                    <span>Одобр.</span>
+                                                    <!-- <span class="count-text">{{to_downloadReports_count}}</span> -->
+                                                </a>
+                                            </li>  
+                                            <li data-action="to_delete"> 
+                                                <img class="count-img" src="{{ url_for('static', filename='img/sl_4.png')}}">                
+                                                <!-- <a>Готов к удалению</a> -->
+                                                <a class="count_reporst">
+                                                    <span>Удал.</span>
+                                                    <!-- <span class="count-text">{{to_deleteReports_count}}</span> -->
+                                                </a>
+                                            </li>  
+                                            <li data-action="all_reports">           
+                                                <img class="count-img" src="{{ url_for('static', filename='img/sl_5.png')}}">                
+                                                <!-- <a>Все</a> -->
+                                                <a class="count_reporst">
+                                                    <span>Все</span>
+                                                    <!-- <span class="count-text">{{all_count}}</span> -->
+                                                </a>
+                                            </li>  
+                                            <form id="change-category-form" style="display: none;" method="post" action="/change_category_report">
+                                                <input type="hidden" name="reportId" id="report-id-input">
+                                                <input type="hidden" name="action" id="action-input">
+                                                <input type="hidden" name="url" id="url-input">
+                                            </form>
+                                        </ul>
+                                    </nav>
+                                </div>  
+                                <a class="functions_menu_name">
+                                    Статус отчета
+                                </a>
+                            </section>
+                            <section>
+                                <div class = "functions_menu">     
+                                    <form id = "douwnload_readyreports_form" action="/export_ready_reports" method="POST" style = "display: none;">
+                                        <input type = "hidden" name = "year_filter" value = "{% if year_filter == '' and quarter_filter == '' %}{%else%}{{year_filter}}{%endif%}">         
+                                        <input type = "hidden" name = "quarter_filter" value = "{% if year_filter == '' and quarter_filter == '' %}{%else%}{{quarter_filter}}{%endif%}">
+                                    </form>        
+                                    <li>           
+                                        <img src="{{ url_for('static', filename='img/icon_sort.png')}}" alt="">
+                                        <a>Сортировка</a>   
+                                    </li>  
+                                    <li id = "show-filter">           
+                                        <img src="{{ url_for('static', filename='img/filter.png')}}" alt="">
+                                        <a>Фильтр</a>   
+                                    </li>  
+                                </div>  
+                                <a class="functions_menu_name">
+                                    Выборка данных
+                                </a>
+                            </section>
+                            <section id = "filtr_section">
+                                <div class="filter_area">
+                                    <div class="filter_type">                                
+                                        <a>ОКПО</a>  
+                                        <input type="text" id="okpo-filter" placeholder="Код ОКПО" value="">
+                                    </div>
+                                    <div class="filter_type">     
+                                        <a>Организация</a>  
+                                        <input type="text" id="organization-filter" placeholder="Организация" value=""> 
+                                    </div>       
                                 </div>
-                                <div class="filter_type">     
-                                    <a>Организация</a>  
-                                    <input type="text" id="organization-filter" placeholder="Организация" value=""> 
-                                </div>       
-                            </div>
-                            <a class="functions_menu_name"> 
-                            </a>
-                        </section>
-                    </ul>
-                </nav>
+                                <a class="functions_menu_name"> 
+                                </a>
+                            </section>
+                        </ul>
+                    </nav>
+                </div>
             </div>
-        </div>
-    </div>
-    
-    <div class = "rotation-fromareas" >
-        <div class = "rotation-fromareas_info" style = "margin: 20px 50px; margin-bottom: 30px;"> 
-            <span>
-                <a class = "hover_a" id = "link_period">Период</a>
-            </span>
-            <span> 
-                <img src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
-            </span>
-            <span>
-                <a>
-                    {% if year_filter == '' and quarter_filter == '' %} 
-                        Всё время
-                    {%else%}
-                        {{year_filter}} год, {{quarter_filter}} квартал
-                    {%endif%}
-                </a>         
-            </span>
         </div>
     </div>
     <div class="report-list">

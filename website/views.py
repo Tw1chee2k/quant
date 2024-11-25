@@ -135,7 +135,9 @@ def report_area():
         db.session.commit()
 
 
-    report = Report.query.filter_by(user_id=current_user.id).all()
+    report = Report.query.filter_by(user_id=current_user.id).order_by(Report.year.asc(), Report.quarter.asc()).all()
+
+
     version = Version_report.query.filter_by().all()
 
     for rep in report:
@@ -168,47 +170,35 @@ def report_area():
 @owner_only
 def report_section(report_type, id):
     dirUnit = DirUnit.query.all()
-    if report_type == 'fuel':
-        dirProduct = DirProduct.query.filter(
-            DirProduct.IsFuel == True,
-            ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])
-        ).order_by(asc(DirProduct.CodeProduct)).all()
-        section_number = 1
+    current_version = Version_report.query.filter_by(id=id).first()
+    current_report = Report.query.filter_by(id=current_version.report_id).first()
+    report_config = {
+        'fuel': {'section_number': 1, 'product_filter': DirProduct.IsFuel},
+        'heat': {'section_number': 2, 'product_filter': DirProduct.IsHeat},
+        'electro': {'section_number': 3, 'product_filter': DirProduct.IsElectro},
+    }
+
+    if report_type not in report_config:
+        return render_template('views.not_found', error='Ошибка при выборе типа отчета')
+
+    config = report_config[report_type]
+    section_number = config['section_number']
+    product_filter = config['product_filter']
+
+    dirProduct = DirProduct.query.filter(
+        product_filter == True,
+        ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])
+    ).order_by(asc(DirProduct.CodeProduct)).all()
+
+    sections = Sections.query.filter_by(id_version=current_version.id, section_number=section_number).all()
+
+    if not sections:
         sections_data = [
             (id, 288, 9100, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
             (id, 285, 9010, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
             (id, 282, 9001, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
         ]
-    elif report_type == 'heat':
-        dirProduct = DirProduct.query.filter(
-            DirProduct.IsHeat == True,
-            ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])
-        ).order_by(asc(DirProduct.CodeProduct)).all()
-        section_number = 2
-        sections_data = [
-            (id, 290, 9100, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-            (id, 287, 9010, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-            (id, 284, 9001, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-        ]
-    elif report_type == 'electro':
-        dirProduct = DirProduct.query.filter(
-            DirProduct.IsElectro == True,
-            ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])
-        ).order_by(asc(DirProduct.CodeProduct)).all()
-        section_number = 3
-        sections_data = [
-            (id, 289, 9100, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-            (id, 286, 9010, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-            (id, 283, 9001, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-        ]
-    else:
-        return render_template('views.not_found', error = 'Ошибка при выборе типа отчета')
 
-    current_version = Version_report.query.filter_by(id=id).first()
-    current_report = Report.query.filter_by(id=current_version.report_id).first()
-    sections = Sections.query.filter_by(id_version=current_version.id, section_number=section_number).all()
-
-    if not sections:
         for data in sections_data:
             section = Sections(
                 id_version=data[0],
@@ -226,7 +216,7 @@ def report_section(report_type, id):
             )
             db.session.add(section)
         db.session.commit()
-
+    
     sections = Sections.query.filter_by(id_version=current_version.id, section_number=section_number).order_by(desc(Sections.id)).all()
     return render_template('respondent_report.html', 
         section_number=section_number,
@@ -267,7 +257,6 @@ def count_reports(year=None, quarter=None):
 
 def get_reports_by_status(status, year=None, quarter=None):
     filters = []
-
     statuses = [
         'Отправлен',
         'Есть замечания',
@@ -292,14 +281,15 @@ def get_reports_by_status(status, year=None, quarter=None):
         return Report.query.join(Version_report).filter(
         or_(*[Version_report.status == status for status in statuses]),
         *filters
-    ).all()
+    ).order_by(Report.year.asc(), Report.quarter.asc()).all()
     else:
         return []
 
     return Report.query.join(Version_report).filter(
         Version_report.status == trans_status,
         *filters
-    ).all()
+    ).order_by(Report.year.asc(), Report.quarter.asc()).all()
+
 
 @views.route('/audit_area/<status>')
 @login_required

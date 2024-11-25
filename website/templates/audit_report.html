@@ -12,21 +12,9 @@
                                     <img src="{{ url_for('static', filename='img/icon_send.png')}}" alt="">
                                     <a>Сообщение</a>
                                 </li>                                  
-                                <li id = "RespondentLink">           
-                                    <img src="{{ url_for('static', filename='img/icon_profile.png')}}" alt="">
-                                    <a>Респондент</a>   
-                                </li> 
-                                <li id = "INFLink">           
-                                    <img src="{{ url_for('static', filename='img/icon_reports.png')}}" alt="">
-                                    <a>Отчет</a>   
-                                </li>  
-                                <li id = "showCommentsLink">           
-                                    <img src="{{ url_for('static', filename='img/komments.png')}}" alt="">
-                                    <a>Коммент.</a>   
-                                </li>
                             </div>  
                             <a class="functions_menu_name">
-                                Доп. информация
+                                Проверка
                             </a>
                         </section>
                         <section>
@@ -66,6 +54,25 @@
                             </div>  
                             <a class="functions_menu_name">
                                 Таблица
+                            </a>
+                        </section>
+                        <section>
+                            <div class="functions_menu">
+                                <li id = "RespondentLink">           
+                                    <img src="{{ url_for('static', filename='img/icon_profile.png')}}" alt="">
+                                    <a>Респондент</a>   
+                                </li> 
+                                <li id = "INFLink">           
+                                    <img src="{{ url_for('static', filename='img/icon_reports.png')}}" alt="">
+                                    <a>Отчет</a>   
+                                </li>  
+                                <li id = "showCommentsLink">           
+                                    <img src="{{ url_for('static', filename='img/komments.png')}}" alt="">
+                                    <a>Коммент.</a>   
+                                </li>
+                            </div>
+                            <a class="functions_menu_name">
+                                
                             </a>
                         </section>
                         <section>
@@ -671,12 +678,12 @@
                     <tr>
                         <td>Текст</td>
                         <td>
-                            <input                 
+                            <!-- <input                 
                                 type="text"
                                 name = "text"
                                 value = ""
-                            >
-      
+                            > -->
+                            <textarea name="text" id=""></textarea>
                         </td>
                     </tr>
                 </table>  

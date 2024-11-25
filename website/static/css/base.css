@@ -1266,11 +1266,10 @@ footer {
 .account_cont .account_functions .account_messages{
     display: flex;
     max-width: 515px;
- 
     width: 100%;
     flex-direction: column;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-    height: 100%;
+
 }
 
 .account_messageArea{
@@ -1281,7 +1280,6 @@ footer {
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: calc(100% - 40px);
-
     height: 52px;
     font-weight: 600;
     border-radius: 0;
@@ -1304,6 +1302,7 @@ footer {
 .message_cont{
     width: 100%;
     overflow-y: auto; 
+
 }
 
 /* .message_cont::-webkit-scrollbar {
@@ -1803,6 +1802,15 @@ footer {
     min-height: 100vh;
 }
 
+.sticky_menu{
+    position: sticky;
+    top: 70px;    
+    background-color: white;
+    transition: box-shadow 0.3s;
+
+    z-index: 1;
+}
+
 .report-area_menu{
     display: flex;
     font-weight: 500;
@@ -2050,6 +2058,7 @@ footer {
     position: relative;
     min-width: min-content;
     border: 1px solid #dddddd;
+    z-index: 0;
 }
 
 .order-table_titels tr th:first-child,
@@ -2088,6 +2097,7 @@ th .resizer {
     height: 100%;
     cursor: col-resize;
     user-select: none;
+    z-index: 0;
 }
 
 .table_report-area input[type="text"] {            
@@ -2370,6 +2380,30 @@ th .resizer {
 
 }
 /*end */
+
+
+#addCommentModal .modal_table input,
+#addCommentModal .modal_table textarea{
+    height: 26px;  
+    width: 300px;
+    max-width: 300px;
+    padding: 0 10px;
+    margin: 0 20px;
+    text-align: left;
+    font-size: 12px; 
+    border-radius: 5px;
+    border: 1px solid rgb(217, 217, 217);  
+    font-weight: 500; 
+}
+
+#addCommentModal .modal_table textarea{
+    margin-top: 5px;    
+    max-width: 270px;
+    min-height: 60px;  
+    max-height: 130px;  
+    padding: 10px;
+}
+
 
 
 
@@ -3554,6 +3588,13 @@ th .resizer {
     
     }
 
+    #status-faqlist{
+        display: block;
+    }
+
+    .profile_page .personal-info_area{
+        display: none;
+    }
 
 }
   
