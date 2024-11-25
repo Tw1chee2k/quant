@@ -7,8 +7,9 @@
 }
 
 html, body {
-    height: 100%;
     margin: 0;
+    padding: 0;
+    overflow: visible;
 }
 
 a{
@@ -2604,8 +2605,6 @@ th .resizer {
 }
 
 
-
-
 .left_menu {
     position: -webkit-sticky;
     padding: 12px 0 8px;
@@ -2616,14 +2615,12 @@ th .resizer {
     /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.144); */
     border-radius: 0;
     border-top-right-radius: 5px;
-    width: fit-content;
 }
 
-
-#status-faqlist{
+.sticky_status{
     position: sticky;
     top: 70px;    
-    width: 330px;
+    width: 280px;
 }
 
 .left_menu li {

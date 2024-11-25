@@ -2,17 +2,14 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
 from .models import User, Organization, Report, Version_report, Ticket, DirUnit, DirProduct, Sections, Message, News
 from . import db
-from werkzeug.security import generate_password_hash
 from sqlalchemy import asc, or_, desc
 from functools import wraps
-from datetime import datetime, timedelta
-import pandas as pd
-
-from dbfread import DBF
-
-import os
+from datetime import datetime
 
 views = Blueprint('views', __name__)
+year_today = datetime.now().year
+current_day = datetime.now().day
+current_time = datetime.now()
 
 def owner_only(f):
     @wraps(f)
@@ -70,9 +67,6 @@ def login():
 def kod():
     return render_template('kod.html', user=current_user)
 
-
-year_today = datetime.now().year
-
 @views.route('/account')
 @login_required
 def account():
@@ -103,37 +97,43 @@ def profile_password():
 @login_required
 def report_area():
     if Report.query.count() == 0:  
-        Report_data = [
-            (current_user.organization.okpo, current_user.organization.full_name, 2024, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2025, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2026, 1, current_user.id),
-            (current_user.organization.okpo, current_user.organization.full_name, 2027, 1, current_user.id),
+        report_data = [
+            (current_user.organization.okpo, current_user.organization.full_name, year, 1, current_user.id)
+            for year in range(2024, 2044)
         ]
-        for data in Report_data:
-            report = Report(okpo=data[0], 
-                        organization_name=data[1], 
-                        year=data[2],
-                        quarter=data[3],
-                        user_id=data[4],
-                        )
-            db.session.add(report)   
-            db.session.commit()
 
-        Vers_data = [
-            ('Отправлен', current_user.fio, current_user.telephone, current_user.email,  1),
-            ('Отправлен', current_user.fio, current_user.telephone, current_user.email,  2),
-            ('Отправлен', current_user.fio, current_user.telephone, current_user.email,  3),
-            ('Отправлен', current_user.fio, current_user.telephone, current_user.email,  4),
+        reports = [
+            Report(
+                okpo=data[0],
+                organization_name=data[1],
+                year=data[2],
+                quarter=data[3],
+                user_id=data[4],
+            )
+            for data in report_data
         ]
-        for vers in Vers_data:
-            version = Version_report(status=vers[0], 
-                        fio=vers[1], 
-                        telephone=vers[2],
-                        email=vers[3],
-                        report_id=vers[4],
-                        )
-            db.session.add(version)   
-            db.session.commit()
+        db.session.add_all(reports)
+
+        version_data = [
+            ('Отправлен', current_user.fio, current_user.telephone, current_user.email, i, current_time, current_time)
+            for i in range(1, 21)
+        ]
+
+        versions = [
+            Version_report(
+                status=vers[0],
+                fio=vers[1],
+                telephone=vers[2],
+                email=vers[3],
+                report_id=vers[4],
+                sent_time=vers[5],
+                change_time=vers[6]
+            )
+            for vers in version_data
+        ]
+        db.session.add_all(versions)
+        db.session.commit()
+
 
     report = Report.query.filter_by(user_id=current_user.id).all()
     version = Version_report.query.filter_by().all()
@@ -168,7 +168,6 @@ def report_area():
 @owner_only
 def report_section(report_type, id):
     dirUnit = DirUnit.query.all()
-    
     if report_type == 'fuel':
         dirProduct = DirProduct.query.filter(
             DirProduct.IsFuel == True,
@@ -207,7 +206,6 @@ def report_section(report_type, id):
 
     current_version = Version_report.query.filter_by(id=id).first()
     current_report = Report.query.filter_by(id=current_version.report_id).first()
-    
     sections = Sections.query.filter_by(id_version=current_version.id, section_number=section_number).all()
 
     if not sections:
@@ -230,8 +228,7 @@ def report_section(report_type, id):
         db.session.commit()
 
     sections = Sections.query.filter_by(id_version=current_version.id, section_number=section_number).order_by(desc(Sections.id)).all()
-    
-    return render_template('report_sections.html', 
+    return render_template('respondent_report.html', 
         section_number=section_number,
         sections=sections,              
         dirUnit=dirUnit,
@@ -309,10 +306,8 @@ def get_reports_by_status(status, year=None, quarter=None):
 def audit_area(status):
     year_filter = request.args.get('year')
     quarter_filter = request.args.get('quarter')
-
     reports = get_reports_by_status(status, year_filter, quarter_filter)
     counts = count_reports(year_filter, quarter_filter)
-
     return render_template('audit_area.html',
                            current_user=current_user,
                            reports=reports,
@@ -330,12 +325,9 @@ def audit_area(status):
 def audit_report(id):
     dirUnit = DirUnit.query.filter_by().all()
     dirProduct = DirProduct.query.filter_by().all()
-
     current_version = Version_report.query.filter_by(id=id).first()
     current_report = Report.query.filter_by(id=current_version.report_id).first()
-
     tickets = Ticket.query.filter_by(version_report_id = current_version.id).all()
-
     sections_fuel = Sections.query.filter_by(id_version=current_version.id, section_number=1).order_by(desc(Sections.id)).all()
     sections_heat = Sections.query.filter_by(id_version=current_version.id, section_number=2).order_by(desc(Sections.id)).all()
     sections_electro = Sections.query.filter_by(id_version=current_version.id, section_number=3).order_by(desc(Sections.id)).all()
@@ -344,7 +336,6 @@ def audit_report(id):
         sections_fuel=sections_fuel,   
         sections_heat=sections_heat,  
         sections_electro=sections_electro,      
-
         dirUnit=dirUnit,
         dirProduct=dirProduct,
         current_user=current_user, 
@@ -361,7 +352,6 @@ def FAQ():
 
 @views.route('/FAQ/<int:id>')
 def FAQ_question(id):
-    
     return render_template(f'Questions/{id}.html', 
         current_user=current_user
     )
@@ -393,4 +383,3 @@ def contacts():
     return render_template('contacts.html', 
         current_user=current_user
     )
-

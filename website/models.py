@@ -96,7 +96,7 @@ class Sections(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
     id_version = db.Column(db.Integer, db.ForeignKey('version_report.id'))
     id_product = db.Column(db.Integer, db.ForeignKey('DirProduct.IdProduct'))
-    code_product = db.Column(db.Integer, db.ForeignKey('DirProduct.CodeProduct'))
+    code_product = db.Column(db.String, db.ForeignKey('DirProduct.CodeProduct'))
     section_number = db.Column(db.Integer)
     Oked = db.Column(db.Integer)
     produced = db.Column(Numeric(precision=20, scale=2))

@@ -12,10 +12,11 @@ import pandas as pd
 from werkzeug.security import generate_password_hash
 
 db = SQLAlchemy()
-DB_NAME = "database.db"
 babel = Babel()
 migrate = Migrate()
 bcrypt = Bcrypt()
+
+DB_NAME = "database.db"
 
 def create_app():
     app = Flask(__name__, static_url_path='/static')
@@ -613,8 +614,6 @@ def create_database(app):
                             img_name=i[2]) 
                 db.session.add(news)   
                 db.session.commit()
-
-
 
 def read_dbf(file_path, columns):
     data = []

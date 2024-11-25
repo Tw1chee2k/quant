@@ -340,37 +340,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   /* end menuButton */
 
-
     /* show and hide buttons passwords */
     setupPasswordToggle('password-field', 'show-icon', 'hide-icon');
     setupPasswordToggle('password-field1', 'show-icon1', 'hide-icon1');
     /* end show and hide buttons passwords */
-
-    /* change theme */
-    // const themeToggle = document.getElementById('darkmode-toggle');
-    // const body = document.body;
-    // const currentTheme = localStorage.getItem('theme') || 'light';
-
-    // if (currentTheme === 'dark') {
-    //     body.classList.add('dark-mode');     
-    // } else {
-    //     body.classList.add('light-mode');
-    // }
-
-    // themeToggle.addEventListener('click', () => {
-    //     if (body.classList.contains('dark-mode')) {
-    //         body.classList.add('light-mode');
-    //         body.classList.remove('dark-mode');
-    //         localStorage.setItem('theme', 'light');
-    //         themeToggle.textContent = 'Темная тема';
-    //     } else {
-    //         body.classList.add('dark-mode');
-    //         body.classList.remove('light-mode');
-    //         localStorage.setItem('theme', 'dark');
-    //         themeToggle.textContent = 'Светлая тема';
-    //     }
-    // });
-    /* end change theme */
 
     /* hoveruser panel */
     const userImgs = document.querySelectorAll('.icon_black, .icon_white');
@@ -475,119 +448,141 @@ document.addEventListener('DOMContentLoaded', function () {
     
     var previousReportRow = null;
     var previousVersionRow = null;
-
     var previousTicketRow = null;
-    var selectedReportId = null;
-
-    var selectedVersionId = null;
-    var selectedTicketId = null;
 
     var contextMenuReport = document.getElementById('contextMenu_report');
     var contextMenuVersion = document.getElementById('contextMenu_version');
 
     reportRows.forEach(function(row) {
-    row.addEventListener('click', function() {
-        contextMenuVersion.style.display = 'none';
-        versionRows.forEach(function(versionRow) {
-            versionRow.classList.remove('active-report_version');
-        });
-        ticketRows.forEach(function(ticketRow) {
-            ticketRow.classList.remove('active-ticket');
-        });
-        activeRow = null;
+        row.addEventListener('click', function() {
+            contextMenuVersion.style.display = 'none';
+            versionRows.forEach(function(versionRow) {
+                versionRow.classList.remove('active-report_version');
+            });
+            ticketRows.forEach(function(ticketRow) {
+                ticketRow.classList.remove('active-ticket');
+            });
+            activeRow = null;
 
-        updateVersionButtonStyle(false, false, false, false);         
-        updateTicketButtonStyle(false);
-        if (this.dataset.id) {
-            selectedReportId = this.dataset.id;
-            if (this.classList.contains('active-report')) {
-                this.classList.remove('active-report');
-                previousReportRow = null;
-                updateVersionButtonStyle(false, false, false, false);
-                updateTicketButtonStyle(false);
+            updateVersionButtonStyle(false, false, false, false);         
+            updateTicketButtonStyle(false);
+            if (this.dataset.id) {
+                selectedReportId = this.dataset.id;
+                if (this.classList.contains('active-report')) {
+                    this.classList.remove('active-report');
+                    previousReportRow = null;
+                    updateVersionButtonStyle(false, false, false, false);
+                    updateTicketButtonStyle(false);
+                } else {
+                    if (previousReportRow !== null) {
+                        previousReportRow.classList.remove('active-report');
+                    }
+                    this.classList.add('active-report');
+                    previousReportRow = this;
+                }
+            }
+        });
+
+        row.addEventListener('dblclick', function() {
+            contextMenuVersion.style.display = 'none';
+            var versionsRow = this.nextElementSibling.nextElementSibling;
+            if (versionsRow.style.display === 'none' || versionsRow.style.display === '') {
+                versionsRow.style.display = 'table-row';
+                setTimeout(function() {
+                    versionsRow.classList.add('show');
+                }, 10);
+                contextMenuReport.style.display = 'none';
+                contextMenuVersion.style.display = 'none';
             } else {
+                versionsRow.classList.remove('show');
+                versionsRow.addEventListener('transitionend', function handler() {
+                    versionsRow.style.display = 'none';
+                    versionsRow.removeEventListener('transitionend', handler);
+                });
+                contextMenuReport.style.display = 'none';
+                contextMenuVersion.style.display = 'none';
+            }
+
+            var imgBlack = this.querySelector('.close_black');
+            var imgWhite = this.querySelector('.close_white');
+            if (imgBlack && imgWhite) {
+                imgBlack.classList.toggle('rotated');
+                imgWhite.classList.toggle('rotated');
+            }
+        });
+        row.addEventListener('contextmenu', function(event) {
+            contextMenuVersion.style.display = 'none';
+            event.preventDefault();
+        
+            versionRows.forEach(function(versionRow) {
+                versionRow.classList.remove('active-report_version');
+            });
+        
+            if (this.dataset.id) {
+                selectedReportId = this.dataset.id;
+        
                 if (previousReportRow !== null) {
                     previousReportRow.classList.remove('active-report');
                 }
                 this.classList.add('active-report');
                 previousReportRow = this;
+        
+                contextMenuReport.style.top = event.pageY + 'px';
+                contextMenuReport.style.left = event.pageX + 'px';
+                contextMenuReport.style.display = 'flex';
             }
-        }
-    });
-
-    row.addEventListener('dblclick', function() {
-        contextMenuVersion.style.display = 'none';
-        var versionsRow = this.nextElementSibling.nextElementSibling;
-        if (versionsRow.style.display === 'none' || versionsRow.style.display === '') {
-            versionsRow.style.display = 'table-row';
-            setTimeout(function() {
-                versionsRow.classList.add('show');
-            }, 10);
-            contextMenuReport.style.display = 'none';
-            contextMenuVersion.style.display = 'none';
-        } else {
-            versionsRow.classList.remove('show');
-            versionsRow.addEventListener('transitionend', function handler() {
-                versionsRow.style.display = 'none';
-                versionsRow.removeEventListener('transitionend', handler);
-            });
-            contextMenuReport.style.display = 'none';
-            contextMenuVersion.style.display = 'none';
-        }
-
-        var imgBlack = this.querySelector('.close_black');
-        var imgWhite = this.querySelector('.close_white');
-        if (imgBlack && imgWhite) {
-            imgBlack.classList.toggle('rotated');
-            imgWhite.classList.toggle('rotated');
-        }
-    });
-    row.addEventListener('contextmenu', function(event) {
-        contextMenuVersion.style.display = 'none';
-        event.preventDefault();
-        versionRows.forEach(function(versionRow) {
-            versionRow.classList.remove('active-report_version');
         });
-
-        if (this.dataset.id) {
-            selectedReportId = this.dataset.id;
-
-            if (previousReportRow !== null) {
-                previousReportRow.classList.remove('active-report');
-            }
-            this.classList.add('active-report');
-            previousReportRow = this;
-
-            contextMenuReport.style.top = event.clientY + 'px';
-            contextMenuReport.style.left = event.clientX + 'px';
-            contextMenuReport.style.display = 'flex';
-        }
-    });
     });
 
     versionRows.forEach(function(row) {
-    row.addEventListener('click', function() {
-        contextMenuVersion.style.display = 'none';
+        row.addEventListener('click', function() {
+            contextMenuVersion.style.display = 'none';
 
-        reportRowsd.forEach(function(versionRow) {
-            versionRow.classList.remove('active-report');
+            reportRowsd.forEach(function(versionRow) {
+                versionRow.classList.remove('active-report');
+            });
+
+            if (this.dataset.id) {
+                selectedVersiontId = this.dataset.id;
+
+                if (this.classList.contains('active-report_version')) {
+                    this.classList.remove('active-report_version');
+                    previousVersionRow = null;
+
+                } else {
+                    if (previousVersionRow !== null) {
+                        previousVersionRow.classList.remove('active-report_version');
+                    }
+                    this.classList.add('active-report_version');
+                    previousVersionRow = this;
+                }
+            }
         });
 
-        if (this.dataset.id) {
-            selectedVersiontId = this.dataset.id;
+        
 
-            if (this.classList.contains('active-report_version')) {
-                this.classList.remove('active-report_version');
-                previousVersionRow = null;
-
-            } else {
+        row.addEventListener('contextmenu', function(event) {
+            contextMenuReport.style.display = 'none';
+            event.preventDefault();
+        
+            reportRows.forEach(function(reportRow) {
+                reportRow.classList.remove('active-report');
+            });
+        
+            if (this.dataset.id) {
+                selectedVersionId = this.dataset.id;
+        
                 if (previousVersionRow !== null) {
                     previousVersionRow.classList.remove('active-report_version');
                 }
                 this.classList.add('active-report_version');
                 previousVersionRow = this;
+        
+                contextMenuVersion.style.top = event.pageY + 'px';
+                contextMenuVersion.style.left = event.pageX + 'px';
+                contextMenuVersion.style.display = 'flex';
             }
-        }
+        });
     });
 
     ticketRows.forEach(function(row) {
@@ -613,60 +608,36 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    row.addEventListener('contextmenu', function(event) {
-        contextMenuReport.style.display = 'none';
-        event.preventDefault();
-
-        reportRows.forEach(function(reportRow) {
-            reportRow.classList.remove('active-report');
-        });
-
-        if (this.dataset.id) {
-            selectedVersionId = this.dataset.id;
-
-            if (previousVersionRow !== null) {
-                previousVersionRow.classList.remove('active-report_version');
-            }
-            this.classList.add('active-report_version');
-            previousVersionRow = this;
-
-            contextMenuVersion.style.top = event.clientY + 'px';
-            contextMenuVersion.style.left = event.clientX + 'px';
-            contextMenuVersion.style.display = 'flex';
-        }
-    });
-    });
-
     document.addEventListener('click', function(event) {
-    if (!contextMenuReport.contains(event.target)) {
-        contextMenuReport.style.display = 'none';
-    }
-    if (!contextMenuVersion.contains(event.target)) {
-        contextMenuVersion.style.display = 'none';
-    }
+        if (!contextMenuReport.contains(event.target)) {
+            contextMenuReport.style.display = 'none';
+        }
+        if (!contextMenuVersion.contains(event.target)) {
+            contextMenuVersion.style.display = 'none';
+        }
     });
     /*end*/
 
     /*Переход на страницу с fuel*/
     document.querySelectorAll('.version-row').forEach(function(row) {
-    row.addEventListener('dblclick', function() {
-        var id = this.dataset.id;
-        var url = "/report_area/fuel/" + id;
-        console.log(id);
-        window.location.href = url;
-    });
+        row.addEventListener('dblclick', function() {
+            var id = this.dataset.id;
+            var url = "/report_area/fuel/" + id;
+            console.log(id);
+            window.location.href = url;
+        });
     });
 
     document.querySelector('[data-action="checkVersionButton"]').addEventListener('click', function() {
-    var activeVersionRow = document.querySelector('.version-row.active-report_version');
-    if (activeVersionRow) {
-        var id = activeVersionRow.dataset.id;
-        var url = "/report_area/fuel/" + id;
-        console.log(id);
-        window.location.href = url;
-    } else {
-        alert('Нет активной версии. Пожалуйста, выберите версию.');
-    }
+        var activeVersionRow = document.querySelector('.version-row.active-report_version');
+        if (activeVersionRow) {
+            var id = activeVersionRow.dataset.id;
+            var url = "/report_area/fuel/" + id;
+            console.log(id);
+            window.location.href = url;
+        } else {
+            alert('Нет активной версии. Пожалуйста, выберите версию.');
+        }
     });
     /*end*/
 
@@ -683,7 +654,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }, 10);
                 contextMenuReport.style.display = 'none';
                 contextMenuVersion.style.display = 'none';
-                
             } else {
                 versionsRow.classList.remove('show');
                 versionsRow.addEventListener('transitionend', function handler() {
@@ -693,7 +663,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 contextMenuReport.style.display = 'none';
                 contextMenuVersion.style.display = 'none';
             }
-            
             var imgBlack = this.querySelector('.close_black');
             var imgWhite = this.querySelector('.close_white');
             if (imgBlack && imgWhite) {
@@ -736,23 +705,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     /*end*/
 
-    /* показ панели для редактирования параметров отчета */
-    var link_change_report = document.getElementById('link_change_report');
-    var link_add_report = document.getElementById('link_add_report');
-    var link_coppy_report = document.getElementById('link_coppy_report');
 
-    var change_report_modal = document.getElementById('change_report_modal');
-    var add_report_modal = document.getElementById('add_report_modal');
-    var coppy_report_modal = document.getElementById('coppy_report_modal');
-
-    var close_change_report_modal = change_report_modal.querySelector('.close');
-    var close_add_report_modal = add_report_modal.querySelector('.close');
-    var close_coppy_report_modal = coppy_report_modal.querySelector('.close');
+    handleModal(document.getElementById('add_report_modal'), document.getElementById('link_add_report'), document.getElementById('close_add_report_modal'));
+    handleModal(document.getElementById('change_report_modal'), document.getElementById('link_change_report'), document.getElementById('close_change_report_modal'));
+    handleModal(document.getElementById('coppy_report_modal'), document.getElementById('link_coppy_report'), coppy_report_modal.querySelector('.close'));
 
     link_change_report.addEventListener('click', function(event) {
         event.preventDefault();
         var reportRow = document.querySelector('.report_row.active-report');
-
         if (reportRow) {
             var reportId = reportRow.querySelector('#report_id').value;
             var reportOkpo = reportRow.querySelector('#report_okpo').value;
@@ -770,10 +730,6 @@ document.addEventListener('DOMContentLoaded', function () {
         contextMenuReport.style.display = 'none';
     });
 
-    link_add_report.addEventListener('click', function() {
-        add_report_modal.classList.add('active');
-        contextMenuReport.style.display = 'none';
-    });
 
     link_coppy_report.addEventListener('click', function(event) {
         event.preventDefault();
@@ -784,69 +740,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         coppy_report_modal.classList.add('active');
         contextMenuReport.style.display = 'none';
-    });
-
-    close_change_report_modal.addEventListener('click', function() {
-        change_report_modal.classList.remove('active');
-    });
-
-    close_coppy_report_modal.addEventListener('click', function() {
-        coppy_report_modal.classList.remove('active');
-    });
-
-    close_add_report_modal.addEventListener('click', function() {
-        add_report_modal.classList.remove('active');
-    });
-
-    change_report_modal.addEventListener('click', function(event) {
-        if (event.target === change_report_modal) {
-            change_report_modal.classList.remove('active');
-        }
-    });
-
-    coppy_report_modal.addEventListener('click', function(event) {
-        if (event.target === coppy_report_modal) {
-            coppy_report_modal.classList.remove('active');
-        }
-    });
-
-    add_report_modal.addEventListener('click', function(event) {
-        if (event.target === add_report_modal) {
-            add_report_modal.classList.remove('active');
-        }
-    });
-    /* end */
-
-
-
-    var add_versionButton = document.getElementById('add_versionButton');
-    add_versionButton.addEventListener('click', function(event) {
-        var activeRow = document.querySelector('.report_row.active-report');
-        if (activeRow !== null) {
-            var ReportId = activeRow.dataset.id;
-            if (ReportId) {
-                var addForm = document.getElementById('addVersion');
-                addForm.action = '/create_new_report_version/' + ReportId;
-            }
-        } else {
-            alert('Выберите отчет для добавления версии');
-            event.preventDefault();
-        }
-    });
-
-    var del_versionButton = document.getElementById('del_versionButton');
-    del_versionButton.addEventListener('click', function(event) {
-        var activeRow = document.querySelector('.version-row.active-report_version');
-        if (activeRow !== null) {
-            var varsionId = activeRow.dataset.id;
-            if (varsionId) {
-                var deleteForm = document.getElementById('deleteVersion');
-                deleteForm.action = '/delete_version/' + varsionId;
-            }
-        } else {
-            alert('Выберите версию для удаления');
-            event.preventDefault();
-        }
     });
 
     var del_reportButton = document.getElementById('del_reportButton');
@@ -870,7 +763,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var controlForm = document.getElementById('control-version-form');
     var sentVersionButton = document.getElementById('sentVersionButton');
     var sentForm = document.getElementById('sent-version-form');
-
     var exportVersionButton = document.getElementById('export_versionButton');
     var exportForm = document.getElementById('export-version-form');
 
@@ -908,7 +800,6 @@ document.addEventListener('DOMContentLoaded', function () {
             sentVersionButton.querySelector('img').style.filter = 'grayscale(100%)';
             sentVersionButton.querySelector('a').style.filter = 'grayscale(100%)';
         }
-
         if (exportActive) {
             exportVersionButton.style.opacity = '1';
             exportVersionButton.style.cursor = 'pointer';
@@ -933,7 +824,6 @@ document.addEventListener('DOMContentLoaded', function () {
             versionRows.forEach(function(row) {
                 row.classList.remove('active-report_version');
             });
-
             if (isActive) {
                 activeAgreedRow = null;
                 updateVersionButtonStyle(false, false, false, false);
@@ -969,11 +859,9 @@ document.addEventListener('DOMContentLoaded', function () {
     ticketRows.forEach(function(row) {
         row.addEventListener('click', function() {
             var isActive = this.classList.contains('active-ticket');
-
             ticketRows.forEach(function(row) {
                 row.classList.remove('active-ticket');
             });
-
             if (isActive) {
                 activeAgreedRow = null;
                 updateTicketButtonStyle(false);
@@ -981,7 +869,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.classList.add('active-ticket');
                 activeAgreedRow = this;
                 updateTicketButtonStyle(true);
-               
             }
         });
     });
@@ -1036,7 +923,6 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
         }
     });
-
     
     PrintTicketButton.addEventListener('click', function(event) {
         var activePrintRow = document.querySelector('.ticket-row.active-ticket');
@@ -1050,12 +936,12 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
         }
     });
-    /* end report_area*/
 });
 
 
-/* change pozition modal */
+
 document.addEventListener('DOMContentLoaded', (event) => {
+    /* change pozition modal */
     const headers = document.querySelectorAll(".change-position");
     headers.forEach(header => {
         const modal = header.closest('.modal-content');
@@ -1087,9 +973,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             document.body.style.userSelect = 'auto';
         });
     });
+    /* end change pozition modal */
 });
-/* end change pozition modal */
-
 
 /* sort table by tt dif */
 let sortOrder = 'asc';
@@ -1119,7 +1004,7 @@ function sortTable() {
                     }
                 }
             } else {
-                console.error("One of the inputs is missing. Check the 'name' attribute.");
+
             }
         }
         if (shouldSwitch) {
@@ -1129,37 +1014,29 @@ function sortTable() {
             sortOrder = (sortOrder === 'asc') ? 'desc' : 'asc';
         }
     }
-    console.log('end');
-    
 }
 /* end sort tablel by tt dif */
 
 
-/* period modal */
-var link_period = document.getElementById('link_period');
-var period_modal = document.getElementById('period_modal');
-var close_period_modal = period_modal.querySelector('.close');
+function handleModal(modalElement, openLink, closeLink) {
+    openLink.addEventListener('click', function(event) {
+        if (openLink.style.opacity === '0.5') {
+            event.preventDefault();
+        } else {
+            modalElement.classList.add('active');
+        }
+    });
 
-link_period.addEventListener('click', function() {
-    period_modal.classList.add('active');
-    contextMenuReport.style.display = 'none';
-});
+    closeLink.addEventListener('click', function() {
+        modalElement.classList.remove('active');
+    });
 
-close_period_modal.addEventListener('click', function() {
-    period_modal.classList.remove('active'); 
-});
+    window.addEventListener('click', function(event) {
+        if (event.target === modalElement) {
+            modalElement.classList.remove('active');
+        }
+    });
+}
 
-period_modal.addEventListener('click', function(event) {
-    if (event.target === period_modal) {
-        period_modal.classList.remove('active');
-    }
-});
-/* end */
-
-
-
-
-
-
-
+handleModal(document.getElementById('period_modal'), document.getElementById('link_period'), document.getElementById('Closeperiod_modal'));
 

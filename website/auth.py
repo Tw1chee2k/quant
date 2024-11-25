@@ -1,41 +1,31 @@
 from flask import Blueprint, jsonify, request, flash, redirect, session, url_for, send_file, Response
 from flask_login import login_user, logout_user, current_user, login_required, LoginManager
-
 from .models import User, Organization, Report, Version_report, DirUnit, DirProduct, Sections, Ticket, Message
 from . import db
 from sqlalchemy import func
 from sqlalchemy import desc
 from sqlalchemy.orm import joinedload
-
 from werkzeug.security import check_password_hash, generate_password_hash
-
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
 from datetime import datetime, timedelta
-
 import re
 from decimal import Decimal, InvalidOperation
-
 from flask import send_file
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, Border, Side
 from io import BytesIO
-
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 import os
-
 import pandas as pd
 from tempfile import NamedTemporaryFile
 import dbf
-
 import random
 import string
-
 import zipfile
 import io
 
@@ -52,7 +42,6 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
         remember = True if request.form.get('remember') else False
-
         if email and password:
             user = User.query.filter(func.lower(User.email) == func.lower(email)).first()
             if user:      
@@ -103,7 +92,6 @@ def sign():
         email = request.form.get('email')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
-
         if email and password1:
             if User.query.filter(func.lower(User.email) == func.lower(email)).first():
                 flash('Пользователь с таким email уже существует', 'error')
@@ -116,15 +104,11 @@ def sign():
                     'email': email,
                     'password': generate_password_hash(password1)
                 }
-
                 send_activation_email(email) 
                 flash('Регистрация прошла успешно! Проверьте свою почту для активации аккаунта.', 'success')
-                
                 return redirect(url_for('views.kod'))
-
         else:
             flash('Введите данные для регистрации', 'error')    
-
     return redirect(url_for('views.sign'))
 
 @auth.route('/kod', methods=['GET', 'POST'])
@@ -133,7 +117,6 @@ def kod():
         input_code = ''.join([
             request.form.get(f'activation_code_{i}', '') for i in range(5)
         ])
-
         if input_code == session.get('activation_code'):
             new_user = User(
                 email=session['temp_user']['email'],
@@ -141,10 +124,8 @@ def kod():
             )
             db.session.add(new_user)
             db.session.commit()
-
             session.pop('temp_user', None)
             session.pop('activation_code', None)
-
             flash('Аккаунт успешно активирован!', 'success')
             return redirect(url_for('views.login'))
         else:
@@ -154,17 +135,14 @@ def kod():
 @auth.route('/resend_code', methods=['POST'])
 def resend_code():
     email = session.get('temp_user', {}).get('email')
-    
     if email:
         new_activation_code = gener_password()
         session['activation_code'] = new_activation_code
         message_body = f'Ваш новый код активации: {new_activation_code}'
         send_email(message_body, email)
-        
         return jsonify({'status': 'success', 'message': 'Код активации отправлен повторно!'})
     else:
         return jsonify({'status': 'error', 'message': 'Не удалось отправить код повторно.'}), 400
-
 
 @auth.route('/add_personal_parametrs', methods=['GET', 'POST'])
 def add_personal_parametrs():
@@ -172,16 +150,9 @@ def add_personal_parametrs():
         name = request.form.get('name_common')
         second_name = request.form.get('second_name_common')
         patronymic = request.form.get('patronymic_common')
-
-
         telephone = request.form.get('telephone_common')   
         full_name = request.form.get('full_name_common')
-        okpo = request.form.get('okpo_common')
-        ynp = request.form.get('ynp_common')
-        ministry = request.form.get('ministry_common')
-
         organiz_full_name = Organization.query.filter_by(full_name = full_name).first()
-
         if not name or not telephone or not full_name or not name or not second_name:
             flash('Заполните все обязательные строки', 'error')
             return redirect(url_for('views.profile_common'))
@@ -189,17 +160,14 @@ def add_personal_parametrs():
             name = name.replace(' ', '')
             second_name = second_name.replace(' ', '')
             patronymic = patronymic.replace(' ', '')
-
             fio = f"{second_name} {name} {patronymic}"
             current_user.fio = fio
             existing_telephone = User.query.filter(User.id != current_user.id, User.telephone == telephone).first()
-
             if existing_telephone:
                 flash('Пользователь с таким номером телефона уже существует.', 'error')
             else: 
                 current_user.telephone = telephone
                 existing_userOrg = User.query.filter_by(organization_id=organiz_full_name.id).first()
-
                 if existing_userOrg:
                     flash('Аккаунт с такой организацией уже существует.', 'error')
                 else: 
@@ -241,7 +209,6 @@ def profile_password():
                 user.password = generate_password_hash(conf_new_password)
                 db.session.commit()
                 flash('Пароль был изменен', 'success')
-            
                 send_email(f'Ваш пароль был изменен на {conf_new_password}', current_user.email)
                 return redirect(url_for('views.login'))
         else:
@@ -258,13 +225,10 @@ def gener_password():
 @auth.route('/relod_password', methods=['POST'])
 def relod_password():
     email = request.form.get('email_relod')
-
     if not email:
         flash('Заполните строку с E-mail для отправки нового пароля', 'error')
         return redirect(url_for('views.login'))
-
     user = User.query.filter(func.lower(User.email) == func.lower(email)).first()
-
     if user:
         new_password = gener_password()
         hashed_password = generate_password_hash(new_password)
@@ -296,7 +260,6 @@ def create_new_report():
             )
             db.session.add(new_report)
             db.session.commit()
-            
             new_version_report = Version_report(
                 begin_time = datetime.now(), 
                 status = "Заполнение",
@@ -337,8 +300,7 @@ def update_report():
         id = request.form.get('modal_report_id')
         okpo = request.form.get('modal_report_okpo')
         year = request.form.get('modal_change_report_year')
-        quarter = request.form.get('modal_change_report_quarter')  
-        
+        quarter = request.form.get('modal_change_report_quarter')   
         current_report = Report.query.filter_by(id=id).first()
         versions = Version_report.query.filter_by(report_id=id).all()
         organization_okpo = Organization.query.filter_by(okpo=okpo).first()
@@ -379,21 +341,16 @@ def update_report():
 def сopy_report():
     if request.method == 'POST':
         coppy_report_id = request.form.get('coppy_report_id')
-
-        current_report = Report.query.filter_by(id = coppy_report_id).first()
         current_report_version = Version_report.query.filter_by(report_id = coppy_report_id).first()
         current_sections = Sections.query.filter_by(id_version=current_report_version.id).all()
-
         new_organization_name = request.form.get('coppy_organization_name')
         new_organization_okpo = request.form.get('coppy_organization_okpo')
         new_report_year = request.form.get('coppy_report_year')
         new_report_quarter = request.form.get('coppy_report_quarter')
-
         proverka_report = Report.query.filter_by(organization_name=new_organization_name, 
                                                  year = new_report_year, 
                                                  quarter=new_report_quarter, 
-                                                 okpo = new_organization_okpo
-                                                 ).first()
+                                                 okpo = new_organization_okpo).first()
         if not proverka_report:
             new_report = Report(
                 okpo=new_organization_okpo,
@@ -404,7 +361,6 @@ def сopy_report():
             )
             db.session.add(new_report)
             db.session.commit()
-
             new_version = Version_report(
                 status = "Заполнение",
                 fio = current_user.fio,
@@ -414,7 +370,6 @@ def сopy_report():
             )
             db.session.add(new_version)
             db.session.commit()
-
             for section in current_sections:
                 new_section = Sections(
                     id_version=new_version.id,
@@ -432,7 +387,6 @@ def сopy_report():
                 )
                 db.session.add(new_section)
             db.session.commit()
-
         else:
             flash('Отчет с таким годом и квараталом уже существует, копирование eror','error')
         return redirect(url_for('views.report_area'))
@@ -448,7 +402,6 @@ def delete_report(report_id):
             if sent_version_exists:
                 flash('Отправленный отчет не подлежит удалению', 'error')
                 return redirect(url_for('views.report_area'))  
-            
             confirmed_version_exists = any(version.status == 'Одобрен' for version in versions)
             if confirmed_version_exists:
                 flash('Данный отчет не подлежит удалению', 'error')
@@ -510,13 +463,13 @@ def add_section_param():
         current_version_id = request.form.get('current_version')
         name = request.form.get('name_of_product')
         id_product = request.form.get('add_id_product')
-        oked = request.form.get('oked')
-        produced = request.form.get('produced')
-        Consumed_Quota = request.form.get('Consumed_Quota')
-        Consumed_Fact = request.form.get('Consumed_Fact')
-        Consumed_Total_Quota = request.form.get('Consumed_Total_Quota')
-        Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
-        note = request.form.get('note')
+        oked = request.form.get('oked_add')
+        produced = request.form.get('produced_add')
+        Consumed_Quota = request.form.get('Consumed_Quota_add')
+        Consumed_Fact = request.form.get('Consumed_Fact_add')
+        Consumed_Total_Quota = request.form.get('Consumed_Total_Quota_add')
+        Consumed_Total_Fact = request.form.get('Consumed_Total_Fact_add')
+        note = request.form.get('note_add')
         section_number = request.form.get('section_number')
         
         produced = Decimal(produced) if produced else Decimal(0)
@@ -559,7 +512,7 @@ def add_section_param():
                         db.session.commit()
                         current_section = Sections.query.filter_by(id=new_section.id, section_number=section_number).first()
 
-                        if current_section.code_product == 7000:
+                        if current_section.code_product == "7000" or current_section.code_product == "0020"  or current_section.code_product == "0021" or current_section.code_product == "0024" or current_section.code_product == "0025" or current_section.code_product == "0026" or current_section.code_product == "0027" or current_section.code_product == "0030" or current_section.code_product == "0031":
                             current_section.total_differents = current_section.Consumed_Total_Fact - current_section.Consumed_Total_Quota
                             db.session.commit()
                         else:
@@ -620,7 +573,6 @@ def add_section_param():
                     flash('Выбирите вид продукции из выпадающего списка', 'error')
             else:
                 flash('Редактирование отправленного/одобренного отчета недоступно', 'error')
-
         else:
             flash('Версия не найдена', 'error') 
     if section_number == '1':
@@ -635,12 +587,12 @@ def change_section():
     if request.method == 'POST':
         id_version = request.form.get('current_version')
         id_fuel = request.form.get('id')
-        produced = request.form.get('produced')
-        Consumed_Quota = request.form.get('Consumed_Quota')     
-        Consumed_Fact = request.form.get('Consumed_Fact')
-        Consumed_Total_Quota = request.form.get('Consumed_Total_Quota')
-        Consumed_Total_Fact = request.form.get('Consumed_Total_Fact')
-        note = request.form.get('note')
+        produced = request.form.get('produced_change')
+        Consumed_Quota = request.form.get('Consumed_Quota_change')     
+        Consumed_Fact = request.form.get('Consumed_Fact_change')
+        Consumed_Total_Quota = request.form.get('Consumed_Total_Quota_change')
+        Consumed_Total_Fact = request.form.get('Consumed_Total_Fact_change')
+        note = request.form.get('note_change')
 
         produced = Decimal(produced) if produced else Decimal(0)
         Consumed_Quota = Decimal(Consumed_Quota) if Consumed_Quota else Decimal(0)
@@ -654,42 +606,35 @@ def change_section():
         if current_version:
             if current_version.status != 'Отправлен' and current_version.status != 'Одобрен':
                 if current_section:
-                    if (current_section.code_product == 7000):
+                    if current_section.code_product == "7000" or current_section.code_product == "0020"  or current_section.code_product == "0021" or current_section.code_product == "0024" or current_section.code_product == "0025" or current_section.code_product == "0026" or current_section.code_product == "0027" or current_section.code_product == "0030" or current_section.code_product == "0031":
                         current_section.Consumed_Total_Quota = Consumed_Total_Quota
                         current_section.Consumed_Total_Fact = Consumed_Total_Fact
                         current_section.note = note
                         db.session.commit()
-
                         current_section.total_differents = current_section.Consumed_Total_Fact - current_section.Consumed_Total_Quota
                         db.session.commit()
                     else:
                         current_section.produced = produced
-                        current_section.Consumed_Quota = Consumed_Quota
-                        
+                        current_section.Consumed_Quota = Consumed_Quota     
                         current_section.Consumed_Total_Fact = Consumed_Total_Fact
                         current_section.note = note 
                         db.session.commit()
-                        
                         if current_section.produced != 0:
                             current_section.Consumed_Fact = round((current_section.Consumed_Total_Fact / current_section.produced) * 1000, 2)
                         else:
                             current_section.Consumed_Fact = 0.00
-
                         if current_section.Consumed_Quota != 0:
                             current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 1000, 2)
                         else:
                             current_section.Consumed_Total_Quota = 0.00
                         db.session.commit()
-
                         current_section.total_differents = current_section.Consumed_Total_Fact - current_section.Consumed_Total_Quota
                         db.session.commit()
-                
                     if current_version:
                         current_version.change_time = datetime.now()
                         db.session.commit()
 
                     specific_codes = ['9001', '9010', '9100']
-
                     section9001 = Sections.query.filter_by(id_version=id_version, section_number=current_section.section_number, code_product=9001).first()
                     aggregated_values = db.session.query(
                         func.sum(Sections.Consumed_Total_Quota),
@@ -709,7 +654,6 @@ def change_section():
 
                     section9010 = Sections.query.filter_by(id_version=id_version, section_number=current_section.section_number, code_product=9010).first()
                     section9100 = Sections.query.filter_by(id_version=id_version, section_number=current_section.section_number, code_product=9100).first()
-
                     if section9100 and section9001 and section9010:
                         section9100.Consumed_Total_Quota = (section9001.Consumed_Total_Quota or 0) + (section9010.Consumed_Total_Quota or 0)
                         section9100.Consumed_Total_Fact = (section9001.Consumed_Total_Fact or 0) + (section9010.Consumed_Total_Fact or 0)
@@ -725,7 +669,6 @@ def change_section():
                 flash('Редактирование отправленного/одобренного отчета недоступно', 'error')
         else:
             flash('Версия не найдена', 'error')
-
         if(current_section.section_number == 1):
             return redirect(url_for('views.report_section', report_type='fuel', id=id_version))
         elif(current_section.section_number == 2):
@@ -740,7 +683,6 @@ def remove_section(id):
         id_version = delete_section.id_version
         section_numberDELsection = delete_section.section_number
         current_version = Version_report.query.filter_by(id=id_version).first() 
-
         if current_version:
             if current_version.status != 'Отправлен' and current_version.status != 'Одобрен':
                 if delete_section:
@@ -800,7 +742,6 @@ def control_version(id):
             flash('Контроль пройден', 'successful')
         else:
             flash('Контроль уже был пройден', 'error')
-        
         return redirect(url_for('views.report_area'))
     
 @auth.route('/agreed_version/<id>', methods=['POST'])
@@ -809,7 +750,6 @@ def agreed_version(id):
         current_version = Version_report.query.filter_by(id=id).first()
         if current_version.status == 'Контроль пройден':     
             current_version.status = 'Согласовано'
-
             db.session.commit()
             flash('Отчет согласован', 'successful')
         elif current_version.status == 'Согласовано': 
@@ -840,7 +780,6 @@ def sent_version(id):
             flash('Отчет уже был отправлен на проверку', 'error')
         else:
             flash('Необходимо согласовать', 'error')
-
         return redirect(url_for('views.report_area'))
 
 @auth.route('/change_category_report', methods=['POST'])
@@ -852,17 +791,13 @@ def change_category_report():
     status_itog = None
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=report_id).first()
-
         if current_version is not None: 
             user = User.query.filter_by(email=current_version.email).first()
-
             if not current_version.hasNot and action != 'to_download':
                 flash('Необходимо уточнить о каких ошибках идет речь', 'error')
                 return redirect(url_for('views.audit_report', id=current_version.id)) 
-
             if action == 'not_viewed':
                 status_itog = 'Отправлен'
-
             elif action == 'remarks':
                 status_itog = 'Есть замечания'
                 user_message = Message(
@@ -870,7 +805,6 @@ def change_category_report():
                     user=user
                 )
                 db.session.add(user_message)
-
             elif action == 'to_download':
                 status_itog = 'Одобрен'
                 user_message = Message(
@@ -884,7 +818,6 @@ def change_category_report():
                     version_report_id=current_version.id
                 )
                 db.session.add(ticket_message)
-
             elif action == 'to_delete':
                 status_itog = 'Готов к удалению'
                 user_message = Message(
@@ -894,11 +827,9 @@ def change_category_report():
                 db.session.add(user_message)
             else:
                 flash('Неизвестное действие', 'error')
-
             current_version.hasNot = False
             current_version.status = status_itog
             db.session.commit()
-
             flash(f'Статус отчета №{current_version.id} был изменен', 'success')
             return redirect(url)
         else:
@@ -911,10 +842,8 @@ def send_comment():
         version_id = request.form.get('version_id')
         resp_email = request.form.get('resp_email')
         text = request.form.get('text')
-
         cleaned_text = text
         # cleaned_text = ' '.join(text.split())
-
         current_version = Version_report.query.filter_by(id=version_id).first()
 
         if current_version:
@@ -924,16 +853,12 @@ def send_comment():
                 note = cleaned_text,
                 version_report_id = current_version.id
             )
-
             db.session.add(new_comment)
             current_version.hasNot = True
-
             db.session.commit()
-
             flash('Комментарий создан', 'success')
         else:
             flash('Отчет не найден', 'error')
-
         return redirect(url_for('views.audit_report', id = version_id))
 
 @auth.route('/export_table', methods=['POST'])
@@ -1081,16 +1006,12 @@ def export_version(id):
             3: ('кВтч', 'тыс.кВтч')
         }
 
-        unit_header_one_text = unit_headers.get(1, ('', ''))[0]
-        unit_header_all_text = unit_headers.get(1, ('', ''))[1]
-
         wb = Workbook()
         if "Sheet" in wb.sheetnames:
             wb.remove(wb["Sheet"])
 
         def add_sheet(ws, sections, title, unit_header_one_text, unit_header_all_text):
             ws.title = title
-
             merged_cells = {
                 'A1:A2': "Наименование вида продукции (работ услуг)",
                 'B1:B2': "Код строки",
@@ -1127,17 +1048,14 @@ def export_version(id):
                 top=Side(border_style="thin"),
                 bottom=Side(border_style="thin")
             )
-
             for cell_range, text in merged_cells.items():
                 top_left_cell = cell_range.split(':')[0]
                 ws[top_left_cell] = text
                 ws[top_left_cell].font = font
                 ws[top_left_cell].alignment = alignment
                 ws[top_left_cell].border = border
-
             for cell_range in merged_cells.keys():
                 ws.merge_cells(cell_range)
-
             column_widths = {
                 'A': 30,
                 'B': 15,
@@ -1179,7 +1097,6 @@ def export_version(id):
                 for col in column_widths.keys():
                     cell = ws[f'{col}{row_index}']
                     cell.border = border
-
                 row_index += 1
 
         unit_header_one_text1, unit_header_all_text1 = unit_headers.get(1, ('', ''))
@@ -1193,7 +1110,6 @@ def export_version(id):
         output = BytesIO()
         wb.save(output)
         output.seek(0)
-
         return send_file(output, as_attachment=True, download_name='table_report.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
 @auth.route('/print_ticket/<int:id>', methods=['POST'])
@@ -1202,10 +1118,8 @@ def print_ticket(id):
         ticket = Ticket.query.get(id)
         version_report = ticket.version_report
         report = version_report.report
-
         if ticket is None:
             return flash("Квитанция не найдена","error")
-        
         buffer = BytesIO()
         c = canvas.Canvas(buffer, pagesize=letter)
         
@@ -1262,18 +1176,14 @@ def export_ready_reports():
             ).filter(
                 Version_report.status == "Одобрен"
             ).all()
-
-
         if not versions:
             flash('Отсутствуют одобренные отчеты')
             return
-
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED) as zip_file:
             for version in versions:
                 report = version.report
                 sections = version.sections
-
                 data = [{
                     'INDX': str(section.id),
                     'YEAR_': str(report.year) if report.year is not None else '',
@@ -1322,15 +1232,12 @@ def export_ready_reports():
                     with open(temp_filename, 'rb') as f:
                         dbf_filename = f'{report.okpo}_{report.year}_{report.quarter}.dbf'
                         zip_file.writestr(dbf_filename, f.read())
-
         zip_buffer.seek(0)
-
         return Response(
             zip_buffer,
             mimetype='application/zip',
             headers={"Content-Disposition": "attachment;filename=reports.zip"}
         )
-
 
 @auth.route('/sent_for_admin', methods=['POST'])
 def sent_for_admin():

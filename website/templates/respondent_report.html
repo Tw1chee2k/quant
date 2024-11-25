@@ -183,7 +183,7 @@
                     <td>
                         <input  
                             type = "text"
-                            name = "code_product" 
+                            class = "product-cod_fuel" 
                             value = "{{ row.code_product }}" 
                             readonly
                         >
@@ -208,7 +208,7 @@
                     <td>
                         <input  
                             type = "text"
-                            name = "produced_fuel" 
+                            name = "produced_fuel"
                             value = "{{ row.produced }}" 
                             readonly
                         >
@@ -334,11 +334,10 @@
                     <td>
                         <input                 
                             type="text"
-                            name="oked"
+                            name="oked_add"
                             maxlength="5" 
                             autocomplete="off"
                             class="numericInput"
-                            id = "add_modal_Oked"
                             required
                         >
                     </td>
@@ -348,11 +347,10 @@
                     <td>
                         <input                 
                             type="text"
-                            name="produced"
+                            name="produced_add"
                             value = "0.00"
                             autocomplete="off"
                             class = "numeric_dotInput"
-                            id = "add_modal_produced"
                         >
                     </td>
                 </tr>
@@ -361,11 +359,10 @@
                     <td>
                         <input                 
                             type="text"
-                            name="Consumed_Quota"
+                            name="Consumed_Quota_add"
                             value = "0.00"
                             autocomplete="off"
                             class = "numeric_dotInput"
-                            id = "add_modal_Consumed_Quota"
                         >
                     </td>
                 </tr>
@@ -374,10 +371,9 @@
                     <td>
                         <input                 
                             type="text"
-                            name="Consumed_Fact"
+                            name="Consumed_Fact_add"
                             value = "0.00"
                             style = "color: rgb(132, 132, 132);"
-                            id = "add_modal_Consumed_Fact"
                             readonly
                         >
                     </td>
@@ -387,11 +383,10 @@
                     <td>
                         <input                 
                             type="text"
-                            name="Consumed_Total_Quota"
+                            name="Consumed_Total_Quota_add"
                             value = "0.00"
                             style = "color: rgb(132, 132, 132);"
                             class = "numeric_dotInput"
-                            id = "add_modal_Consumed_Total_Quota"
                             readonly
                         >
                     </td>
@@ -401,11 +396,10 @@
                     <td>
                         <input                 
                             type="text"
-                            name="Consumed_Total_Fact"
+                            name="Consumed_Total_Fact_add"
                             value = "0.00"
                             autocomplete="off"
                             class = "numeric_dotInput"
-                            id = "add_modal_Consumed_Total_Fact"
                         >
                     </td>
                 </tr>
@@ -415,9 +409,8 @@
                         <input
                             style = "width: 250px; text-align: left;"          
                             type="text"
-                            name="note"
+                            name="note_add"
                             autocomplete="off"
-                            id = "add_modal_note"
                         >
                         <input                 
                             type="hidden"
@@ -444,7 +437,7 @@
     <div class="modal-content">
         <div class = "modal-header">
             <h3 class = "change-position">Редактирование продукции</h3>
-            <a id = "close_changefuel_modal" class="close">&times;</a>
+            <a class="close">&times;</a>
         </div>
         <form method="POST" action="/change_section">
             <table class="modal_table">
@@ -466,7 +459,7 @@
                     <td>
                         <input 
                             type="text" 
-                            name="oked" 
+                            name="oked_change" 
                             id="modal_oked" 
                             class = "numericInput" 
                             maxlength="5" 
@@ -481,7 +474,7 @@
                     <td>
                         <input
                             type="text" 
-                            name="produced" 
+                            name="produced_change" 
                             class = "numeric_dotInput" 
                             id="modal_produced" 
                             autocomplete="off"
@@ -493,7 +486,7 @@
                     <td>
                         <input 
                             type="text"
-                            name="Consumed_Quota" 
+                            name="Consumed_Quota_change" 
                             class = "numeric_dotInput" 
                             id="modal_Consumed_Quota" 
                             autocomplete="off"
@@ -505,7 +498,7 @@
                     <td>
                         <input 
                             type="text" 
-                            name="Consumed_Fact" 
+                            name="Consumed_Fact_change" 
                             id="modal_Consumed_Fact" 
                             style="color: rgb(132, 132, 132);" 
                             class = "numeric_dotInput"
@@ -518,7 +511,7 @@
                     <td>
                         <input 
                             type="text" 
-                            name="Consumed_Total_Quota" 
+                            name="Consumed_Total_Quota_change" 
                             id="modal_Consumed_Total_Quota" 
                             style="color: rgb(132, 132, 132);" 
                             readonly
@@ -531,7 +524,7 @@
                     <td>
                         <input 
                             type="text" 
-                            name="Consumed_Total_Fact" 
+                            name="Consumed_Total_Fact_change" 
                             class = "numeric_dotInput" 
                             id="modal_Consumed_Total_Fact" 
                             autocomplete="off"
@@ -544,7 +537,7 @@
                         <input 
                             style="width: 250px; text-align: left;" 
                             type="text" 
-                            name="note" 
+                            name="note_change" 
                             id="modal_note" 
                             autocomplete="off"
                         >
@@ -572,7 +565,7 @@
     <div class="modal-content">
         <div class = "modal-header">
             <h3 class = "change-position">Информация об отчете</h3>
-            <a id = "CloseINF" class="close">&times;</a>
+            <a class="close">&times;</a>
         </div>
         <table class="modal_table">
             <tr>
@@ -624,7 +617,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <h3 class = "change-position">Единицы измерения</h3>
-            <a class="close" id = "CloseDirUnit">&times;</a>
+            <a class="close">&times;</a>
         </div>
         <div class = "serch-cont">
             <a>Поиск</a>
@@ -661,7 +654,7 @@
     <div class="modal-content">
         <div class = "modal-header">
             <h3 class = "change-position">Виды продукции</h3>
-            <a class="close" id = "CloseDirProduct">&times;</a>
+            <a class="close">&times;</a>
         </div>
         <div class = "serch-cont">
             <a>Поиск</a>
@@ -725,7 +718,7 @@
     </div>
 </div>
 
-<div id="contextmenufuel" class="white-panel">
+<div id="contextMenu_report" class="white-panel">
     <button id = "link_changefuel_modal">
         <span>Редактировать</span>
     </button>
@@ -734,5 +727,5 @@
     </button>
 </div>
  
-<script src="{{ url_for('static', filename='js/section.js') }}"></script>
+<script src="{{ url_for('static', filename='js/respondent_report.js') }}"></script>
 {% endblock %}
