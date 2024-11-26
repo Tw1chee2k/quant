@@ -3,10 +3,10 @@ const header = document.querySelector('.fixed-header');
 window.addEventListener('scroll', () => {
     if (window.scrollY > 0) {
         header.style.backgroundColor = 'white';
-        // header.style.boxShadow = '0 0 20px rgb(0, 0, 0, 0.1)';
+        header.style.boxShadow = '0 0 20px rgb(0, 0, 0, 0.1)';
     } else {
         header.style.backgroundColor = 'transparent';
-        // header.style.boxShadow = 'none';
+        header.style.boxShadow = 'none';
     }
 });
 //end
