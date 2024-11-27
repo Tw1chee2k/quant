@@ -28,6 +28,9 @@ import random
 import string
 import zipfile
 import io
+import requests
+from user_agents import parse
+
 
 auth = Blueprint('auth', __name__)
 login_manager = LoginManager()
@@ -64,27 +67,143 @@ def logout():
     flash('Выполнен выход из аккаунта', 'success')
     return redirect(url_for('views.login'))
 
-def send_email(message_body, recipient_email):
+
+def get_location_info(user_agent_string):
+    try:
+        ip_response = requests.get("https://api64.ipify.org?format=json")
+        ip_response.raise_for_status()
+        ip_address = ip_response.json().get("ip")
+
+        location_response = requests.get(f"https://ipinfo.io/{ip_address}/json")
+        location_response.raise_for_status()
+        location_data = location_response.json()
+
+        user_agent = parse(user_agent_string)
+        browser = user_agent.browser.family 
+        os = user_agent.os.family
+        
+        location = location_data.get("city", "Неизвестно") + ", " + location_data.get("region", "Неизвестно") + ", " + location_data.get("country", "Неизвестно")
+        ip_address_str = ip_address if ip_address else "Неизвестно"
+
+        return ip_address_str, location, os, browser
+
+    except Exception as e:
+        print(f"Ошибка при получении данных о местоположении: {e}")
+        return "Неизвестно", "Неизвестно", "Неизвестно", "Неизвестно"
+    
+
+def send_email(message_body, recipient_email, email_type, location=None, device=None, browser=None, ip_address=None):
     smtp_server = 'smtp.mail.ru'
-    smtp_port = 587 
-    email_address = 'tw1.ofcompay@mail.ru'  
-    email_password = '6McTMF3uX2chGcFchUmZ'
-    message = MIMEMultipart()
+    smtp_port = 587
+    email_address = 'erespondent_online@mail.ru'
+    email_password = 'fEu6vp5gSUdsUA1HpEXn'
+
+    base_styles = """
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f3f3f3; margin: 0; padding: 0; }
+        .email-container { max-width: 600px; margin: 20px auto; background-color: #fff; border-radius: 8px; 
+                           overflow: hidden; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); }
+        .header { background-color: #f3f3f3; text-align: center; padding: 20px; }
+        .header a { font-size: 32px; font-weight: bold; padding: 15px; margin: 5px 0; }
+        .content { padding: 20px; color: #333; }
+        .info { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #028dff; margin: 20px 0; 
+                border-radius: 4px; }
+        .code { text-align: center; font-size: 32px; font-weight: bold; background-color: #f9f9f9; padding: 15px; 
+                border: 1px solid #ddd; border-radius: 5px; margin: 20px 0; }
+        .footer { background-color: #f3f3f3; padding: 10px; text-align: center; font-size: 12px; color: #777; }
+        .footer a { color: #6441a5; text-decoration: none; }
+    </style>
+    """
+
+    if email_type == "activation_kod":
+        content = f"""
+        <p>Здравствуйте</p>
+        <p>Кто-то пытается войти в Erespondent-Online используя вашу электронную почту.</p>
+        <div class="info">
+            {f'<p><strong>Расположение:</strong> {location}</p>' if location else ''}
+            {f'<p><strong>Устройство:</strong> {device}</p>' if device else ''}
+            {f'<p><strong>Браузер:</strong> {browser}</p>' if browser else ''}
+            {f'<p><strong>IP-адрес:</strong> {ip_address}</p>' if ip_address else ''}
+        </div>
+        <p>Чтобы активировать вход, введите следующий код:</p>
+        <div class="code">{message_body}</div>
+        <p class="note">Обратите внимание, что срок действия этого кода истекает ...</p>
+        <p>Если код не применяется, запросите новый код подтверждения и попробуйте выполнить следующие действия для решения проблемы:</p>
+        <ul>
+            <li>Используйте режим инкогнито или другой браузер</li>
+            <li>Очистите кэш вашего браузера и удалите файлы cookie</li>
+            <li>Убедитесь, что браузер обновлен до последней версии</li>
+        </ul>
+    """
+    elif email_type == "new_pass":
+        content = f"""
+        <p>Здравствуйте</p>
+        <p>Кто-то пытается изменить пароль в Erespondent-Online используя вашу электронную почту.</p>
+        <div class="info">
+            {f'<p><strong>Расположение:</strong> {location}</p>' if location else ''}
+            {f'<p><strong>Устройство:</strong> {device}</p>' if device else ''}
+            {f'<p><strong>Браузер:</strong> {browser}</p>' if browser else ''}
+            {f'<p><strong>IP-адрес:</strong> {ip_address}</p>' if ip_address else ''}
+        </div>
+        <p>Вот ваш новый пароль:</p>
+        <div class="code">{message_body}</div>
+        <p>При желании его можно сменить в профиле пользователя, для этого требуется перейти:</p>
+            <ul>
+                <li>Личный кабинет →</li>
+                <li>Профиль →</li>
+                <li>Конфиденциальность</li>
+            </ul>
+        """
+    else:
+        content = f"""
+        <p>Здравствуйте</p>
+        <p>Сообщение об изменении статуса отчета</p>
+        <p>Статус отчета изменен на:</p>
+        <div class="code">{message_body}</div>
+        """
+
+    html_template = f"""
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>{base_styles}</head>
+    <body>
+        <div class="email-container">
+            <div class="header"><a>Erespondent-Online</a></div>
+            <div class="content">
+                {content}
+            </div>
+            <div class="footer">
+                <p>Дополнительную информацию можно найти <a href="#">здесь</a>.</p>
+                <p>Спасибо,<br>Служба поддержки Erespondent-Online</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+
+    message = MIMEMultipart("alternative")
     message['From'] = email_address
     message['To'] = recipient_email
     message['Subject'] = 'Оповещение пользователя'
-    message.attach(MIMEText(message_body, 'plain'))
-    server = smtplib.SMTP(smtp_server, smtp_port)
-    server.starttls() 
-    server.login(email_address, email_password)
-    server.send_message(message)
-    server.quit()
+    message.attach(MIMEText(html_template, 'html'))
+
+    try:
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+        server.login(email_address, email_password)
+        server.send_message(message)
+        print("Письмо успешно отправлено")
+    except Exception as e:
+        print(f"Ошибка при отправке письма: {e}")
+    finally:
+        server.quit()
+
+
 
 def send_activation_email(email):
     activation_kod = gener_password()
     session['activation_code'] = activation_kod
-    message_body = f'Чтобы активировать вашу учетную запись, введите код активации: {activation_kod}' 
-    send_email(message_body, email)
+    send_email(activation_kod, email, 'activation_kod')
 
 @auth.route('/sign', methods=['GET', 'POST'])
 def sign():
@@ -138,8 +257,7 @@ def resend_code():
     if email:
         new_activation_code = gener_password()
         session['activation_code'] = new_activation_code
-        message_body = f'Ваш новый код активации: {new_activation_code}'
-        send_email(message_body, email)
+        send_email(new_activation_code, email, 'activation_kod')
         return jsonify({'status': 'success', 'message': 'Код активации отправлен повторно!'})
     else:
         return jsonify({'status': 'error', 'message': 'Не удалось отправить код повторно.'}), 400
@@ -209,7 +327,7 @@ def profile_password():
                 user.password = generate_password_hash(conf_new_password)
                 db.session.commit()
                 flash('Пароль был изменен', 'success')
-                send_email(f'Ваш пароль был изменен на {conf_new_password}', current_user.email)
+                send_email(conf_new_password, current_user.email, 'new_pass')
                 return redirect(url_for('views.login'))
         else:
             flash('Введите пароль ', 'error')
@@ -232,7 +350,11 @@ def relod_password():
     if user:
         new_password = gener_password()
         hashed_password = generate_password_hash(new_password)
-        send_email(f'Ваш новый пароль: {new_password}, при желании его можно изменить в настройках профиля', email)
+
+        user_agent_string = request.headers.get('User-Agent')
+        ip_address, location, os, browser = get_location_info(user_agent_string)
+        
+        send_email(new_password, email, 'new_pass', location=location, device=os, browser=browser, ip_address=ip_address)
         flash('Новый пароль был отправлен вам на email', 'success')
         user.password = hashed_password
         db.session.commit()
@@ -796,6 +918,7 @@ def change_category_report():
             if not current_version.hasNot and action != 'to_download':
                 flash('Необходимо уточнить о каких ошибках идет речь', 'error')
                 return redirect(url_for('views.audit_report', id=current_version.id)) 
+            
             if action == 'not_viewed':
                 status_itog = 'Отправлен'
             elif action == 'remarks':
@@ -825,11 +948,16 @@ def change_category_report():
                     user=user
                 )
                 db.session.add(user_message)
+
             else:
                 flash('Неизвестное действие', 'error')
+                return redirect(url)
             current_version.hasNot = False
             current_version.status = status_itog
             db.session.commit()
+
+            
+            send_email(status_itog, user.email, 'change_status')
             flash(f'Статус отчета №{current_version.id} был изменен', 'success')
             return redirect(url)
         else:
@@ -875,9 +1003,6 @@ def export_table():
             2: ('Мкал', 'Гкал'),
             3: ('кВтч', 'тыс.кВтч')
         }
-
-        unit_header_one_text = unit_headers.get(1, ('', ''))[0]
-        unit_header_all_text = unit_headers.get(1, ('', ''))[1]
 
         wb = Workbook()
         if "Sheet" in wb.sheetnames:
@@ -1159,7 +1284,6 @@ def export_ready_reports():
     if request.method == 'POST':
         year_filter = request.form.get('year_filter')
         quarter_filter = request.form.get('quarter_filter')
-
         if year_filter and quarter_filter:
             versions = Version_report.query.options(
                 joinedload(Version_report.report),
@@ -1176,9 +1300,12 @@ def export_ready_reports():
             ).filter(
                 Version_report.status == "Одобрен"
             ).all()
+
         if not versions:
-            flash('Отсутствуют одобренные отчеты')
-            return
+            flash('Отсутствуют одобренные отчеты для выбранных фильтров', 'error')
+            return redirect(url_for('views.audit_area', status='Одобрен', year=year_filter, quarter=quarter_filter))
+
+              
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED) as zip_file:
             for version in versions:

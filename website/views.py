@@ -290,7 +290,6 @@ def get_reports_by_status(status, year=None, quarter=None):
         *filters
     ).order_by(Report.year.asc(), Report.quarter.asc()).all()
 
-
 @views.route('/audit_area/<status>')
 @login_required
 def audit_area(status):
@@ -308,7 +307,7 @@ def audit_area(status):
                            all_count = counts['Отправлен'] + counts['Есть замечания'] + counts['Одобрен'] + counts['Готов к удалению'],
                            year_filter=year_filter,
                            quarter_filter=quarter_filter,
-                           year_today=year_today,)
+                           year_today=year_today)
 
 @views.route('/audit_area/report/<int:id>')
 @login_required
