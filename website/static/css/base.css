@@ -1269,7 +1269,7 @@ footer {
     width: 100%;
     flex-direction: column;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-
+    height: 100%;
 }
 
 .account_messageArea{
@@ -2050,18 +2050,19 @@ footer {
     border-collapse: collapse;
     background-color: #ffffff;    
     height: 100%;
+ 
 }
 
 .order-table_titels {
     color: rgb(0, 0, 0);
     font-weight: 600;
     width: 100%;
+
     background-color:rgba(231, 231, 231, 0.5);
 }
 
 
 .order-table_titels tr {
-
 }
 
 .order-table_titels tr th {
@@ -2071,6 +2072,8 @@ footer {
     position: relative;
     min-width: min-content;
     border: 1px solid #dddddd;
+
+
 
 }
 

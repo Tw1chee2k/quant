@@ -5,6 +5,9 @@ from . import db
 from sqlalchemy import asc, or_, desc
 from functools import wraps
 from datetime import datetime
+from sqlalchemy.sql import func, or_
+from sqlalchemy.types import String
+
 
 views = Blueprint('views', __name__)
 year_today = datetime.now().year
@@ -31,6 +34,15 @@ def profile_complete(f):
     def decorated_function(*args, **kwargs):
         if not current_user.fio or not current_user.telephone or not current_user.organization_id:
             flash('Пожалуйста, заполните все обязательные поля.', 'error')
+            return redirect(url_for('views.profile_common'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+def auditors_only(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.type not in ['Аудитор', 'Администратор']:
+            flash('У вас нет прав доступа', 'error')
             return redirect(url_for('views.profile_common'))
         return f(*args, **kwargs)
     return decorated_function
@@ -255,6 +267,8 @@ def count_reports(year=None, quarter=None):
     counts['all'] = all_count
     return counts
 
+
+
 def get_reports_by_status(status, year=None, quarter=None):
     filters = []
     statuses = [
@@ -264,34 +278,67 @@ def get_reports_by_status(status, year=None, quarter=None):
         'Готов к удалению'
     ]
 
+    # Проверяем наличие организации и приводим okpo к строке
+    if current_user.organization:
+        user_organization_okpo = str(current_user.organization.okpo)[-4]  # Берем 4-й символ с конца
+    else:
+        user_organization_okpo = None
+
+    user_type = current_user.type
+
     if year:
         filters.append(Report.year == year)
     if quarter:
         filters.append(Report.quarter == quarter)
 
-    if status == 'not_viewed':
-        trans_status = 'Отправлен'
-    elif status == 'remarks':
-        trans_status = 'Есть замечания'
-    elif status == 'to_download':
-        trans_status = 'Одобрен'
-    elif status == 'to_delete':
-        trans_status = 'Готов к удалению'
-    elif status == 'all_reports':
-        return Report.query.join(Version_report).filter(
-        or_(*[Version_report.status == status for status in statuses]),
-        *filters
-    ).order_by(Report.year.asc(), Report.quarter.asc()).all()
-    else:
+    if user_type == "Администратор" or (current_user.organization and str(current_user.organization.okpo) == "8"):
+        if status == 'all_reports':
+            return Report.query.join(Version_report).filter(
+                or_(*[Version_report.status == s for s in statuses]),
+                *filters
+            ).order_by(Report.year.asc(), Report.quarter.asc()).all()
+        else:
+            trans_status = translate_status(status)
+            if trans_status:
+                return Report.query.join(Version_report).filter(
+                    Version_report.status == trans_status,
+                    *filters
+                ).order_by(Report.year.asc(), Report.quarter.asc()).all()
+            else:
+                return []
+
+    if user_organization_okpo is None:
         return []
 
-    return Report.query.join(Version_report).filter(
-        Version_report.status == trans_status,
-        *filters
-    ).order_by(Report.year.asc(), Report.quarter.asc()).all()
+    if status == 'all_reports':
+        return Report.query.join(Version_report).filter(
+            or_(*[Version_report.status == s for s in statuses]),
+            *filters,
+            func.substr(func.cast(Report.okpo, String), -4, 1) == user_organization_okpo
+        ).order_by(Report.year.asc(), Report.quarter.asc()).all()
+    else:
+        trans_status = translate_status(status)
+        if trans_status:
+            return Report.query.join(Version_report).filter(
+                Version_report.status == trans_status,
+                *filters,
+                func.substr(func.cast(Report.okpo, String), -4, 1) == user_organization_okpo
+            ).order_by(Report.year.asc(), Report.quarter.asc()).all()
+        else:
+            return []
+
+def translate_status(status):
+    status_map = {
+        'not_viewed': 'Отправлен',
+        'remarks': 'Есть замечания',
+        'to_download': 'Одобрен',
+        'to_delete': 'Готов к удалению'
+    }
+    return status_map.get(status)
 
 @views.route('/audit_area/<status>')
 @login_required
+@auditors_only
 def audit_area(status):
     year_filter = request.args.get('year')
     quarter_filter = request.args.get('quarter')
@@ -311,6 +358,7 @@ def audit_area(status):
 
 @views.route('/audit_area/report/<int:id>')
 @login_required
+@auditors_only
 def audit_report(id):
     dirUnit = DirUnit.query.filter_by().all()
     dirProduct = DirProduct.query.filter_by().all()
@@ -332,6 +380,9 @@ def audit_report(id):
         current_version=current_version,
         tickets=tickets
     )
+
+
+
 
 @views.route('/FAQ')
 def FAQ():

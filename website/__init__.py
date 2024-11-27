@@ -137,31 +137,56 @@ def create_database(app):
                     ynp=row['UNP']
                 )
                 db.session.add(organization)
-            db.session.commit()
-
-        if User.query.count() == 0:  
-            users_data = [
-                ('Аудитор', 'BrestReg@gmail.com', None, None, generate_password_hash('1234')),
-                ('Аудитор', 'VitebskReg@gmail.com', None, None, generate_password_hash('1234')),
-                ('Аудитор','GomelReg@gmail.com',  None, None, generate_password_hash('1234')),
-                ('Аудитор', 'GrodnoReg@gmail.com',  None, None, generate_password_hash('1234')),
-                ('Аудитор', 'MinskReg@gmail.com',  None, None, generate_password_hash('1234')),
-                ('Аудитор', 'MogilevReg@gmail.com',  None, None, generate_password_hash('1234')),
-                ('Аудитор', 'Minsk@gmail.com',  None, None, generate_password_hash('1234')),
-                ('Аудитор', 'HZ@gmail.com',  None, None, generate_password_hash('1234')),
-                ('Администратор', 'tw1che.2k@gmail.com', 'Сидоров Максим Андреевич','+375445531847', generate_password_hash('1234')),
-                ('Респондент', 'info@kvantas-as', 'Санников Вячеслав Степанович','3650433', generate_password_hash('1234')),
-                ('Респондент', 'maxsidorov2017@gmail.com', 'Харлап Алексей Игорьевич','+375296470299', generate_password_hash('1234')),
-            ]
-            for user_data in users_data:
-                user = User(type=user_data[0], 
-                            email=user_data[1], 
-                            fio=user_data[2],
-                            telephone=user_data[3],
-                            password=user_data[4]
-                            ) 
-                db.session.add(user)   
                 db.session.commit()
+
+            dop_org_data = [
+                ('Брестское областное управление', 1000),
+                ('Витебское областное управление', 2000),
+                ('Гомельское областное управление', 3000),
+                ('Гродненское областное управление', 4000),
+                ('Минское областное управление', 5000),
+                ('Могилевское областное управление', 6000),
+                ('Управление г. Минск', 7000),
+                ('Департамент по энергоэффективности', 8000),
+            ]
+            
+            org_dict = {}  # Словарь для хранения соответствий названия организации и её id
+            for org_data in dop_org_data:
+                dop_org = Organization(full_name=org_data[0], okpo=org_data[1])
+                db.session.add(dop_org)
+                db.session.commit()
+                org_dict[org_data[0]] = dop_org.id  # Сохраняем id созданной организации в словарь
+
+
+
+            if User.query.count() == 0:
+                users_data = [
+                    ('Аудитор', 'BrestReg@gmail.com', None, None, generate_password_hash('1234'), 'Брестское областное управление'),
+                    ('Аудитор', 'VitebskReg@gmail.com', None, None, generate_password_hash('1234'), 'Витебское областное управление'),
+                    ('Аудитор', 'GomelReg@gmail.com', None, None, generate_password_hash('1234'), 'Гомельское областное управление'),
+                    ('Аудитор', 'GrodnoReg@gmail.com', None, None, generate_password_hash('1234'), 'Гродненское областное управление'),
+                    ('Аудитор', 'MinskReg@gmail.com', None, None, generate_password_hash('1234'), 'Минское областное управление'),
+                    ('Аудитор', 'MogilevReg@gmail.com', None, None, generate_password_hash('1234'), 'Могилевское областное управление'),
+                    ('Аудитор', 'Minsk@gmail.com', None, None, generate_password_hash('1234'), 'Управление г. Минск'),
+                    ('Аудитор', 'HZ@gmail.com', None, None, generate_password_hash('1234'), 'Департамент по энергоэффективности'),
+                    ('Администратор', 'tw1che.2k@gmail.com', 'Сидоров Максим Андреевич', '+375445531847', generate_password_hash('1234'), None),
+                    ('Респондент', 'info@kvantas-as', 'Санников Вячеслав Степанович', '3650433', generate_password_hash('1234'), None),
+                    ('Респондент', 'maxsidorov2017@gmail.com', 'Харлап Алексей Игорьевич', '+375296470299', generate_password_hash('1234'), None),
+                ]
+
+                for user_data in users_data:
+                    user = User(
+                        type=user_data[0],
+                        email=user_data[1],
+                        fio=user_data[2],
+                        telephone=user_data[3],
+                        password=user_data[4],
+                        organization_id=org_dict.get(user_data[5]) if user_data[5] else None
+                    )
+                    db.session.add(user)
+                    db.session.commit()
+
+
 
 
         if DirUnit.query.count() == 0:   

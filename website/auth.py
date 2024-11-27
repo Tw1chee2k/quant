@@ -30,7 +30,8 @@ import zipfile
 import io
 import requests
 from user_agents import parse
-
+from sqlalchemy.sql import func, or_
+from sqlalchemy.types import String
 
 auth = Blueprint('auth', __name__)
 login_manager = LoginManager()
@@ -67,7 +68,6 @@ def logout():
     flash('Выполнен выход из аккаунта', 'success')
     return redirect(url_for('views.login'))
 
-
 def get_location_info(user_agent_string):
     try:
         ip_response = requests.get("https://api64.ipify.org?format=json")
@@ -91,7 +91,6 @@ def get_location_info(user_agent_string):
         print(f"Ошибка при получении данных о местоположении: {e}")
         return "Неизвестно", "Неизвестно", "Неизвестно", "Неизвестно"
     
-
 def send_email(message_body, recipient_email, email_type, location=None, device=None, browser=None, ip_address=None):
     smtp_server = 'smtp.mail.ru'
     smtp_port = 587
@@ -198,8 +197,6 @@ def send_email(message_body, recipient_email, email_type, location=None, device=
     finally:
         server.quit()
 
-
-
 def send_activation_email(email):
     activation_kod = gener_password()
     session['activation_code'] = activation_kod
@@ -280,11 +277,13 @@ def add_personal_parametrs():
             patronymic = patronymic.replace(' ', '')
             fio = f"{second_name} {name} {patronymic}"
             current_user.fio = fio
+            db.session.commit()
             existing_telephone = User.query.filter(User.id != current_user.id, User.telephone == telephone).first()
             if existing_telephone:
                 flash('Пользователь с таким номером телефона уже существует.', 'error')
             else: 
                 current_user.telephone = telephone
+                db.session.commit()
                 existing_userOrg = User.query.filter_by(organization_id=organiz_full_name.id).first()
                 if existing_userOrg:
                     flash('Аккаунт с такой организацией уже существует.', 'error')
@@ -1284,28 +1283,49 @@ def export_ready_reports():
     if request.method == 'POST':
         year_filter = request.form.get('year_filter')
         quarter_filter = request.form.get('quarter_filter')
-        if year_filter and quarter_filter:
+
+        filters = []
+        if year_filter:
+            filters.append(Report.year == year_filter)
+        if quarter_filter:
+            filters.append(Report.quarter == quarter_filter)
+
+        # Проверка типа пользователя и ОКПО
+        user_type = current_user.type
+        user_organization_okpo = (
+            str(current_user.organization.okpo)[-4] if current_user.organization else None
+        )
+
+        if user_type == "Администратор" or (
+            current_user.organization and str(current_user.organization.okpo).startswith("8")
+        ):
+            # Администраторы или организации с ОКПО, начинающимся на 8, видят все
             versions = Version_report.query.options(
                 joinedload(Version_report.report),
                 joinedload(Version_report.sections).joinedload(Sections.product)
             ).join(Report).filter(
                 Version_report.status == "Одобрен",
-                Report.year == year_filter,
-                Report.quarter == quarter_filter
+                *filters
             ).all()
-        else:
+        elif user_organization_okpo:
+            # Фильтруем по четвёртой цифре ОКПО
             versions = Version_report.query.options(
                 joinedload(Version_report.report),
                 joinedload(Version_report.sections).joinedload(Sections.product)
-            ).filter(
-                Version_report.status == "Одобрен"
+            ).join(Report).filter(
+                Version_report.status == "Одобрен",
+                func.substr(func.cast(Report.okpo, String), -4, 1) == user_organization_okpo,
+                *filters
             ).all()
+        else:
+            flash('У вас нет доступа к отчетам.', 'error')
+            return redirect(url_for('views.audit_area', status='Одобрен', year=year_filter, quarter=quarter_filter))
 
         if not versions:
             flash('Отсутствуют одобренные отчеты для выбранных фильтров', 'error')
             return redirect(url_for('views.audit_area', status='Одобрен', year=year_filter, quarter=quarter_filter))
 
-              
+        # Генерация ZIP-архива с DBF-файлами
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED) as zip_file:
             for version in versions:
@@ -1359,6 +1379,7 @@ def export_ready_reports():
                     with open(temp_filename, 'rb') as f:
                         dbf_filename = f'{report.okpo}_{report.year}_{report.quarter}.dbf'
                         zip_file.writestr(dbf_filename, f.read())
+
         zip_buffer.seek(0)
         return Response(
             zip_buffer,
