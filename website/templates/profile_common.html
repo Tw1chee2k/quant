@@ -34,71 +34,7 @@
             </ul>
         </nav>
         <div class="personal-info_area">
-            {%if count_reports != 0%}
-            <form action="" method=" ">
-                <table>
-                    <tr>
-                        <td><span title = "Уровень доступа к функциям">Тип пользователя &#42;</span></div></td>
-                        <td><input type="text" value="{{current_user.type}}" readonly></td>
-                    </tr>
-                    <tr>
-                        <td>E-mail</td>
-                        <td>                        
-                            <input type="text" value="{{current_user.email}}" readonly>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Номер телефона</td>
-                        <td>
-                            <input type="text" value="{{current_user.telephone}}" readonly>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Фамилия</td>
-                        <td>                    
-                            <input type="text" value="{{current_user.fio.split()[0]}}" readonly>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Имя</td>
-                        <td>                    
-                            <input type="text" value="{{current_user.fio.split()[1]}}" readonly>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Отчество</td>
-                        <td>                    
-                            <input type="text" value="{{current_user.fio.split()[2]}}" readonly>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span title = "Организация за которую отчитываются">Предприятие &#42;</span></td>
-                        <td>
-                            <input type="text" value="{{current_user.organization.full_name}}" readonly>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>ОКПО</td>
-                        <td>
-                            <input type="text" name = "okpo_common" value="{{current_user.organization.okpo if current_user.organization else ''}} " readonly>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>УНП</td>
-                        <td>    
-                            <input type="text" name = "ynp_common" value="{{current_user.organization.ynp if current_user.organization else ''}}" readonly>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Министерство</td>
-                        <td>    
-                            <input type="text" name = "ministry_common" value="{{current_user.organization.ministry if current_user.organization else ''}}" readonly>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-            {%else%}
+            
                 <form action="/add_personal_parametrs" method="POST">
                     <table>
                         <tr>
@@ -115,8 +51,10 @@
                             <td>Номер телефона</td>
                             <td>
                                 <div class="clear-input_container">
-                                    <input type="text" name = "telephone_common" placeholder="Введите номер телефона" value="{{current_user.telephone if current_user.telephone else ''}}" required>
-                                    <span class="clear-btn">&times;</span>
+                                    <input type="text" name = "telephone_common" placeholder="Введите номер телефона" value="{{current_user.telephone if current_user.telephone else ''}}" {%if count_reports == 0 and current_user.type != 'Аудитор' or current_user.type == 'Администратор'%} {%else%} readonly {%endif%} required>
+                                    <span class="clear-btn">
+                                        {%if count_reports == 0 and current_user.type != 'Аудитор' or current_user.type == 'Администратор'%} &times; {%else%}  {%endif%}
+                                    </span>
                                 </div>
                             </td>
                         </tr>
@@ -137,8 +75,10 @@
                             <td>Фамилия</td>
                             <td>                    
                                 <div class="clear-input_container">
-                                    <input type="text" name = "second_name_common" placeholder="Введите фамилию"value="{{current_user.fio.split()[0] if current_user.fio else ''}}" required>
-                                    <span class="clear-btn">&times;</span>
+                                    <input type="text" name = "second_name_common" placeholder="Введите фамилию"value="{{current_user.fio.split()[0] if current_user.fio else ''}}" {%if count_reports == 0 and current_user.type != 'Аудитор' or current_user.type == 'Администратор' %} {%else%} readonly {%endif%} required>
+                                    <span class="clear-btn">
+                                        {%if count_reports == 0 and current_user.type != 'Аудитор' and current_user.type != 'Аудитор' or current_user.type == 'Администратор'%} &times; {%else%}  {%endif%}
+                                    </span>
                                 </div>
                             </td>
                         </tr>
@@ -146,8 +86,10 @@
                             <td>Имя</td>
                             <td>                    
                                 <div class="clear-input_container">
-                                    <input type="text" name = "name_common" placeholder="Введите имя"value="{{current_user.fio.split()[1] if current_user.fio else ''}}" required>
-                                    <span class="clear-btn">&times;</span>
+                                    <input type="text" name = "name_common" placeholder="Введите имя"value="{{current_user.fio.split()[1] if current_user.fio else ''}}" {%if count_reports == 0 and current_user.type != 'Аудитор' or current_user.type == 'Администратор' %} {%else%} readonly {%endif%} required>
+                                    <span class="clear-btn">
+                                        {%if count_reports == 0 and current_user.type != 'Аудитор' or current_user.type == 'Администратор'%} &times; {%else%}  {%endif%}
+                                    </span>
                                 </div>
                             </td>
                         </tr>
@@ -155,49 +97,57 @@
                             <td>Отчество</td>
                             <td>                    
                                 <div class="clear-input_container">
-                                    <input type="text" name = "patronymic_common" placeholder="Введите отчество (не обязательно)"value="{{current_user.fio.split()[2] if current_user.fio else ''}}">
-                                    <span class="clear-btn">&times;</span>
+                                    <input type="text" name = "patronymic_common" placeholder="Введите отчество (не обязательно)" value="{{current_user.fio.split()[2] if current_user.fio else ''}}" {%if count_reports == 0 and current_user.type != 'Аудитор' or current_user.type == 'Администратор'%} {%else%} readonly {%endif%}>
+                                    <span class="clear-btn">
+                                        {%if count_reports == 0 and current_user.type != 'Аудитор' or current_user.type == 'Администратор'%} &times; {%else%}  {%endif%}
+                                    </span>
                                 </div>
                             </td>
                         </tr>
-
                         <tr>
                             <td><span title = "Организация за которую отчитываются">Предприятие &#42;</span></td>
                             <td>
                                 <input class = "pred_name" type="text" placeholder="Выбранное предприятие" name = "full_name_common" value="{{ current_user.organization.full_name if current_user.organization else '' }}" readonly>
                             </td>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td style = "text-align: right;">
-                                <button type = "button" class = "gray_button" id = "link_chooseOrgModal">Выбрать предприятие</button>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>ОКПО</td>
-                            <td>
-                                <input type="text" placeholder="Окпо" name = "okpo_common" value="{{current_user.organization.okpo if current_user.organization.okpo else ''}} " readonly>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>УНП</td>
-                            <td>    
-                                <input type="text" name = "ynp_common" placeholder="Унп" value="{{current_user.organization.ynp if current_user.organization.ynp else ''}}" readonly>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Министерство</td>
-                            <td>    
-                                <input type="text" name = "ministry_common"  placeholder="Министерство" value="{{current_user.organization.ministry if current_user.organization.ministry else ''}}" readonly>
-                            </td>
-                        </tr>
+                        {%if current_user.type != 'Аудитор'%}
+                            {%if count_reports == 0 or current_user.type == 'Администратор'%}
+                                <tr>
+                                    <td></td>
+                                    <td style = "text-align: right;">
+                                        <button type = "button" class = "gray_button" id = "link_chooseOrgModal">Выбрать предприятие</button>
+                                    </td>
+                                </tr>
+                            {%else%}
+                            {%endif%}
+                            <tr>
+                                <td>ОКПО</td>
+                                <td>
+                                    <input type="text" placeholder="Окпо" name = "okpo_common" value="{{current_user.organization.okpo if current_user.organization.okpo else ''}} " readonly>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>УНП</td>
+                                <td>    
+                                    <input type="text" name = "ynp_common" placeholder="Унп" value="{{current_user.organization.ynp if current_user.organization.ynp else ''}}" readonly>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Министерство</td>
+                                <td>    
+                                    <input type="text" name = "ministry_common"  placeholder="Министерство" value="{{current_user.organization.ministry if current_user.organization.ministry else ''}}" readonly>
+                                </td>
+                            </tr>
+                        {%else%}
+                        {%endif%}
                     </table>
-                    <button class = "blue_button" type="submit">
-                        Сохранить изменения
-                    </button>
+                    {%if count_reports == 0 and current_user.type != 'Аудитор' or current_user.type == 'Администратор' %}
+                        <button class = "blue_button" type="submit">
+                            Сохранить изменения
+                        </button>
+                    {%else%}
+                    {%endif%}
                 </form>
-            {%endif%}
         </div>
     </div>
 </div>
