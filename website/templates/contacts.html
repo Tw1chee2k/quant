@@ -2,49 +2,31 @@
 {% block content %}
 
 <div class="contacts_cont">
-    <div class = "rotation-fromareas">
-        <div class = "rotation-fromareas_info"> 
-            <span>
-                <a class = "hover_a" href="/">Главная</a>
-            </span>
-            <span> 
-                <img class = "img_black" src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
-                <img class = "img_white" src="{{ url_for('static', filename='img/icon_arroy_dark.png')}}" alt="">
-            </span>
-            <span>
-                <a>Контакты</a>
-            </span>
-        </div>
-    </div>
     <div class="contacts_box">
         <div class="contacts_info">
             <div class="contacts_info_name">
-                <a></a>
+                <a>Контакты</a>
             </div>
             <div class="contacts_content">
                 <div class="contacts_content_row">
                     <img  src="{{ url_for('static', filename='img/point_of_place.png')}}" alt="">
-                    <a>.., г. Минск, ул..., ..</a>
-                </div>
+                    <a>пл. Свободы 17, Минск, Минская область</a>
+                </div> 
                 <div class="contacts_content_row">
                     <img  src="{{ url_for('static', filename='img/email.png')}}" alt="">
-                    <a>...@....</a>
+                    <a href="mailto:energoeffect@gosstandart.gov.by">energoeffect@gosstandart.gov.by</a>
                 </div>
                 <div class="contacts_content_row">
                     <img  src="{{ url_for('static', filename='img/telephone.png')}}" alt="">
-                    <a>...
-                        Время работы: пн.-чт. 9:00-18:00
-                        пт. 9:00-16:20
-                        сб.-вс. – выходные дни.</a>
+                    <a href="tel:+80173385051">+8 (017) 338-50-51</a>
                 </div>
             </div>
         </div>  
-        <div style="position:relative; overflow:hidden;">
-            <iframe class="contacts_map" 
-                    src="https://yandex.by/map-widget/v1/?indoorLevel=1&ll=27.553503%2C53.904416&mode=whatshere&whatshere%5Bpoint%5D=27.553504%2C53.904416&whatshere%5Bzoom%5D=17&z=16&controls=none" 
-                    frameborder="1" 
-                    allowfullscreen="true" 
-                    style="position:relative; ">
+        <div class="contacts-map">
+            <iframe 
+                src="https://yandex.by/map-widget/v1/?indoorLevel=1&ll=27.553503%2C53.904416&mode=whatshere&whatshere%5Bpoint%5D=27.553504%2C53.904416&whatshere%5Bzoom%5D=17&z=16&controls=none" 
+                frameborder="0" 
+                allowfullscreen>
             </iframe>
         </div>
     </div>

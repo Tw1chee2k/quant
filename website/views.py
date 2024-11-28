@@ -291,7 +291,7 @@ def get_reports_by_status(status, year=None, quarter=None):
     if quarter:
         filters.append(Report.quarter == quarter)
 
-    if user_type == "Администратор" or (current_user.organization and str(current_user.organization.okpo) == "8"):
+    if user_type == "Администратор" or (current_user.organization and str(current_user.organization.okpo) == "8000"):
         if status == 'all_reports':
             return Report.query.join(Version_report).filter(
                 or_(*[Version_report.status == s for s in statuses]),

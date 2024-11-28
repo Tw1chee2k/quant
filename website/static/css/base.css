@@ -46,16 +46,21 @@ body.dimmed {
 }
 
 :root {
-    --color1: rgb(156, 209, 255);
+    --color1: #7dc5ff;
     --color2: rgba(184, 220, 255, 0.6);
-    --color3: rgb(129, 194, 255);
-    --color4: #055e64;
-    --color5: rgb(0, 146, 129);
-    --color6: #444444;
+    --color3: #0085f1;
     --color7: rgb(96, 255, 122);
+
     --remarksclr: rgba(255, 186, 96, 0.705);
     --odobrclr: rgb(96, 255, 122, 0.705);
     --delclr: rgb(255, 96, 96, 0.705);
+
+    --blue-back: #007ccf;
+    --green-back: #00aaaa;;
+    --blue-back-hover: #0067ac;
+
+    --moreblue_text: darkblue;
+    
 }
 
 .blurred-background {
@@ -67,7 +72,6 @@ body.dimmed {
     z-index: -1;
     filter: blur(80px);
     animation: gradient-animation 15s ease infinite;
-    background: linear-gradient(615deg, var(--color1), var(--color2), var(--color3));    
     opacity: 1;
     transition: opacity 3s ease-in-out;
 }
@@ -75,15 +79,15 @@ body.dimmed {
 
 @keyframes gradient-animation {
     0% {
-        background: linear-gradient(615deg, var(--color1), var(--color2), var(--color3));
+        background: linear-gradient(615deg, var(--color1), var(--color2), var(--blue-back));
         opacity: 1;
     }
     50% {
-        background: linear-gradient(615deg, var(--color1), var(--color2), var(--color3));
+        background: linear-gradient(615deg, var(--color1), var(--color2), var(--blue-back));
         opacity: 0.6;
     }
     100% {
-        background: linear-gradient(615deg, var(--color1), var(--color2), var(--color3));
+        background: linear-gradient(615deg, var(--color1), var(--color2), var(--blue-back));
         opacity: 1;
     }
 }
@@ -140,7 +144,7 @@ input[type="checkbox"]:checked::before {
     color: white;
 }
 
-.main_button{
+.blue_button{
     line-height: 1.5715;
     position: relative;
     display: inline-block;
@@ -162,16 +166,16 @@ input[type="checkbox"]:checked::before {
     border-radius: 5px;
     margin-top: 20px;
     border: none;
-    background: #028dff;
+    background: var(--blue-back);
     color: white;
 }
 
-.main_button:hover{
-    background-color:#4fb0ff;
+.blue_button:hover{
+    background-color:var(--blue-back-hover);
 }
 
 
-.main_button_gray{
+.gray_button{
     line-height: 1.5715;
     position: relative;
     display: inline-block;
@@ -199,7 +203,7 @@ input[type="checkbox"]:checked::before {
 
 
 
-.main_button_invizback{
+.blue_button_invizback{
     background-color: #00000000;
     box-shadow: none;
     color: rgb(0, 0, 0);
@@ -212,8 +216,8 @@ input[type="checkbox"]:checked::before {
     cursor: pointer;
 }
 
-.main_button_invizback:hover{
-    color: #028dff;
+.blue_button_invizback:hover{
+    color: var(--blue-back);
 }
 
 .icon_white{
@@ -513,11 +517,11 @@ main {
 
 footer {
     bottom: 0;
-    background-color: #028dff;
+    background-color: var(--blue-back);
     width: 100%;
     font-weight: 500;
     color: white;
-
+    height: 200px;
 }
 
 .footer_cont {
@@ -528,10 +532,9 @@ footer {
 }
 
 .left_col_footer,
-.center_col_footer,
 .right_col_footer{
-    flex: 0 0 33.3333%;
-    max-width: 33.3333%;
+    flex: 0 0 50%;
+    max-width: 50%;
 }
 
 .footer_cont nav ul li{
@@ -547,21 +550,18 @@ footer {
 .left_col_footer {
     display: flex;
     justify-content: center; 
-
 }
+
 .left_col_footer nav ul li:hover{
     color:black;
     transition: color 0.3s ease;
 }
 
-.center_col_footer{
-    margin-bottom: 15px;
-    font-size: 14px;
-}
-
 .right_col_footer{
     display:flex;
     flex-direction: column;      
+    margin-bottom: 15px;
+    font-size: 14px;
 }
 
 .right_col_footer nav ul li{
@@ -699,12 +699,12 @@ footer {
 }
 
 .link_cont a:hover{
-    color: #028dff;
+    color: var(--blue-back);
     transition: color 0.3s ease;
 }
 
 .link_cont .active{
-    color: #028dff;
+    color: var(--blue-back);
 }
 
 .aftorization_data,
@@ -909,7 +909,6 @@ footer {
 
 .hellow_row_dop_name{
     font-weight: 500;
-
     padding-bottom: 9%;
     animation: fadeInTextblue 1s ease forwards;
 }
@@ -930,7 +929,7 @@ footer {
     }
     100% {
         opacity: 1;
-        color:darkblue;
+        color:var(--moreblue_text);
     }
 }
 
@@ -956,7 +955,7 @@ footer {
 
     margin-top: 220px;
     /* background-color:  #ffa500; */
-    background-color: #028dff;
+    background-color: var(--blue-back);
     display: flex;
     flex-direction: row;
     justify-content: center; 
@@ -994,7 +993,7 @@ footer {
 
 .stat_count{
     font-size: 40px;    
-    color: #028dff;   
+    color: var(--blue-back);   
     font-weight: 600;
     text-align: center;
     align-items: center;
@@ -1058,7 +1057,7 @@ footer {
 
 .news_name{
     font-size: 19px;
-    color: #028dff;   
+    color: var(--blue-back);   
     font-weight: 600;
     padding-bottom: 40px;
 }
@@ -1210,7 +1209,6 @@ footer {
     font-weight: 600;
     border-radius: 2px;
     margin: 0;
-
     margin-bottom: 10px;
     padding: 0 30px;
     font-size: 15px;
@@ -1244,21 +1242,21 @@ footer {
     align-items: center;
 }
 
-.buttons_account_add_report{
+.button_account_add_report{
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 270px;
+    width: fit-content;
     font-weight: 500;
     height: 50px;
-    margin: 10px 0 20px 20px;
+    margin: 10px 0 20px 5%;
     border-radius: 3px;
     color: white;
     cursor: pointer;
 }
 
 
-.buttons_account_add_report span{
+.button_account_add_report span{
     margin: 0 30px;    
     font-size: 15px;
 }
@@ -1354,7 +1352,7 @@ footer {
 }
 
 .info_page_name a{
-    color: #028dff;
+    color: var(--blue-back);
     font-size: 21px;    
     font-weight: 500;
 }
@@ -1639,7 +1637,7 @@ footer {
 }
 
 .profile_page .personal-info_area td input:focus {
-    border: 1px solid  #028dff; 
+    border: 1px solid  var(--blue-back); 
 }
 
 /*clear input */
@@ -1811,10 +1809,10 @@ footer {
 
 .sticky_menu{
     position: sticky;
-    top: 70px;    
+    top: 58px;    
     background-color: white;
     transition: box-shadow 0.3s;
-
+    z-index: 1;
 
 }
 
@@ -1873,6 +1871,7 @@ footer {
     display: flex;
     list-style: none;
     margin: 0;
+ 
 }
 
 .content-podmenu nav ul section{
@@ -2177,7 +2176,7 @@ th .resizer {
     border: none;
     color: white;
     padding: 2px 6px;
-    /* background-color: #028dff; */
+    /* background-color: var(--blue-back); */
     background-color: #00000000;
     cursor: pointer;
     transition: background-color 0.3s ease;   
@@ -2727,7 +2726,7 @@ th .resizer {
     width: 3px;
     border: none;
     height: 100%; 
-    background-color: #028dff; 
+    background-color: var(--blue-back); 
 }
 
 .dragging {
@@ -2786,6 +2785,7 @@ th .resizer {
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;
+    color: black;
 }
 
 .news_text {
@@ -2807,27 +2807,26 @@ th .resizer {
 
 /*contacts.css end*/
 .contacts_cont{
-    margin: 0 auto;
     display: flex;
-    flex-direction: column;
+    margin: 0 auto;
     align-items: center;
-    min-height: 100vh;
-    margin: 60px 0;
+    justify-content: center;
+    margin-top: 60px;
+    height: calc(90vh - 60px) ;
 }
 
 .contacts_box{
-    box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
-    height: fit-content;
-    background-color:#ffffff;
+    margin: 0 auto;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     display: flex;
-    width: fit-content;
+    width: 100%;
+    height: 400px;
 }
 
 .contacts_info{
-    padding: 20px;
-    width:400px;
+    padding: 30px;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
     text-align: left;
@@ -2835,7 +2834,7 @@ th .resizer {
 }
 
 .contacts_info_name{
-    padding-bottom: 20px;
+    margin: 30px 0;
     text-align: center;
 }
 
@@ -2855,6 +2854,7 @@ th .resizer {
     flex-direction: row;
     align-items:start;
     margin-bottom: 10px;
+
 }
 
 .contacts_content_row img{
@@ -2865,13 +2865,21 @@ th .resizer {
 
 .contacts_content_row a{
     font-size: 18px;
+    color: black;
 }
 
-.contacts_map{
-    width: 800px;
-    height: 600px;
+.contacts-map{
+    width: 100%;
+    height: 100%;
     border: none;
 }
+
+.contacts-map iframe {
+    width: 100%;
+    height: 100%;
+
+}
+
 /*contacts.css end*/
 
 
@@ -2934,7 +2942,7 @@ th .resizer {
         width: 900px;
     }
 
-    .buttons_account_add_report span{
+    .button_account_add_report span{
         font-size: 13px;
     }
     
@@ -3051,7 +3059,7 @@ th .resizer {
         position: absolute;
         width: 100%;
        
-        background-color: #028dff;
+        background-color: var(--blue-back);
         left:0;
         bottom: 10%;
         display: block;
@@ -3422,16 +3430,16 @@ th .resizer {
         flex-direction: column;
     }
 
-    .center_col_footer{
-        display: none;
-    }
-
     .left_col_footer,
-    .center_col_footer,
     .right_col_footer{
         flex: 0 0 100%;
         max-width: 100%;
         justify-content: left;
+    }
+
+    .left_col_footer{
+        margin-bottom: 35px;
+
     }
     /* footer end*/  
 
@@ -3574,7 +3582,7 @@ th .resizer {
         width: 100px; 
         border: none;
         height: 3px;
-        background-color: #028dff; 
+        background-color: var(--blue-back); 
     }
 
     .profile_page .personal-info_area td input{
@@ -3593,7 +3601,8 @@ th .resizer {
     }
 
     .contacts_info{
-        width: calc(100% - 40px);
+        padding: 0 10px;
+        width: calc(100% - 20px);
     }
 
     .contacts_map{
