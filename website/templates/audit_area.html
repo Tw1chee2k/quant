@@ -15,7 +15,7 @@
                                         <a>Загрузка</a>   
                                     </li>  
                                     <li id = "link_period">           
-                                        <img src="{{ url_for('static', filename='img/.png')}}" alt="">
+                                        <img src="{{ url_for('static', filename='img/time.png')}}" alt="">
                                         <a>↓ Период</a>   
                                     </li>  
                                 </div>                         
@@ -65,7 +65,7 @@
                                                 </a>
                                             </li>  
                                             <li data-action="all_reports">           
-                                                <img class="count-img" src="{{ url_for('static', filename='img/sl_5.png')}}">                
+                                                <img class="count-img" src="{{ url_for('static', filename='img/sl_all.png')}}">                
                                                 <!-- <a>Все</a> -->
                                                 <a class="count_reporst">
                                                     <span>Все</span>
@@ -75,7 +75,6 @@
                                             <form id="change-category-form" style="display: none;" method="post" action="/change_category_report">
                                                 <input type="hidden" name="reportId" id="report-id-input">
                                                 <input type="hidden" name="action" id="action-input">
-                                                <input type="hidden" name="url" id="url-input">
                                             </form>
                                         </ul>
                                     </nav>
@@ -217,6 +216,12 @@
     <button data-action="checkSectionsButton">
         <span>Просмотреть</span>
     </button>
+    
+    <form id="deleteReport" method="POST" action="/rollbackreport/">
+        <button type="submit" id="rollbackButton">
+            <span>Отменить</span>
+        </button>
+    </form>
 </div>
 
 <div id="period_modal" class="modal">

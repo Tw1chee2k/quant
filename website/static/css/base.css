@@ -1812,7 +1812,6 @@ footer {
     top: 58px;    
     background-color: white;
     transition: box-shadow 0.3s;
-    z-index: 1;
 
 }
 

@@ -9,6 +9,21 @@ window.addEventListener('scroll', () => {
 });
 //end
 
+var rollbackButton = document.getElementById('rollbackButton');
+rollbackButton.addEventListener('click', function(event) {
+    var activeRow = document.querySelector('.report_row.active-report');
+    if (activeRow !== null) {
+        var ReportId = activeRow.dataset.id;
+        if (ReportId) {
+            var deleteForm = document.getElementById('deleteReport');
+            deleteForm.action = '/rollbackreport/' + ReportId;
+        }
+    } else {
+        alert('Выберите отчет для отката');
+        event.preventDefault();
+    }
+});
+
 
 document.addEventListener('DOMContentLoaded', function () {
     var reportRows = document.querySelectorAll('.report_row');
@@ -55,15 +70,14 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('organization-filter').addEventListener('input', filterTable);
 
 
+
+
     function hideContextMenu() {
         contextMenuReport.style.display = 'none';
     }
 
     function setDraggingState(isDragging) {
         var imgs = document.querySelectorAll('.count-img');
-;
-        
-
         var with_remarks = document.querySelector('li[data-action="remarks"]');
         var to_conf = document.querySelector('li[data-action="to_download"]');
         var to_del = document.querySelector('li[data-action="to_delete"]');
@@ -96,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     function setDraggingStatetoNonread(isDragging) {
-
 
         var not_read = document.querySelector('li[data-action="not_viewed"]');
         imgs.forEach((img, index) => {
@@ -144,9 +157,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.classList.add('active-report');
                 previousReportRow = this;
         
-                // Установка правильных координат для контекстного меню
-                contextMenuReport.style.top = event.pageY + 'px'; // Вертикальная позиция
-                contextMenuReport.style.left = event.pageX + 'px'; // Горизонтальная позиция
+                contextMenuReport.style.top = event.pageY + 'px'; 
+                contextMenuReport.style.left = event.pageX + 'px';
                 contextMenuReport.style.display = 'flex';
             }
         });
@@ -180,7 +192,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         row.addEventListener('dblclick', function() {
             var reportId = this.dataset.id;
-            
             var url = "/audit_area/report/" + reportId;
             window.location.href = url;
 
@@ -285,19 +296,15 @@ document.getElementById('douwnload_readyreports_link').addEventListener('click',
     document.getElementById('douwnload_readyreports_form').submit();
 });
 
-window.onload = function() {
-    document.getElementById('url-input').value = window.location.href;
-};
-
 document.querySelector('[data-action="checkSectionsButton"]').addEventListener('click', function() {
     var activeVersionRow = document.querySelector('.report_row.active-report');
     if (activeVersionRow) {
         var id = activeVersionRow.dataset.id;
         var url = "/audit_area/report/" + id;
-        console.log(id);
         window.location.href = url;
     } else {
         alert('Нет активного отчета. Пожалуйста, выберите отчет.');
     }
     });
+
 

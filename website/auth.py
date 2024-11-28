@@ -907,7 +907,6 @@ def sent_version(id):
 def change_category_report():
     action = request.form.get('action')
     report_id = request.form.get('reportId')
-    url = request.form.get('url')
 
     status_itog = None
     if request.method == 'POST':
@@ -950,18 +949,30 @@ def change_category_report():
 
             else:
                 flash('Неизвестное действие', 'error')
-                return redirect(url)
+                return redirect(request.referrer) 
             current_version.hasNot = False
             current_version.status = status_itog
             db.session.commit()
 
             
-            send_email(status_itog, user.email, 'change_status')
+            # send_email(status_itog, user.email, 'change_status')
             flash(f'Статус отчета №{current_version.id} был изменен', 'success')
-            return redirect(url)
+            return redirect(request.referrer) 
         else:
             flash('Отчет не найден', 'error')
             return "Version not found", 404
+        
+@auth.route('/rollbackreport/<id>', methods=['POST'])
+def rollbackreport(id):
+    if request.method == 'POST':
+        current_version = Version_report.query.filter_by(id=id).first()
+        current_report = Report.query.filter_by(id=id).first()
+        current_user = current_report.user_id
+
+        current_version.status = "Отправлен"
+        db.session.commit()
+        flash(f'Статус отчета был изменен на непросмотренный', 'success')
+    return redirect(request.referrer) 
 
 @auth.route('/send_comment', methods=['POST'])
 def send_comment():
