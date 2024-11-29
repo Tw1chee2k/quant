@@ -955,7 +955,7 @@ def change_category_report():
             db.session.commit()
 
             
-            # send_email(status_itog, user.email, 'change_status')
+            send_email(status_itog, user.email, 'change_status')
             flash(f'Статус отчета №{current_version.id} был изменен', 'success')
             return redirect(request.referrer) 
         else:
