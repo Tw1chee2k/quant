@@ -1,15 +1,28 @@
-//header
 const header = document.querySelector('.fixed-header');
+
 window.addEventListener('scroll', () => {
     if (window.scrollY > 0) {
         header.style.backgroundColor = 'white';
-        header.style.boxShadow = '0 0 20px rgb(0, 0, 0, 0.1)';
+        // Проверяем ширину экрана
+        if (window.innerWidth >= 1000) {
+            header.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.1)';
+        } else {
+            header.style.boxShadow = 'none';
+        }
     } else {
         header.style.backgroundColor = 'transparent';
         header.style.boxShadow = 'none';
     }
 });
-//end
+
+// Добавляем обработчик события resize для учета изменения ширины экрана
+window.addEventListener('resize', () => {
+    if (window.scrollY > 0) {
+        if (window.innerWidth < 1000) {
+            header.style.boxShadow = 'none';
+        }
+    }
+});
 
 
 const clearButtons = document.querySelectorAll('.clear-btn');

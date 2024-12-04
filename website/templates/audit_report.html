@@ -72,7 +72,7 @@
                                 </li>
                             </div>
                             <a class="functions_menu_name">
-                                
+                               Доп. инф.
                             </a>
                         </section>
                         <section>
@@ -96,19 +96,20 @@
         </div> 
     </div>
     
-    <div class = "rotation-fromareas" >
+    <!-- <div class = "rotation-fromareas" >
         <div class = "rotation-fromareas_info" style = "margin: 20px 50px; margin-bottom: 30px;"> 
             <span>
-                <a class = "hover_a" href="/audit_area">Отчеты</a>
+                <a class = "hover_a">Проверка отчета</a>
             </span>
             <span> 
                 <img src="{{ url_for('static', filename='img/icon_arroy.png')}}" alt="">
             </span>
             <span>
-                <a>Проверка отчета</a>
+                <a></a>
             </span>
         </div>
-    </div>
+    </div> -->
+
     <div class="report-area">
         <div id="fuel_section_table"> 
             <table class = "table_report-area">
@@ -582,7 +583,7 @@
             <input class = "search_input" type="text" name = "" placeholder="Код/Наименование" id = "searchUnitProduct" onkeyup="searchUnitProduct()">
         </div>
         <div class="spravochniki_area">
-            <table class="table_report-area" style = "width: 100%;">
+            <table class="table_report-area">
                 <thead class="order-table_titels">
                     <tr>
                         <th style = "white-space: nowrap;">Код продукции</th>
@@ -702,9 +703,9 @@
                             >
                         </td>
                     </tr>
-                    <tr>
+                    <tr >
                         <td>Текст</td>
-                        <td>
+                        <td style = "height: 94px;">
                             <!-- <input                 
                                 type="text"
                                 name = "text"

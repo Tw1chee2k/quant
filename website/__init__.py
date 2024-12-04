@@ -10,6 +10,7 @@ from dbfread import DBF
 import os
 import pandas as pd
 from werkzeug.security import generate_password_hash
+import flask_profiler
 
 db = SQLAlchemy()
 babel = Babel()
@@ -23,9 +24,30 @@ def create_app():
     app.config['FLASK_ENV'] = 'development'
     app.config['SECRET_KEY'] = 'anykey'
     app.config['FLASK_ADMIN_SWATCH'] = 'cosmo'
-    app.config['BABEL_DEFAULT_LOCALE'] = 'eng'
+    app.config['BABEL_DEFAULT_LOCALE'] = 'ru'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{path.join(path.dirname(__file__), DB_NAME)}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        'pool_size': 10,
+        'pool_timeout': 30
+    }
+    app.config['DEBUG'] = True
+    app.config["flask_profiler"] = {
+        "enabled": False,
+        "storage": {
+            "engine": "sqlite"
+        },
+        "basicAuth": {
+            "enabled": True,
+            "username": "admin",
+            "password": "admin"
+        },
+        "ignore": [
+            "^/static/.*"
+        ]
+    }
+
+    flask_profiler.init_app(app)
     db.init_app(app)
     babel.init_app(app)
     bcrypt.init_app(app)
@@ -150,14 +172,12 @@ def create_database(app):
                 ('Департамент по энергоэффективности', 8000),
             ]
             
-            org_dict = {}  # Словарь для хранения соответствий названия организации и её id
+            org_dict = {}
             for org_data in dop_org_data:
                 dop_org = Organization(full_name=org_data[0], okpo=org_data[1])
                 db.session.add(dop_org)
                 db.session.commit()
-                org_dict[org_data[0]] = dop_org.id  # Сохраняем id созданной организации в словарь
-
-
+                org_dict[org_data[0]] = dop_org.id
 
             if User.query.count() == 0:
                 users_data = [
@@ -185,9 +205,6 @@ def create_database(app):
                     )
                     db.session.add(user)
                     db.session.commit()
-
-
-
 
         if DirUnit.query.count() == 0:   
             units_data = [

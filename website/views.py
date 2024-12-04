@@ -8,8 +8,8 @@ from datetime import datetime
 from sqlalchemy.sql import func, or_
 from sqlalchemy.types import String
 
-
 views = Blueprint('views', __name__)
+
 year_today = datetime.now().year
 current_day = datetime.now().day
 current_time = datetime.now()
@@ -61,10 +61,6 @@ def beginPage():
                            report_data = report_data
                            )
 
-@views.route('/not_found')
-def not_found():
-    return render_template('not_found.html')
-
 @views.route('/sign')
 def sign():
     return render_template('sign.html', 
@@ -108,47 +104,46 @@ def profile_password():
 @profile_complete
 @login_required
 def report_area():
-    if Report.query.count() == 0:  
-        report_data = [
-            (current_user.organization.okpo, current_user.organization.full_name, year, 1, current_user.id)
-            for year in range(2024, 2044)
-        ]
+    # if Report.query.count() == 0:  
+    #     report_data = [
+    #         (current_user.organization.okpo, current_user.organization.full_name, year, 1, current_user.id)
+    #         for year in range(2024, 2044)
+    #     ]
 
-        reports = [
-            Report(
-                okpo=data[0],
-                organization_name=data[1],
-                year=data[2],
-                quarter=data[3],
-                user_id=data[4],
-            )
-            for data in report_data
-        ]
-        db.session.add_all(reports)
+    #     reports = [
+    #         Report(
+    #             okpo=data[0],
+    #             organization_name=data[1],
+    #             year=data[2],
+    #             quarter=data[3],
+    #             user_id=data[4],
+    #         )
+    #         for data in report_data
+    #     ]
+    #     db.session.add_all(reports)
 
-        version_data = [
-            ('Отправлен', current_user.fio, current_user.telephone, current_user.email, i, current_time, current_time)
-            for i in range(1, 21)
-        ]
+    #     version_data = [
+    #         ('Отправлен', current_user.fio, current_user.telephone, current_user.email, i, current_time, current_time)
+    #         for i in range(1, 21)
+    #     ]
 
-        versions = [
-            Version_report(
-                status=vers[0],
-                fio=vers[1],
-                telephone=vers[2],
-                email=vers[3],
-                report_id=vers[4],
-                sent_time=vers[5],
-                change_time=vers[6]
-            )
-            for vers in version_data
-        ]
-        db.session.add_all(versions)
-        db.session.commit()
+    #     versions = [
+    #         Version_report(
+    #             status=vers[0],
+    #             fio=vers[1],
+    #             telephone=vers[2],
+    #             email=vers[3],
+    #             report_id=vers[4],
+    #             sent_time=vers[5],
+    #             change_time=vers[6]
+    #         )
+    #         for vers in version_data
+    #     ]
+    #     db.session.add_all(versions)
+    #     db.session.commit()
 
 
     report = Report.query.filter_by(user_id=current_user.id).order_by(Report.year.asc(), Report.quarter.asc()).all()
-
 
     version = Version_report.query.filter_by().all()
 
@@ -181,7 +176,6 @@ def report_area():
 @login_required
 @owner_only
 def report_section(report_type, id):
-    dirUnit = DirUnit.query.all()
     current_version = Version_report.query.filter_by(id=id).first()
     current_report = Report.query.filter_by(id=current_version.report_id).first()
     report_config = {
@@ -191,44 +185,18 @@ def report_section(report_type, id):
     }
 
     if report_type not in report_config:
-        return render_template('views.not_found', error='Ошибка при выборе типа отчета')
+        return render_template('views.not_found')
 
     config = report_config[report_type]
     section_number = config['section_number']
     product_filter = config['product_filter']
 
+    dirUnit = DirUnit.query.all()
     dirProduct = DirProduct.query.filter(
         product_filter == True,
         ~DirProduct.CodeProduct.in_(['9001', '9010', '9100'])
     ).order_by(asc(DirProduct.CodeProduct)).all()
 
-    sections = Sections.query.filter_by(id_version=current_version.id, section_number=section_number).all()
-
-    if not sections:
-        sections_data = [
-            (id, 288, 9100, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-            (id, 285, 9010, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-            (id, 282, 9001, section_number, '', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, ''),
-        ]
-
-        for data in sections_data:
-            section = Sections(
-                id_version=data[0],
-                id_product=data[1],
-                code_product=data[2],
-                section_number=data[3],
-                Oked=data[4],
-                produced=data[5],
-                Consumed_Quota=data[6],
-                Consumed_Fact=data[7],
-                Consumed_Total_Quota=data[8],
-                Consumed_Total_Fact=data[9],
-                total_differents=data[10],
-                note=data[11]
-            )
-            db.session.add(section)
-        db.session.commit()
-    
     sections = Sections.query.filter_by(id_version=current_version.id, section_number=section_number).order_by(desc(Sections.id)).all()
     return render_template('respondent_report.html', 
         section_number=section_number,
@@ -267,8 +235,6 @@ def count_reports(year=None, quarter=None):
     counts['all'] = all_count
     return counts
 
-
-
 def get_reports_by_status(status, year=None, quarter=None):
     filters = []
     statuses = [
@@ -278,9 +244,8 @@ def get_reports_by_status(status, year=None, quarter=None):
         'Готов к удалению'
     ]
 
-    # Проверяем наличие организации и приводим okpo к строке
     if current_user.organization:
-        user_organization_okpo = str(current_user.organization.okpo)[-4]  # Берем 4-й символ с конца
+        user_organization_okpo = str(current_user.organization.okpo)[-4]
     else:
         user_organization_okpo = None
 
@@ -336,6 +301,8 @@ def translate_status(status):
     }
     return status_map.get(status)
 
+
+
 @views.route('/audit_area/<status>')
 @login_required
 @auditors_only
@@ -355,6 +322,8 @@ def audit_area(status):
                            year_filter=year_filter,
                            quarter_filter=quarter_filter,
                            year_today=year_today)
+
+
 
 @views.route('/audit_area/report/<int:id>')
 @login_required
@@ -380,9 +349,6 @@ def audit_report(id):
         current_version=current_version,
         tickets=tickets
     )
-
-
-
 
 @views.route('/FAQ')
 def FAQ():
@@ -423,3 +389,8 @@ def contacts():
     return render_template('contacts.html', 
         current_user=current_user
     )
+
+
+@views.route('/not_found')
+def not_found():
+    return render_template('not_found.html')

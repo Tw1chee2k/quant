@@ -94,7 +94,7 @@
         </div> 
     </div>
 
-    <div class = "rotation-fromareas" >
+    <!-- <div class = "rotation-fromareas" >
         <div class = "rotation-fromareas_info" style = "margin: 20px 50px; margin-bottom: 30px;"> 
             <span>
                 <a class = "hover_a" href="/report_area">Отчеты</a>
@@ -115,7 +115,7 @@
                 {%endif%}
             </span>
         </div>
-    </div>
+    </div> -->
 
     <div class = "report-area">
         <table class = "table_report-area">
@@ -290,42 +290,43 @@
             <a class="close">&times;</a>
         </div>
         <form method="POST" action="/add_section_param">
+            <div class="choose-product_area">
+                <div class = "serchProduct_cont">
+                    <a>Фильтр</a>
+                    <input type="text" name = "search_product" >
+                </div>
+                <table class="table_report-area">
+                    <thead class = "order-table_titels">
+                        <tr>
+                            <th>Код продукта</th>
+                            <th>Наименование продукта</th>
+                            <th>Единица измерения</th>
+                            <th style="display:none;">id</th>
+                        </tr>
+                    </thead>
+                    <tbody id="chooseProdTableBody">
+                        {% for row in dirProduct %}
+                            <tr data-id="{{ row.id }}">
+                                <td>{{row.CodeProduct}}</td>
+                                <td style=" text-align: left;">{{row.NameProduct}}</td>
+                                <td>{{row.unit.NameUnit}}</td>
+                                <td style="display:none;">{{row.IdProduct}}</td>
+                            </tr>
+                        {% endfor %}
+                        <tr id="noResultsRow" style="display: none;">
+                            <td colspan="3">Нет результатов</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <table class = "modal_table">
                 <tr>
                     <td>[A] Наименование вида продукции (работ, услуг)</td>
                     <td>
+                        <div> 
                         <div style="position: relative;">
                             <input type="text" name="name_of_product" style="width: 250px; text-align: left;" readonly>
                             <a id="nameOfProductButton">+</a>
-                        </div>
-                        <div class="choose-product_area">
-                            <div class = "serchProduct_cont">
-                                <a>Фильтр</a>
-                                <input type="text" name = "search_product" class = "search_product_input">
-                            </div>
-                            <table class="table_report-area">
-                                <thead class = "order-table_titels">
-                                    <tr>
-                                        <th>Код продукта</th>
-                                        <th>Наименование продукта</th>
-                                        <th>Единица измерения</th>
-                                        <th style="display:none;">id</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="chooseProdTableBody">
-                                    {% for row in dirProduct %}
-                                        <tr data-id="{{ row.id }}">
-                                            <td>{{row.CodeProduct}}</td>
-                                            <td style=" text-align: left;">{{row.NameProduct}}</td>
-                                            <td>{{row.unit.NameUnit}}</td>
-                                            <td style="display:none;">{{row.IdProduct}}</td>
-                                        </tr>
-                                    {% endfor %}
-                                    <tr id="noResultsRow" style="display: none;">
-                                        <td colspan="3">Нет результатов</td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                     </td>
                 </tr>
@@ -662,7 +663,7 @@
 
         </div>
         <div class="spravochniki_area">
-            <table class="table_report-area" style = "width: 100%;">
+            <table class="table_report-area">
                 <thead class="order-table_titels">
                     <tr>
                         <th style = "white-space: nowrap;">Код продукции</th>
