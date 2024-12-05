@@ -128,51 +128,75 @@
                 <thead class="order-table_titels">
                     <tr>
                         <th></th>
+                   
                         <th class="resizable" style="white-space: nowrap; min-width: 380px;">Предприятие<div class="resizer"></div></th>
                         <th class="resizable" style="white-space: nowrap; min-width: 140px;">ОКПО<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Дата поступления<div class="resizer"></div></th>
-                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Статус<div class="resizer"></div></th>
                         <th class="resizable" style="white-space: nowrap; min-width: 100px;">Год<div class="resizer"></div></th>
                         <th class="resizable" style="white-space: nowrap; min-width: 100px;">Квартал<div class="resizer"></div></th>
+                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Дата поступления<div class="resizer"></div></th>
+                        <th class="resizable" style="white-space: nowrap; min-width: 140px;">Статус<div class="resizer"></div></th>
+             
                         <th rowspan="2"></th>
                     </tr>
                 </thead>
                 <tbody>
                     {%if reports%}
                         {% for row in reports %}
-                            <tr class="report_row" data-id="{{ row.id }}" draggable="true">
-                                <td>
-                                </td>
-                                <td style="display: none;">
-                                    <input type="text" id="report_id" value="{{ row.id }}" readonly>
-                                </td>
-                                <td>
-                                    <input type="text" id="report_organization_name" value="{{ row.organization_name }}" readonly>
-                                </td>
-                                <td>
-                                    <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
-                                </td>
-                                    {% for version in row.versions %}     
-                                        <td>       
-                                            <input type="text" value="{{version.sent_time}}" readonly> 
-                                        </td> 
-                                        <td>
-                                            {% if version.status == 'Отправлен' %}
-                                                <input type="text"  value="Не просмотрено" readonly>
-                                            {%else%}
-                                                <input type="text" value="{{version.status}}" readonly>
-                                            {% endif %}
-                                        </td> 
-                                    {% endfor %} 
-                                <td>
-                                    <input type="text" id="report_year" value="{{ row.year }}" readonly>
-                                </td>
-                                <td>
-                                    <input type="text" id="report_quarter" value="{{ row.quarter }}" readonly>
-                                </td>
-                                <td></td>
-                            </tr>
+                            {% for version in row.versions %}
+                                <tr class="report_row {% if version.hasNot %} hascomment-row {% endif %}" data-id="{{ row.id }}" draggable="true">
+                                    <td></td>
+                                    <td style="display: none;">
+                                        <input type="text" id="report_id" value="{{ row.id }}" readonly>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="report_organization_name" value="{{ row.organization_name }}" readonly>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="report_okpo" value="{{ row.okpo }}" readonly>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="report_year" value="{{ row.year }}" readonly>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="report_quarter" value="{{ row.quarter }}" readonly>
+                                    </td>
+                                    <td>
+                                        <input type="text" value="{{ version.sent_time }}" readonly>
+                                    </td>
+
+
+
+                                    {% if version.status == 'Отправлен'%}
+                                    <td> 
+                                        <input type = "text" style = "color: black;" value = "Не просмотрено"  readonly>
+                                    </td> 
+                                    {% elif version.status == 'Есть замечания'%}
+                                        <td style = "background: rgb(255, 186, 96);"> 
+                                            <input type = "text" style = "color: black;" value = "{{ version.status }}"  readonly>
+                                        </td>  
+                                    {% elif version.status == 'Готов к удалению'%}
+                                        <td style = "background: rgb(255, 96, 96);"> 
+                                            <input type = "text" style = "color: black;" value = "{{ version.status }}"  readonly>
+                                        </td>
+                                    {% elif version.status == 'Одобрен'%}
+                                        <td style = "background:  rgb(96, 255, 122);"> 
+                                            <input type = "text" style = "color: black;" value = "{{ version.status }}"  readonly>
+                                        </td>
+                                    {% else %}
+                                        <td> 
+                                            <input type = "text" value = "{{ version.status }}"  readonly>
+                                        </td>  
+                                    {% endif %}
+
+
+                      
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
                         {% endfor %}
+                    
+                    <td></td>
+                    </tr>
                     {%else%}
                         <tr>
                             <td></td>
@@ -252,7 +276,7 @@
                 </td>
             </tr>
             <tr>
-                <td> 
+                <td style="height: 65px;"> 
                     <button 
                         type="button"
                         class="blue_button" 
@@ -263,7 +287,7 @@
             </tr>
 
             <tr>
-                <td> 
+                <td style="height: 65px;"> 
                     <button 
                         type="button" 
                         class="blue_button" 

@@ -93,32 +93,20 @@ document.addEventListener('DOMContentLoaded', function() {
             nameOfProductButton.textContent = '+';
         }   
     });
-
-    remove_section.addEventListener('click', function() {
-        var activefuel = document.querySelector('.section_row.active-report');
-        if (activefuel !== null) {
-            var fuelId = activefuel.dataset.id;
-            Remove_fuel(fuelId);
+    
+    remove_section.addEventListener('click', function(event) {
+        var activeRow = document.querySelector('.section_row.active-report');
+        if (activeRow !== null) {
+            var section_id = activeRow.dataset.id;
+            if (section_id) {
+                var deleteForm = document.getElementById('remove_section_form');
+                deleteForm.action = '/remove_section/' + section_id;
+            }
         } else {
             alert('Выберите продукцию для удаления');
+            event.preventDefault();
         }
     });
-
-    function Remove_fuel(fuelId) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/remove_section/' + fuelId, true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    window.location.reload();
-                } else {
-                    console.error(xhr.statusText);
-                }
-            }
-        };
-        xhr.send();
-    }
 
     function openChangefuel_modal() {
         var activeRow = document.querySelector('.section_row.active-report');

@@ -117,7 +117,7 @@
                     </tr>
                     <tr class="change_input_row">
                         <td colspan="10">
-                            <form action="/update_report" method="POST">
+                            <!-- <form action="/update_report" method="POST">
                                 <div class="change_input">
                                     <div class="placehold_of_left">ОКПО</div>
                                     <input type="text" name="okpo" value="{{ row.okpo }}" style="border: 1px solid #3333;" readonly>
@@ -132,7 +132,7 @@
                                 </div>
                                 <input type="hidden" name="id" value="{{ row.id }}" placeholder="id">
                                 <button type="submit">Обновить</button>
-                            </form>
+                            </form> -->
                         </td>
                     </tr>
                     <tr class="versions_row" >
@@ -496,11 +496,11 @@
     <button id = "link_change_report">
         <span>Редактировать</span>
     </button>
-    <form id="addVersion" style = "display:none;" method="POST" action="/create_new_report_version/">
+    <!-- <form id="addVersion" method="POST" action="/create_new_report_version/">
         <button type="submit" id="add_versionButton">
             <span>Добавить версию</span>
         </button>
-    </form>
+    </form> -->
     <button id = "link_coppy_report">
         <span>Скопировать</span>
     </button>
@@ -513,13 +513,13 @@
 
 <div id="contextMenu_version" class="white-panel">
     <button data-action="checkVersionButton">
-        <span>Изменить данные</span>
+        <span>Изменить</span>
     </button>
-    <form id="deleteVersion"  style = "display:none;" method="POST" action="/delete_version/">
+    <!-- <form id="deleteVersion"  method="POST" action="/delete_version/">
         <button type="submit" id="del_versionButton">   
             <span>Удалить</span>
         </button>
-    </form>
+    </form> -->
 </div>
 
 <script src="{{ url_for('static', filename='js/report_area.js') }}"></script>

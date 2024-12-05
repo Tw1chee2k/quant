@@ -622,7 +622,7 @@
         </div>
         <div class = "serch-cont">
             <a>Поиск</a>
-            <input class="search_input" type="text" placeholder="Код/Наименование" id = "searchUnit" onkeyup="searchUnit()">
+            <input class="search_input" type="text" placeholder="Наименование или код" id = "searchUnit" onkeyup="searchUnit()">
 
         </div>
         <div class="spravochniki_area">
@@ -659,7 +659,7 @@
         </div>
         <div class = "serch-cont">
             <a>Поиск</a>
-            <input class="search_input" type="text" placeholder="Код/Наименование" id = "searchUnitProduct" onkeyup="searchUnitProduct()">
+            <input class="search_input" type="text" placeholder="Наименование или код" id = "searchUnitProduct" onkeyup="searchUnitProduct()">
 
         </div>
         <div class="spravochniki_area">
@@ -723,9 +723,13 @@
     <button id = "link_changefuel_modal">
         <span>Редактировать</span>
     </button>
-    <button id = "remove_section">
-        <span>Удалить</span>
-    </button>
+
+    <form id="remove_section_form"  method="POST" action="/remove_section/">
+        <button type="submit" id="remove_section">   
+            <span>Удалить</span>
+        </button>
+    </form>
+
 </div>
  
 <script src="{{ url_for('static', filename='js/respondent_report.js') }}"></script>

@@ -15,7 +15,7 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Добавляем обработчик события resize для учета изменения ширины экрана
+
 window.addEventListener('resize', () => {
     if (window.scrollY > 0) {
         if (window.innerWidth < 1000) {

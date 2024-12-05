@@ -542,6 +542,7 @@ async def сopy_report():
                 )
                 db.session.add(new_section)
             db.session.commit()
+            flash('Отчет скопирован', 'success')
         else:
             flash('Отчет с таким годом и квараталом уже существует, копирование eror','error')
         return redirect(url_for('views.report_area'))
@@ -988,7 +989,6 @@ async def change_category_report():
             current_version.status = status_itog
             db.session.commit()
 
-            
             send_email(status_itog, user.email, 'change_status')
             flash(f'Статус отчета №{current_version.id} был изменен', 'success')
             return redirect(request.referrer) 
@@ -1004,6 +1004,7 @@ async def rollbackreport(id):
         current_user = current_report.user_id
 
         current_version.status = "Отправлен"
+        current_version.hasNot = False
         db.session.commit()
         flash(f'Статус отчета был изменен на непросмотренный', 'success')
     return redirect(request.referrer) 
@@ -1014,8 +1015,9 @@ async def send_comment():
         version_id = request.form.get('version_id')
         resp_email = request.form.get('resp_email')
         text = request.form.get('text')
-        cleaned_text = text
-        # cleaned_text = ' '.join(text.split())
+        # cleaned_text = text
+
+        cleaned_text = ' '.join(text.split())
         current_version = Version_report.query.filter_by(id=version_id).first()
 
         if current_version:
@@ -1038,6 +1040,7 @@ async def export_table():
     if request.method == 'POST':
         version_id = int(request.form.get('version_id'))
 
+        current_report = Report.query.filter_by(id = version_id).first()  
         sections1 = Sections.query.filter_by(id_version=version_id, section_number=1).order_by(desc(Sections.id)).all()
         sections2 = Sections.query.filter_by(id_version=version_id, section_number=2).order_by(desc(Sections.id)).all()
         sections3 = Sections.query.filter_by(id_version=version_id, section_number=3).order_by(desc(Sections.id)).all()
@@ -1158,13 +1161,15 @@ async def export_table():
         wb.save(output)
         output.seek(0)
 
-        return send_file(output, as_attachment=True, download_name='report.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        return send_file(output, as_attachment=True, download_name=f'{current_report.okpo}_{current_report.year}_{current_report.quarter}.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
 @auth.route('/export_version/<id>', methods=['POST'])
 async def export_version(id):
     if request.method == 'POST':
         version_id = id
 
+        current_report = Report.query.filter_by(id = version_id).first()  
+
         sections1 = Sections.query.filter_by(id_version=version_id, section_number=1).order_by(desc(Sections.id)).all()
         sections2 = Sections.query.filter_by(id_version=version_id, section_number=2).order_by(desc(Sections.id)).all()
         sections3 = Sections.query.filter_by(id_version=version_id, section_number=3).order_by(desc(Sections.id)).all()
@@ -1279,7 +1284,7 @@ async def export_version(id):
         output = BytesIO()
         wb.save(output)
         output.seek(0)
-        return send_file(output, as_attachment=True, download_name='table_report.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        return send_file(output, as_attachment=True, download_name=f'{current_report.okpo}_{current_report.year}_{current_report.quarter}.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
 @auth.route('/print_ticket/<int:id>', methods=['POST'])
 async def print_ticket(id):
@@ -1321,7 +1326,7 @@ async def print_ticket(id):
             y_position -= 20
         c.save()
         buffer.seek(0)
-        return send_file(buffer, as_attachment=True, download_name="ticket.pdf", mimetype="application/pdf")
+        return send_file(buffer, as_attachment=True, download_name=f"{report.okpo}_{report.year}_{report.quarter}.pdf", mimetype="application/pdf")
     
 @auth.route('/export_ready_reports', methods=['POST'])
 async def export_ready_reports():
@@ -1335,7 +1340,6 @@ async def export_ready_reports():
         if quarter_filter:
             filters.append(Report.quarter == quarter_filter)
 
-        # Проверка типа пользователя и ОКПО
         user_type = current_user.type
         user_organization_okpo = (
             str(current_user.organization.okpo)[-4] if current_user.organization else None
@@ -1344,7 +1348,6 @@ async def export_ready_reports():
         if user_type == "Администратор" or (
             current_user.organization and str(current_user.organization.okpo).startswith("8")
         ):
-            # Администраторы или организации с ОКПО, начинающимся на 8, видят все
             versions = Version_report.query.options(
                 joinedload(Version_report.report),
                 joinedload(Version_report.sections).joinedload(Sections.product)
@@ -1353,7 +1356,6 @@ async def export_ready_reports():
                 *filters
             ).all()
         elif user_organization_okpo:
-            # Фильтруем по четвёртой цифре ОКПО
             versions = Version_report.query.options(
                 joinedload(Version_report.report),
                 joinedload(Version_report.sections).joinedload(Sections.product)
@@ -1370,7 +1372,6 @@ async def export_ready_reports():
             flash('Отсутствуют одобренные отчеты для выбранных фильтров', 'error')
             return redirect(url_for('views.audit_area', status='Одобрен', year=year_filter, quarter=quarter_filter))
 
-        # Генерация ZIP-архива с DBF-файлами
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED) as zip_file:
             for version in versions:
@@ -1429,7 +1430,7 @@ async def export_ready_reports():
         return Response(
             zip_buffer,
             mimetype='application/zip',
-            headers={"Content-Disposition": "attachment;filename=reports.zip"}
+            headers={"Content-Disposition": f"attachment;filename=succes_reports.zip"}
         )
 
 @auth.route('/sent_for_admin', methods=['POST'])

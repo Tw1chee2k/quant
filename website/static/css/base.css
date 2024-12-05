@@ -455,7 +455,7 @@ header nav ul {
     top: 0;
     visibility: hidden;
     transition: opacity 0.5s ease, top 0.5s ease, visibility 0s 0.5s;
-    z-index: 1;
+    z-index: 2;
 }
 
 .close_user_hover_navigation{
@@ -1358,71 +1358,79 @@ footer {
 }
 
 /*faq questions.css*/
-
-
-.faq_question_info{
+.faq_question_info {
     max-width: 80%;
-    vertical-align: baseline;
     margin: 0 auto;
+    border-radius: 10px;
+    padding: 30px;  
+}
+
+.info_page_name h1 {
+    font-size: 24px;
+    color: #002762;
+    margin-bottom: 20px;
     text-align: center;
 }
 
-.faq_question_info .infos{
-    outline: none;
-    overflow-y: auto;
-    /* padding: 12px 15px; */
-    tab-size: 4;
-    width: 100%;
-    text-align: left;
-    margin: 0 auto;
+.infos {
+    color: #555555;
+    line-height: 1.6;
+    margin-top: 20px;
+}
 
+
+.infos p {
+    padding: 0;
+    margin: 0; 
+    color: #555555;
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 15px;
 
 }
 
-.faq_question_info p {
+.infos p span{
+    font-weight: 600;
+    color: black;
+}
+
+
+
+
+
+.infos ul {
+    list-style: none;
     padding: 0;
-    margin: 0; 
-    line-height: 1.42;
-    color: #555555;
-    font-size: 19px;
-    font-weight: 500;
-    margin-bottom: 1em;
-    white-space: pre-wrap;
-    text-indent: 52px;
+    margin: 20px 0;
+}
+
+.infos ul li {
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #f5faff;
+    border-left: 4px solid #002762;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333333;
 }
 
 .p_img {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 600px;
-    margin: 20px auto; 
+    margin-top: 30px;
 }
- 
-.p_img img {
-    width: 100%; 
-    max-width: 400px;
 
-    height: auto; 
-    border-radius: 8px; 
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+.p_img img {
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .p_img span {
-    margin-top: 8px;
-    color: #555555;
-    text-align: center; 
-    font-style: italic; 
-}
-
-.next_post{
-    display: flex;
-    margin: 50px 0 80px 0;
-    align-items: center;
-    color: #555555;
-    font-size: 19px;
-    cursor: pointer;
-    font-weight: 500;
+    margin: 8px 0 15px 0;
+    font-size: 14px;
+    color: #666666;
 }
 
 .back_post{
@@ -1435,17 +1443,10 @@ footer {
     font-weight: 500;
 }
 
-.back_post a,
-.next_post a{
+.back_post a{
     color: #555555;
-
 }
-
-
-
 /*faq questions.css end*/
-
-
 
 /*info_page.css end*/
 
@@ -1809,16 +1810,19 @@ footer {
     top: 58px;    
     background-color: white;
     transition: box-shadow 0.3s;
-
+    z-index: 0;
 }
 
 .report-area_menu{
+    position: relative;
     display: flex;
     font-weight: 500;
     top: 0;
     left: 0;
     width: 100%;
     overflow-x: auto;
+
+    background-color: white;
 }
 
 .report-area_menu::-webkit-scrollbar, 
@@ -1853,6 +1857,7 @@ footer {
     padding: 0 10px;
     left: 0;
     right: 0;
+
 }
 
 .report-area_podmenu + .report-area_menu-name {
@@ -2067,9 +2072,6 @@ footer {
     position: relative;
     min-width: min-content;
     border: 1px solid #dddddd;
-
-
-
 }
 
 .order-table_titels tr th:first-child,
@@ -2092,13 +2094,13 @@ footer {
     width: 1000vb;
 }
 
-#showCommentsModal .order-table_titels tr th:last-child{
-    width:300px;
+.hascomment-row {
+    background-color: rgb(248, 248, 248);
+
 }
 
-th.resizable {
-    position: relative;	
-
+#showCommentsModal .order-table_titels tr th:last-child{
+    width:300px;
 }
 
 th .resizer {
@@ -2111,6 +2113,13 @@ th .resizer {
     user-select: none;
 
 }
+
+.highlight {
+    font-weight: bold; /* Сделать текст жирным */
+    color: red; /* Установить цвет */
+    background-color: #fdd; /* Светло-красный фон */
+}
+
 
 .table_report-area input[type="text"] {            
     font-size: 12px;  
@@ -2662,10 +2671,19 @@ th .resizer {
     margin-bottom: 10px;
     white-space: nowrap;
     height: 25px;
-    font-weight: 500;  
     transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease, margin 0.3s ease;
     position: relative;
     align-items: center;
+}
+
+.left_menu li a{
+    font-weight: 500;  
+}
+
+.left_menu li img{
+    width: 30px;
+    height: 30px;
+    display: none;
 }
 
 .left_menu .content {
@@ -3487,14 +3505,44 @@ th .resizer {
     /*contacts end*/
 
 
-    .profile_page .left_menu {
+    /* .profile_page .left_menu {
         display: none;
     
+    } */
+
+    .sticky_status{
+        position: sticky;
+        top: 70px;    
+        width: 60px;
+    }
+
+    .left_menu li{
+        padding: 14px 15px;
+    }
+
+    .left_menu li:hover {
+        padding: 14px 15px;
+    }
+    
+
+    .left_menu li a{
+        display: none;
+    }
+    
+    .left_menu li img{
+        display: block;
     }
 
     #status-faqlist{
         display: block;
     }
+
+    .p_img img {
+        max-width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
 /* 
     .profile_page .personal-info_area{
         display: none;

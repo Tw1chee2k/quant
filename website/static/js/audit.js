@@ -166,9 +166,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         row.addEventListener('dragstart', function(event) {
             var reportId = this.dataset.id; 
-            var fifthColumnValue = this.children[5].querySelector('input').value;
+            var sevenColumnValue = this.children[7].querySelector('input').value;
 
-            if (fifthColumnValue === 'Не просмотрено') {
+            if (sevenColumnValue === 'Не просмотрено') {
                 event.dataTransfer.setData('text/plain', reportId);
                 this.classList.add('dragging');
                 setDraggingState(true);
