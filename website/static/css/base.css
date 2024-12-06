@@ -1347,7 +1347,7 @@ footer {
 .info_page_name{
     margin: 0 auto;
     padding: 30px 0;
-    padding-bottom: 40px;
+    padding-bottom: 10px;
 
 }
 
@@ -1361,6 +1361,7 @@ footer {
 .faq_question_info {
     max-width: 80%;
     margin: 0 auto;
+    min-height: 100vh;
     border-radius: 10px;
     padding: 30px;  
 }
@@ -1386,7 +1387,7 @@ footer {
     font-weight: 500;
     font-size: 16px;
     margin-bottom: 15px;
-
+    text-align: justify;
 }
 
 .infos p span{
@@ -1419,11 +1420,18 @@ footer {
     flex-direction: column;
     align-items: center;
     margin-top: 30px;
+    text-align: center;
 }
 
 .p_img img {
     max-width: 600px;
     border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.p_img video {
+    max-width: 800px;
+    /* border-radius: 10px; */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -1438,13 +1446,14 @@ footer {
     margin: 50px 0 10px 0;
     align-items: center;
     color: #555555;
-    font-size: 19px;
+
     cursor: pointer;
     font-weight: 500;
 }
 
 .back_post a{
     color: #555555;
+    font-size: 16px;
 }
 /*faq questions.css end*/
 
@@ -1452,6 +1461,13 @@ footer {
 
 
 /*profile_common.css begin*/
+.faq_page{
+    margin-top: 60px; 
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .profile_page{
     margin-top: 60px; 
     display: flex;
@@ -1520,6 +1536,7 @@ footer {
     flex-direction: column;
     top: 0;
     color: black;
+    
 }
 
 .personal-info_area svg{
@@ -2820,8 +2837,10 @@ th .resizer {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     display: flex;
-    width: 100%;
-    height: 400px;
+    width: 80%;
+    height: 500px;
+    box-shadow: 0 0 10px rgb(0, 0, 0, 0.1);
+    align-items: center;
 }
 
 .contacts_info{
@@ -2970,15 +2989,25 @@ th .resizer {
     /*profile common end*/
 
     /*contacts*/
+    .contacts_cont{
+
+        margin-top: 60px;
+        height: 100%;
+ 
+    }
+    
+
     .contacts_box{
         display: flex;
         flex-direction: column;
-        width: 700px;
+        height: 800px;
+        margin: 0;
+        margin: 100px 0;
     }
 
     .contacts_map{
         width: 100%;
-        height: 500px;
+        height: 700px;
         border: none;
     }
     
@@ -3484,10 +3513,8 @@ th .resizer {
 
     /*contacts*/
     .contacts_box{
-        width: 100%;
+        width: calc(100% - 40px);
         border-radius: 0;
-        box-shadow: none;
-
     }
 
     .contacts_info{
@@ -3496,7 +3523,7 @@ th .resizer {
     }
 
     .contacts_map{
-        border: none;
+        border: none; 
     }
     
     .contacts_content_row a{
@@ -3510,26 +3537,26 @@ th .resizer {
     
     } */
 
-    .sticky_status{
+    .profile_page .sticky_status{
         position: sticky;
         top: 70px;    
         width: 60px;
     }
 
-    .left_menu li{
+    .profile_page .contener_row .left_menu li{
         padding: 14px 15px;
     }
 
-    .left_menu li:hover {
+    .profile_page .contener_row .left_menu li:hover {
         padding: 14px 15px;
     }
     
 
-    .left_menu li a{
+    .profile_page .contener_row .left_menu li a{
         display: none;
     }
     
-    .left_menu li img{
+    .profile_page .contener_row .left_menu li img{
         display: block;
     }
 
@@ -3543,10 +3570,14 @@ th .resizer {
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     
-/* 
-    .profile_page .personal-info_area{
+    .p_img video {
+        max-width: 100%;
+
+    }
+
+    .faq_page .personal-info_area{
         display: none;
-    } */
+    }
 
 }
   
