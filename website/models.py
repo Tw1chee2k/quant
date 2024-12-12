@@ -56,6 +56,7 @@ class Version_report(db.Model):
     begin_time = db.Column(db.Date, default=datetime.now())
     change_time = db.Column(db.Date)
     sent_time = db.Column(db.Date)
+    audit_time = db.Column(db.Date)
     status = db.Column(db.String(20))
     fio = db.Column(db.String(30))
     telephone = db.Column(db.String(20))    

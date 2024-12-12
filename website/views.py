@@ -301,8 +301,6 @@ def translate_status(status):
     }
     return status_map.get(status)
 
-
-
 @views.route('/audit_area/<status>')
 @login_required
 @auditors_only
@@ -322,8 +320,6 @@ def audit_area(status):
                            year_filter=year_filter,
                            quarter_filter=quarter_filter,
                            year_today=year_today)
-
-
 
 @views.route('/audit_area/report/<int:id>')
 @login_required
@@ -389,7 +385,6 @@ def contacts():
     return render_template('contacts.html', 
         current_user=current_user
     )
-
 
 @views.route('/not_found')
 def not_found():

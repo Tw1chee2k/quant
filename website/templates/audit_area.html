@@ -10,10 +10,6 @@
                         <ul>
                             <section>
                                 <div class = "functions_menu">     
-                                    <li id = "douwnload_readyreports_link">           
-                                        <img src="{{ url_for('static', filename='img/upload.png')}}" alt="">
-                                        <a>Загрузка</a>   
-                                    </li>  
                                     <li id = "link_period">           
                                         <img src="{{ url_for('static', filename='img/time.png')}}" alt="">
                                         <a>↓ Период</a>   
@@ -23,7 +19,7 @@
                                      {% if year_filter == '' and quarter_filter == '' %} 
                                         Всё время
                                     {%else%}
-                                        {{year_filter}} год, {{quarter_filter}} квартал
+                                        {{year_filter}} г. {{quarter_filter}} кв.
                                     {%endif%}     
                                 </a>
                             </section>
@@ -81,6 +77,17 @@
                                 </div>  
                                 <a class="functions_menu_name">
                                     Статус отчета
+                                </a>
+                            </section>
+                            <section>
+                                <div class = "functions_menu">     
+                                    <li id = "douwnload_readyreports_link">           
+                                        <img src="{{ url_for('static', filename='img/upload.png')}}" alt="">
+                                        <a>Загрузка</a>   
+                                    </li>  
+                                </div>                         
+                                <a class="functions_menu_name">        
+                                    
                                 </a>
                             </section>
                             <section>
@@ -195,7 +202,7 @@
                             {% endfor %}
                         {% endfor %}
                     
-                    <td></td>
+                
                     </tr>
                     {%else%}
                         <tr>
@@ -237,7 +244,7 @@
 </div>
 
 <div id="contextMenu_report" class="white-panel">
-    <button data-action="checkSectionsButton" style = "margin-bottom: 10px;">
+    <button data-action="checkSectionsButton">
         <span>Просмотреть</span>
     </button>
     <hr>

@@ -683,9 +683,9 @@ async def add_section_param():
 
                                 if current_section.Consumed_Quota != 0:
                                     if product_unit and (product_unit.NameUnit == '%' or product_unit.NameUnit == '% (включая покупную)'):
-                                        current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 100, 2)
+                                        current_section.Consumed_Total_Quota = round((current_section.produced * current_section.Consumed_Quota) / 100, 2)
                                     else:
-                                        current_section.Consumed_Total_Quota = round((current_section.produced / current_section.Consumed_Quota) * 1000, 2)
+                                        current_section.Consumed_Total_Quota = round((current_section.produced * current_section.Consumed_Quota) / 1000, 2)
                                 else:
                                     current_section.Consumed_Total_Quota = 0
                                 current_section.total_differents = current_section.Consumed_Total_Fact - current_section.Consumed_Total_Quota
@@ -981,12 +981,13 @@ async def change_category_report():
                     user=user
                 )
                 db.session.add(user_message)
-
             else:
                 flash('Неизвестное действие', 'error')
                 return redirect(request.referrer) 
+            
             current_version.hasNot = False
             current_version.status = status_itog
+            current_version.audit_time = datetime.now()
             db.session.commit()
 
             send_email(status_itog, user.email, 'change_status')
@@ -1000,14 +1001,26 @@ async def change_category_report():
 async def rollbackreport(id):
     if request.method == 'POST':
         current_version = Version_report.query.filter_by(id=id).first()
-        current_report = Report.query.filter_by(id=id).first()
-        current_user = current_report.user_id
+        if current_version:
+            if current_version.status != 'Отправлен':
+                if isinstance(current_version.audit_time, datetime):
+                    audit_time = current_version.audit_time
+                else:
+                    audit_time = datetime.combine(current_version.audit_time, datetime.min.time())
 
-        current_version.status = "Отправлен"
-        current_version.hasNot = False
-        db.session.commit()
-        flash(f'Статус отчета был изменен на непросмотренный', 'success')
-    return redirect(request.referrer) 
+
+                if audit_time + timedelta(days=1) <= datetime.now():
+                    flash('Прошло больше 1 дня, статус изменить нельзя', 'error')
+                else: 
+                    current_version.status = "Отправлен"
+                    current_version.hasNot = False
+                    db.session.commit()
+                    flash('Статус отчета был изменен на "непросмотренный"', 'success')
+            return redirect(request.referrer)
+        else:
+            flash('Ошибка: отчет не найден', 'error')
+
+    return redirect(request.referrer)
 
 @auth.route('/send_comment', methods=['POST'])
 async def send_comment():
@@ -1370,7 +1383,7 @@ async def export_ready_reports():
 
         if not versions:
             flash('Отсутствуют одобренные отчеты для выбранных фильтров', 'error')
-            return redirect(url_for('views.audit_area', status='Одобрен', year=year_filter, quarter=quarter_filter))
+            return redirect(request.referrer) 
 
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED) as zip_file:

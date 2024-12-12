@@ -3,6 +3,8 @@ from flask_admin.contrib.sqla import ModelView
 from wtforms.validators import DataRequired, Email, Length
 from flask_bcrypt import Bcrypt
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask import redirect, url_for
+from flask_login import current_user
 
 class UserView(ModelView):
     column_display_pk = True
@@ -44,5 +46,9 @@ class UserView(ModelView):
     def on_model_change(self, view, model, is_created):
         model.password = generate_password_hash(model.password)
         
-        
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.type == "Администратор"
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('views.login'))
     # form_excluded_columns = ['nickname']
